@@ -35,7 +35,13 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     kapt "com.android.databinding:compiler:$gradle_plugin_version"
 
+    // MVVM
     implementation project(":mvvm")
 
+    // Support
     implementation "com.android.support:appcompat-v7:$support_lib"
+
+    //Dagger
+    implementation "com.google.dagger:dagger-android-support:$dagger"
+    kapt "com.google.dagger:dagger-android-processor:$dagger"
 }

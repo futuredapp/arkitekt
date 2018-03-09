@@ -3,16 +3,19 @@ package com.thefuntasty.mvvm
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.CallSuper
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 
 abstract class BaseViewModelFragment<VM : BaseViewModel, B : ViewDataBinding> :
-        Fragment(), DataBindingView<VM, B>, BaseView {
+        DaggerFragment(), DataBindingView<VM, B>, BaseView {
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        AndroidSupportInjection.inject(this)
+
         viewModel = createViewModel()
         lifecycle.addObserver(viewModel)
 

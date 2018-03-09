@@ -40,4 +40,7 @@ dependencies {
     // Architecture components
     implementation "android.arch.lifecycle:extensions:$arch_components"
     kapt "android.arch.lifecycle:compiler:$arch_components"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android-support:$dagger"
 }

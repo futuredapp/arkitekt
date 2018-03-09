@@ -5,15 +5,18 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.CallSuper
-import android.support.v7.app.AppCompatActivity
+import dagger.android.AndroidInjection
+import dagger.android.support.DaggerAppCompatActivity
 import kotlin.reflect.KClass
 
 abstract class BaseViewModelActivity<VM : BaseViewModel, B : ViewDataBinding> :
-        AppCompatActivity(), DataBindingView<VM, B>, BaseView {
+        DaggerAppCompatActivity(), DataBindingView<VM, B>, BaseView {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AndroidInjection.inject(this)
 
         viewModel = createViewModel()
         lifecycle.addObserver(viewModel)
