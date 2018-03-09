@@ -13,6 +13,7 @@ buildscript {
 
 ext {
     support_lib = '27.1.0'
+    arch_components = '1.1.0'
 }
 
 allprojects {

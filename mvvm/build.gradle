@@ -34,5 +34,10 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     kapt "com.android.databinding:compiler:$gradle_plugin_version"
 
+    // Support libs
     implementation "com.android.support:appcompat-v7:$support_lib"
+
+    // Architecture components
+    implementation "android.arch.lifecycle:extensions:$arch_components"
+    kapt "android.arch.lifecycle:compiler:$arch_components"
 }
