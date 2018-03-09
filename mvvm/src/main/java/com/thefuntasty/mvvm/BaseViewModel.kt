@@ -1,17 +1,18 @@
 package com.thefuntasty.mvvm
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.*
 import android.databinding.Observable
 import android.databinding.PropertyChangeRegistry
+import com.thefuntasty.mvvm.event.Event
+import com.thefuntasty.mvvm.event.LiveEventBus
+import kotlin.reflect.KClass
 
 abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
 
     @Transient private var callbacks: PropertyChangeRegistry? = null
 
     private var onStartCalled = false
+    private val liveEventBus = LiveEventBus()
 
     open fun onStart() {
 
@@ -23,6 +24,14 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
             onStart()
             onStartCalled = true
         }
+    }
+
+    fun <T : Event> observeEvent(lifecycleOwner: LifecycleOwner, eventClass: KClass<T>, observer: (T) -> Unit) {
+        liveEventBus.observe(lifecycleOwner, eventClass, observer)
+    }
+
+    fun <T : Event> sendEvent(event: T) {
+        liveEventBus.send(event)
     }
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback) {
