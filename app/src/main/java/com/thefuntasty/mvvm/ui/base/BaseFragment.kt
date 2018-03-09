@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import com.thefuntasty.mvvm.BR
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.BaseViewModelFragment
+import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : BaseViewModelFragment<VM, B>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        AndroidSupportInjection.inject(this)
         viewModel = createViewModel()
         lifecycle.addObserver(viewModel)
 
