@@ -7,9 +7,9 @@ import javax.inject.Provider
 
 abstract class BaseViewModelFactory<T : BaseViewModel> : ViewModelProvider.Factory {
 
-    abstract val viewModel: Provider<T>
+    abstract val viewModelProvider: Provider<T>
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return viewModel.get() as T
+        return viewModelProvider.get() as T
     }
 }
