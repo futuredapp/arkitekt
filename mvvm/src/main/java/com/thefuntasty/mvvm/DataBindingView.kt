@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm
 
-import android.arch.lifecycle.ViewModelProvider
 import android.databinding.ViewDataBinding
 import android.view.LayoutInflater
+import com.thefuntasty.mvvm.factory.BaseViewModelFactory
 import kotlin.reflect.KClass
 
 internal interface DataBindingView<VM : BaseViewModel, B : ViewDataBinding> {
@@ -14,7 +14,7 @@ internal interface DataBindingView<VM : BaseViewModel, B : ViewDataBinding> {
 
     fun inflateBindingLayout(layoutInflater: LayoutInflater): B?
 
-    fun getViewModelFromProvider(factory: ViewModelProvider.Factory, viewModelKClass: KClass<VM>): VM
+    fun getViewModelFromProvider(factory: BaseViewModelFactory<VM>, viewModelKClass: KClass<VM>): VM
 
     fun setupDataBinding(layoutInflater: LayoutInflater): Boolean {
         inflateBindingLayout(layoutInflater)?.let {
