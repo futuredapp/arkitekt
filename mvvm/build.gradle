@@ -44,3 +44,12 @@ dependencies {
     // Dagger
     implementation "com.google.dagger:dagger-android-support:$dagger"
 }
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
