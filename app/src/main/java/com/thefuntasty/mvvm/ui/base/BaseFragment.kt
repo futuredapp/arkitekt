@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.thefuntasty.mvvm.BR
+import com.thefuntasty.mvvm.BaseBindingViewModelFragment
 import com.thefuntasty.mvvm.BaseViewModel
-import com.thefuntasty.mvvm.BaseViewModelFragment
 import dagger.android.support.AndroidSupportInjection
 
-abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : BaseViewModelFragment<VM, B>() {
+abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : BaseBindingViewModelFragment<VM, B>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         AndroidSupportInjection.inject(this)
