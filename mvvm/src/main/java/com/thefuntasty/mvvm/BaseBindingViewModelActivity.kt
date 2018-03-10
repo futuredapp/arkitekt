@@ -7,7 +7,7 @@ import com.thefuntasty.mvvm.factory.BaseViewModelFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlin.reflect.KClass
 
-abstract class BaseViewModelActivity<VM : BaseViewModel, B : ViewDataBinding> :
+abstract class BaseBindingViewModelActivity<VM : BaseViewModel, B : ViewDataBinding> :
         DaggerAppCompatActivity(), BaseView {
 
     lateinit var viewModel: VM
