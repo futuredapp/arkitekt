@@ -21,6 +21,7 @@ abstract class BaseFragment<VM : BaseViewModel, B : ViewDataBinding> : BaseBindi
             binding = it
             binding.setVariable(BR.view, this)
             binding.setVariable(BR.viewModel, viewModel)
+            binding.setLifecycleOwner(this)
             return binding.root
         }
 

@@ -1,10 +1,18 @@
 package com.thefuntasty.mvvm
 
-import android.arch.lifecycle.*
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.ViewModel
 import android.databinding.Observable
 import android.databinding.PropertyChangeRegistry
+import android.support.annotation.CallSuper
 import com.thefuntasty.mvvm.event.Event
 import com.thefuntasty.mvvm.event.LiveEventBus
+import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
 import kotlin.reflect.KClass
 
 abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
@@ -13,6 +21,8 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
 
     private var onStartCalled = false
     private val liveEventBus = LiveEventBus()
+
+    private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
     open fun onStart() {
 
@@ -33,6 +43,34 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
     fun <T : Event> sendEvent(event: T) {
         liveEventBus.send(event)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> LiveData<T>.observeWithoutOwner(callback: (T?) -> Unit) {
+        val observer = Observer<T> { callback(it) }
+        observeForever(observer)
+        observers += Pair(observer as Observer<Any>, this as LiveData<Any>)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+        val observer = Observer<T> { it?.let(callback) }
+        observeForever(observer)
+        observers += Pair(observer as Observer<Any>, this as LiveData<Any>)
+    }
+
+    private fun removeObservers() {
+        observers.forEach { observer, liveData -> liveData.removeObserver(observer) }
+        observers.clear()
+    }
+
+    @CallSuper
+    override fun onCleared() {
+        removeObservers()
+    }
+
+
+
+    // ----- Observable implementation -----
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback) {
         synchronized(this) {

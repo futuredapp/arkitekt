@@ -20,6 +20,7 @@ abstract class BaseActivity<VM : BaseViewModel, B : ViewDataBinding> : BaseBindi
             binding = it
             binding.setVariable(BR.view, this)
             binding.setVariable(BR.viewModel, viewModel)
+            binding.setLifecycleOwner(this)
             setContentView(binding.root)
         }
     }
