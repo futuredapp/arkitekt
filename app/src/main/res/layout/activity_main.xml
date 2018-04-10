@@ -8,11 +8,11 @@
 
         <variable
             name="view"
-            type="com.thefuntasty.mvvm.ui.main.MainView"/>
+            type="com.thefuntasty.mvvmsample.ui.main.MainView"/>
 
         <variable
             name="viewModel"
-            type="com.thefuntasty.mvvm.ui.main.MainViewModel"/>
+            type="com.thefuntasty.mvvmsample.ui.main.MainViewModel"/>
     </data>
 
     <FrameLayout

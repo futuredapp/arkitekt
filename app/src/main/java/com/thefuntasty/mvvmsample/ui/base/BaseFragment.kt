@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.ui.base
+package com.thefuntasty.mvvmsample.ui.base
 
 import android.databinding.ViewDataBinding
 import android.os.Bundle

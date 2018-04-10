@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.ui.main
+package com.thefuntasty.mvvmsample.ui.main
 
 import com.thefuntasty.mvvm.BaseViewModel
 import javax.inject.Inject

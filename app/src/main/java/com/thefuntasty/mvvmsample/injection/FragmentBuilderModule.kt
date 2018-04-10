@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.injection
+package com.thefuntasty.mvvmsample.injection
 
 import dagger.Module
 

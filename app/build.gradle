@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.thefuntasty.mvvm"
+        applicationId "com.thefuntasty.mvvmsample"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -40,6 +40,8 @@ dependencies {
 
     // Support
     implementation "com.android.support:appcompat-v7:$support_lib"
+    implementation "android.arch.lifecycle:extensions:$arch_components"
+    kapt "android.arch.lifecycle:compiler:$arch_components"
 
     //Dagger
     implementation "com.google.dagger:dagger-android-support:$dagger"
