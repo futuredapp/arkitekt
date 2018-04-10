@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
             name="view"
-            type="com.thefuntasty.mvvmsample.ui.main.MainView"/>
+            type="com.thefuntasty.mvvmsample.ui.detail.DetailView"/>
 
         <variable
             name="viewModel"
-            type="com.thefuntasty.mvvmsample.ui.main.MainViewModel"/>
+            type="com.thefuntasty.mvvmsample.ui.detail.DetailViewModel"/>
+
     </data>
 
     <LinearLayout
@@ -21,18 +19,18 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="detail"
-            android:onClick="@{() -> viewModel.onDetail()}"/>
+            android:text="@{viewModel.stringNumber}"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="form"
-            android:onClick="@{() -> viewModel.onForm()}"/>
+            android:text="increment"
+            android:onClick="@{() -> viewModel.incrementNumber()}"/>
 
     </LinearLayout>
+
 </layout>
