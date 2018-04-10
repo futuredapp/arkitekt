@@ -1,6 +1,6 @@
-package com.thefuntasty.mvvm.injection
+package com.thefuntasty.mvvmsample.injection
 
-import com.thefuntasty.mvvm.App
+import com.thefuntasty.mvvmsample.App
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

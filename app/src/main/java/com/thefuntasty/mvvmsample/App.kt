@@ -1,6 +1,6 @@
-package com.thefuntasty.mvvm
+package com.thefuntasty.mvvmsample
 
-import com.thefuntasty.mvvm.injection.DaggerApplicationComponent
+import com.thefuntasty.mvvmsample.injection.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 

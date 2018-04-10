@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.ui.main
+package com.thefuntasty.mvvmsample.ui.main
 
 import dagger.Module
 
