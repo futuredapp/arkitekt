@@ -18,8 +18,8 @@ abstract class BaseBindingViewModelActivity<VM : BaseViewModel, B : ViewDataBind
 
     abstract fun inflateBindingLayout(layoutInflater: LayoutInflater): B?
 
-    protected fun getViewModelFromProvider(factory: BaseViewModelFactory<VM>, viewModelKClass: KClass<VM>): VM {
-        return ViewModelProviders.of(this, factory).get(viewModelKClass.java)
+    protected inline fun <reified VM : BaseViewModel> getViewModelFromProvider(factory: BaseViewModelFactory<VM>): VM {
+        return ViewModelProviders.of(this, factory).get(VM::class.java)
     }
 
     protected fun <T : Event> observerEvent(event: KClass<T>, observer: (T) -> Unit) {

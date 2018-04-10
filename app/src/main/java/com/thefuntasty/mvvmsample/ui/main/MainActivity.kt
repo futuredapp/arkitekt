@@ -1,6 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.main
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat.startActivity
 import android.view.LayoutInflater
 import com.thefuntasty.mvvmsample.databinding.ActivityMainBinding
 import com.thefuntasty.mvvmsample.ui.ShowDetailEvent
@@ -12,9 +13,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), MainVie
 
     @Inject lateinit var viewModelFactory: MainViewModelFactory
 
-    override fun createViewModel(): MainViewModel {
-        return getViewModelFromProvider(viewModelFactory, MainViewModel::class)
-    }
+    override fun createViewModel(): MainViewModel = getViewModelFromProvider(viewModelFactory)
 
     override fun inflateBindingLayout(layoutInflater: LayoutInflater): ActivityMainBinding? {
         return ActivityMainBinding.inflate(layoutInflater)

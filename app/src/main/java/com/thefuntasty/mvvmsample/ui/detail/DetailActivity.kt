@@ -15,9 +15,7 @@ class DetailActivity : BaseActivity<DetailViewModel, ActivityDetailBinding>(), D
         fun getStartIntent(context: Context): Intent = Intent(context, DetailActivity::class.java)
     }
 
-    override fun createViewModel(): DetailViewModel {
-        return getViewModelFromProvider(viewModelFactory, DetailViewModel::class)
-    }
+    override fun createViewModel(): DetailViewModel = getViewModelFromProvider(viewModelFactory)
 
     override fun inflateBindingLayout(layoutInflater: LayoutInflater): ActivityDetailBinding? {
         return ActivityDetailBinding.inflate(layoutInflater)
