@@ -7,11 +7,18 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor() : BaseViewModel() {
 
+    override val clickDebounce: Long
+        get() = 500L
+
     fun onDetail() {
-        sendEvent(ShowDetailEvent)
+        onDebounce {
+            sendEvent(ShowDetailEvent)
+        }
     }
 
     fun onForm() {
-        sendEvent(ShowFormEvent)
+        onDebounce {
+            sendEvent(ShowFormEvent)
+        }
     }
 }
