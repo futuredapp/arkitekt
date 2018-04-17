@@ -10,6 +10,7 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.Observable
 import android.databinding.PropertyChangeRegistry
 import android.support.annotation.CallSuper
+import android.os.SystemClock
 import com.thefuntasty.mvvm.event.Event
 import com.thefuntasty.mvvm.event.LiveEventBus
 import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
@@ -23,6 +24,10 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
     private val liveEventBus = LiveEventBus()
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
+
+    private val lastClickMap = mutableListOf<Long>()
+
+    open val clickDebounce = 1000L
 
     open fun onStart() {
 
@@ -116,5 +121,29 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
             }
         }
         callbacks?.notifyCallbacks(this, fieldId, null)
+    }
+
+    /**
+     * Simultaneous click protection. Ignores multi clicks, missclicks and other unwanted
+     * behaviour by ignoring code block in onDebounce DSL block for time period
+     * specified by clickDebounce param
+     * clickDebbounce default value is set to 1000L which represents 1 second delay.
+     * clickDebounce param is overridable
+     *
+     * @param block executes only when there is delay larger than clickDebounce
+     */
+    fun onDebounce(block: () -> Unit) {
+        val previousClickTimestamp = lastClickMap.lastOrNull()
+        val currentTimestamp = SystemClock.uptimeMillis()
+
+        lastClickMap += currentTimestamp
+        if (previousClickTimestamp == null ||
+                currentTimestamp - previousClickTimestamp.toLong() > clickDebounce) {
+            block.invoke()
+        }
+        if (lastClickMap.size > 4) {
+            lastClickMap.removeAt(0)
+            lastClickMap.removeAt(1)
+        }
     }
 }
