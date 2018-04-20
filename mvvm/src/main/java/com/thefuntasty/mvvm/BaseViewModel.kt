@@ -48,18 +48,18 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
     fun <T> LiveData<T>.observeWithoutOwner(callback: (T?) -> Unit) {
         val observer = Observer<T> { callback(it) }
         observeForever(observer)
-        observers += Pair(observer as Observer<Any>, this as LiveData<Any>)
+        observers += observer as Observer<Any> to this as LiveData<Any>
     }
 
     @Suppress("UNCHECKED_CAST")
     fun <T> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         val observer = Observer<T> { it?.let(callback) }
         observeForever(observer)
-        observers += Pair(observer as Observer<Any>, this as LiveData<Any>)
+        observers += observer as Observer<Any> to this as LiveData<Any>
     }
 
     private fun removeObservers() {
-        observers.forEach { observer, liveData -> liveData.removeObserver(observer) }
+        observers.forEach { entry -> entry.value.removeObserver(entry.key) }
         observers.clear()
     }
 
@@ -67,8 +67,6 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
     override fun onCleared() {
         removeObservers()
     }
-
-
 
     // ----- Observable implementation -----
 
