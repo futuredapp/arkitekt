@@ -6,19 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import com.thefuntasty.mvvmsample.databinding.ActivityFormBinding
-import com.thefuntasty.mvvmsample.ui.ShowToastEvent
 import com.thefuntasty.mvvmsample.ui.base.BaseActivity
 import javax.inject.Inject
 
-class FormActivity : BaseActivity<FormViewModel, ActivityFormBinding>(), FormView {
+class FormActivity : BaseActivity<FormViewModel, FormViewState, ActivityFormBinding>(), FormView {
 
-    @Inject lateinit var viewModelFactory: FormViewModelFactory
+    @Inject override lateinit var viewModelFactory: FormViewModelFactory
 
     companion object {
         fun getStartIntent(context: Context): Intent = Intent(context, FormActivity::class.java)
     }
 
-    override fun createViewModel(): FormViewModel = getViewModelFromProvider(viewModelFactory)
+    override fun createViewModel(): FormViewModel = getViewModelFromProvider()
 
     override fun inflateBindingLayout(layoutInflater: LayoutInflater): ActivityFormBinding? =
             ActivityFormBinding.inflate(layoutInflater)
@@ -26,7 +25,7 @@ class FormActivity : BaseActivity<FormViewModel, ActivityFormBinding>(), FormVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        observerEvent(ShowToastEvent::class) {
+        observeEvent(ShowToastEvent::class) {
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
     }

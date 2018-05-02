@@ -10,6 +10,10 @@
         <variable
             name="viewModel"
             type="com.thefuntasty.mvvmsample.ui.form.FormViewModel"/>
+
+        <variable
+            name="viewState"
+            type="com.thefuntasty.mvvmsample.ui.form.FormViewState"/>
     </data>
 
     <LinearLayout
@@ -21,18 +25,18 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@={viewModel.login}"/>
+            android:text="@={viewState.login}"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:text="@={viewModel.password}"/>
+            android:text="@={viewState.password}"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="@{viewModel.submitEnabled}"
+            android:enabled="@{viewState.submitEnabled}"
             android:onClick="@{() -> viewModel.onSubmit()}"
             android:text="submit"/>
 

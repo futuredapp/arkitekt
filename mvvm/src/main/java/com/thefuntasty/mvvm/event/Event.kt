@@ -1,3 +1,5 @@
 package com.thefuntasty.mvvm.event
 
-abstract class Event
+import com.thefuntasty.mvvm.ViewState
+
+abstract class Event<T : ViewState>

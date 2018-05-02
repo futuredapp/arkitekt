@@ -3,21 +3,23 @@ package com.thefuntasty.mvvm.event
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.support.v4.util.ArrayMap
+import com.thefuntasty.mvvm.ViewState
 import kotlin.reflect.KClass
 
-class LiveEventBus {
+class LiveEventBus<T : ViewState> {
 
-    private val eventMap: ArrayMap<KClass<out Event>, LiveEvent<out Event>> = ArrayMap()
+    private val eventMap: ArrayMap<KClass<out Event<T>>, LiveEvent<out Event<T>>> = ArrayMap()
 
-    fun <T : Event> observe(lifecycleOwner: LifecycleOwner, eventClass: KClass<T>, observer: (T) -> Unit) {
-        var liveEvent: LiveEvent<T>? = eventMap[eventClass] as LiveEvent<T>?
+    fun observe(lifecycleOwner: LifecycleOwner, eventClass: KClass<out Event<T>>, observer: (Event<T>) -> Unit) {
+        @Suppress("UNCHECKED_CAST")
+        var liveEvent: LiveEvent<Event<T>>? = eventMap[eventClass] as LiveEvent<Event<T>>?
         if (liveEvent == null) {
             liveEvent = initLiveEvent(eventClass)
         }
         liveEvent.observe(lifecycleOwner, Observer { observer.invoke(it!!) })
     }
 
-    fun <T : Event> send(event: T) {
+    fun send(event: Event<T>) {
         var liveEvent: LiveEvent<*>? = eventMap[event::class]
         if (liveEvent == null) {
             liveEvent = initLiveEvent(event::class)
@@ -25,8 +27,8 @@ class LiveEventBus {
         liveEvent.value = event
     }
 
-    private fun <T : Event> initLiveEvent(eventClass: KClass<T>): LiveEvent<T> {
-        val liveEvent = LiveEvent<T>()
+    private fun initLiveEvent(eventClass: KClass<out Event<T>>): LiveEvent<Event<T>> {
+        val liveEvent = LiveEvent<Event<T>>()
         eventMap[eventClass] = liveEvent
         return liveEvent
     }
