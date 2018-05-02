@@ -2,31 +2,35 @@ package com.thefuntasty.mvvm
 
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.ViewDataBinding
-import android.view.LayoutInflater
+import android.os.Bundle
+import android.support.annotation.CallSuper
 import com.thefuntasty.mvvm.event.Event
-import com.thefuntasty.mvvm.factory.BaseViewModelFactory
 import dagger.android.support.DaggerFragment
 import kotlin.reflect.KClass
 
-abstract class BaseBindingViewModelFragment<VM : BaseViewModel, B : ViewDataBinding> :
-        DaggerFragment(), BaseView {
+abstract class BaseBindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
+        DaggerFragment(), BindingViewModelView<VM, B>, BaseView {
 
-    protected lateinit var viewModel: VM
-    protected lateinit var binding: B
+    override lateinit var binding: B
 
-    abstract fun createViewModel(): VM
+    override lateinit var viewModel: VM
 
-    abstract fun inflateBindingLayout(layoutInflater: LayoutInflater): B?
-
-    protected inline fun <reified VM: BaseViewModel>getViewModelFromProvider(factory: BaseViewModelFactory<VM>): VM {
-        return ViewModelProviders.of(this, factory).get(VM::class.java)
+    protected inline fun <reified VM : BaseViewModel<VS>> getViewModelFromProvider(): VM {
+        return ViewModelProviders.of(this, viewModelFactory).get(VM::class.java)
     }
 
-    protected inline fun <reified VM: BaseViewModel>getActivityViewModel(): VM {
+    protected inline fun <reified VM : BaseViewModel<VS>> getActivityViewModel(): VM {
         return ViewModelProviders.of(requireActivity()).get(VM::class.java)
     }
 
-    protected fun <T : Event> observerEvent(event: KClass<T>, observer: (T) -> Unit) {
-        viewModel.observeEvent(this, event, observer)
+    protected fun <EVENT : Event<VS>> observeEvent(event: KClass<out EVENT>, observer: (EVENT) -> Unit) {
+        @Suppress("UNCHECKED_CAST")
+        viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
+    }
+
+    @CallSuper
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = createViewModel().apply { lifecycle.addObserver(this) }
     }
 }

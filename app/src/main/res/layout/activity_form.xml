@@ -21,18 +21,18 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@={viewModel.login}"/>
+            android:text="@={viewModel.viewState.login}"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:text="@={viewModel.password}"/>
+            android:text="@={viewModel.viewState.password}"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="@{viewModel.submitEnabled}"
+            android:enabled="@{viewModel.viewState.submitEnabled}"
             android:onClick="@{() -> viewModel.onSubmit()}"
             android:text="submit"/>
 

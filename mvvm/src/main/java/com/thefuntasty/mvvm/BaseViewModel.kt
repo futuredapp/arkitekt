@@ -15,12 +15,14 @@ import com.thefuntasty.mvvm.event.LiveEventBus
 import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
 import kotlin.reflect.KClass
 
-abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
+abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, LifecycleObserver {
+
+    abstract val viewState: E
 
     @Transient private var callbacks: PropertyChangeRegistry? = null
 
     private var onStartCalled = false
-    private val liveEventBus = LiveEventBus()
+    private val liveEventBus = LiveEventBus<E>()
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
@@ -36,11 +38,11 @@ abstract class BaseViewModel : ViewModel(), Observable, LifecycleObserver {
         }
     }
 
-    fun <T : Event> observeEvent(lifecycleOwner: LifecycleOwner, eventClass: KClass<T>, observer: (T) -> Unit) {
+    fun observeEvent(lifecycleOwner: LifecycleOwner, eventClass: KClass<out Event<E>>, observer: (Event<E>) -> Unit) {
         liveEventBus.observe(lifecycleOwner, eventClass, observer)
     }
 
-    fun <T : Event> sendEvent(event: T) {
+    fun sendEvent(event: Event<E>) {
         liveEventBus.send(event)
     }
 

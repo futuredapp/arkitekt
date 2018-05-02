@@ -5,23 +5,19 @@ import android.os.Bundle
 import com.thefuntasty.mvvm.BR
 import com.thefuntasty.mvvm.BaseBindingViewModelActivity
 import com.thefuntasty.mvvm.BaseViewModel
-import dagger.android.AndroidInjection
+import com.thefuntasty.mvvm.ViewState
 
-abstract class BaseActivity<VM : BaseViewModel, B : ViewDataBinding> : BaseBindingViewModelActivity<VM, B>() {
+abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
+        BaseBindingViewModelActivity<VM, VS, B>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
-
-        viewModel = createViewModel()
-        lifecycle.addObserver(viewModel)
-
-        inflateBindingLayout(layoutInflater)?.let {
-            binding = it
-            binding.setVariable(BR.view, this)
-            binding.setVariable(BR.viewModel, viewModel)
-            binding.setLifecycleOwner(this)
-            setContentView(binding.root)
+        setView(layoutInflater) {
+            it.setVariable(BR.view, this)
+            it.setVariable(BR.viewModel, viewModel)
+            it.setLifecycleOwner(this)
+        }.let {
+            setContentView(it)
         }
     }
 }
