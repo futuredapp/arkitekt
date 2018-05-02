@@ -15,6 +15,7 @@ abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewData
         setView(layoutInflater) {
             it.setVariable(BR.view, this)
             it.setVariable(BR.viewModel, viewModel)
+            it.setVariable(BR.viewState, viewModel.viewState)
             it.setLifecycleOwner(this)
         }.let {
             setContentView(it)

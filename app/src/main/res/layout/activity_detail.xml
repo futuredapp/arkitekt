@@ -11,6 +11,10 @@
             name="viewModel"
             type="com.thefuntasty.mvvmsample.ui.detail.DetailViewModel"/>
 
+        <variable
+            name="viewState"
+            type="com.thefuntasty.mvvmsample.ui.detail.DetailViewState"/>
+
     </data>
 
     <LinearLayout
@@ -23,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@{viewModel.viewState.stringNumber}"/>
+            android:text="@{viewState.stringNumber}"/>
 
         <Button
             android:layout_width="wrap_content"
