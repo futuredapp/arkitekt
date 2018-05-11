@@ -8,5 +8,7 @@ class DefaultValueLiveData<T>(defaultValue: T) : MutableLiveData<T>() {
         value = defaultValue
     }
 
-    fun value(): T = value!!
+    override fun getValue(): T {
+        return super.getValue()!!
+    }
 }
