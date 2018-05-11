@@ -12,6 +12,6 @@ class DetailViewModel @Inject constructor() : BaseViewModel<DetailViewState>() {
     }
 
     fun incrementNumber() {
-        viewState.number.value = viewState.number.value() + 1
+        viewState.number.value = viewState.number.value + 1
     }
 }

@@ -36,6 +36,7 @@ dependencies {
 
     // Support libs
     implementation "com.android.support:appcompat-v7:$support_lib"
+    implementation "com.android.support:support-annotations:$support_lib"
 
     // Architecture components
     implementation "android.arch.lifecycle:extensions:$arch_components"
