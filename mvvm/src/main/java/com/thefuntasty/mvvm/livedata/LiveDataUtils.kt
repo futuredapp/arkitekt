@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Transformations
 
-fun <T1, T2, RESULT> liveDataCombineTwo(t1: LiveData<T1>,
+fun <T1, T2, RESULT> combineLiveData(t1: LiveData<T1>,
                                         t2: LiveData<T2>,
                                         callback: (T1, T2) -> RESULT): LiveData<RESULT> {
     val mediatorLiveData = MediatorLiveData<Pair<T1, T2>>().apply {
@@ -24,7 +24,7 @@ fun <T1, T2, RESULT> liveDataCombineTwo(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second) }
 }
 
-fun <T1, T2, T3, RESULT> liveDataCombineThree(t1: LiveData<T1>,
+fun <T1, T2, T3, RESULT> combineLiveData(t1: LiveData<T1>,
                                               t2: LiveData<T2>,
                                               t3: LiveData<T3>,
                                               callback: (T1, T2, T3) -> RESULT): LiveData<RESULT> {
@@ -49,7 +49,7 @@ fun <T1, T2, T3, RESULT> liveDataCombineThree(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third) }
 }
 
-fun <T1, T2, T3, T4, RESULT> liveDataCombineFour(t1: LiveData<T1>,
+fun <T1, T2, T3, T4, RESULT> combineLiveData(t1: LiveData<T1>,
                                                  t2: LiveData<T2>,
                                                  t3: LiveData<T3>,
                                                  t4: LiveData<T4>,
@@ -80,7 +80,7 @@ fun <T1, T2, T3, T4, RESULT> liveDataCombineFour(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth) }
 }
 
-fun <T1, T2, T3, T4, T5, RESULT> liveDataCombineFive(t1: LiveData<T1>,
+fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(t1: LiveData<T1>,
                                                      t2: LiveData<T2>,
                                                      t3: LiveData<T3>,
                                                      t4: LiveData<T4>,
@@ -115,7 +115,7 @@ fun <T1, T2, T3, T4, T5, RESULT> liveDataCombineFive(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth, it.fifth) }
 }
 
-fun <T1, T2, T3, T4, T5, T6, RESULT> liveDataCombineSix(t1: LiveData<T1>,
+fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(t1: LiveData<T1>,
                                                         t2: LiveData<T2>,
                                                         t3: LiveData<T3>,
                                                         t4: LiveData<T4>,
@@ -155,7 +155,7 @@ fun <T1, T2, T3, T4, T5, T6, RESULT> liveDataCombineSix(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth, it.fifth, it.sixth) }
 }
 
-fun <T1, T2, T3, T4, T5, T6, T7, RESULT> liveDataCombineSeven(t1: LiveData<T1>,
+fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(t1: LiveData<T1>,
                                                               t2: LiveData<T2>,
                                                               t3: LiveData<T3>,
                                                               t4: LiveData<T4>,
