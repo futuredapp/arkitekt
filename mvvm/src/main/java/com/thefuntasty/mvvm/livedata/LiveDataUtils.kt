@@ -5,8 +5,8 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Transformations
 
 fun <T1, T2, RESULT> combineLiveData(t1: LiveData<T1>,
-                                        t2: LiveData<T2>,
-                                        callback: (T1, T2) -> RESULT): LiveData<RESULT> {
+                                     t2: LiveData<T2>,
+                                     callback: (T1, T2) -> RESULT): LiveData<RESULT> {
     val mediatorLiveData = MediatorLiveData<Pair<T1, T2>>().apply {
         var lastT1: T1? = null
         var lastT2: T2? = null
@@ -25,9 +25,9 @@ fun <T1, T2, RESULT> combineLiveData(t1: LiveData<T1>,
 }
 
 fun <T1, T2, T3, RESULT> combineLiveData(t1: LiveData<T1>,
-                                              t2: LiveData<T2>,
-                                              t3: LiveData<T3>,
-                                              callback: (T1, T2, T3) -> RESULT): LiveData<RESULT> {
+                                         t2: LiveData<T2>,
+                                         t3: LiveData<T3>,
+                                         callback: (T1, T2, T3) -> RESULT): LiveData<RESULT> {
 
     val mediatorLiveData = MediatorLiveData<Triple<T1, T2, T3>>().apply {
         var lastT1: T1? = null
@@ -50,10 +50,10 @@ fun <T1, T2, T3, RESULT> combineLiveData(t1: LiveData<T1>,
 }
 
 fun <T1, T2, T3, T4, RESULT> combineLiveData(t1: LiveData<T1>,
-                                                 t2: LiveData<T2>,
-                                                 t3: LiveData<T3>,
-                                                 t4: LiveData<T4>,
-                                                 callback: (T1, T2, T3, T4) -> RESULT): LiveData<RESULT> {
+                                             t2: LiveData<T2>,
+                                             t3: LiveData<T3>,
+                                             t4: LiveData<T4>,
+                                             callback: (T1, T2, T3, T4) -> RESULT): LiveData<RESULT> {
 
     data class FourFold(val first: T1, val second: T2, val third: T3, val fourth: T4)
 
@@ -81,11 +81,11 @@ fun <T1, T2, T3, T4, RESULT> combineLiveData(t1: LiveData<T1>,
 }
 
 fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(t1: LiveData<T1>,
-                                                     t2: LiveData<T2>,
-                                                     t3: LiveData<T3>,
-                                                     t4: LiveData<T4>,
-                                                     t5: LiveData<T5>,
-                                                     callback: (T1, T2, T3, T4, T5) -> RESULT): LiveData<RESULT> {
+                                                 t2: LiveData<T2>,
+                                                 t3: LiveData<T3>,
+                                                 t4: LiveData<T4>,
+                                                 t5: LiveData<T5>,
+                                                 callback: (T1, T2, T3, T4, T5) -> RESULT): LiveData<RESULT> {
 
     data class FiveFold(val first: T1, val second: T2, val third: T3, val fourth: T4, val fifth: T5)
 
@@ -116,12 +116,12 @@ fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(t1: LiveData<T1>,
 }
 
 fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(t1: LiveData<T1>,
-                                                        t2: LiveData<T2>,
-                                                        t3: LiveData<T3>,
-                                                        t4: LiveData<T4>,
-                                                        t5: LiveData<T5>,
-                                                        t6: LiveData<T6>,
-                                                        callback: (T1, T2, T3, T4, T5, T6) -> RESULT): LiveData<RESULT> {
+                                                     t2: LiveData<T2>,
+                                                     t3: LiveData<T3>,
+                                                     t4: LiveData<T4>,
+                                                     t5: LiveData<T5>,
+                                                     t6: LiveData<T6>,
+                                                     callback: (T1, T2, T3, T4, T5, T6) -> RESULT): LiveData<RESULT> {
 
     data class SixFold(val first: T1, val second: T2, val third: T3, val fourth: T4, val fifth: T5, val sixth: T6)
 
@@ -156,13 +156,13 @@ fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(t1: LiveData<T1>,
 }
 
 fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(t1: LiveData<T1>,
-                                                              t2: LiveData<T2>,
-                                                              t3: LiveData<T3>,
-                                                              t4: LiveData<T4>,
-                                                              t5: LiveData<T5>,
-                                                              t6: LiveData<T6>,
-                                                              t7: LiveData<T7>,
-                                                              callback: (T1, T2, T3, T4, T5, T6, T7) -> RESULT): LiveData<RESULT> {
+                                                         t2: LiveData<T2>,
+                                                         t3: LiveData<T3>,
+                                                         t4: LiveData<T4>,
+                                                         t5: LiveData<T5>,
+                                                         t6: LiveData<T6>,
+                                                         t7: LiveData<T7>,
+                                                         callback: (T1, T2, T3, T4, T5, T6, T7) -> RESULT): LiveData<RESULT> {
 
     data class SevenFold(val first: T1, val second: T2, val third: T3, val fourth: T4, val fifth: T5, val sixth: T6, val seventh: T7)
 
