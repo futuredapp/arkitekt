@@ -13,6 +13,7 @@ import android.support.annotation.CallSuper
 import com.thefuntasty.mvvm.event.Event
 import com.thefuntasty.mvvm.event.LiveEventBus
 import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
+import com.thefuntasty.mvvm.livedata.DefaultValueMediatorLiveData
 import kotlin.reflect.KClass
 
 abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, LifecycleObserver {
@@ -53,11 +54,19 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
         observers += observer as Observer<Any> to this as LiveData<Any>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun <T> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+        observeLiveDataNonNull(this, callback)
+    }
+
+    fun <T> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+        observeLiveDataNonNull(this, callback)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> observeLiveDataNonNull(liveData: LiveData<T>, callback: (T) -> Unit) {
         val observer = Observer<T> { it?.let(callback) }
-        observeForever(observer)
-        observers += observer as Observer<Any> to this as LiveData<Any>
+        liveData.observeForever(observer)
+        observers += observer as Observer<Any> to liveData as LiveData<Any>
     }
 
     private fun removeObservers() {
