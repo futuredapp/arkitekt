@@ -7,11 +7,18 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
 
     override val viewState = MainViewState
 
+    override val clickDebounce: Long
+        get() = 500L
+
     fun onDetail() {
-        sendEvent(ShowDetailEvent)
+        onDebounce {
+            sendEvent(ShowDetailEvent)
+        }
     }
 
     fun onForm() {
-        sendEvent(ShowFormEvent)
+        onDebounce {
+            sendEvent(ShowFormEvent)
+        }
     }
 }
