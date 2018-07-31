@@ -16,7 +16,7 @@ abstract class BaseViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> :
         return ViewModelProviders.of(this, viewModelFactory).get(VM::class.java)
     }
 
-    protected inline fun <reified VM : BaseViewModel<VS>> getActivityViewModel(): VM {
+    protected inline fun <VS : ViewState, reified VM : BaseViewModel<VS>> getActivityViewModel(): VM {
         return ViewModelProviders.of(requireActivity()).get(VM::class.java)
     }
 
