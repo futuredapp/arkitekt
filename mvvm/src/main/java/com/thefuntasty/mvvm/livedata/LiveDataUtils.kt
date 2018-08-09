@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm.livedata
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.Transformations
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
 
 fun <T1, T2, RESULT> combineLiveData(t1: LiveData<T1>,
                                      t2: LiveData<T2>,

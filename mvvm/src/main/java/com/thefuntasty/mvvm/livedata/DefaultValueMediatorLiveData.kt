@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.livedata
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 
 class DefaultValueMediatorLiveData<T>(defaultValue: T) : MediatorLiveData<T>() {
 

@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm
 
-import android.databinding.ViewDataBinding
 import android.view.LayoutInflater
 import android.view.View
+import androidx.databinding.ViewDataBinding
 
 interface BindingViewModelView<VM : BaseViewModel<*>, B : ViewDataBinding> : ViewModelView<VM>, BaseView {
 

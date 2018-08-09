@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
-    ext.gradle_plugin_version = '3.1.1'
+    ext.kotlin_version = '1.2.60'
+    ext.gradle_plugin_version = '3.3.0-alpha05'
     repositories {
         google()
         jcenter()
@@ -12,9 +12,9 @@ buildscript {
 }
 
 ext {
-    support_lib = '27.1.1'
-    arch_components = '1.1.1'
-    dagger = '2.15'
+    support_lib = '1.0.0-rc01'
+    arch_components = '2.0.0-rc01'
+    dagger = '2.16'
 }
 
 allprojects {

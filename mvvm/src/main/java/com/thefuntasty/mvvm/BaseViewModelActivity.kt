@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
+import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
 import dagger.android.support.DaggerAppCompatActivity
 import kotlin.reflect.KClass

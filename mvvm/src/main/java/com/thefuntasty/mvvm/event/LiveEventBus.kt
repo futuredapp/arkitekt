@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm.event
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
-import android.support.v4.util.ArrayMap
+import androidx.collection.ArrayMap
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.thefuntasty.mvvm.ViewState
 import kotlin.reflect.KClass
 

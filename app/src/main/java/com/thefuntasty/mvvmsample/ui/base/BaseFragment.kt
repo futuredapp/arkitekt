@@ -1,10 +1,10 @@
 package com.thefuntasty.mvvmsample.ui.base
 
-import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import com.thefuntasty.mvvm.BR
 import com.thefuntasty.mvvm.BaseBindingViewModelFragment
 import com.thefuntasty.mvvm.BaseViewModel
