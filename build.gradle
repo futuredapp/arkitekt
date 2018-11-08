@@ -11,6 +11,11 @@ buildscript {
     }
 }
 
+plugins {
+    id "io.gitlab.arturbosch.detekt" version '1.0.0-RC10'
+    id "org.jlleitschuh.gradle.ktlint" version "3.0.1"
+}
+
 ext {
     support_lib = '1.0.0-rc01'
     arch_components = '2.0.0-rc01'
@@ -22,6 +27,21 @@ allprojects {
         google()
         jcenter()
     }
+}
+
+detekt {
+    version = '1.0.0-RC10'
+    input = files("app/src/main/java", "mvvm/src/main/java")
+    filters = ".*/resources/.*,.*/build/.*"
+    config = files("detekt.yml")
+}
+
+ktlint {
+    version = "0.29.0"
+    ignoreFailures = true
+    android = true
+    outputToConsole = true
+    reporters = ["CHECKSTYLE"]
 }
 
 task clean(type: Delete) {
