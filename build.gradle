@@ -12,8 +12,8 @@ buildscript {
 }
 
 ext {
-    support_lib = '1.0.0-rc01'
-    arch_components = '2.0.0-rc01'
+    support_lib = '1.0.0'
+    arch_components = '2.0.0'
     dagger = '2.16'
 }
 
