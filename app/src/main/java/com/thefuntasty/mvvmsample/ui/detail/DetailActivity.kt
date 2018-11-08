@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import com.thefuntasty.mvvmsample.databinding.ActivityDetailBinding
 import com.thefuntasty.mvvmsample.ui.base.BaseActivity
-import com.thefuntasty.mvvmsample.ui.main.MainViewState
 import javax.inject.Inject
 
 class DetailActivity : BaseActivity<DetailViewModel, DetailViewState, ActivityDetailBinding>(), DetailView {

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.livedata
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 fun <T1, T2, RESULT> combineLiveData(
         defaultValue: RESULT,

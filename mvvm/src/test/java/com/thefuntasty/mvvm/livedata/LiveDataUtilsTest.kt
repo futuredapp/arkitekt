@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.livedata
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

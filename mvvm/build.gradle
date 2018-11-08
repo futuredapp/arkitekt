@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -32,15 +32,15 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    kapt "com.android.databinding:compiler:$gradle_plugin_version"
+    kapt "androidx.databinding:databinding-compiler:$gradle_plugin_version"
 
     // Support libs
-    implementation "com.android.support:appcompat-v7:$support_lib"
-    implementation "com.android.support:support-annotations:$support_lib"
+    implementation "androidx.appcompat:appcompat:$support_lib"
+    implementation "androidx.annotation:annotation:$support_lib"
 
     // Architecture components
-    implementation "android.arch.lifecycle:extensions:$arch_components"
-    kapt "android.arch.lifecycle:compiler:$arch_components"
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_components"
+    kapt "androidx.lifecycle:lifecycle-compiler:$arch_components"
 
     // Dagger
     implementation "com.google.dagger:dagger-android-support:$dagger"
@@ -48,7 +48,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:3.8.0'
     testImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
-    testImplementation "android.arch.core:core-testing:$arch_components"
+    testImplementation "androidx.arch.core:core-testing:$arch_components"
 }
 
 task sourcesJar(type: Jar) {

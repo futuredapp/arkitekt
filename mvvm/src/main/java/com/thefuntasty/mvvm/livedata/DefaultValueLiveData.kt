@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.livedata
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 
 class DefaultValueLiveData<T>(defaultValue: T) : MutableLiveData<T>() {
 

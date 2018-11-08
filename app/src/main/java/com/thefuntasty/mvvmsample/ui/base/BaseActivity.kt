@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.base
 
-import android.databinding.ViewDataBinding
 import android.os.Bundle
+import androidx.databinding.ViewDataBinding
 import com.thefuntasty.mvvm.BR
 import com.thefuntasty.mvvm.BaseBindingViewModelActivity
 import com.thefuntasty.mvvm.BaseViewModel

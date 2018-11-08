@@ -1,15 +1,15 @@
 package com.thefuntasty.mvvm
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.ViewModel
-import android.databinding.Observable
-import android.databinding.PropertyChangeRegistry
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
+import androidx.databinding.Observable
+import androidx.databinding.PropertyChangeRegistry
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ViewModel
 import com.thefuntasty.mvvm.event.Event
 import com.thefuntasty.mvvm.event.LiveEventBus
 import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
