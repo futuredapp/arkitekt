@@ -2,7 +2,6 @@ is_pr_big = git.lines_of_code > 500
 has_correct_prefix = github.branch_for_head.match(/^(feature|hotfix|fix|release|housekeep)\//)
 
 warn("Branch name should have `release/`, `hotfix/`, `fix/`, `housekeep/` or `feature/` prefix.") if !has_correct_prefix
-warn("Pull request is classed as Work in Progress") if is_pr_wip
 warn("This pull request is too big.") if is_pr_big
 
 commit_lint.check warn: :all, disable: [:subject_length]
