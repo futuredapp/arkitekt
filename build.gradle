@@ -13,20 +13,14 @@ buildscript {
 
 plugins {
     id "io.gitlab.arturbosch.detekt" version '1.0.0-RC10'
-    id "org.jlleitschuh.gradle.ktlint" version "3.0.1"
+    id "org.jlleitschuh.gradle.ktlint" version "6.2.1"
 }
 
 ext {
     support_lib = '1.0.0-rc01'
     arch_components = '2.0.0-rc01'
     dagger = '2.16'
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+    ext.ReporterType = org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 }
 
 detekt {
@@ -36,12 +30,23 @@ detekt {
     config = files("detekt.yml")
 }
 
-ktlint {
-    version = "0.29.0"
-    ignoreFailures = true
-    android = true
-    outputToConsole = true
-    reporters = ["CHECKSTYLE"]
+subprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    ktlint {
+        version = "0.29.0"
+        ignoreFailures = true
+        android = true
+        outputToConsole = true
+        reporters = [ReporterType.CHECKSTYLE]
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
 }
 
 task clean(type: Delete) {
