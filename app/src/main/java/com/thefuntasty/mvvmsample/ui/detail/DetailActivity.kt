@@ -17,7 +17,5 @@ class DetailActivity : BaseActivity<DetailViewModel, DetailViewState, ActivityDe
 
     override fun createViewModel(): DetailViewModel = getViewModelFromProvider()
 
-    override fun inflateBindingLayout(layoutInflater: LayoutInflater): ActivityDetailBinding? {
-        return ActivityDetailBinding.inflate(layoutInflater)
-    }
+    override fun inflateBindingLayout(layoutInflater: LayoutInflater) = ActivityDetailBinding.inflate(layoutInflater)
 }

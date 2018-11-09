@@ -18,9 +18,8 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> :
         viewModel = createViewModel().apply { lifecycle.addObserver(this) }
     }
 
-    protected inline fun <reified VM : BaseViewModel<VS>> getViewModelFromProvider(): VM {
-        return ViewModelProviders.of(this, viewModelFactory).get(VM::class.java)
-    }
+    protected inline fun <reified VM : BaseViewModel<VS>> getViewModelFromProvider(): VM =
+        ViewModelProviders.of(this, viewModelFactory).get(VM::class.java)
 
     protected fun <E : Event<VS>> observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
         @Suppress("UNCHECKED_CAST")

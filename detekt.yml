@@ -86,6 +86,7 @@ code-smell:
   active: true
 
 naming:
+  active: true
   ClassNaming:
     active: true
   ConstructorParameterNaming:
@@ -96,7 +97,7 @@ naming:
     active: true
   FunctionMaxLength:
     active: true
-    maximumFunctionNameLength: 30
+    maximumFunctionNameLength: 50
   FunctionMinLength:
     active: true
   FunctionNaming:
@@ -179,9 +180,6 @@ style:
     active: true
   ForbiddenVoid:
     active: true
-  FunctionMaxLength:
-    active: true
-    maximumFunctionNameLength: 50
   FunctionOnlyReturningConstant:
     active: true
   LoopWithTooManyJumpStatements:

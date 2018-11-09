@@ -52,11 +52,11 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
         observers += observer as Observer<Any> to this as LiveData<Any>
     }
 
-    fun <T> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+    fun <T : Any> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         observeLiveDataNonNull(this, callback)
     }
 
-    fun <T> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+    fun <T: Any> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         observeLiveDataNonNull(this, callback)
     }
 

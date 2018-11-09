@@ -16,7 +16,7 @@ class LiveEventBus<T : ViewState> {
         if (liveEvent == null) {
             liveEvent = initLiveEvent(eventClass)
         }
-        liveEvent.observe(lifecycleOwner, Observer { observer.invoke(it!!) })
+        liveEvent.observe(lifecycleOwner, Observer { observer.invoke(it) })
     }
 
     fun send(event: Event<T>) {

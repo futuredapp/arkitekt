@@ -14,7 +14,7 @@ abstract class BaseFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewData
     BaseBindingViewModelFragment<VM, VS, B>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setViewBinding(layoutInflater) {
+        setView(layoutInflater) {
             it.setVariable(BR.view, this)
             it.setVariable(BR.viewModel, viewModel)
             it.setVariable(BR.viewState, viewModel.viewState)

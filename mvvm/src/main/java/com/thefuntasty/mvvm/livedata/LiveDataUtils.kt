@@ -16,8 +16,9 @@ fun <T1, T2, RESULT> combineLiveData(
         fun update() {
             val localLastT1 = lastT1
             val localLastT2 = lastT2
-            if (localLastT1 != null && localLastT2 != null)
+            if (localLastT1 != null && localLastT2 != null) {
                 this.value = Pair(localLastT1, localLastT2)
+            }
         }
 
         addSource(t1) { lastT1 = it; update() }
@@ -42,8 +43,9 @@ fun <T1, T2, T3, RESULT> combineLiveData(
             val localLastT1 = lastT1
             val localLastT2 = lastT2
             val localLastT3 = lastT3
-            if (localLastT1 != null && localLastT2 != null && localLastT3 != null)
+            if (localLastT1 != null && localLastT2 != null && localLastT3 != null) {
                 this.value = Triple(localLastT1, localLastT2, localLastT3)
+            }
         }
 
         addSource(t1) { lastT1 = it; update() }
@@ -53,6 +55,7 @@ fun <T1, T2, T3, RESULT> combineLiveData(
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third) }
 }
 
+@Suppress("LongParameterList", "ComplexCondition")
 fun <T1, T2, T3, T4, RESULT> combineLiveData(
     t1: LiveData<T1>,
     t2: LiveData<T2>,
@@ -74,9 +77,13 @@ fun <T1, T2, T3, T4, RESULT> combineLiveData(
             val localLastT2 = lastT2
             val localLastT3 = lastT3
             val localLastT4 = lastT4
-            if (localLastT1 != null && localLastT2 != null && localLastT3 != null && localLastT4 != null)
+
+            if (localLastT1 != null && localLastT2 != null && localLastT3 != null && localLastT4 != null) {
                 this.value = FourFold(localLastT1, localLastT2, localLastT3, localLastT4)
+            }
         }
+
+
 
         addSource(t1) { lastT1 = it; update() }
         addSource(t2) { lastT2 = it; update() }
@@ -86,6 +93,7 @@ fun <T1, T2, T3, T4, RESULT> combineLiveData(
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth) }
 }
 
+@Suppress("LongParameterList", "ComplexCondition")
 fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(
     t1: LiveData<T1>,
     t2: LiveData<T2>,
@@ -110,8 +118,9 @@ fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(
             val localLastT3 = lastT3
             val localLastT4 = lastT4
             val localLastT5 = lastT5
-            if (localLastT1 != null && localLastT2 != null && localLastT3 != null && localLastT4 != null && localLastT5 != null)
+            if (localLastT1 != null && localLastT2 != null && localLastT3 != null && localLastT4 != null && localLastT5 != null) {
                 this.value = FiveFold(localLastT1, localLastT2, localLastT3, localLastT4, localLastT5)
+            }
         }
 
         addSource(t1) { lastT1 = it; update() }
@@ -123,6 +132,7 @@ fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth, it.fifth) }
 }
 
+@Suppress("LongParameterList", "ComplexCondition")
 fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(
     t1: LiveData<T1>,
     t2: LiveData<T2>,
@@ -152,8 +162,9 @@ fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(
             val localLastT6 = lastT6
             if (localLastT1 != null && localLastT2 != null && localLastT3 != null &&
                 localLastT4 != null && localLastT5 != null && localLastT6 != null
-            )
+            ) {
                 this.value = SixFold(localLastT1, localLastT2, localLastT3, localLastT4, localLastT5, localLastT6)
+            }
         }
 
         addSource(t1) { lastT1 = it; update() }
@@ -175,6 +186,7 @@ fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(
     }
 }
 
+@Suppress("LongParameterList", "ComplexCondition")
 fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(
     t1: LiveData<T1>,
     t2: LiveData<T2>,
@@ -215,9 +227,10 @@ fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(
             val localLastT7 = lastT7
             if (localLastT1 != null && localLastT2 != null && localLastT3 != null &&
                 localLastT4 != null && localLastT5 != null && localLastT6 != null && localLastT7 != null
-            )
+            ) {
                 this.value =
                     SevenFold(localLastT1, localLastT2, localLastT3, localLastT4, localLastT5, localLastT6, localLastT7)
+            }
         }
 
         addSource(t1) { lastT1 = it; update() }
