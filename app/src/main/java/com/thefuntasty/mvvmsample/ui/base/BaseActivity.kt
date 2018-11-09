@@ -8,7 +8,7 @@ import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 
 abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
-        BaseBindingViewModelActivity<VM, VS, B>() {
+    BaseBindingViewModelActivity<VM, VS, B>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

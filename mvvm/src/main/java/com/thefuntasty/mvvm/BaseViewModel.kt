@@ -27,9 +27,7 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
-    open fun onStart() {
-
-    }
+    open fun onStart() {}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onLifeCycleStart() {
@@ -113,7 +111,7 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
 
     /**
      * Notifies listeners that a specific property has changed. The getter for the property
-     * that changes should be marked with [Bindable] to generate a field in
+     * that changes should be marked with [@Bindable] to generate a field in
      * `BR` to be used as `fieldId`.
      *
      * @param fieldId The generated BR id for the Bindable field.

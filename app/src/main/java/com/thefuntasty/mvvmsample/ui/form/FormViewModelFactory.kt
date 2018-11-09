@@ -5,5 +5,5 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class FormViewModelFactory @Inject constructor(
-        override val viewModelProvider: Provider<FormViewModel>
+    override val viewModelProvider: Provider<FormViewModel>
 ) : BaseViewModelFactory<FormViewModel>()

@@ -14,7 +14,7 @@ fun <T> LiveData<T>.observeNonNull(lifecycleOwner: LifecycleOwner, callback: (T)
 }
 
 fun <T, R> LiveData<T>.map(func: (T) -> R): LiveData<R> =
-        Transformations.map(this, func)
+    Transformations.map(this, func)
 
 fun <T, R> LiveData<T>.switchMap(func: (T) -> LiveData<R>): LiveData<R> =
-        Transformations.switchMap(this, func)
+    Transformations.switchMap(this, func)

@@ -8,7 +8,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlin.reflect.KClass
 
 abstract class BaseViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> :
-        DaggerAppCompatActivity(), ViewModelView<VM>, BaseView {
+    DaggerAppCompatActivity(), ViewModelView<VM>, BaseView {
 
     override lateinit var viewModel: VM
 

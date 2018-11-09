@@ -11,10 +11,10 @@ import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 
 abstract class BaseFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
-        BaseBindingViewModelFragment<VM, VS, B>() {
+    BaseBindingViewModelFragment<VM, VS, B>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setView(layoutInflater) {
+        setViewBinding(layoutInflater) {
             it.setVariable(BR.view, this)
             it.setVariable(BR.viewModel, viewModel)
             it.setVariable(BR.viewState, viewModel.viewState)

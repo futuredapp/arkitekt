@@ -82,9 +82,10 @@ class LiveDataUtilsTest {
         val liveData2 = DefaultValueLiveData("")
         val liveData3 = DefaultValueLiveData("")
         val liveData4 = DefaultValueLiveData("")
-        val resultLiveData = combineLiveData(liveData1, liveData2, liveData3, liveData4) { first, second, third, fourth ->
-            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty()
-        }
+        val resultLiveData =
+            combineLiveData(liveData1, liveData2, liveData3, liveData4) { first, second, third, fourth ->
+                first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty()
+            }
         resultLiveData.observeForever(observer)
 
         liveData1.value = "NotEmptyValue"
@@ -101,9 +102,10 @@ class LiveDataUtilsTest {
         val liveData2 = DefaultValueLiveData("")
         val liveData3 = DefaultValueLiveData("")
         val liveData4 = DefaultValueLiveData("")
-        val resultLiveData = combineLiveData(liveData1, liveData2, liveData3, liveData4) { first, second, third, fourth ->
-            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty()
-        }
+        val resultLiveData =
+            combineLiveData(liveData1, liveData2, liveData3, liveData4) { first, second, third, fourth ->
+                first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty()
+            }
         resultLiveData.observeForever(observer)
 
         liveData1.value = "NotEmptyValue"
@@ -120,7 +122,8 @@ class LiveDataUtilsTest {
         val liveData4 = DefaultValueLiveData("")
         val liveData5 = DefaultValueLiveData("")
         val resultLiveData = combineLiveData(
-                liveData1, liveData2, liveData3, liveData4, liveData5) { first, second, third, fourth, fifth ->
+            liveData1, liveData2, liveData3, liveData4, liveData5
+        ) { first, second, third, fourth, fifth ->
             first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
@@ -142,7 +145,8 @@ class LiveDataUtilsTest {
         val liveData4 = DefaultValueLiveData("")
         val liveData5 = DefaultValueLiveData("")
         val resultLiveData = combineLiveData(
-                liveData1, liveData2, liveData3, liveData4, liveData5) { first, second, third, fourth, fifth ->
+            liveData1, liveData2, liveData3, liveData4, liveData5
+        ) { first, second, third, fourth, fifth ->
             first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
@@ -163,7 +167,8 @@ class LiveDataUtilsTest {
         val liveData5 = DefaultValueLiveData("")
         val liveData6 = DefaultValueLiveData("")
         val resultLiveData = combineLiveData(
-                liveData1, liveData2, liveData3, liveData4, liveData5, liveData6) { first, second, third, fourth, fifth, sixth ->
+            liveData1, liveData2, liveData3, liveData4, liveData5, liveData6
+        ) { first, second, third, fourth, fifth, sixth ->
             first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
@@ -187,7 +192,8 @@ class LiveDataUtilsTest {
         val liveData5 = DefaultValueLiveData("")
         val liveData6 = DefaultValueLiveData("")
         val resultLiveData = combineLiveData(
-                liveData1, liveData2, liveData3, liveData4, liveData5, liveData6) { first, second, third, fourth, fifth, sixth ->
+            liveData1, liveData2, liveData3, liveData4, liveData5, liveData6
+        ) { first, second, third, fourth, fifth, sixth ->
             first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
@@ -210,7 +216,8 @@ class LiveDataUtilsTest {
         val liveData6 = DefaultValueLiveData("")
         val liveData7 = DefaultValueLiveData("")
         val resultLiveData = combineLiveData(
-                liveData1, liveData2, liveData3, liveData4, liveData5, liveData6, liveData7) { first, second, third, fourth, fifth, sixth, seventh ->
+            liveData1, liveData2, liveData3, liveData4, liveData5, liveData6, liveData7
+        ) { first, second, third, fourth, fifth, sixth, seventh ->
             first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty() && seventh.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
@@ -236,7 +243,8 @@ class LiveDataUtilsTest {
         val liveData6 = DefaultValueLiveData("")
         val liveData7 = DefaultValueLiveData("")
         val resultLiveData = combineLiveData(
-                liveData1, liveData2, liveData3, liveData4, liveData5, liveData6, liveData7) { first, second, third, fourth, fifth, sixth, seventh ->
+            liveData1, liveData2, liveData3, liveData4, liveData5, liveData6, liveData7
+        ) { first, second, third, fourth, fifth, sixth, seventh ->
             first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty() && seventh.isNotEmpty()
         }
         resultLiveData.observeForever(observer)

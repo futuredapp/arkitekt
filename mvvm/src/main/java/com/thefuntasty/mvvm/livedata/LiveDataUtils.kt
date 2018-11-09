@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 
-fun <T1, T2, RESULT> combineLiveData(t1: LiveData<T1>,
-                                     t2: LiveData<T2>,
-                                     callback: (T1, T2) -> RESULT): LiveData<RESULT> {
+fun <T1, T2, RESULT> combineLiveData(
+    t1: LiveData<T1>,
+    t2: LiveData<T2>,
+    callback: (T1, T2) -> RESULT
+): LiveData<RESULT> {
     val mediatorLiveData = MediatorLiveData<Pair<T1, T2>>().apply {
         var lastT1: T1? = null
         var lastT2: T2? = null
@@ -24,10 +26,12 @@ fun <T1, T2, RESULT> combineLiveData(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second) }
 }
 
-fun <T1, T2, T3, RESULT> combineLiveData(t1: LiveData<T1>,
-                                         t2: LiveData<T2>,
-                                         t3: LiveData<T3>,
-                                         callback: (T1, T2, T3) -> RESULT): LiveData<RESULT> {
+fun <T1, T2, T3, RESULT> combineLiveData(
+    t1: LiveData<T1>,
+    t2: LiveData<T2>,
+    t3: LiveData<T3>,
+    callback: (T1, T2, T3) -> RESULT
+): LiveData<RESULT> {
 
     val mediatorLiveData = MediatorLiveData<Triple<T1, T2, T3>>().apply {
         var lastT1: T1? = null
@@ -49,11 +53,13 @@ fun <T1, T2, T3, RESULT> combineLiveData(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third) }
 }
 
-fun <T1, T2, T3, T4, RESULT> combineLiveData(t1: LiveData<T1>,
-                                             t2: LiveData<T2>,
-                                             t3: LiveData<T3>,
-                                             t4: LiveData<T4>,
-                                             callback: (T1, T2, T3, T4) -> RESULT): LiveData<RESULT> {
+fun <T1, T2, T3, T4, RESULT> combineLiveData(
+    t1: LiveData<T1>,
+    t2: LiveData<T2>,
+    t3: LiveData<T3>,
+    t4: LiveData<T4>,
+    callback: (T1, T2, T3, T4) -> RESULT
+): LiveData<RESULT> {
 
     data class FourFold(val first: T1, val second: T2, val third: T3, val fourth: T4)
 
@@ -80,12 +86,14 @@ fun <T1, T2, T3, T4, RESULT> combineLiveData(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth) }
 }
 
-fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(t1: LiveData<T1>,
-                                                 t2: LiveData<T2>,
-                                                 t3: LiveData<T3>,
-                                                 t4: LiveData<T4>,
-                                                 t5: LiveData<T5>,
-                                                 callback: (T1, T2, T3, T4, T5) -> RESULT): LiveData<RESULT> {
+fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(
+    t1: LiveData<T1>,
+    t2: LiveData<T2>,
+    t3: LiveData<T3>,
+    t4: LiveData<T4>,
+    t5: LiveData<T5>,
+    callback: (T1, T2, T3, T4, T5) -> RESULT
+): LiveData<RESULT> {
 
     data class FiveFold(val first: T1, val second: T2, val third: T3, val fourth: T4, val fifth: T5)
 
@@ -115,13 +123,15 @@ fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(t1: LiveData<T1>,
     return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth, it.fifth) }
 }
 
-fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(t1: LiveData<T1>,
-                                                     t2: LiveData<T2>,
-                                                     t3: LiveData<T3>,
-                                                     t4: LiveData<T4>,
-                                                     t5: LiveData<T5>,
-                                                     t6: LiveData<T6>,
-                                                     callback: (T1, T2, T3, T4, T5, T6) -> RESULT): LiveData<RESULT> {
+fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(
+    t1: LiveData<T1>,
+    t2: LiveData<T2>,
+    t3: LiveData<T3>,
+    t4: LiveData<T4>,
+    t5: LiveData<T5>,
+    t6: LiveData<T6>,
+    callback: (T1, T2, T3, T4, T5, T6) -> RESULT
+): LiveData<RESULT> {
 
     data class SixFold(val first: T1, val second: T2, val third: T3, val fourth: T4, val fifth: T5, val sixth: T6)
 
@@ -141,7 +151,8 @@ fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(t1: LiveData<T1>,
             val localLastT5 = lastT5
             val localLastT6 = lastT6
             if (localLastT1 != null && localLastT2 != null && localLastT3 != null &&
-                    localLastT4 != null && localLastT5 != null && localLastT6 != null)
+                localLastT4 != null && localLastT5 != null && localLastT6 != null
+            )
                 this.value = SixFold(localLastT1, localLastT2, localLastT3, localLastT4, localLastT5, localLastT6)
         }
 
@@ -152,19 +163,38 @@ fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(t1: LiveData<T1>,
         addSource(t5) { lastT5 = it; update() }
         addSource(t6) { lastT6 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth, it.fifth, it.sixth) }
+    return Transformations.map(mediatorLiveData) {
+        callback(
+            it.first,
+            it.second,
+            it.third,
+            it.fourth,
+            it.fifth,
+            it.sixth
+        )
+    }
 }
 
-fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(t1: LiveData<T1>,
-                                                         t2: LiveData<T2>,
-                                                         t3: LiveData<T3>,
-                                                         t4: LiveData<T4>,
-                                                         t5: LiveData<T5>,
-                                                         t6: LiveData<T6>,
-                                                         t7: LiveData<T7>,
-                                                         callback: (T1, T2, T3, T4, T5, T6, T7) -> RESULT): LiveData<RESULT> {
+fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(
+    t1: LiveData<T1>,
+    t2: LiveData<T2>,
+    t3: LiveData<T3>,
+    t4: LiveData<T4>,
+    t5: LiveData<T5>,
+    t6: LiveData<T6>,
+    t7: LiveData<T7>,
+    callback: (T1, T2, T3, T4, T5, T6, T7) -> RESULT
+): LiveData<RESULT> {
 
-    data class SevenFold(val first: T1, val second: T2, val third: T3, val fourth: T4, val fifth: T5, val sixth: T6, val seventh: T7)
+    data class SevenFold(
+        val first: T1,
+        val second: T2,
+        val third: T3,
+        val fourth: T4,
+        val fifth: T5,
+        val sixth: T6,
+        val seventh: T7
+    )
 
     val mediatorLiveData = MediatorLiveData<SevenFold>().apply {
         var lastT1: T1? = null
@@ -184,8 +214,10 @@ fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(t1: LiveData<T1>,
             val localLastT6 = lastT6
             val localLastT7 = lastT7
             if (localLastT1 != null && localLastT2 != null && localLastT3 != null &&
-                    localLastT4 != null && localLastT5 != null && localLastT6 != null && localLastT7 != null)
-                this.value = SevenFold(localLastT1, localLastT2, localLastT3, localLastT4, localLastT5, localLastT6, localLastT7)
+                localLastT4 != null && localLastT5 != null && localLastT6 != null && localLastT7 != null
+            )
+                this.value =
+                    SevenFold(localLastT1, localLastT2, localLastT3, localLastT4, localLastT5, localLastT6, localLastT7)
         }
 
         addSource(t1) { lastT1 = it; update() }
@@ -196,5 +228,15 @@ fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(t1: LiveData<T1>,
         addSource(t6) { lastT6 = it; update() }
         addSource(t7) { lastT7 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth, it.fifth, it.sixth, it.seventh) }
+    return Transformations.map(mediatorLiveData) {
+        callback(
+            it.first,
+            it.second,
+            it.third,
+            it.fourth,
+            it.fifth,
+            it.sixth,
+            it.seventh
+        )
+    }
 }
