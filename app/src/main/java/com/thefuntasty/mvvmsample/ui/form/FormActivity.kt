@@ -17,8 +17,6 @@ class FormActivity : BaseActivity<FormViewModel, FormViewState, ActivityFormBind
         fun getStartIntent(context: Context): Intent = Intent(context, FormActivity::class.java)
     }
 
-    override fun createViewModel(): FormViewModel = getViewModelFromProvider()
-
     override fun inflateBindingLayout(layoutInflater: LayoutInflater): ActivityFormBinding? =
         ActivityFormBinding.inflate(layoutInflater)
 

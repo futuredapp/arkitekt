@@ -12,8 +12,6 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 
     @Inject override lateinit var viewModelFactory: MainViewModelFactory
 
-    override fun createViewModel(): MainViewModel = getViewModelFromProvider()
-
     override fun inflateBindingLayout(layoutInflater: LayoutInflater) = ActivityMainBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {

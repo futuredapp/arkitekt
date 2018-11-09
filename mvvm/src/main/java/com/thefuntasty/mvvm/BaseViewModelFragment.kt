@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 abstract class BaseViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> :
     DaggerFragment(), ViewModelView<VM>, BaseView {
 
-    override lateinit var viewModel: VM
+    lateinit var viewModel: VM
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

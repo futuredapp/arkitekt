@@ -14,11 +14,11 @@ abstract class BaseFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewData
     BaseBindingViewModelFragment<VM, VS, B>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setView(layoutInflater) {
+        setupBindingView(layoutInflater) {
             it.setVariable(BR.view, this)
             it.setVariable(BR.viewModel, viewModel)
             it.setVariable(BR.viewState, viewModel.viewState)
-            it.setLifecycleOwner(this)
+            it.setLifecycleOwner(viewLifecycleOwner)
         }?.let { return it }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
