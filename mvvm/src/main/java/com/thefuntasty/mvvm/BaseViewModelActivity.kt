@@ -2,6 +2,7 @@ package com.thefuntasty.mvvm
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
 import dagger.android.support.DaggerAppCompatActivity
@@ -19,7 +20,7 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> :
         viewModel = createViewModel().apply { lifecycle.addObserver(this) }
     }
 
-    protected inline fun <reified VM : BaseViewModel<VS>> getViewModelFromProvider(): VM =
+    private inline fun <reified VM : BaseViewModel<VS>> getViewModelFromProvider(): VM =
         ViewModelProviders.of(this, viewModelFactory).get(VM::class.java)
 
     protected fun <E : Event<VS>> observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
@@ -27,4 +28,7 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> :
     }
 
     override fun createViewModel(): VM = getViewModelFromProvider<BaseViewModel<VS>>() as VM
+
+    @LayoutRes
+    abstract fun getLayoutResId() : Int
 }

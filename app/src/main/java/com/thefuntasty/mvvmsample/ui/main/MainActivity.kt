@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import com.thefuntasty.mvvmsample.R
 import com.thefuntasty.mvvmsample.databinding.ActivityMainBinding
 import com.thefuntasty.mvvmsample.ui.base.BaseActivity
 import com.thefuntasty.mvvmsample.ui.detail.DetailActivity
@@ -12,7 +12,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 
     @Inject override lateinit var viewModelFactory: MainViewModelFactory
 
-    override fun inflateBindingLayout(layoutInflater: LayoutInflater) = ActivityMainBinding.inflate(layoutInflater)
+    override fun getLayoutResId() = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
