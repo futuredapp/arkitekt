@@ -56,7 +56,7 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
         observeLiveDataNonNull(this, callback)
     }
 
-    fun <T: Any> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+    fun <T : Any> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         observeLiveDataNonNull(this, callback)
     }
 

@@ -6,6 +6,6 @@ import javax.inject.Inject
 /**
  * TODO implement some logic
  */
-class LoginViewModel @Inject constructor(): BaseViewModel<LoginViewState>() {
+class LoginViewModel @Inject constructor() : BaseViewModel<LoginViewState>() {
     override val viewState = LoginViewState
 }

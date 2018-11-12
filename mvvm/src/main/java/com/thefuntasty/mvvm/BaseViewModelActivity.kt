@@ -30,5 +30,5 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> :
     override fun createViewModel(): VM = getViewModelFromProvider<BaseViewModel<VS>>() as VM
 
     @LayoutRes
-    abstract fun getLayoutResId() : Int
+    abstract fun getLayoutResId(): Int
 }

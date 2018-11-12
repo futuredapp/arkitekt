@@ -3,7 +3,7 @@ package com.thefuntasty.mvvm.livedata
 import androidx.lifecycle.MutableLiveData
 import java.lang.NullPointerException
 
-class DefaultValueLiveData<T: Any>(defaultValue: T) : MutableLiveData<T>() {
+class DefaultValueLiveData<T : Any>(defaultValue: T) : MutableLiveData<T>() {
 
     init {
         value = defaultValue
