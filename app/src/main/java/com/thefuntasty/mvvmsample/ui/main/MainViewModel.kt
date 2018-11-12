@@ -14,4 +14,8 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
     fun onForm() {
         sendEvent(ShowFormEvent)
     }
+
+    fun onLogin() {
+        sendEvent(ShowLoginEvent)
+    }
 }

@@ -24,6 +24,9 @@
             android:name=".ui.form.FormActivity"
             android:windowSoftInputMode="adjustResize"/>
 
+        <activity
+            android:name=".ui.login.activity.LoginActivity"/>
+
     </application>
 
 </manifest>

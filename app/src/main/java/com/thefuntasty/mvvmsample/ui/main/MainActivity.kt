@@ -6,6 +6,7 @@ import com.thefuntasty.mvvmsample.databinding.ActivityMainBinding
 import com.thefuntasty.mvvmsample.ui.base.BaseActivity
 import com.thefuntasty.mvvmsample.ui.detail.DetailActivity
 import com.thefuntasty.mvvmsample.ui.form.FormActivity
+import com.thefuntasty.mvvmsample.ui.login.activity.LoginActivity
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
@@ -20,5 +21,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
         observeEvent(ShowDetailEvent::class) { startActivity(DetailActivity.getStartIntent(this)) }
 
         observeEvent(ShowFormEvent::class) { startActivity(FormActivity.getStartIntent(this)) }
+
+        observeEvent(ShowLoginEvent::class) { startActivity(LoginActivity.getStartIntent(this)) }
     }
 }
