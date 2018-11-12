@@ -97,7 +97,7 @@ naming:
     active: true
   FunctionMaxLength:
     active: true
-    maximumFunctionNameLength: 50
+    maximumFunctionNameLength: 35
   FunctionMinLength:
     active: true
   FunctionNaming:
