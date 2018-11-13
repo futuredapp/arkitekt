@@ -11,6 +11,10 @@ import androidx.databinding.ViewDataBinding
 abstract class BaseBindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
     BaseViewModelFragment<VM, VS>() {
 
+    abstract val brViewVariableId: Int
+    abstract val brViewModelVariableId: Int
+    abstract val brViewStateVariableId: Int
+
     lateinit var binding: B
 
     @CallSuper
@@ -30,8 +34,4 @@ abstract class BaseBindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewSta
             binding.root
         }
     }
-
-    abstract val brViewVariableId: Int
-    abstract val brViewModelVariableId: Int
-    abstract val brViewStateVariableId: Int
 }
