@@ -15,7 +15,7 @@ abstract class BaseBindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewSta
     abstract val brViewModelVariableId: Int
     abstract val brViewStateVariableId: Int
 
-    lateinit var binding: B
+    protected lateinit var binding: B
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -13,7 +13,7 @@ abstract class BaseBindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewSta
     abstract val brViewModelVariableId: Int
     abstract val brViewStateVariableId: Int
 
-    private lateinit var binding: B
+    protected lateinit var binding: B
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
