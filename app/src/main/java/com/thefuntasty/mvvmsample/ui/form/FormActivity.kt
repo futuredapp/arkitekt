@@ -20,7 +20,7 @@ class FormActivity : BaseActivity<FormViewModel, FormViewState, ActivityFormBind
     override fun createViewModel(): FormViewModel = getViewModelFromProvider()
 
     override fun inflateBindingLayout(layoutInflater: LayoutInflater): ActivityFormBinding? =
-            ActivityFormBinding.inflate(layoutInflater)
+        ActivityFormBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

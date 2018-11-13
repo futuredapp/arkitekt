@@ -14,9 +14,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 
     override fun createViewModel(): MainViewModel = getViewModelFromProvider()
 
-    override fun inflateBindingLayout(layoutInflater: LayoutInflater): ActivityMainBinding? {
-        return ActivityMainBinding.inflate(layoutInflater)
-    }
+    override fun inflateBindingLayout(layoutInflater: LayoutInflater) = ActivityMainBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

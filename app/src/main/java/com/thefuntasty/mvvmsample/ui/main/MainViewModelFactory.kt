@@ -5,4 +5,4 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class MainViewModelFactory @Inject constructor(override val viewModelProvider: Provider<MainViewModel>) :
-        BaseViewModelFactory<MainViewModel>()
+    BaseViewModelFactory<MainViewModel>()

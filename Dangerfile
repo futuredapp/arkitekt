@@ -9,8 +9,8 @@ commit_lint.check warn: :all, disable: [:subject_length]
 # Utils
 def report_checkstyle_for_directory(directory_name)
   if Dir.exists?(directory_name)
-    Dir.glob(directory_name).each {|f|
-      report_checkstyle(directory_name + f)
+    Dir.glob("#{directory_name}/*.xml").each {|f|
+      report_checkstyle(f)
     }
   end
 end
@@ -31,4 +31,5 @@ report_checkstyle 'build/reports/detekt/detekt.xml'
 report_checkstyle 'app/build/reports/checkstyle/checkstyle.xml'
 
 # Ktlint checkstyle
-report_checkstyle_for_directory 'app/build/reports/ktlint/'
+report_checkstyle_for_directory 'mvvm/build/reports/ktlint'
+report_checkstyle_for_directory 'app/build/reports/ktlint'

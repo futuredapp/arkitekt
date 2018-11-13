@@ -27,9 +27,7 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
-    open fun onStart() {
-
-    }
+    open fun onStart() {}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onLifeCycleStart() {
@@ -54,11 +52,11 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
         observers += observer as Observer<Any> to this as LiveData<Any>
     }
 
-    fun <T> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+    fun <T : Any> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         observeLiveDataNonNull(this, callback)
     }
 
-    fun <T> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
+    fun <T: Any> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         observeLiveDataNonNull(this, callback)
     }
 
@@ -113,7 +111,7 @@ abstract class BaseViewModel<E : ViewState> : ViewModel(), Observable, Lifecycle
 
     /**
      * Notifies listeners that a specific property has changed. The getter for the property
-     * that changes should be marked with [Bindable] to generate a field in
+     * that changes should be marked with [@Bindable] to generate a field in
      * `BR` to be used as `fieldId`.
      *
      * @param fieldId The generated BR id for the Bindable field.
