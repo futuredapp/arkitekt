@@ -15,9 +15,9 @@ abstract class BaseBindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewSta
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBindingView {
-            it.setVariable(getBRViewVariableId(), this)
-            it.setVariable(getBRViewModelVariableId(), viewModel)
-            it.setVariable(getBRViewStateVariableId(), viewModel.viewState)
+            it.setVariable(brViewVariableId, this)
+            it.setVariable(brViewModelVariableId, viewModel)
+            it.setVariable(brViewStateVariableId, viewModel.viewState)
             it.setLifecycleOwner(this)
         }
     }
@@ -30,9 +30,7 @@ abstract class BaseBindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewSta
         }
     }
 
-    abstract fun getBRViewVariableId(): Int
-
-    abstract fun getBRViewModelVariableId(): Int
-
-    abstract fun getBRViewStateVariableId(): Int
+    abstract val brViewVariableId: Int
+    abstract val brViewModelVariableId: Int
+    abstract val brViewStateVariableId: Int
 }

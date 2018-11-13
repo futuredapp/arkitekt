@@ -9,9 +9,7 @@ import com.thefuntasty.mvvm.ViewState
 abstract class BaseFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
     BaseBindingViewModelFragment<VM, VS, B>() {
 
-    override fun getBRViewVariableId() = BR.view
-
-    override fun getBRViewModelVariableId() = BR.viewModel
-
-    override fun getBRViewStateVariableId() = BR.viewState
+    override val brViewVariableId = BR.view
+    override val brViewModelVariableId = BR.viewModel
+    override val brViewStateVariableId = BR.viewState
 }
