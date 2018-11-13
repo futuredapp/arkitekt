@@ -9,5 +9,5 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginViewState, FragmentLogin
 
     @Inject override lateinit var viewModelFactory: LoginViewModelFactory
 
-    override fun getLayoutResId() = R.layout.fragment_login
+    override val layoutResId = R.layout.fragment_login
 }

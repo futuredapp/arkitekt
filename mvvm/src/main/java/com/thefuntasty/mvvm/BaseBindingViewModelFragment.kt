@@ -24,7 +24,7 @@ abstract class BaseBindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewSta
     }
 
     private fun setupBindingView(layoutInflater: LayoutInflater, container: ViewGroup?, set: (B) -> Unit): View? {
-        return DataBindingUtil.inflate<B>(layoutInflater, getLayoutResId(), container, false).let {
+        return DataBindingUtil.inflate<B>(layoutInflater, layoutResId, container, false).let {
             binding = it
             set(binding)
             binding.root

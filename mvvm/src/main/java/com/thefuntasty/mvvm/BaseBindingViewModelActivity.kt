@@ -23,7 +23,7 @@ abstract class BaseBindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewSta
     }
 
     private fun setupBindingView(set: (B) -> Unit): View? {
-        return DataBindingUtil.setContentView<B>(this, getLayoutResId()).let {
+        return DataBindingUtil.setContentView<B>(this, layoutResId).let {
             binding = it
             set(binding)
             binding.root

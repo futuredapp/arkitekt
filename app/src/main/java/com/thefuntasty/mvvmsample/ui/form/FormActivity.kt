@@ -13,11 +13,11 @@ class FormActivity : BaseActivity<FormViewModel, FormViewState, ActivityFormBind
 
     @Inject override lateinit var viewModelFactory: FormViewModelFactory
 
+    override val layoutResId = R.layout.activity_form
+
     companion object {
         fun getStartIntent(context: Context): Intent = Intent(context, FormActivity::class.java)
     }
-
-    override fun getLayoutResId() = R.layout.activity_form
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
