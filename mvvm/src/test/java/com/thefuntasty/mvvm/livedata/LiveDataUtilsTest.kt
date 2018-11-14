@@ -169,7 +169,8 @@ class LiveDataUtilsTest {
         val resultLiveData = combineLiveData(
             liveData1, liveData2, liveData3, liveData4, liveData5, liveData6
         ) { first, second, third, fourth, fifth, sixth ->
-            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty()
+            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() &&
+                fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
 
@@ -194,7 +195,8 @@ class LiveDataUtilsTest {
         val resultLiveData = combineLiveData(
             liveData1, liveData2, liveData3, liveData4, liveData5, liveData6
         ) { first, second, third, fourth, fifth, sixth ->
-            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty()
+            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() &&
+                fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
 
@@ -218,7 +220,8 @@ class LiveDataUtilsTest {
         val resultLiveData = combineLiveData(
             liveData1, liveData2, liveData3, liveData4, liveData5, liveData6, liveData7
         ) { first, second, third, fourth, fifth, sixth, seventh ->
-            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty() && seventh.isNotEmpty()
+            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() &&
+                fifth.isNotEmpty() && sixth.isNotEmpty() && seventh.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
 
@@ -245,7 +248,8 @@ class LiveDataUtilsTest {
         val resultLiveData = combineLiveData(
             liveData1, liveData2, liveData3, liveData4, liveData5, liveData6, liveData7
         ) { first, second, third, fourth, fifth, sixth, seventh ->
-            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() && fifth.isNotEmpty() && sixth.isNotEmpty() && seventh.isNotEmpty()
+            first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty() && fourth.isNotEmpty() &&
+                fifth.isNotEmpty() && sixth.isNotEmpty() && seventh.isNotEmpty()
         }
         resultLiveData.observeForever(observer)
 

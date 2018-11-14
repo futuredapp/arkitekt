@@ -2,15 +2,17 @@ package com.thefuntasty.mvvm
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
 import dagger.android.support.DaggerAppCompatActivity
 import kotlin.reflect.KClass
 
+@Suppress("UNCHECKED_CAST")
 abstract class BaseViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> :
     DaggerAppCompatActivity(), ViewModelView<VM>, BaseView {
 
-    override lateinit var viewModel: VM
+    lateinit var viewModel: VM
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +24,10 @@ abstract class BaseViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> :
         ViewModelProviders.of(this, viewModelFactory).get(VM::class.java)
 
     protected fun <E : Event<VS>> observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
-        @Suppress("UNCHECKED_CAST")
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
     }
+
+    override fun createViewModel(): VM = getViewModelFromProvider<BaseViewModel<VS>>() as VM
+
+    abstract val layoutResId: Int
 }

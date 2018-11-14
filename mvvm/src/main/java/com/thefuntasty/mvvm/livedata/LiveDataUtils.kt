@@ -83,8 +83,6 @@ fun <T1, T2, T3, T4, RESULT> combineLiveData(
             }
         }
 
-
-
         addSource(t1) { lastT1 = it; update() }
         addSource(t2) { lastT2 = it; update() }
         addSource(t3) { lastT3 = it; update() }
