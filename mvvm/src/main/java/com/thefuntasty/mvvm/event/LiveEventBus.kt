@@ -10,20 +10,14 @@ class LiveEventBus<T : ViewState> {
 
     private val eventMap: ArrayMap<KClass<out Event<T>>, LiveEvent<out Event<T>>> = ArrayMap()
 
+    @Suppress("UNCHECKED_CAST")
     fun observe(lifecycleOwner: LifecycleOwner, eventClass: KClass<out Event<T>>, observer: (Event<T>) -> Unit) {
-        @Suppress("UNCHECKED_CAST")
-        var liveEvent: LiveEvent<Event<T>>? = eventMap[eventClass] as LiveEvent<Event<T>>?
-        if (liveEvent == null) {
-            liveEvent = initLiveEvent(eventClass)
-        }
-        liveEvent.observe(lifecycleOwner, Observer { observer.invoke(it) })
+        val liveEvent: LiveEvent<Event<T>> = (eventMap[eventClass] as LiveEvent<Event<T>>?) ?: initLiveEvent(eventClass)
+        liveEvent.observe(lifecycleOwner, Observer { observer(it) })
     }
 
     fun send(event: Event<T>) {
-        var liveEvent: LiveEvent<*>? = eventMap[event::class]
-        if (liveEvent == null) {
-            liveEvent = initLiveEvent(event::class)
-        }
+        val liveEvent: LiveEvent<*> = eventMap[event::class] ?: initLiveEvent(event::class)
         liveEvent.value = event
     }
 

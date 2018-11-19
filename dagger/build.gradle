@@ -8,18 +8,15 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionName "1.0.0-alpha01"
-    }
-
-    dataBinding {
-        enabled = true
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "javax.inject:javax.inject:1"
+
+    // MVVM
+    implementation project(":mvvm")
 
     // Support libs
     implementation "androidx.appcompat:appcompat:$support_lib"
@@ -29,10 +26,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$arch_components"
     kapt "androidx.lifecycle:lifecycle-compiler:$arch_components"
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.assertj:assertj-core:3.8.0'
-    testImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
-    testImplementation "androidx.arch.core:core-testing:$arch_components"
+    // Dagger
+    implementation "com.google.dagger:dagger-android-support:$dagger"
 }
 
 task sourcesJar(type: Jar) {

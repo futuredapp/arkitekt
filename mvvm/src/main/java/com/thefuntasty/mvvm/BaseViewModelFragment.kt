@@ -2,15 +2,14 @@ package com.thefuntasty.mvvm
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
-import dagger.android.support.DaggerFragment
 import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> :
-    DaggerFragment(), ViewModelView<VM>, BaseView {
+    Fragment(), ViewModelView<VM>, BaseView {
 
     lateinit var viewModel: VM
 
