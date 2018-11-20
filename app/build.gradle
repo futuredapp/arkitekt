@@ -37,6 +37,7 @@ dependencies {
 
     // MVVM
     implementation project(":mvvm")
+    implementation project(":dagger")
 
     // Support
     implementation "androidx.appcompat:appcompat:$support_lib"

@@ -25,9 +25,4 @@ class LiveEvent<T> : MutableLiveData<T>() {
         pending.set(true)
         super.setValue(value)
     }
-
-    @MainThread
-    fun call() {
-        value = null
-    }
 }
