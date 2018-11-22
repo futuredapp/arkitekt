@@ -12,7 +12,7 @@ class LiveEventBus<T : ViewState> {
 
     @Suppress("UNCHECKED_CAST")
     fun observe(lifecycleOwner: LifecycleOwner, eventClass: KClass<out Event<T>>, observer: (Event<T>) -> Unit) {
-        val liveEvent: LiveEvent<Event<T>> = (eventMap[eventClass] as LiveEvent<Event<T>>?) ?: initLiveEvent(eventClass)
+        val liveEvent: LiveEvent<Event<T>> = eventMap[eventClass] as LiveEvent<Event<T>>? ?: initLiveEvent(eventClass)
         liveEvent.observe(lifecycleOwner, Observer { observer(it) })
     }
 
