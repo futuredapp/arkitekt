@@ -13,7 +13,13 @@ android {
         minSdkVersion(ProjectSettings.minSdk)
         targetSdkVersion(ProjectSettings.targetSdk)
 
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
+    }
+
+    compileOptions {
+        setSourceCompatibility(JavaVersion.VERSION_1_8)
+        setTargetCompatibility(JavaVersion.VERSION_1_8)
     }
 }
 
@@ -37,11 +43,13 @@ dependencies {
     implementation(Deps.Rx.rxRelay)
     implementation(Deps.Rx.rxDebug)
 
-    testImplementation(Deps.Test.jUnit)
+    testImplementation("org.mockito:mockito-core:2.8.9")
+    testImplementation("androidx.test:runner:1.1.0")
     testImplementation(Deps.Test.mockitoKotlin)
-    testImplementation(Deps.Test.assertJ)
-    testImplementation(Deps.Rx.rxIdler)
-    androidTestImplementation(Deps.AndroidX.espresso)
+    testImplementation("junit:junit:4.12")
+    testImplementation("androidx.test:core:1.0.0")
+    testImplementation("com.github.Plastix.RxSchedulerRule:rx2:1.0.2")
+
 }
 
 tasks {

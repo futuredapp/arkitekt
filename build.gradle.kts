@@ -1,4 +1,5 @@
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import java.net.URI
 
 buildscript {
     repositories {
@@ -23,6 +24,7 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        maven { url = URI("https://jitpack.io") }
     }
 }
 

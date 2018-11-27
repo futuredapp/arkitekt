@@ -1,10 +1,13 @@
 package com.thefuntasty.interactors
 
+import androidx.annotation.VisibleForTesting
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.exceptions.Exceptions
 import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.subscribers.TestSubscriber
 
 abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
 
@@ -17,9 +20,23 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
     ) {
-        disposables += create()
+        lateinit var disposable: Disposable
+
+        disposable = create()
             .applySchedulers()
+            .doFinally { disposables.remove(disposable) }
             .subscribe(onNext, onError, onComplete)
+
+        disposables += disposable
+    }
+
+    @VisibleForTesting
+    fun <T : Any> BaseFlowabler<T>.executeSubscribe(subscriber: TestSubscriber<T>) {
+        create()
+            .applySchedulers()
+            .subscribe(subscriber)
+
+        disposables += subscriber
     }
 
     override fun onCleared() {

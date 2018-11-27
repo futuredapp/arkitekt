@@ -30,5 +30,5 @@ object Versions {
     const val javaX = "1"
     const val jUnit = "4.12"
     const val assertJ = "3.8.0"
-    const val mockitoKotlin = "2.0.0"
+    const val mockitoKotlin = "1.6.0"
 }
