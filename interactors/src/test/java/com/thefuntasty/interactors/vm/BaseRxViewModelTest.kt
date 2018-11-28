@@ -1,9 +1,10 @@
-package com.thefuntasty.interactors
+package com.thefuntasty.interactors.vm
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
+import com.thefuntasty.interactors.BaseRxViewModel
 import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
 import com.thefuntasty.interactors.sample.TestFlowablerFactory
 import com.thefuntasty.interactors.sample.TestViewState
@@ -29,7 +30,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
     }
 
     @Test
-    fun checkIfDisposableRemovedWhenCompleted() {
+    fun checkIfDisposableRemovedAfterOnClear() {
         val testSubscriber = TestSubscriber<String>()
         val mockVM = object : BaseRxViewModel<TestViewState>() {
             override val viewState = mockViewState

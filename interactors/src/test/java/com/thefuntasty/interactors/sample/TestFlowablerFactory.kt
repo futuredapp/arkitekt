@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit
 
 class TestFlowablerFactory {
     companion object {
-        public val twoEmits = object : BaseFlowabler<String>() {
+        val twoEmits = object : BaseFlowabler<String>() {
             override fun create(): Flowable<String> {
                 return Flowable.interval(1, TimeUnit.SECONDS)
                     .map { it.toString() }
@@ -14,7 +14,7 @@ class TestFlowablerFactory {
             }
         }
 
-        public val neverCompletes = object : BaseFlowabler<String>() {
+        val neverCompletes = object : BaseFlowabler<String>() {
             override fun create(): Flowable<String> {
                 return Flowable.never()
             }
