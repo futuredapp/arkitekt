@@ -10,6 +10,7 @@ complexity:
   ComplexMethod:
     active: true
     threshold: 20
+    ignoreSimpleWhenEntries: true
   LargeClass:
     threshold: 250
     active: true
