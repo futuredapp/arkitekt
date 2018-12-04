@@ -21,10 +21,12 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
     ) {
-        val disposable = getStream()
-            .applySchedulers()
+        this@execute.currentDisposable?.dispose()
+
+        val disposable = stream()
             .subscribe(onNext, onError, onComplete)
 
+        this@execute.currentDisposable = disposable
         disposables += disposable
     }
 
@@ -35,10 +37,12 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
     ) {
-        val disposable = getStream()
-            .applySchedulers()
+        this@execute.currentDisposable?.dispose()
+
+        val disposable = stream()
             .subscribe(onNext, onError, onComplete)
 
+        this@execute.currentDisposable = disposable
         disposables += disposable
     }
 
@@ -48,10 +52,12 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onSuccess: (T) -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda
     ) {
-        val disposable = getStream()
-            .applySchedulers()
+        this@execute.currentDisposable?.dispose()
+
+        val disposable = stream()
             .subscribe(onSuccess, onError)
 
+        this@execute.currentDisposable = disposable
         disposables += disposable
     }
 
@@ -61,26 +67,25 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onComplete: () -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda
     ) {
-        val disposable = getStream()
-            .applySchedulers()
+        this@execute.currentDisposable?.dispose()
+
+        val disposable = stream()
             .subscribe(onComplete, onError)
 
+        this@execute.currentDisposable = disposable
         disposables += disposable
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseFlowabler<T>.executeSubscribe(subscriber: TestSubscriber<T>) {
-        getStream()
-            .applySchedulers()
-            .subscribe(subscriber)
+    fun <T : Any> BaseFlowabler<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
+        stream().subscribe(subscriber)
 
         disposables += subscriber
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseSingler<T>.executeSubscribe(subscriber: TestSubscriber<T>) {
-        getStream()
-            .applySchedulers()
+    fun <T : Any> BaseSingler<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
+        stream()
             .toFlowable()
             .subscribe(subscriber)
 
@@ -88,9 +93,8 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseCompletabler.executeSubscribe(subscriber: TestSubscriber<T>) {
-        getStream()
-            .applySchedulers()
+    fun <T : Any> BaseCompletabler.executeSubscriber(subscriber: TestSubscriber<T>) {
+        stream()
             .toFlowable<T>()
             .subscribe(subscriber)
 
@@ -98,10 +102,8 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseObservabler<T>.executeSubscribe(observer: TestObserver<T>) {
-        getStream()
-            .applySchedulers()
-            .subscribe(observer)
+    fun <T : Any> BaseObservabler<T>.executeSubscriber(observer: TestObserver<T>) {
+        stream().subscribe(observer)
 
         disposables += observer
     }
