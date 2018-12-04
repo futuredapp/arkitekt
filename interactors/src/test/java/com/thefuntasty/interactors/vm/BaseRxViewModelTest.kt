@@ -10,7 +10,6 @@ import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
 import com.thefuntasty.interactors.sample.TestFlowablerFactory
 import com.thefuntasty.interactors.sample.TestViewState
 import io.reactivex.Single
-import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
 
@@ -175,7 +174,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
                 interactor.init("B").executeSubscriber(testSubscriber2)
 
 
-                disposables += temp.toFlowable().subscribe {}
+                temp.toFlowable().subscribe(testSubscriber)
             }
         }
 

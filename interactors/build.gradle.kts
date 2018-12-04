@@ -43,13 +43,12 @@ dependencies {
     implementation(Deps.Rx.rxRelay)
     implementation(Deps.Rx.rxDebug)
 
-    testImplementation("org.mockito:mockito-core:2.8.9")
-    testImplementation("androidx.test:runner:1.1.0")
+    testImplementation(Deps.Test.mockitoCore)
+    testImplementation(Deps.Test.androidXTestRunnner)
     testImplementation(Deps.Test.mockitoKotlin)
-    testImplementation("junit:junit:4.12")
-    testImplementation("androidx.test:core:1.0.0")
-    testImplementation("com.github.Plastix.RxSchedulerRule:rx2:1.0.2")
-
+    testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.androidXTestCore)
+    testImplementation(Deps.Test.rxSchedulerRule)
 }
 
 tasks {
