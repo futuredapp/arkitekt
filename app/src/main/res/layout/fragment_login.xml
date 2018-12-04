@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,10 +21,39 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="20dp"
             android:orientation="vertical"
             android:gravity="center">
 
-        <!-- TODO add some logic -->
+        <EditText
+                android:id="@+id/name"
+                android:hint="@string/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewState.name}"/>
+
+        <EditText
+                android:id="@+id/surname"
+                android:hint="@string/surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewState.surname}"/>
+
+
+        <Button
+                android:id="@+id/submit"
+                android:text="@string/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.logIn()}"/>
+
+        <TextView
+                android:id="@+id/loggedAs"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewState.fullName}"
+                tools:text="Jan Novák"/>
 
     </LinearLayout>
 </layout>

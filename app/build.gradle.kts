@@ -29,6 +29,7 @@ android {
 dependencies {
     implementation(project(":mvvm"))
     implementation(project(":dagger"))
+    implementation(project(":interactors"))
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
@@ -36,6 +37,12 @@ dependencies {
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.vectordrawable)
+
+    implementation(Deps.Rx.rxKotlin)
+    implementation(Deps.Rx.rxAndroid)
+    implementation(Deps.Rx.rxJava)
+    implementation(Deps.Rx.rxRelay)
+    implementation(Deps.Rx.rxDebug)
 
     implementation(Deps.AndroidX.lifecycleExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
