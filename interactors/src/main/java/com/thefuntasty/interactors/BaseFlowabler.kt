@@ -6,7 +6,7 @@ abstract class BaseFlowabler<T : Any> : BaseInteractor<T>() {
 
     protected abstract fun prepare(): Flowable<T>
 
-    open fun stream(): Flowable<T> = prepare().applySchedulers()
+    fun stream(): Flowable<T> = prepare().applySchedulers()
 
     private fun Flowable<T>.applySchedulers(): Flowable<T> {
         return compose { resultObservable ->

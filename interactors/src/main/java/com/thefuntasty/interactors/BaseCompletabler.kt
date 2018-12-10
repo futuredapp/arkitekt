@@ -6,7 +6,7 @@ abstract class BaseCompletabler : BaseInteractor<Unit>() {
 
     protected abstract fun prepare(): Completable
 
-    open fun stream(): Completable = prepare().applySchedulers()
+    fun stream(): Completable = prepare().applySchedulers()
 
     private fun Completable.applySchedulers(): Completable {
         return compose { resultObservable ->

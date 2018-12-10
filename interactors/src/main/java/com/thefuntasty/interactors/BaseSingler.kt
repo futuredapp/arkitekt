@@ -6,7 +6,7 @@ abstract class BaseSingler<T : Any> : BaseInteractor<T>() {
 
     protected abstract fun prepare(): Single<T>
 
-    open fun stream(): Single<T> = prepare().applySchedulers()
+    fun stream(): Single<T> = prepare().applySchedulers()
 
     private fun Single<T>.applySchedulers(): Single<T> {
         return compose { resultObservable ->
