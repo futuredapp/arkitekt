@@ -11,8 +11,8 @@ abstract class BaseCompletabler : BaseInteractor<Unit>() {
     private fun Completable.applySchedulers(): Completable {
         return compose { resultObservable ->
             resultObservable
-                .subscribeOn(getWorkScheduler())
-                .observeOn(getResultScheduler())
+                .subscribeOn(workScheduler)
+                .observeOn(resultScheduler)
         }
     }
 }

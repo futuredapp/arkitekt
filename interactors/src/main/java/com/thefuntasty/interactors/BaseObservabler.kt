@@ -11,8 +11,8 @@ abstract class BaseObservabler<T : Any> : BaseInteractor<T>() {
     private fun Observable<T>.applySchedulers(): Observable<T> {
         return compose { resultObservable ->
             resultObservable
-                .subscribeOn(getWorkScheduler())
-                .observeOn(getResultScheduler())
+                .subscribeOn(workScheduler)
+                .observeOn(resultScheduler)
         }
     }
 }

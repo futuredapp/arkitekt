@@ -9,7 +9,7 @@ abstract class BaseInteractor<T : Any> {
 
     internal var currentDisposable: Disposable? = null
 
-    protected open fun getWorkScheduler() = Schedulers.io()
+    protected open val workScheduler = Schedulers.io()
 
-    protected open fun getResultScheduler(): Scheduler = AndroidSchedulers.mainThread()
+    protected open val resultScheduler: Scheduler = AndroidSchedulers.mainThread()
 }

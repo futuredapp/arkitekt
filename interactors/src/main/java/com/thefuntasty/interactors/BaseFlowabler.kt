@@ -11,8 +11,8 @@ abstract class BaseFlowabler<T : Any> : BaseInteractor<T>() {
     private fun Flowable<T>.applySchedulers(): Flowable<T> {
         return compose { resultObservable ->
             resultObservable
-                .subscribeOn(getWorkScheduler())
-                .observeOn(getResultScheduler())
+                .subscribeOn(workScheduler)
+                .observeOn(resultScheduler)
         }
     }
 }

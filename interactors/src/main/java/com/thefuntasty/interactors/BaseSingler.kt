@@ -11,8 +11,8 @@ abstract class BaseSingler<T : Any> : BaseInteractor<T>() {
     private fun Single<T>.applySchedulers(): Single<T> {
         return compose { resultObservable ->
             resultObservable
-                .subscribeOn(getWorkScheduler())
-                .observeOn(getResultScheduler())
+                .subscribeOn(workScheduler)
+                .observeOn(resultScheduler)
         }
     }
 }

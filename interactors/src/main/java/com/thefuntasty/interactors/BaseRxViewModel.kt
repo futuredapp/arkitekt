@@ -3,6 +3,10 @@ package com.thefuntasty.interactors
 import androidx.annotation.VisibleForTesting
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.TestObserver
@@ -83,6 +87,51 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         disposables += disposable
 
         return disposable
+    }
+
+    fun <T : Any> Flowable<T>.executeStream(onNext: (T) -> Unit) = executeStream(onNext, onError = onErrorLambda)
+
+    fun <T : Any> Flowable<T>.executeStream(
+        onNext: (T) -> Unit,
+        onError: (Throwable) -> Unit = onErrorLambda,
+        onComplete: () -> Unit = { }
+    ): Disposable {
+        return subscribe(onNext, onError, onComplete).also {
+            disposables += it
+        }
+    }
+
+    fun <T : Any> Observable<T>.executeStream(onNext: (T) -> Unit) = executeStream(onNext, onError = onErrorLambda)
+
+    fun <T : Any> Observable<T>.executeStream(
+        onNext: (T) -> Unit,
+        onError: (Throwable) -> Unit = onErrorLambda,
+        onComplete: () -> Unit = { }
+    ): Disposable {
+        return subscribe(onNext, onError, onComplete).also {
+            disposables += it
+        }
+    }
+
+    fun <T : Any> Single<T>.executeStream(onSuccess: (T) -> Unit) = executeStream(onSuccess, onError = onErrorLambda)
+
+    fun <T : Any> Single<T>.executeStream(
+        onSuccess: (T) -> Unit,
+        onError: (Throwable) -> Unit = onErrorLambda
+    ): Disposable {
+        return subscribe(onSuccess, onError).also {
+        }
+    }
+
+    fun Completable.executeStream(onComplete: () -> Unit) = executeStream(onComplete, onError = onErrorLambda)
+
+    fun Completable.executeStream(
+        onComplete: () -> Unit,
+        onError: (Throwable) -> Unit = onErrorLambda
+    ): Disposable {
+        return subscribe(onComplete, onError).also {
+            disposables += it
+        }
     }
 
     @VisibleForTesting
