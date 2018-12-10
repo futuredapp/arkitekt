@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.TestObserver
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.subscribers.TestSubscriber
@@ -20,7 +21,7 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onNext: (T) -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
-    ) {
+    ): Disposable {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
@@ -28,6 +29,8 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
 
         this@execute.currentDisposable = disposable
         disposables += disposable
+
+        return disposable
     }
 
     fun <T : Any> BaseObservabler<T>.execute(onNext: (T) -> Unit) = execute(onNext, onError = onErrorLambda)
@@ -36,7 +39,7 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onNext: (T) -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
-    ) {
+    ): Disposable {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
@@ -44,6 +47,8 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
 
         this@execute.currentDisposable = disposable
         disposables += disposable
+
+        return disposable
     }
 
     fun <T : Any> BaseSingler<T>.execute(onSuccess: (T) -> Unit) = execute(onSuccess, onError = onErrorLambda)
@@ -51,7 +56,7 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
     fun <T : Any> BaseSingler<T>.execute(
         onSuccess: (T) -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda
-    ) {
+    ): Disposable {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
@@ -59,6 +64,8 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
 
         this@execute.currentDisposable = disposable
         disposables += disposable
+
+        return disposable
     }
 
     fun BaseCompletabler.execute(onComplete: () -> Unit) = execute(onComplete, onError = onErrorLambda)
@@ -66,7 +73,7 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
     fun BaseCompletabler.execute(
         onComplete: () -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda
-    ) {
+    ): Disposable {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
@@ -74,17 +81,19 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
 
         this@execute.currentDisposable = disposable
         disposables += disposable
+
+        return disposable
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseFlowabler<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
+    internal fun <T : Any> BaseFlowabler<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
         stream().subscribe(subscriber)
 
         disposables += subscriber
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseSingler<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
+    internal fun <T : Any> BaseSingler<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
         stream()
             .toFlowable()
             .subscribe(subscriber)
@@ -93,7 +102,7 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseCompletabler.executeSubscriber(subscriber: TestSubscriber<T>) {
+    internal fun <T : Any> BaseCompletabler.executeSubscriber(subscriber: TestSubscriber<T>) {
         stream()
             .toFlowable<T>()
             .subscribe(subscriber)
@@ -102,7 +111,7 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
     }
 
     @VisibleForTesting
-    fun <T : Any> BaseObservabler<T>.executeSubscriber(observer: TestObserver<T>) {
+    internal fun <T : Any> BaseObservabler<T>.executeSubscriber(observer: TestObserver<T>) {
         stream().subscribe(observer)
 
         disposables += observer
