@@ -120,6 +120,7 @@ abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>() {
         onError: (Throwable) -> Unit = onErrorLambda
     ): Disposable {
         return subscribe(onSuccess, onError).also {
+            disposables += it
         }
     }
 
