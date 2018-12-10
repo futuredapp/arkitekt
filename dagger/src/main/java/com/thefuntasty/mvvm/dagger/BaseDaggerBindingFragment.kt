@@ -22,7 +22,5 @@ abstract class BaseDaggerBindingFragment<VM : BaseViewModel<VS>, VS : ViewState,
         super.onAttach(context)
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return supportFragmentInjector
-    }
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
 }

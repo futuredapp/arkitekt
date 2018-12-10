@@ -32,10 +32,24 @@ object Deps {
         const val databindingCompiler = "androidx.databinding:databinding-compiler:${Versions.databinding}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.arch_components}"
+        const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    }
+
+    object Rx {
+        const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
+        const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
+        const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
+        const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:${Versions.rxRelay}"
+        const val rxDebug = "com.sumera.rxdebug:rxdebug:${Versions.rxDebug}"
+        const val rxIdler = "com.squareup.rx.idler:rx2-idler:${Versions.rxIdler}"
     }
 
     object Test {
-        const val jUnit = "junit:junit:${Versions.jUnit}"
+        const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
+        const val androidXTestRunnner = "androidx.test:runner:${Versions.androidxTestRunner}"
+        const val androidXTestCore = "androidx.test:core:${Versions.androidxTestCore}"
+        const val rxSchedulerRule = "com.github.Plastix.RxSchedulerRule:rx2:${Versions.rxSchedulerRule}"
+        const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
         const val assertJ = "org.assertj:assertj-core:${Versions.assertJ}"
         const val mockitoKotlin = "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"
     }
