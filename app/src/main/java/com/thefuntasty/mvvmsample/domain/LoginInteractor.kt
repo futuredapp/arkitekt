@@ -12,6 +12,10 @@ class LoginInteractor @Inject constructor() : BaseSingler<User>() {
     private lateinit var name: String
     private lateinit var surname: String
 
+    companion object {
+        private const val DELAY_MS = 2000L
+    }
+
     fun init(name: String, surname: String) = apply {
         this.name = name
         this.surname = surname
@@ -20,6 +24,6 @@ class LoginInteractor @Inject constructor() : BaseSingler<User>() {
     override fun prepare(): Single<User> {
         return Single.fromCallable {
             name to surname
-        }.delay(2000, TimeUnit.MILLISECONDS)
+        }.delay(DELAY_MS, TimeUnit.MILLISECONDS)
     }
 }

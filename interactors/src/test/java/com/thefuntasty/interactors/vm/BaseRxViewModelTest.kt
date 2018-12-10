@@ -173,7 +173,6 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
 
                 interactor.init("B").executeSubscriber(testSubscriber2)
 
-
                 temp.toFlowable().subscribe(testSubscriber)
             }
         }

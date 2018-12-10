@@ -21,7 +21,5 @@ abstract class BaseDaggerActivity<VM : BaseViewModel<VS>, VS : ViewState>
         super.onCreate(savedInstanceState)
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return supportFragmentInjector
-    }
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = supportFragmentInjector
 }

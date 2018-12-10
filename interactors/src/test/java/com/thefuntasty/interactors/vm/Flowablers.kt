@@ -73,7 +73,6 @@ class Flowablers : RxMockitoJUnitRunner() {
                 }, {
                     viewState.testMethodCall3("onComplete")
                 })
-
             }
         }
         mockVM.runInteractors()
