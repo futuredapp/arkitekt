@@ -12,7 +12,7 @@ abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, 
 
     override lateinit var binding: B
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return initViewBinding(this, viewModel, inflater, container, layoutResId).let {
             binding = it.first
             return@let it.second
