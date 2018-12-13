@@ -20,9 +20,8 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
         viewModel = initViewModel(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(layoutResId, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        inflater.inflate(layoutResId, container, false)
 
     private inline fun <reified IVM : BaseViewModel<VS>> getVM(): IVM =
         ViewModelProviders.of(this, viewModelFactory).get(IVM::class.java)

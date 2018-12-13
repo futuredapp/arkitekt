@@ -34,7 +34,8 @@ interface BindingFragmentDelegate<VS : ViewState, B : ViewDataBinding> {
     private fun setupBindingView(
         layoutInflater: LayoutInflater,
         container: ViewGroup?,
-        layoutResId: Int, set: (B) -> Unit
+        layoutResId: Int,
+        set: (B) -> Unit
     ): Pair<B, View> {
         val binding = DataBindingUtil.inflate<B>(layoutInflater, layoutResId, container, false).also {
             set(it)
