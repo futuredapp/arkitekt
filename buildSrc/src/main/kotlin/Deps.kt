@@ -24,14 +24,13 @@ object Deps {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
         const val annnotation = "androidx.annotation:annotation:${Versions.androidx}"
         const val palette = "androidx.palette:palette:${Versions.androidx}"
-        const val ktx = "androidx.core:core-ktx:${Versions.androidx}"
-        const val vectordrawable = "androidx.vectordrawable:vectordrawable:${Versions.androidx}"
+        const val ktx = "androidx.core:core-ktx:${Versions.androidxCore}"
+        const val vectordrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
 
-        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.arch_components}"
-        const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.arch_components}"
-        const val databindingCompiler = "androidx.databinding:databinding-compiler:${Versions.databinding}"
+        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.archComponents}"
+        const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.archComponents}"
 
-        const val archTesting = "androidx.arch.core:core-testing:${Versions.arch_components}"
+        const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     }
 
