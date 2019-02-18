@@ -1,6 +1,6 @@
 object Versions {
     // gradle
-    const val gradle = "3.2.1"
+    const val gradle = "3.3.1"
 
     // plugins
     const val detekt = "1.0.0-RC10"
@@ -9,20 +9,22 @@ object Versions {
     const val androidMaven = "1.4.1"
 
     // kotlin
-    const val kotlin = "1.3.10"
+    const val kotlin = "1.3.21"
 
     // core
-    const val androidx = "1.0.0"
-    const val arch_components = "2.0.0"
-    const val dagger = "2.16"
-    const val databinding = "3.2.1"
+    const val androidx = "1.1.0-alpha02"
+    const val androidxCore = "1.1.0-alpha04"
+    const val test = "2.0.0-alpha1"
+    const val vectorDrawable = "1.1.0-alpha01"
+    const val archComponents = "2.1.0-alpha02"
+    const val dagger = "2.21"
     const val espresso = "3.1.0"
     const val rxIdler = "0.9.0"
 
     // rx
     const val rxKotlin = "2.3.0"
     const val rxAndroid = "2.1.0"
-    const val rxJava = "2.2.3"
+    const val rxJava = "2.2.6"
     const val rxRelay = "2.1.0"
     const val rxDebug = "1.1.2"
 

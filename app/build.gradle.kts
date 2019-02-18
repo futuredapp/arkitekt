@@ -46,7 +46,6 @@ dependencies {
 
     implementation(Deps.AndroidX.lifecycleExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
-    kapt(Deps.AndroidX.databindingCompiler)
 
     implementation(Deps.DI.daggerSupport)
     kapt(Deps.DI.daggerProcessor)
