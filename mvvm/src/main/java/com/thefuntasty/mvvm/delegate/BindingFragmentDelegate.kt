@@ -27,7 +27,7 @@ interface BindingFragmentDelegate<VS : ViewState, B : ViewDataBinding> {
             it.setVariable(brViewVariableId, this)
             it.setVariable(brViewModelVariableId, viewModel)
             it.setVariable(brViewStateVariableId, viewModel.viewState)
-            it.setLifecycleOwner(fragment)
+            it.setLifecycleOwner(fragment.viewLifecycleOwner)
         }
     }
 
