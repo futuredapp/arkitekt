@@ -17,8 +17,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.login_placeholder, LoginFragment())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.login_placeholder, LoginFragment())
+                .commit()
+        }
     }
 }
