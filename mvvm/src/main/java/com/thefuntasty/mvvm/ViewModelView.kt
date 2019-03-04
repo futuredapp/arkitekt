@@ -11,6 +11,4 @@ interface ViewModelView<VM : BaseViewModel<*>> {
     val viewModelFactory: BaseViewModelFactory<VM>
 
     fun getViewModelFromProvider(): VM
-
-    fun createViewModel(): VM = getViewModelFromProvider()
 }

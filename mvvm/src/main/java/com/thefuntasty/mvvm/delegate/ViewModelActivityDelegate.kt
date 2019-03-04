@@ -11,8 +11,9 @@ import kotlin.reflect.KClass
 @Suppress("UNCHECKED_CAST")
 interface ViewModelActivityDelegate<VM : BaseViewModel<VS>, VS : ViewState> : ViewModelView<VM>, BaseView {
 
-    fun initViewModel(fragmentActivity: FragmentActivity): VM =
-        createViewModel().apply { fragmentActivity.lifecycle.addObserver(this) }
+    fun initViewModel(fragmentActivity: FragmentActivity): VM {
+        return getViewModelFromProvider().apply { fragmentActivity.lifecycle.addObserver(this) }
+    }
 
     fun <E : Event<VS>> FragmentActivity.observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
