@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import com.thefuntasty.mvvm.binding.BindingFragmentDelegate
-import com.thefuntasty.mvvm.binding.BindingVariables
+import com.thefuntasty.mvvm.binding.DataBindingVariables
+import com.thefuntasty.mvvm.binding.FragmentDataBindingInitializer
 
 abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
     : ViewModelFragment<VM, VS>() {
 
-    private val bindingFragmentDelegate = BindingFragmentDelegate<VS, B>()
+    private val bindingFragmentDelegate = FragmentDataBindingInitializer<VS, B>()
 
     abstract val brViewVariableId: Int
     abstract val brViewModelVariableId: Int
@@ -20,7 +20,7 @@ abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, 
     lateinit var binding: B
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return bindingFragmentDelegate.initViewBinding(
+        return bindingFragmentDelegate.initDataBinding(
             this,
             viewModel,
             inflater,
@@ -33,7 +33,7 @@ abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, 
         }
     }
 
-    private fun getBindingVariables(): BindingVariables {
-        return BindingVariables(brViewVariableId, brViewModelVariableId, brViewStateVariableId)
+    private fun getBindingVariables(): DataBindingVariables {
+        return DataBindingVariables(brViewVariableId, brViewModelVariableId, brViewStateVariableId)
     }
 }

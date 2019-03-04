@@ -10,20 +10,20 @@ import androidx.fragment.app.Fragment
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 
-class BindingFragmentDelegate<VS : ViewState, B : ViewDataBinding> {
+class FragmentDataBindingInitializer<VS : ViewState, B : ViewDataBinding> {
 
-    fun initViewBinding(
+    fun initDataBinding(
         fragment: Fragment,
         viewModel: BaseViewModel<VS>,
         inflater: LayoutInflater,
         container: ViewGroup?,
         @LayoutRes layoutResId: Int,
-        bindingVariables: BindingVariables
+        dataBindingVariables: DataBindingVariables
     ): Pair<B, View> {
         return setupBindingView(inflater, container, layoutResId) {
-            it.setVariable(bindingVariables.viewId, this)
-            it.setVariable(bindingVariables.viewModelId, viewModel)
-            it.setVariable(bindingVariables.viewStateId, viewModel.viewState)
+            it.setVariable(dataBindingVariables.viewId, this)
+            it.setVariable(dataBindingVariables.viewModelId, viewModel)
+            it.setVariable(dataBindingVariables.viewStateId, viewModel.viewState)
             it.lifecycleOwner = fragment.viewLifecycleOwner
         }
     }
