@@ -12,7 +12,6 @@ interface BindingActivityDelegate<VS : ViewState, B : ViewDataBinding> {
     val brViewVariableId: Int
     val brViewModelVariableId: Int
     val brViewStateVariableId: Int
-    val binding: B
 
     fun initViewBinding(
         fragmentActivity: FragmentActivity,
@@ -23,7 +22,7 @@ interface BindingActivityDelegate<VS : ViewState, B : ViewDataBinding> {
             it.setVariable(brViewVariableId, this)
             it.setVariable(brViewModelVariableId, viewModel)
             it.setVariable(brViewStateVariableId, viewModel.viewState)
-            it.setLifecycleOwner(fragmentActivity)
+            it.lifecycleOwner = fragmentActivity
         }
     }
 

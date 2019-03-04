@@ -10,7 +10,7 @@ import com.thefuntasty.mvvm.delegate.BindingFragmentDelegate
 abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
     : ViewModelFragment<VM, VS>(), BindingFragmentDelegate<VS, B> {
 
-    override lateinit var binding: B
+    lateinit var binding: B
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return initViewBinding(this, viewModel, inflater, container, layoutResId).let {

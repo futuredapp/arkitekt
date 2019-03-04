@@ -14,7 +14,6 @@ interface BindingFragmentDelegate<VS : ViewState, B : ViewDataBinding> {
     val brViewVariableId: Int
     val brViewModelVariableId: Int
     val brViewStateVariableId: Int
-    var binding: B
 
     fun initViewBinding(
         fragment: Fragment,
