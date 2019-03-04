@@ -7,21 +7,18 @@ import androidx.fragment.app.FragmentActivity
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 
-interface BindingActivityDelegate<VS : ViewState, B : ViewDataBinding> {
-
-    val brViewVariableId: Int
-    val brViewModelVariableId: Int
-    val brViewStateVariableId: Int
+class BindingActivityDelegate<VS : ViewState, B : ViewDataBinding> {
 
     fun initViewBinding(
         fragmentActivity: FragmentActivity,
         viewModel: BaseViewModel<VS>,
-        @LayoutRes layoutResId: Int
+        @LayoutRes layoutResId: Int,
+        bindingVariables: BindingVariables
     ): B {
         return setupBindingView(fragmentActivity, layoutResId) {
-            it.setVariable(brViewVariableId, this)
-            it.setVariable(brViewModelVariableId, viewModel)
-            it.setVariable(brViewStateVariableId, viewModel.viewState)
+            it.setVariable(bindingVariables.viewId, this)
+            it.setVariable(bindingVariables.viewModelId, viewModel)
+            it.setVariable(bindingVariables.viewStateId, viewModel.viewState)
             it.lifecycleOwner = fragmentActivity
         }
     }

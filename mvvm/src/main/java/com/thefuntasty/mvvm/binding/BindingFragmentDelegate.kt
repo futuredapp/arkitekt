@@ -3,29 +3,27 @@ package com.thefuntasty.mvvm.binding
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 
-interface BindingFragmentDelegate<VS : ViewState, B : ViewDataBinding> {
-
-    val brViewVariableId: Int
-    val brViewModelVariableId: Int
-    val brViewStateVariableId: Int
+class BindingFragmentDelegate<VS : ViewState, B : ViewDataBinding> {
 
     fun initViewBinding(
         fragment: Fragment,
         viewModel: BaseViewModel<VS>,
         inflater: LayoutInflater,
         container: ViewGroup?,
-        layoutResId: Int
+        @LayoutRes layoutResId: Int,
+        bindingVariables: BindingVariables
     ): Pair<B, View> {
         return setupBindingView(inflater, container, layoutResId) {
-            it.setVariable(brViewVariableId, this)
-            it.setVariable(brViewModelVariableId, viewModel)
-            it.setVariable(brViewStateVariableId, viewModel.viewState)
+            it.setVariable(bindingVariables.viewId, this)
+            it.setVariable(bindingVariables.viewModelId, viewModel)
+            it.setVariable(bindingVariables.viewStateId, viewModel.viewState)
             it.lifecycleOwner = fragment.viewLifecycleOwner
         }
     }
