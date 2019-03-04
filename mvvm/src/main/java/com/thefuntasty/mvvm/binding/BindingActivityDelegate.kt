@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.delegate
+package com.thefuntasty.mvvm.binding
 
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil

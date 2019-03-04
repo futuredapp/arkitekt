@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import com.thefuntasty.mvvm.delegate.ViewModelActivityDelegate
+import com.thefuntasty.mvvm.viewmodel.ViewModelActivityDelegate
 
 abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState>
     : AppCompatActivity(), ViewModelActivityDelegate<VM, VS> {

@@ -2,7 +2,7 @@ package com.thefuntasty.mvvm
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import com.thefuntasty.mvvm.delegate.BindingActivityDelegate
+import com.thefuntasty.mvvm.binding.BindingActivityDelegate
 
 abstract class BindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
     : ViewModelActivity<VM, VS>(), BindingActivityDelegate<VS, B> {

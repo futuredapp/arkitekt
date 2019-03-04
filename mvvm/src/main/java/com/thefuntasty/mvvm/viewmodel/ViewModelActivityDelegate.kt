@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.delegate
+package com.thefuntasty.mvvm.viewmodel
 
 import androidx.fragment.app.FragmentActivity
 import com.thefuntasty.mvvm.BaseView

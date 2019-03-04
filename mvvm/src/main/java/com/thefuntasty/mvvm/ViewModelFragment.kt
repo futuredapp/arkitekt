@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.thefuntasty.mvvm.delegate.ViewModelFragmentDelegate
+import com.thefuntasty.mvvm.viewmodel.ViewModelFragmentDelegate
 
 abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(),
     ViewModelFragmentDelegate<VM, VS> {

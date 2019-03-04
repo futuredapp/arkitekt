@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import com.thefuntasty.mvvm.delegate.BindingFragmentDelegate
+import com.thefuntasty.mvvm.binding.BindingFragmentDelegate
 
 abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
     : ViewModelFragment<VM, VS>(), BindingFragmentDelegate<VS, B> {
