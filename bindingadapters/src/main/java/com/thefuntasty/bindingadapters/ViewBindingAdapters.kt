@@ -3,13 +3,18 @@ package com.thefuntasty.bindingadapters
 import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.BindingConversion
+import com.thefuntasty.extensions.animateGone
+import com.thefuntasty.extensions.animateInvisible
+import com.thefuntasty.extensions.animateShow
 
 /**
  *  Convert true/false to View.VISIBLE and View.GONE
@@ -17,50 +22,6 @@ import androidx.databinding.BindingConversion
  */
 @BindingConversion
 fun visibility(visibility: Boolean) = if (visibility) View.VISIBLE else View.GONE
-
-fun View.visible() {
-    this.visibility = View.VISIBLE
-}
-
-fun View.gone() {
-    this.visibility = View.GONE
-}
-
-fun View.invisible() {
-    this.visibility = View.INVISIBLE
-}
-
-fun View.visible(visibility: Boolean) {
-    this.visibility = if (visibility) View.VISIBLE else View.GONE
-}
-
-fun View.animateShow(endAction: () -> Unit = {}) {
-    visible()
-    alpha = 0f
-    animate().alpha(1f)
-        .withEndAction { endAction() }
-        .duration = 200
-}
-
-fun View.animateGone(endAction: () -> Unit = {}) {
-    alpha = 1f
-    animate().alpha(0f)
-        .withEndAction {
-            gone()
-            endAction()
-        }
-        .duration = 200
-}
-
-fun View.animateInvisible(endAction: () -> Unit = {}) {
-    alpha = 1f
-    animate().alpha(0f)
-        .withEndAction {
-            invisible()
-            endAction()
-        }
-        .duration = 200
-}
 
 /**
  *  Animate view visibility true/false to View.VISIBLE and View.GONE
@@ -152,6 +113,26 @@ fun View.animatedColor(drawable: Drawable, duration: Int? = null) {
         else -> {
             transition.startTransition(duration)
         }
+    }
+}
+
+/**
+ *  Animate view elevation from original value to new value specified in pixels
+ *  @param pixels final elevation
+ *  @param duration animation duration
+ */
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+@BindingAdapter("app:animElevation", "app:animElevationDuration", requireAll = false)
+fun View.animateElevation(pixels: Int, duration: Int? = null) {
+    ValueAnimator.ofFloat(elevation, pixels.toFloat()).apply {
+        duration?.let { setDuration(it.toLong()) }
+        interpolator = DecelerateInterpolator()
+        addUpdateListener {
+            val animatedValue = it.animatedValue as Float
+            elevation = animatedValue
+        }
+
+        start()
     }
 }
 
