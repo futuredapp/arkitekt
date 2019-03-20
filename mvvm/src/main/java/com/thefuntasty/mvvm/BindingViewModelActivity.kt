@@ -1,14 +1,12 @@
 package com.thefuntasty.mvvm
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.thefuntasty.mvvm.binding.ActivityDataBindingInitializer
-import com.thefuntasty.mvvm.binding.DataBindingVariables
+import androidx.fragment.app.FragmentActivity
 
 abstract class BindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
     : ViewModelActivity<VM, VS>() {
-
-    private val bindingActivityDelegate = ActivityDataBindingInitializer<VS, B>()
 
     abstract val brViewVariableId: Int
     abstract val brViewModelVariableId: Int
@@ -18,10 +16,18 @@ abstract class BindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = bindingActivityDelegate.initDataBinding(this, viewModel, layoutResId, getBindingVariables())
+
+        binding = setupBindingView(this, layoutResId) {
+            it.setVariable(brViewVariableId, this)
+            it.setVariable(brViewModelVariableId, viewModel)
+            it.setVariable(brViewStateVariableId, viewModel.viewState)
+            it.lifecycleOwner = this
+        }
     }
 
-    private fun getBindingVariables(): DataBindingVariables {
-        return DataBindingVariables(brViewVariableId, brViewModelVariableId, brViewStateVariableId)
+    private fun setupBindingView(fragmentActivity: FragmentActivity, layoutResId: Int, set: (B) -> Unit): B {
+        return DataBindingUtil.setContentView<B>(fragmentActivity, layoutResId).also {
+            set(it)
+        }
     }
 }

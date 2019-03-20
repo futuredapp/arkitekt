@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.thefuntasty.mvvm.binding.DataBindingVariables
-import com.thefuntasty.mvvm.binding.FragmentDataBindingInitializer
 
 abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
     : ViewModelFragment<VM, VS>() {
-
-    private val bindingFragmentDelegate = FragmentDataBindingInitializer<VS, B>()
 
     abstract val brViewVariableId: Int
     abstract val brViewModelVariableId: Int
@@ -20,20 +17,24 @@ abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, 
     lateinit var binding: B
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return bindingFragmentDelegate.initDataBinding(
-            this,
-            viewModel,
-            inflater,
-            container,
-            layoutResId,
-            getBindingVariables()
-        ).let {
-            binding = it.first
-            return@let it.second
+        return setupBindingView(inflater, container, layoutResId) {
+            it.setVariable(brViewVariableId, this)
+            it.setVariable(brViewModelVariableId, viewModel)
+            it.setVariable(brViewStateVariableId, viewModel.viewState)
+            it.lifecycleOwner = this.viewLifecycleOwner
+            binding = it
         }
     }
 
-    private fun getBindingVariables(): DataBindingVariables {
-        return DataBindingVariables(brViewVariableId, brViewModelVariableId, brViewStateVariableId)
+    private fun setupBindingView(
+        layoutInflater: LayoutInflater,
+        container: ViewGroup?,
+        layoutResId: Int,
+        set: (B) -> Unit
+    ): View {
+        val binding = DataBindingUtil.inflate<B>(layoutInflater, layoutResId, container, false).also {
+            set(it)
+        }
+        return binding.root
     }
 }
