@@ -4,6 +4,8 @@ import com.thefuntasty.mvvmsample.ui.detail.DetailActivity
 import com.thefuntasty.mvvmsample.ui.detail.DetailActivityModule
 import com.thefuntasty.mvvmsample.ui.form.FormActivity
 import com.thefuntasty.mvvmsample.ui.form.FormActivityModule
+import com.thefuntasty.mvvmsample.ui.login.activity.LoginActivity
+import com.thefuntasty.mvvmsample.ui.login.activity.LoginActivityModule
 import com.thefuntasty.mvvmsample.ui.main.MainActivity
 import com.thefuntasty.mvvmsample.ui.main.MainActivityModule
 import dagger.Module
@@ -20,4 +22,7 @@ abstract class ActivityBuilderModule {
 
     @ContributesAndroidInjector(modules = [FormActivityModule::class])
     abstract fun formActivity(): FormActivity
+
+    @ContributesAndroidInjector(modules = [LoginActivityModule::class])
+    abstract fun loginActivity(): LoginActivity
 }
