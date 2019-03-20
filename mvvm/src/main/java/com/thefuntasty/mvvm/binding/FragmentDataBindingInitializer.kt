@@ -21,7 +21,7 @@ class FragmentDataBindingInitializer<VS : ViewState, B : ViewDataBinding> {
         dataBindingVariables: DataBindingVariables
     ): Pair<B, View> {
         return setupBindingView(inflater, container, layoutResId) {
-            it.setVariable(dataBindingVariables.viewId, this)
+            it.setVariable(dataBindingVariables.viewId, fragment)
             it.setVariable(dataBindingVariables.viewModelId, viewModel)
             it.setVariable(dataBindingVariables.viewStateId, viewModel.viewState)
             it.lifecycleOwner = fragment.viewLifecycleOwner

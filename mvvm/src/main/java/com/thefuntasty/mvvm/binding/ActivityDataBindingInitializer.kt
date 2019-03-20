@@ -16,7 +16,7 @@ class ActivityDataBindingInitializer<VS : ViewState, B : ViewDataBinding> {
         dataBindingVariables: DataBindingVariables
     ): B {
         return setupBindingView(fragmentActivity, layoutResId) {
-            it.setVariable(dataBindingVariables.viewId, this)
+            it.setVariable(dataBindingVariables.viewId, fragmentActivity)
             it.setVariable(dataBindingVariables.viewModelId, viewModel)
             it.setVariable(dataBindingVariables.viewStateId, viewModel.viewState)
             it.lifecycleOwner = fragmentActivity
