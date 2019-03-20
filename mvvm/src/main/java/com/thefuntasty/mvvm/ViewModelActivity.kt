@@ -3,23 +3,31 @@ package com.thefuntasty.mvvm
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
-import com.thefuntasty.mvvm.viewmodel.ViewModelActivityDelegate
+import com.thefuntasty.mvvm.event.Event
+import kotlin.reflect.KClass
 
-abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState>
-    : AppCompatActivity(), ViewModelActivityDelegate<VM, VS> {
+@Suppress("UNCHECKED_CAST")
+abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity(), ViewModelCreator<VM> {
 
-    override lateinit var viewModel: VM
+    abstract val layoutResId: Int
+
+    lateinit var viewModel: VM
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = initViewModel(this)
+        viewModel = getVM(viewModelClass).apply {
+            lifecycle.addObserver(this)
+        }
     }
 
-    private inline fun <reified IVM : BaseViewModel<VS>> getVM(): IVM =
-        ViewModelProviders.of(this, viewModelFactory).get(IVM::class.java)
+    private fun getVM(vmClazz: KClass<VM>): VM {
+        return ViewModelProviders.of(this, viewModelFactory).get(vmClazz.java)
+    }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun getViewModelFromProvider(): VM = getVM<BaseViewModel<VS>>() as VM
+    fun <E : Event<VS>> FragmentActivity.observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
+        viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
+    }
 }

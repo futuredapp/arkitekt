@@ -1,14 +1,11 @@
 package com.thefuntasty.mvvm
 
 import com.thefuntasty.mvvm.factory.BaseViewModelFactory
+import kotlin.reflect.KClass
 
-interface ViewModelView<VM : BaseViewModel<*>> {
-
-    val layoutResId: Int
-
-    val viewModel: VM
+interface ViewModelCreator<VM : BaseViewModel<*>> {
 
     val viewModelFactory: BaseViewModelFactory<VM>
 
-    fun getViewModelFromProvider(): VM
+    val viewModelClass: KClass<VM>
 }
