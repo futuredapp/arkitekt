@@ -13,6 +13,10 @@ import kotlin.reflect.KClass
 @Suppress("UNCHECKED_CAST")
 abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(), ViewModelCreator<VM> {
 
+    /**
+     * Property which holds reference to layout identifier eg. R.layout.main_fragment. You should override this
+     * in your specific Fragment implementation.
+     */
     abstract val layoutResId: Int
 
     lateinit var viewModel: VM

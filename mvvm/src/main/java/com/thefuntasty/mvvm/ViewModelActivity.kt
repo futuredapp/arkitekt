@@ -11,6 +11,10 @@ import kotlin.reflect.KClass
 @Suppress("UNCHECKED_CAST")
 abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity(), ViewModelCreator<VM> {
 
+    /**
+     * Property which holds reference to layout identifier eg. R.layout.main_activity. You should override this
+     * in your specific Activity implementation.
+     */
     abstract val layoutResId: Int
 
     lateinit var viewModel: VM
