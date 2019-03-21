@@ -31,7 +31,7 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
         return ViewModelProviders.of(this, viewModelFactory).get(vmClazz.java)
     }
 
-    inline fun <VS : ViewState, reified AVM : BaseViewModel<VS>> getActivityViewModel(): AVM =
+    inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
         ViewModelProviders.of(requireActivity()).get(AVM::class.java)
 
     fun <EVENT : Event<VS>> observeEvent(event: KClass<out EVENT>, observer: (EVENT) -> Unit) {

@@ -7,7 +7,6 @@ import com.thefuntasty.mvvmsample.databinding.FragmentLoginBinding
 import com.thefuntasty.mvvmsample.ui.base.BaseFragment
 import javax.inject.Inject
 import com.thefuntasty.mvvmsample.ui.login.activity.LoginViewModel as ALoginViewModel
-import com.thefuntasty.mvvmsample.ui.login.activity.LoginViewState as ALoginViewState
 
 class LoginFragment : BaseFragment<LoginViewModel, LoginViewState, FragmentLoginBinding>(), LoginView {
 
@@ -20,7 +19,7 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginViewState, FragmentLogin
         super.onViewCreated(view, savedInstanceState)
 
         observeEvent(NotifyActivityEvent::class) {
-            getActivityViewModel<ALoginViewState, ALoginViewModel>().sendToastEvent(it.message)
+            getActivityViewModel<ALoginViewModel>().sendToastEvent(it.message)
         }
     }
 }
