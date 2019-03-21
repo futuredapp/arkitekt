@@ -28,7 +28,11 @@ abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, 
      */
     abstract val brViewStateVariableId: Int
 
-    lateinit var binding: B
+    val binding: B
+        get() = _binding
+            ?: throw IllegalStateException("ViewDataBinding cannot be accessed before onCreateView() method call.")
+
+    private var _binding: B? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return setupBindingView(inflater, container, layoutResId) {
@@ -36,7 +40,7 @@ abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, 
             it.setVariable(brViewModelVariableId, viewModel)
             it.setVariable(brViewStateVariableId, viewModel.viewState)
             it.lifecycleOwner = this.viewLifecycleOwner
-            binding = it
+            _binding = it
         }
     }
 

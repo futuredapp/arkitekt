@@ -26,12 +26,16 @@ abstract class BindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState, 
      */
     abstract val brViewStateVariableId: Int
 
-    lateinit var binding: B
+    val binding: B
+        get() = _binding
+            ?: throw IllegalStateException("ViewDataBinding cannot be accessed before onCreate() method call.")
+
+    private var _binding: B? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = setupBindingView(this, layoutResId) {
+        _binding = setupBindingView(this, layoutResId) {
             it.setVariable(brViewVariableId, this)
             it.setVariable(brViewModelVariableId, viewModel)
             it.setVariable(brViewStateVariableId, viewModel.viewState)
