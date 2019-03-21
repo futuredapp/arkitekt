@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
@@ -19,12 +18,8 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
      */
     abstract val layoutResId: Int
 
-    lateinit var viewModel: VM
-
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getVM(viewModelClass).apply {
+    val viewModel: VM by lazy {
+        getVM(viewModelClass).apply {
             lifecycle.addObserver(this)
         }
     }

@@ -1,7 +1,5 @@
 package com.thefuntasty.mvvm
 
-import android.os.Bundle
-import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
@@ -16,12 +14,8 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
      */
     abstract val layoutResId: Int
 
-    lateinit var viewModel: VM
-
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getVM(viewModelClass).apply {
+    val viewModel: VM by lazy {
+        getVM(viewModelClass).apply {
             lifecycle.addObserver(this)
         }
     }
