@@ -3,6 +3,7 @@ package com.thefuntasty.mvvmsample.ui.login.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.thefuntasty.mvvmsample.R
 import com.thefuntasty.mvvmsample.databinding.ActivityLoginBinding
 import com.thefuntasty.mvvmsample.ui.base.BaseActivity
@@ -27,6 +28,10 @@ class LoginActivity : BaseActivity<LoginViewModel, LoginViewState, ActivityLogin
             supportFragmentManager.beginTransaction()
                 .replace(R.id.login_placeholder, LoginFragment())
                 .commit()
+        }
+
+        observeEvent(ShowToastEvent::class) {
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
     }
 }
