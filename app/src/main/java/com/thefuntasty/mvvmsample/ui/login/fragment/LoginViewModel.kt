@@ -11,7 +11,10 @@ class LoginViewModel @Inject constructor(
 
     fun logIn() = with(viewState) {
         loginInteractor.init(name.value, surname.value).execute {
-            fullName.value = "${it.first} ${it.second}"
+            val fullNameString = "${it.first} ${it.second}"
+
+            fullName.value = fullNameString
+            sendEvent(NotifyActivityEvent(fullNameString))
         }
     }
 }

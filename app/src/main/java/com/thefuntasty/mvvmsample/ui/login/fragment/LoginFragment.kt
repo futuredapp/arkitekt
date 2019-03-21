@@ -2,7 +2,6 @@ package com.thefuntasty.mvvmsample.ui.login.fragment
 
 import android.os.Bundle
 import android.view.View
-import com.thefuntasty.mvvm.livedata.observeNonNull
 import com.thefuntasty.mvvmsample.R
 import com.thefuntasty.mvvmsample.databinding.FragmentLoginBinding
 import com.thefuntasty.mvvmsample.ui.base.BaseFragment
@@ -20,8 +19,8 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginViewState, FragmentLogin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.viewState.fullName.observeNonNull(this) { fullName ->
-            getActivityViewModel<ALoginViewState, ALoginViewModel>().sendToastEvent(fullName)
+        observeEvent(NotifyActivityEvent::class) {
+            getActivityViewModel<ALoginViewState, ALoginViewModel>().sendToastEvent(it.message)
         }
     }
 }
