@@ -20,9 +20,7 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
         }
     }
 
-    private fun getVM(vmClazz: KClass<VM>): VM {
-        return ViewModelProviders.of(this, viewModelFactory).get(vmClazz.java)
-    }
+    private fun getVM(vmClazz: KClass<VM>): VM = ViewModelProviders.of(this, viewModelFactory).get(vmClazz.java)
 
     fun <E : Event<VS>> observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
