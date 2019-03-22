@@ -42,7 +42,13 @@ subprojects {
 
 detekt {
     version = Versions.detekt
-    input = files("app/src/main/java", "mvvm/src/main/java", "dagger/src/main/java")
+    input = files(
+        "app/src/main/java",
+        "mvvm/src/main/java",
+        "dagger/src/main/java",
+        "bindingadapters/src/main/java",
+        "interactors/src/main/java"
+    )
     filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt.yml")
 }
