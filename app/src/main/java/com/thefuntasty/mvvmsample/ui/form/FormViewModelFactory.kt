@@ -6,4 +6,6 @@ import javax.inject.Provider
 
 class FormViewModelFactory @Inject constructor(
     override val viewModelProvider: Provider<FormViewModel>
-) : BaseViewModelFactory<FormViewModel>()
+) : BaseViewModelFactory<FormViewModel>() {
+    override val viewModelClass = FormViewModel::class
+}

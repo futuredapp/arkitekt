@@ -14,7 +14,6 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
     @Inject override lateinit var viewModelFactory: MainViewModelFactory
 
     override val layoutResId = R.layout.activity_main
-    override val viewModelClass = MainViewModel::class
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

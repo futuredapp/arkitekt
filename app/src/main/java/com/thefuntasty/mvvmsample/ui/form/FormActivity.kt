@@ -14,7 +14,6 @@ class FormActivity : BaseActivity<FormViewModel, FormViewState, ActivityFormBind
     @Inject override lateinit var viewModelFactory: FormViewModelFactory
 
     override val layoutResId = R.layout.activity_form
-    override val viewModelClass = FormViewModel::class
 
     companion object {
         fun getStartIntent(context: Context): Intent = Intent(context, FormActivity::class.java)

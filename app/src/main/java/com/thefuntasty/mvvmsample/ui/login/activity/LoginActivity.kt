@@ -15,7 +15,6 @@ class LoginActivity : BaseActivity<LoginViewModel, LoginViewState, ActivityLogin
     @Inject override lateinit var viewModelFactory: LoginViewModelFactory
 
     override val layoutResId = R.layout.activity_login
-    override val viewModelClass = LoginViewModel::class
 
     companion object {
         fun getStartIntent(context: Context): Intent = Intent(context, LoginActivity::class.java)

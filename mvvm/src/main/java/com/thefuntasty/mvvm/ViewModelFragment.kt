@@ -19,7 +19,7 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
     abstract val layoutResId: Int
 
     val viewModel: VM by lazy {
-        getVM(viewModelClass).apply {
+        getVM().apply {
             lifecycle.addObserver(this)
         }
     }
@@ -27,7 +27,7 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutResId, container, false)
 
-    private fun getVM(vmClazz: KClass<VM>): VM = ViewModelProviders.of(this, viewModelFactory).get(vmClazz.java)
+    private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
         ViewModelProviders.of(requireActivity()).get(AVM::class.java)

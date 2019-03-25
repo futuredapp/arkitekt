@@ -13,7 +13,6 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginViewState, FragmentLogin
     @Inject override lateinit var viewModelFactory: LoginViewModelFactory
 
     override val layoutResId = R.layout.fragment_login
-    override val viewModelClass = LoginViewModel::class
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
