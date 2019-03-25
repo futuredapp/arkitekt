@@ -15,12 +15,12 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
     abstract val layoutResId: Int
 
     val viewModel: VM by lazy {
-        getVM(viewModelClass).apply {
+        getVM().apply {
             lifecycle.addObserver(this)
         }
     }
 
-    private fun getVM(vmClazz: KClass<VM>): VM = ViewModelProviders.of(this, viewModelFactory).get(vmClazz.java)
+    private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     fun <E : Event<VS>> observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)

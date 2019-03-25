@@ -12,7 +12,6 @@ class DetailActivity : BaseActivity<DetailViewModel, DetailViewState, ActivityDe
     @Inject override lateinit var viewModelFactory: DetailViewModelFactory
 
     override val layoutResId = R.layout.activity_detail
-    override val viewModelClass = DetailViewModel::class
 
     companion object {
         fun getStartIntent(context: Context): Intent = Intent(context, DetailActivity::class.java)
