@@ -3,11 +3,18 @@ package com.thefuntasty.mvvmsample.ui.login.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
 import com.thefuntasty.mvvmsample.R
+import com.thefuntasty.mvvmsample.databinding.ActivityLoginBinding
+import com.thefuntasty.mvvmsample.ui.base.BaseActivity
 import com.thefuntasty.mvvmsample.ui.login.fragment.LoginFragment
+import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity<LoginViewModel, LoginViewState, ActivityLoginBinding>(), LoginView {
+
+    @Inject override lateinit var viewModelFactory: LoginViewModelFactory
+
+    override val layoutResId = R.layout.activity_login
 
     companion object {
         fun getStartIntent(context: Context): Intent = Intent(context, LoginActivity::class.java)
@@ -15,12 +22,15 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.login_placeholder, LoginFragment())
                 .commit()
+        }
+
+        observeEvent(ShowToastEvent::class) {
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
     }
 }

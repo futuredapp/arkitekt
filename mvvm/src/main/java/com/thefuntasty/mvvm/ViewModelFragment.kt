@@ -4,31 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.thefuntasty.mvvm.delegate.ViewModelFragmentDelegate
+import com.thefuntasty.mvvm.event.Event
+import kotlin.reflect.KClass
 
-abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(),
-    ViewModelFragmentDelegate<VM, VS> {
+@Suppress("UNCHECKED_CAST")
+abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(), ViewModelCreator<VM> {
 
-    override lateinit var viewModel: VM
+    /**
+     * Property which holds reference to layout identifier eg. R.layout.main_fragment. You should override this
+     * in your specific Fragment implementation.
+     */
+    abstract val layoutResId: Int
 
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = initViewModel(this)
+    val viewModel: VM by lazy {
+        getVM().apply {
+            lifecycle.addObserver(this)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutResId, container, false)
 
-    private inline fun <reified IVM : BaseViewModel<VS>> getVM(): IVM =
-        ViewModelProviders.of(this, viewModelFactory).get(IVM::class.java)
+    private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
-    @Suppress("UNCHECKED_CAST")
-    override fun getViewModelFromProvider(): VM = getVM<BaseViewModel<VS>>() as VM
+    inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
+        ViewModelProviders.of(requireActivity()).get(AVM::class.java)
 
-    inline fun <VS : ViewState, reified VM : BaseViewModel<VS>> getActivityViewModel(): VM =
-        ViewModelProviders.of(requireActivity()).get(VM::class.java)
+    fun <EVENT : Event<VS>> observeEvent(event: KClass<out EVENT>, observer: (EVENT) -> Unit) {
+        viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
+    }
 }

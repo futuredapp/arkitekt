@@ -2,7 +2,6 @@ package com.thefuntasty.mvvm.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import java.lang.NullPointerException
 
 class DefaultValueMediatorLiveData<T : Any>(defaultValue: T) : MediatorLiveData<T>() {
 

@@ -1,25 +1,28 @@
 package com.thefuntasty.mvvm
 
-import android.os.Bundle
-import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import com.thefuntasty.mvvm.delegate.ViewModelActivityDelegate
+import com.thefuntasty.mvvm.event.Event
+import kotlin.reflect.KClass
 
-abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState>
-    : AppCompatActivity(), ViewModelActivityDelegate<VM, VS> {
+@Suppress("UNCHECKED_CAST")
+abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity(), ViewModelCreator<VM> {
 
-    override lateinit var viewModel: VM
+    /**
+     * Property which holds reference to layout identifier eg. R.layout.main_activity. You should override this
+     * in your specific Activity implementation.
+     */
+    abstract val layoutResId: Int
 
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = initViewModel(this)
+    val viewModel: VM by lazy {
+        getVM().apply {
+            lifecycle.addObserver(this)
+        }
     }
 
-    private inline fun <reified IVM : BaseViewModel<VS>> getVM(): IVM =
-        ViewModelProviders.of(this, viewModelFactory).get(IVM::class.java)
+    private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
-    @Suppress("UNCHECKED_CAST")
-    override fun getViewModelFromProvider(): VM = getVM<BaseViewModel<VS>>() as VM
+    fun <E : Event<VS>> observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
+        viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
+    }
 }

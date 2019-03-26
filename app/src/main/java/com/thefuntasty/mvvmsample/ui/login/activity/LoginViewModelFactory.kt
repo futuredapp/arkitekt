@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvmsample.ui.login.fragment
+package com.thefuntasty.mvvmsample.ui.login.activity
 
 import com.thefuntasty.mvvm.factory.BaseViewModelFactory
 import javax.inject.Inject

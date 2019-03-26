@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+                name="view"
+                type="com.thefuntasty.mvvmsample.ui.login.activity.LoginView"/>
+
+        <variable
+                name="viewModel"
+                type="com.thefuntasty.mvvmsample.ui.login.activity.LoginViewModel"/>
+
+        <variable
+                name="viewState"
+                type="com.thefuntasty.mvvmsample.ui.login.activity.LoginViewState"/>
+
+    </data>
 
     <FrameLayout
             android:id="@+id/login_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-</LinearLayout>
+</layout>
