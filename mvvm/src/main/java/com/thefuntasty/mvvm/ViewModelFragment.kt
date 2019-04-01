@@ -12,11 +12,14 @@ import kotlin.reflect.KClass
 abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(), ViewModelCreator<VM> {
 
     /**
-     * Property which holds reference to layout identifier eg. R.layout.main_fragment. You should override this
-     * in your specific Fragment implementation.
+     * Property which holds reference to layout identifier eg. R.layout.main_fragment.
+     * You should override this in your specific Fragment implementation.
      */
     abstract val layoutResId: Int
 
+    /**
+     * Reference to Fragment ViewModel
+     */
     val viewModel: VM by lazy {
         getVM().apply {
             lifecycle.addObserver(this)
@@ -28,9 +31,19 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
 
     private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
+    /**
+     * Get reference to Activity ViewModel. Make sure correct VM class is
+     * specified.
+     */
     inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
         ViewModelProviders.of(requireActivity()).get(AVM::class.java)
 
+    /**
+     * Observe event defined by event class and run observer lambda whenever event is
+     * received. This event class must be associated with current Fragment ViewState.
+     * @param event Observed event class
+     * @param observer Lambda called whenever event is received
+     */
     @Suppress("UNCHECKED_CAST")
     fun <EVENT : Event<VS>> observeEvent(event: KClass<out EVENT>, observer: (EVENT) -> Unit) {
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
