@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
-class LiveEvent<T> : MutableLiveData<T>() {
+internal class LiveEvent<T> : MutableLiveData<T>() {
 
     private val pending = AtomicBoolean(false)
 
