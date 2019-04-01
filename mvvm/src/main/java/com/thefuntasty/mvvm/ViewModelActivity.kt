@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 
-@Suppress("UNCHECKED_CAST")
 abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity(), ViewModelCreator<VM> {
 
     /**
@@ -22,6 +21,7 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
 
     private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
+    @Suppress("UNCHECKED_CAST")
     fun <E : Event<VS>> observeEvent(event: KClass<out E>, observer: (E) -> Unit) {
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
     }

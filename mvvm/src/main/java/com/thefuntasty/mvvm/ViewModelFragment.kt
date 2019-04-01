@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 
-@Suppress("UNCHECKED_CAST")
 abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(), ViewModelCreator<VM> {
 
     /**
@@ -32,6 +31,7 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
     inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
         ViewModelProviders.of(requireActivity()).get(AVM::class.java)
 
+    @Suppress("UNCHECKED_CAST")
     fun <EVENT : Event<VS>> observeEvent(event: KClass<out EVENT>, observer: (EVENT) -> Unit) {
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
     }
