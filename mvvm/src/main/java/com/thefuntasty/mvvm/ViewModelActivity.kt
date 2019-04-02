@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 
+/**
+ * Base Activity class with built-in ViewModel support
+ */
 abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity(), ViewModelCreator<VM> {
 
     /**

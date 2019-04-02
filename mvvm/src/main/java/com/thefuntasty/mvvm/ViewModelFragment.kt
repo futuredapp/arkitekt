@@ -9,6 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 
+/**
+ * Base Fragment class with built-in ViewModel support
+ */
 abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(), ViewModelCreator<VM> {
 
     /**
