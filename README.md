@@ -14,13 +14,13 @@ Communication between these components works as described in the following schem
 
 
 As you might see, `View`, represented by Activity/Fragment communicates only with `ViewModel`
-and it happens through Databinding, throught ViewModel reference stored in Activity or by listening to one-shot events.
+and it happens through Datainding, through ViewModel reference stored in Activity or by listening to one-shot events.
 It is important to note, that ViewModel is pure Java object and it doesn't hold reference to
 Activity/Fragment.
 
 Getting started
 ===============
-
+TBD
 
 Download
 ========

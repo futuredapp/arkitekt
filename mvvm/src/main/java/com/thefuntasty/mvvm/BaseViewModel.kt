@@ -46,7 +46,7 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, Lifecycl
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> LiveData<T>.observeWithoutOwner(callback: (T?) -> Unit) {
+    fun <T> LiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         val observer = Observer<T> { callback(it) }
         observeForever(observer)
         observers += observer as Observer<Any> to this as LiveData<Any>
