@@ -12,6 +12,7 @@ Overview
 Standard MVVM architecture mentions three base components. Model, View and ViewModel.
 Communication between these components works as described in the following schema:
 
+TBD
 
 As you might see, `View`, represented by Activity/Fragment communicates only with `ViewModel`
 and it happens through Datainding, through ViewModel reference stored in Activity or by listening to one-shot events.
@@ -24,3 +25,4 @@ TBD
 
 Download
 ========
+TBD
