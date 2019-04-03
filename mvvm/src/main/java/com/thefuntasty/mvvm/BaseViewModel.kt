@@ -16,6 +16,12 @@ import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
 import com.thefuntasty.mvvm.livedata.DefaultValueMediatorLiveData
 import kotlin.reflect.KClass
 
+/**
+ * Base class representing ViewModel. It allows to observe [LiveData]s what is useful
+ * for observing ViewState. Observers are automatically removed when ViewModel is
+ * no longer used and will be destroyed. Beside that it handles one-shot [Event]s
+ * send from ViewModel to Activity/Fragment.
+ */
 abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, LifecycleObserver {
 
     abstract val viewState: VS
@@ -27,24 +33,32 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, Lifecycl
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
-    open fun onStart() {}
-
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onLifeCycleStart() {
+    internal fun onLifeCycleStart() {
         if (!onStartCalled) {
             onStart()
             onStartCalled = true
         }
     }
 
-    fun observeEvent(lifecycleOwner: LifecycleOwner, eventClass: KClass<out Event<VS>>, observer: (Event<VS>) -> Unit) {
-        liveEventBus.observe(lifecycleOwner, eventClass, observer)
-    }
+    /**
+     * Activity's onStart() method companion. Method is executed only once.
+     */
+    open fun onStart() {}
 
+    /**
+     * Send one-shot event to internal bus and notify all of its observers
+     * @param event event to be send
+     */
     fun sendEvent(event: Event<VS>) {
         liveEventBus.send(event)
     }
 
+    /**
+     * Observe [LiveData] without particular owner (Activity eg.). Observer is removed
+     * when ViewModel is destroyed.
+     * @param callback Lambda called when new value is dispatched to [LiveData]
+     */
     @Suppress("UNCHECKED_CAST")
     fun <T> LiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         val observer = Observer<T> { callback(it) }
@@ -52,12 +66,30 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, Lifecycl
         observers += observer as Observer<Any> to this as LiveData<Any>
     }
 
+    /**
+     * Observe [DefaultValueLiveData] without particular owner (Activity eg.).
+     * Observer is removed when ViewModel is destroyed.
+     * @param callback Lambda called when new value is dispatched to [LiveData]
+     */
     fun <T : Any> DefaultValueLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         observeLiveDataNonNull(this, callback)
     }
 
+    /**
+     * Observe [DefaultValueMediatorLiveData] without particular owner (Activity eg.).
+     * Observer is removed when ViewModel is destroyed.
+     * @param callback Lambda called when new value is dispatched to [LiveData]
+     */
     fun <T : Any> DefaultValueMediatorLiveData<T>.observeWithoutOwner(callback: (T) -> Unit) {
         observeLiveDataNonNull(this, callback)
+    }
+
+    internal fun observeEvent(
+        lifecycleOwner: LifecycleOwner,
+        eventClass: KClass<out Event<VS>>,
+        observer: (Event<VS>) -> Unit
+    ) {
+        liveEventBus.observe(lifecycleOwner, eventClass, observer)
     }
 
     @Suppress("UNCHECKED_CAST")
