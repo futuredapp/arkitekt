@@ -34,6 +34,10 @@ dependencies {
     testImplementation(Deps.Test.assertJ)
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.AndroidX.archTesting)
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.1.0-alpha04")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-alpha04")
+    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:2.1.0-alpha04")
+
 }
 
 tasks {

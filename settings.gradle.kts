@@ -1,3 +1,10 @@
 rootProject.buildFileName = "build.gradle.kts"
 
-include(":mvvm", ":dagger", ":app", ":interactors", ":bindingadapters")
+include(
+    ":mvvm",
+    ":dagger",
+    ":app",
+    ":example-minimal",
+    ":interactors",
+    ":bindingadapters"
+)
