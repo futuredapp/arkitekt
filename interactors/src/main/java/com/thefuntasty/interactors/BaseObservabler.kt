@@ -15,14 +15,14 @@ import io.reactivex.Observable
 abstract class BaseObservabler<T : Any> : BaseInteractor<T>() {
 
     /**
-     * Prepares whole wrapped [Observable] Rx stream. This method do not
-     * subscribes to the stream.
+     * Prepares whole wrapped [Observable] Rx stream. This method does not
+     * subscribe to the stream.
      */
     protected abstract fun prepare(): Observable<T>
 
     /**
      * Creates internal [Observable] Rx stream, applies requested work
-     * & result schedulers and exposes this stream as a [Observable]. Method
+     * & result schedulers and exposes this stream as a [Observable]. This method
      * is handy when you want to combine streams of multiple interactors.
      * For example:
      *

@@ -28,7 +28,7 @@ interface DisposablesOwner {
 
     companion object {
         /**
-         * Error lambda used as a default one when custom lambda
+         * Error lambda used as a default one, when custom lambda
          * is not provided in [execute] and [executeStream] methods.
          */
         private val onErrorLambda: (Throwable) -> Unit = { throw it }

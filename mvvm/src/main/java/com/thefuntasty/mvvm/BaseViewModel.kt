@@ -17,9 +17,9 @@ import com.thefuntasty.mvvm.livedata.DefaultValueMediatorLiveData
 import kotlin.reflect.KClass
 
 /**
- * Base class representing ViewModel. It allows to observe [LiveData]s what is useful
+ * Base class representing ViewModel. It allows to observe [LiveData]s, which is useful
  * for observing ViewState. Observers are automatically removed when ViewModel is
- * no longer used and will be destroyed. Beside that it handles one-shot [Event]s
+ * no longer used and will be destroyed. Beside that, it handles one-shot [Event]s
  * send from ViewModel to Activity/Fragment.
  */
 abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, LifecycleObserver {
@@ -48,7 +48,7 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, Lifecycl
 
     /**
      * Send one-shot event to internal bus and notify all of its observers
-     * @param event event to be send
+     * @param event event to be sent
      */
     fun sendEvent(event: Event<VS>) {
         liveEventBus.send(event)
