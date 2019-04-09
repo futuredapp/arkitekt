@@ -339,5 +339,3 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 
 ## About
 Created at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
- 
-
