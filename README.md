@@ -20,7 +20,7 @@ allprojects {
 `app/build.gradle.kts`
 ```groovy
 dependencies {
-    implementation("com.github.thefuntasty:mvvm-android:LastVersion")
+    implementation("com.github.thefuntasty:mvvm-android:LatestVersion")
 }    
 ```
 
