@@ -217,7 +217,7 @@ types are defined.
 </layout>
 ```
 
-## Interceptors (use-cases)
+## Interactors (use-cases)
 
 Module `interactors` contains set of base classes useful to easy execution of
 background tasks through RxJava streams. There are five basic types of 
