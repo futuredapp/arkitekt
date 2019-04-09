@@ -247,7 +247,7 @@ class LoginSingler @Inject constructor(
 }
 ```
 #### LoginState.kt
-```
+```kotlin
 class LoginViewState : ViewState {
     // IN - values provided by UI
     val email = DefaultValueLiveData("")
@@ -338,4 +338,4 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 ```
 
 ## About
-Created at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
+Created with ♥ at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
