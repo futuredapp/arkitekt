@@ -1,14 +1,28 @@
 # MVVM Android
 
 
-MVVM Android is the framework based on Android Architecture components and gives you set of
+MVVM Android is the framework based on Android Architecture components, which gives you set of
 base classes to implement concise, testable and solid application. It combines built-in
 support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava
 interactors (use cases). Architecture described here is used among wide variety of
 projects and it's production ready.
 
 # Download
-TBD
+`build.gradle.kts`
+```groovy
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+`app/build.gradle.kts`
+```groovy
+dependencies {
+    implementation("com.github.thefuntasty:mvvm-android:LastVersion")
+}    
+```
 
 # Getting started
 
@@ -205,9 +219,13 @@ types are defined.
 
 ## Interceptors (use-cases)
 
-Module `interactors` contains set of base classes useful to easily execute
-background task through RxJava streams. Following example describes how to make
-an API call and how to deal with result of this call. 
+Module `interactors` contains set of base classes useful to easy execution of
+background tasks through RxJava streams. There are five basic types of 
+interactors: `BaseObservabler`, `BaseSingler`, `BaseFlowabler`, `BaseMayber`
+and finally `BaseCompletabler`. 
+
+Following example describes how to make an API call and how to deal with 
+result of this call. 
 
 #### LoginSingler.kt
 ```kotlin
@@ -231,9 +249,11 @@ class LoginSingler @Inject constructor(
 #### LoginState.kt
 ```
 class LoginViewState : ViewState {
+    // IN - values provided by UI
     val email = DefaultValueLiveData("")
     val password = DefaultValueLiveData("")
 
+    // OUT - Values observed by UI
     val fullName = MutableLiveData<String>()
 }
 ```
@@ -246,11 +266,78 @@ class LoginViewModel @Inject constructor(
     override val viewState = LoginViewState()
 
     fun logIn() = with(viewState) {
-        loginInteractor.init(email.value, pass.value).execute { user ->
-            fullName.value = user.fullName // manipulate state
+        loginInteractor.init(email.value, pass.value).execute ({ user ->
+            fullName.value = user.fullName // handle success & manipulate state
+        }, {
+            // handle error
+        })
+    }
+}
+```
+
+## UI updates
+### State observation
+
+You can observe state changes and reflect these changes in UI via DataBinding 
+observation directly in xml layout:
+
+ ```xml
+ <layout xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <data>
+         <variable name="view" type="com.thefuntasty.mvvmsample.ui.detail.DetailView"/>
+         <variable name="viewModel" type="com.thefuntasty.mvvmsample.ui.detail.DetailViewModel"/>
+         <variable name="viewState" type="com.thefuntasty.mvvmsample.ui.detail.DetailViewState"/>
+     </data>
+     
+     <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@{viewState.myTextLiveData}"/>
+ </layout>
+```
+
+### Events
+Events are one-shot messages sent from `ViewModel` to an Activity/Fragment. They
+are based on `LiveData` bus. Events are guaranteed to be delivered only once even when
+there is screen rotation in progress. Basic event communication might look like this:
+
+#### `MainEvents.kt`
+```kotlin
+sealed class MainEvent : Event<MainViewState>()
+
+object ShowDetailEvent : MainEvent()
+```
+
+#### `MainViewModel.kt`
+```kotlin
+class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
+
+    override val viewState = MainViewState
+
+    fun onDetail() {
+        sendEvent(ShowDetailEvent)
+    }
+}
+```
+
+#### `MainActivity.kt`
+```kotlin
+class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
+
+    // ...
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        observeEvent(ShowDetailEvent::class) { 
+            startActivity(DetailActivity.getStartIntent(this)) 
         }
     }
 }
 ```
+
+## About
+Created at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
  
 
