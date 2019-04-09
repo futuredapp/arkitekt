@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 
 /**
  * Base class for creating instances of ViewModel. Instance of this factory is required
- * to be available in Activity/Fragment to automatic ViewModel instance creation.
+ * to be available in Activity/Fragment for automatic ViewModel instance creation.
  * Factory might be automatically generated and should look like this:
  *
  *  class FormViewModelFactory @Inject constructor(
