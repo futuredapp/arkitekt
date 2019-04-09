@@ -5,6 +5,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 
+/**
+ * Base Activity class with built-in ViewModel and DataBinding support.
+ */
 abstract class BindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
     : ViewModelActivity<VM, VS>() {
 

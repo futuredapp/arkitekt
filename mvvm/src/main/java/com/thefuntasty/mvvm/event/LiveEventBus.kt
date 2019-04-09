@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.thefuntasty.mvvm.ViewState
 import kotlin.reflect.KClass
 
-class LiveEventBus<T : ViewState> {
+internal class LiveEventBus<T : ViewState> {
 
     private val eventMap: ArrayMap<KClass<out Event<T>>, LiveEvent<out Event<T>>> = ArrayMap()
 
