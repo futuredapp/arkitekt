@@ -15,14 +15,14 @@ import io.reactivex.Single
 abstract class BaseSingler<T : Any> : BaseInteractor<T>() {
 
     /**
-     * Prepares whole wrapped [Single] Rx stream. This method do not
-     * subscribes to the stream.
+     * Prepares whole wrapped [Single] Rx stream. This method does not
+     * subscribe to the stream.
      */
     protected abstract fun prepare(): Single<T>
 
     /**
      * Creates internal [Single] Rx stream, applies requested work
-     * & result schedulers and exposes this stream as a [Single]. Method
+     * & result schedulers and exposes this stream as a [Single]. This method
      * is handy when you want to combine streams of multiple interactors.
      * For example:
      *

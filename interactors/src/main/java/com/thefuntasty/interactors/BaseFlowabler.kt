@@ -15,14 +15,14 @@ import io.reactivex.Flowable
 abstract class BaseFlowabler<T : Any> : BaseInteractor<T>() {
 
     /**
-     * Prepares whole wrapped [Flowable] Rx stream. This method do not
-     * subscribes to the stream.
+     * Prepares whole wrapped [Flowable] Rx stream. This method does not
+     * subscribe to the stream.
      */
     protected abstract fun prepare(): Flowable<T>
 
     /**
      * Creates internal [Flowable] Rx stream, applies requested work
-     * & result schedulers and exposes this stream as a [Flowable]. Method
+     * & result schedulers and exposes this stream as a [Flowable]. This method
      * is handy when you want to combine streams of multiple interactors.
      * For example:
      *

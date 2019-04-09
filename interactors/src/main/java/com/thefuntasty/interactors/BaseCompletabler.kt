@@ -15,14 +15,14 @@ import io.reactivex.Completable
 abstract class BaseCompletabler : BaseInteractor<Unit>() {
 
     /**
-     * Prepares whole wrapped [Completable] Rx stream. This method do not
-     * subscribes to the stream.
+     * Prepares whole wrapped [Completable] Rx stream. This method does not
+     * subscribe to the stream.
      */
     protected abstract fun prepare(): Completable
 
     /**
      * Creates internal [Completable] Rx stream, applies requested work
-     * & result schedulers and exposes this stream as a [Completable]. Method
+     * & result schedulers and exposes this stream as a [Completable]. This method
      * is handy when you want to combine streams of multiple interactors.
      * For example:
      *

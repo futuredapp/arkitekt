@@ -10,3 +10,10 @@ import androidx.databinding.BindingAdapter
  */
 @BindingAdapter("app:navigationIconClick")
 fun Toolbar.navigationIconClick(listener: View.OnClickListener) = setNavigationOnClickListener(listener)
+
+/**
+ *  Set listener to menu item click.
+ *  @param listener OnMenuItemClickListener
+ */
+@BindingAdapter("app:menuItemClick")
+fun Toolbar.menuItemClick(listener: Toolbar.OnMenuItemClickListener) = setOnMenuItemClickListener(listener)
