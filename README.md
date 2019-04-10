@@ -97,7 +97,7 @@ interface ApplicationComponent : AndroidInjector<App> {
 #### `ApplicationModule.kt`
 
 Application module definition. Your singleton scoped objects might
-be specified here and injected where needed. Example implementation:
+be specified here and injected wherever needed. Example implementation:
 ```kotlin
 @Module
 class ApplicationModule {
