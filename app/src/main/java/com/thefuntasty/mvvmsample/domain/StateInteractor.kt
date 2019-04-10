@@ -9,6 +9,10 @@ class StateInteractor @Inject constructor() : BaseMayber<Boolean>() {
 
     private var emitSuccess: Boolean = false
 
+    companion object {
+        private const val DELAY_MS = 3000L
+    }
+
     fun init(emitSuccess: Boolean) = apply {
         this.emitSuccess = emitSuccess
     }
@@ -16,8 +20,8 @@ class StateInteractor @Inject constructor() : BaseMayber<Boolean>() {
     override fun prepare(): Maybe<Boolean> = if (emitSuccess) {
         Maybe.fromCallable {
             true
-        }.delay(5, TimeUnit.SECONDS)
+        }.delay(DELAY_MS, TimeUnit.MILLISECONDS)
     } else {
-        Maybe.empty<Boolean>().delay(5, TimeUnit.SECONDS)
+        Maybe.empty<Boolean>().delay(DELAY_MS, TimeUnit.MILLISECONDS)
     }
 }

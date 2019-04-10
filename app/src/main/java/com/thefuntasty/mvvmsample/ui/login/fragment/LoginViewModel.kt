@@ -15,7 +15,7 @@ class LoginViewModel @Inject constructor(
     override fun onStart() {
         stateInteractor.init(true).execute({
             viewState.showHeader.value = View.VISIBLE
-        },{
+        }, {
             // do nothing
         })
     }
@@ -23,11 +23,8 @@ class LoginViewModel @Inject constructor(
     fun logIn() = with(viewState) {
         loginInteractor.init(name.value, surname.value).execute {
             val fullNameString = "${it.first} ${it.second}"
-
             fullName.value = fullNameString
             sendEvent(NotifyActivityEvent(fullNameString))
         }
     }
-
-
 }
