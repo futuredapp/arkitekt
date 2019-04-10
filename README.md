@@ -338,4 +338,4 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 ```
 
 ## About
-Created with ♥ at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
+Created with &#x2764; at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
