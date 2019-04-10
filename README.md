@@ -127,7 +127,7 @@ abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewData
 
 Example Activity implementation. `viewModelFactory` and `layoutResId` must be overridden in every
 Activity in order to make ViewModel injection and DataBinding work. `ActivityMainBinding` used
-in `BaseActivity` constructor is generated from related `activity_main.xml` layout file. Make sure file
+in `BaseActivity` constructor is generated from related `activity_main.xml` layout file. Make sure this file
 exists and have root tag `<layout>` before you try to build your code. `ViewModel` can be
 accessed through derived `viewModel` field.
 ```kotlin
