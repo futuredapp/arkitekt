@@ -17,11 +17,11 @@ class StateInteractor @Inject constructor() : BaseMayber<Boolean>() {
         this.emitSuccess = emitSuccess
     }
 
-    override fun prepare(): Maybe<Boolean> = if (emitSuccess) {
-        Maybe.fromCallable {
-            true
-        }.delay(DELAY_MS, TimeUnit.MILLISECONDS)
-    } else {
-        Maybe.empty<Boolean>().delay(DELAY_MS, TimeUnit.MILLISECONDS)
-    }
+    override fun prepare(): Maybe<Boolean> = Maybe.create<Boolean> { emitter ->
+        if (emitSuccess) {
+            emitter.onSuccess(true)
+        } else {
+            emitter.onComplete()
+        }
+    }.delay(DELAY_MS, TimeUnit.MILLISECONDS)
 }
