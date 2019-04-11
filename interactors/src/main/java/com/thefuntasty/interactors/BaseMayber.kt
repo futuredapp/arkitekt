@@ -12,7 +12,7 @@ import io.reactivex.Maybe
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseMayber<T : Any> : BaseInteractor<T>() {
+abstract class BaseMayber<T : Any> : BaseInteractor() {
 
     /**
      * Prepares whole wrapped [Maybe] Rx stream. This method does not

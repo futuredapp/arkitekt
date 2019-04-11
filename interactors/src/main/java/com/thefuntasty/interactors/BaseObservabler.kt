@@ -12,7 +12,7 @@ import io.reactivex.Observable
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseObservabler<T : Any> : BaseInteractor<T>() {
+abstract class BaseObservabler<T : Any> : BaseInteractor() {
 
     /**
      * Prepares whole wrapped [Observable] Rx stream. This method does not

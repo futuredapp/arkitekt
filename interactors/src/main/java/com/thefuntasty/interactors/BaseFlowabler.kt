@@ -12,7 +12,7 @@ import io.reactivex.Flowable
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseFlowabler<T : Any> : BaseInteractor<T>() {
+abstract class BaseFlowabler<T : Any> : BaseInteractor() {
 
     /**
      * Prepares whole wrapped [Flowable] Rx stream. This method does not
