@@ -3,10 +3,12 @@ package com.thefuntasty.interactors.disposables
 import androidx.annotation.RestrictTo
 import com.thefuntasty.interactors.BaseCompletabler
 import com.thefuntasty.interactors.BaseFlowabler
+import com.thefuntasty.interactors.BaseMayber
 import com.thefuntasty.interactors.BaseObservabler
 import com.thefuntasty.interactors.BaseSingler
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -66,7 +68,7 @@ interface DisposablesOwner {
      * onNext event
      * @param onError Lambda executed when internal [Flowable] emits
      * onError event. [onErrorLambda] used as a default value.
-     * @param onNext Lambda executed when internal [Flowable] emits
+     * @param onComplete Lambda executed when internal [Flowable] emits
      * onComplete event. Empty lambda by default.
      * @return disposable of internal [Flowable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
@@ -118,7 +120,7 @@ interface DisposablesOwner {
      * onNext event
      * @param onError Lambda executed when internal [Observable] emits
      * onError event. [onErrorLambda] used as a default value.
-     * @param onNext Lambda executed when internal [Observable] emits
+     * @param onComplete Lambda executed when internal [Observable] emits
      * onComplete event. Empty lambda by default.
      * @return disposable of internal [Observable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
@@ -180,6 +182,56 @@ interface DisposablesOwner {
 
         val disposable = stream()
             .subscribe(onSuccess, onError)
+
+        this@execute.currentDisposable = disposable
+        disposables += disposable
+
+        return disposable
+    }
+
+    /**
+     * Executes the interactor and adds its disposable to
+     * shared, automatically disposed, composite disposable. In case some
+     * variant of [BaseMayber.execute] method has already been called
+     * on this instance of [BaseMayber], previous one is disposed,
+     * no matter what current state of internal Single is.
+     * Use [Maybe.executeStream] if you want to run one
+     * [BaseMayber] multiple times simultaneously.
+     *
+     * @param onSuccess Lambda executed when internal [Maybe] emits
+     * onSuccess event
+     * @return disposable of internal [Maybe]. It might be used to
+     * dispose interactor when you need to dispose it in advance on your own.
+     */
+    fun <T : Any> BaseMayber<T>.execute(onSuccess: (T) -> Unit) = execute(onSuccess, onError = onErrorLambda)
+
+    /**
+     * Executes the interactor and adds its disposable to
+     * shared, automatically disposed, composite disposable. In case some
+     * variant of [BaseMayber.execute] method has already been called
+     * on this instance of [BaseMayber], previous one is disposed,
+     * no matter what current state of internal Single is.
+     * Use [Maybe.executeStream] if you want to run one
+     * [BaseMayber] multiple times simultaneously.
+     *
+     * @param onSuccess Lambda executed when internal [Maybe] emits
+     * onSuccess event
+     * @param onError Lambda executed when internal [Maybe] emits
+     * onError event
+     * @param onComplete Lambda executed when internal [Maybe] emits
+     * onComplete event. Empty lambda by default.
+     * @return disposable of internal [Maybe]. It might be used to
+     * dispose interactor when you need to dispose it in advance on your own.
+     */
+    fun <T : Any> BaseMayber<T>.execute(
+        onSuccess: (T) -> Unit,
+        onError: (Throwable) -> Unit = onErrorLambda,
+        onComplete: () -> Unit = { }
+    ): Disposable {
+        this@execute.currentDisposable?.dispose()
+
+        val disposable = stream()
+            .subscribe(onSuccess, onError, onComplete)
 
         this@execute.currentDisposable = disposable
         disposables += disposable
@@ -290,7 +342,7 @@ interface DisposablesOwner {
      * onNext event
      * @param onError Lambda executed when internal [Observable] emits
      * onError event. [onErrorLambda] used as a default value.
-     * @param onNext Lambda executed when internal [Observable] emits
+     * @param onComplete Lambda executed when internal [Observable] emits
      * onComplete event. Empty lambda by default.
      * @return disposable of internal [Observable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
@@ -338,6 +390,40 @@ interface DisposablesOwner {
     }
 
     /**
+     * Executes the [Maybe] and adds its disposable to
+     * shared, automatically disposed, composite disposable.
+     *
+     * @param onSuccess Lambda executed when internal [Maybe] emits
+     * onSuccess event
+     * @return disposable of internal [Maybe]. It might be used to
+     * dispose interactor when you need to dispose it in advance on your own.
+     */
+    fun <T : Any> Maybe<T>.executeStream(onSuccess: (T) -> Unit) = executeStream(onSuccess, onError = onErrorLambda)
+
+    /**
+     * Executes the [Maybe] and adds its disposable to
+     * shared, automatically disposed, composite disposable.
+     *
+     * @param onSuccess Lambda executed when internal [Maybe] emits
+     * onSuccess event
+     * @param onError Lambda executed when internal [Maybe] emits
+     * onError event
+     * @param onComplete Lambda executed when internal [Maybe] emits
+     * onComplete event. Empty lambda by default.
+     * @return disposable of internal [Maybe]. It might be used to
+     * dispose interactor when you need to dispose it in advance on your own.
+     */
+    fun <T : Any> Maybe<T>.executeStream(
+        onSuccess: (T) -> Unit,
+        onError: (Throwable) -> Unit = onErrorLambda,
+        onComplete: () -> Unit = { }
+    ): Disposable {
+        return subscribe(onSuccess, onError, onComplete).also {
+            disposables += it
+        }
+    }
+
+    /**
      * Executes the [Completable] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
@@ -377,6 +463,15 @@ interface DisposablesOwner {
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     fun <T : Any> BaseSingler<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
+        stream()
+            .toFlowable()
+            .subscribe(subscriber)
+
+        disposables += subscriber
+    }
+
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    fun <T : Any> BaseMayber<T>.executeSubscriber(subscriber: TestSubscriber<T>) {
         stream()
             .toFlowable()
             .subscribe(subscriber)

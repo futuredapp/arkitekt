@@ -25,6 +25,12 @@
             android:orientation="vertical"
             android:gravity="center">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_screen"
+            android:visibility="@{viewState.showHeader}"/>
+
         <EditText
                 android:id="@+id/name"
                 android:hint="@string/name"

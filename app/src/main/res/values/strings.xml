@@ -3,4 +3,5 @@
     <string name="submit">Submit</string>
     <string name="surname">Surname</string>
     <string name="name">Name</string>
+    <string name="login_screen">Login</string>
 </resources>
