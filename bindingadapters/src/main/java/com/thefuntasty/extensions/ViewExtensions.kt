@@ -2,7 +2,8 @@ package com.thefuntasty.extensions
 
 import android.view.View
 
-const val BASE_DURATION_MILLIS = 200L
+private const val BASE_DURATION_MILLIS = 200L
+
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
