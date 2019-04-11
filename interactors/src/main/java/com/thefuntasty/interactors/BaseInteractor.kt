@@ -5,7 +5,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-abstract class BaseInteractor<T : Any> {
+open class BaseInteractor<T : Any> {
 
     internal var currentDisposable: Disposable? = null
 

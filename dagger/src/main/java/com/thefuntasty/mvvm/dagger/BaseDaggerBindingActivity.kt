@@ -12,8 +12,8 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-abstract class BaseDaggerBindingActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding>
-    : BindingViewModelActivity<VM, VS, B>(), HasSupportFragmentInjector {
+abstract class BaseDaggerBindingActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
+    BindingViewModelActivity<VM, VS, B>(), HasSupportFragmentInjector {
 
     @Inject internal lateinit var supportFragmentInjector: DispatchingAndroidInjector<Fragment>
 

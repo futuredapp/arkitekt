@@ -15,6 +15,7 @@ import androidx.databinding.BindingConversion
 import com.thefuntasty.extensions.animateGone
 import com.thefuntasty.extensions.animateInvisible
 import com.thefuntasty.extensions.animateShow
+import kotlin.math.absoluteValue
 
 /**
  *  Convert true/false to View.VISIBLE and View.GONE
@@ -63,17 +64,17 @@ fun View.setBackground(@DrawableRes resId: Int) {
  */
 @BindingAdapter("app:animateMarginStart", "app:marginAnimDuration", requireAll = false)
 fun View.animatedMarginStart(pixels: Int, duration: Int? = null) {
-    val params = layoutParams as ViewGroup.MarginLayoutParams
-    ValueAnimator.ofInt(params.marginStart, pixels).apply {
-        duration?.let { setDuration(it.toLong()) }
-        interpolator = DecelerateInterpolator()
-        addUpdateListener {
-            val animatedValue = it.animatedValue as Int
-            params.marginStart = animatedValue
-            layoutParams = params
-        }
+    (layoutParams as? ViewGroup.MarginLayoutParams)?.also { params ->
+        ValueAnimator.ofInt(params.marginStart, pixels).apply {
+            duration?.let { setDuration(it.toLong()) }
+            interpolator = DecelerateInterpolator()
+            addUpdateListener {
+                params.marginStart = it.animatedValue as? Int ?: 0
+                layoutParams = params
+            }
 
-        start()
+            start()
+        }
     }
 }
 
@@ -84,17 +85,17 @@ fun View.animatedMarginStart(pixels: Int, duration: Int? = null) {
  */
 @BindingAdapter("app:animateMarginEnd", "app:marginAnimDuration", requireAll = false)
 fun View.animatedMarginEnd(pixels: Int, duration: Int? = null) {
-    val params = layoutParams as ViewGroup.MarginLayoutParams
-    ValueAnimator.ofInt(params.marginEnd, pixels).apply {
-        duration?.let { setDuration(it.toLong()) }
-        interpolator = DecelerateInterpolator()
-        addUpdateListener {
-            val animatedValue = it.animatedValue as Int
-            params.marginEnd = animatedValue
-            layoutParams = params
-        }
+    (layoutParams as? ViewGroup.MarginLayoutParams)?.also { params ->
+        ValueAnimator.ofInt(params.marginEnd, pixels).apply {
+            duration?.let { setDuration(it.toLong()) }
+            interpolator = DecelerateInterpolator()
+            addUpdateListener {
+                params.marginEnd = it.animatedValue as? Int ?: 0
+                layoutParams = params
+            }
 
-        start()
+            start()
+        }
     }
 }
 
@@ -105,13 +106,20 @@ fun View.animatedMarginEnd(pixels: Int, duration: Int? = null) {
  */
 @BindingAdapter("app:animBgTransition", "app:animBgDirectedDuration", requireAll = false)
 fun View.animatedColor(drawable: Drawable, duration: Int? = null) {
-    val transition = drawable as TransitionDrawable
-    background = transition
-    when (duration) {
-        null, 0 -> {
-        }
-        else -> {
-            transition.startTransition(duration)
+    (drawable as? TransitionDrawable)?.also { transition ->
+        background = transition
+        when (duration) {
+            null, 0 -> {
+            }
+            else ->
+                if (duration < 0) {
+                    if (this.tag == true) {
+                        transition.reverseTransition(duration.absoluteValue)
+                    }
+                } else {
+                    this.tag = true
+                    transition.startTransition(duration)
+                }
         }
     }
 }
@@ -128,8 +136,7 @@ fun View.animateElevation(pixels: Int, duration: Int? = null) {
         duration?.let { setDuration(it.toLong()) }
         interpolator = DecelerateInterpolator()
         addUpdateListener {
-            val animatedValue = it.animatedValue as Float
-            elevation = animatedValue
+            elevation = it.animatedValue as? Float ?: 0f
         }
 
         start()
