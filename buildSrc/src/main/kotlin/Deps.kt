@@ -29,6 +29,7 @@ object Deps {
 
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.archComponents}"
         const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.archComponents}"
+        const val livedataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.archComponents}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"

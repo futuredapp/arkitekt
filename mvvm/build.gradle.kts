@@ -28,6 +28,7 @@ dependencies {
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.lifecycleExtensions)
+    implementation(Deps.AndroidX.livedataExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
     testImplementation(Deps.Test.jUnit)

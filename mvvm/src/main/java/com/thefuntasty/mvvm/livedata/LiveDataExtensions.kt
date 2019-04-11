@@ -2,9 +2,10 @@ package com.thefuntasty.mvvm.livedata
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 
 fun <T> LiveData<T>.observe(lifecycleOwner: LifecycleOwner, callback: (T?) -> Unit) {
     observe(lifecycleOwner, Observer { callback(it) })
@@ -14,16 +15,23 @@ fun <T> LiveData<T>.observeNonNull(lifecycleOwner: LifecycleOwner, callback: (T)
     observe(lifecycleOwner, Observer { it?.let(callback) })
 }
 
-fun <T, R> LiveData<T>.map(func: (T) -> R): LiveData<R> = Transformations.map(this, func)
+/**
+ * @Deprecated this method was deprecated in favour of androidx.lifecycle:lifecycle-livedata-ktx implementation
+ * @see <a href="https://dl.google.com/dl/android/maven2/index.html">google maven repo</a> for latest release
+ */
+@Deprecated(message = "use androidx.lifecycle.map from androidx.lifecycle:lifecycle-livedata-ktx")
+fun <T, R> LiveData<T>.map(func: (T) -> R): LiveData<R> = this.map(func)
 
-fun <T, R> LiveData<T>.switchMap(func: (T) -> LiveData<R>) = Transformations.switchMap(this, func)
+/**
+ * @Deprecated this method was deprecated in favour of androidx.lifecycle:lifecycle-livedata-ktx implementation
+ * @see <a href="https://dl.google.com/dl/android/maven2/index.html">google maven repo</a> for latest release
+ */
+@Deprecated(message = "use androidx.lifecycle.switchMap from androidx.lifecycle:lifecycle-livedata-ktx")
+fun <T, R> LiveData<T>.switchMap(func: (T) -> LiveData<R>): LiveData<R> = this.switchMap(func)
 
-fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
-    return MediatorLiveData<T>().also { mediator ->
-        mediator.addSource(this) {
-            if (it != mediator.value) {
-                mediator.value = it
-            }
-        }
-    }
-}
+/**
+ * @Deprecated this method was deprecated in favour of androidx.lifecycle:lifecycle-livedata-ktx implementation
+ * @see <a href="https://dl.google.com/dl/android/maven2/index.html">google maven repo</a> for latest release
+ */
+@Deprecated(message = "use androidx.lifecycle.distinctUntilChanged from androidx.lifecycle:lifecycle-livedata-ktx")
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> = this.distinctUntilChanged()
