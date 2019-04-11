@@ -2,6 +2,8 @@ package com.thefuntasty.extensions
 
 import android.view.View
 
+private const val BASE_DURATION_MILLIS = 200L
+
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
@@ -23,7 +25,7 @@ fun View.animateShow(endAction: () -> Unit = {}) {
     alpha = 0f
     animate().alpha(1f)
         .withEndAction { endAction() }
-        .duration = 200
+        .duration = BASE_DURATION_MILLIS
 }
 
 fun View.animateGone(endAction: () -> Unit = {}) {
@@ -33,7 +35,7 @@ fun View.animateGone(endAction: () -> Unit = {}) {
             gone()
             endAction()
         }
-        .duration = 200
+        .duration = BASE_DURATION_MILLIS
 }
 
 fun View.animateInvisible(endAction: () -> Unit = {}) {
@@ -43,5 +45,5 @@ fun View.animateInvisible(endAction: () -> Unit = {}) {
             invisible()
             endAction()
         }
-        .duration = 200
+        .duration = BASE_DURATION_MILLIS
 }

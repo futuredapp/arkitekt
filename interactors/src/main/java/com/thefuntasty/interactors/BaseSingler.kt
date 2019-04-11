@@ -12,7 +12,7 @@ import io.reactivex.Single
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseSingler<T : Any> : BaseInteractor<T>() {
+abstract class BaseSingler<T : Any> : BaseInteractor() {
 
     /**
      * Prepares whole wrapped [Single] Rx stream. This method does not
