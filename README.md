@@ -1,3 +1,6 @@
+[![](https://jitpack.io/v/thefuntasty/mvvm-android.svg)](https://jitpack.io/#thefuntasty/mvvm-android)
+[![Build Status](https://app.bitrise.io/app/7bcc28f1329d6773/status.svg?token=RvtAnWzfOq-0n7TIW5By8g&branch=master)](https://app.bitrise.io/app/7bcc28f1329d6773)
+
 # MVVM Android
 
 
