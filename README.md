@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/thefuntasty/mvvm-android.svg)](https://jitpack.io/#thefuntasty/mvvm-android)
+
 # MVVM Android
 
 
