@@ -18,4 +18,8 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
     fun onLogin() {
         sendEvent(ShowLoginEvent)
     }
+
+    fun onBottomSheet() {
+        sendEvent(ShowBottomSheetEvent)
+    }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.thefuntasty.mvvmsample.R
 import com.thefuntasty.mvvmsample.databinding.ActivityMainBinding
 import com.thefuntasty.mvvmsample.ui.base.BaseActivity
+import com.thefuntasty.mvvmsample.ui.bottomsheet.ExampleBottomSheetFragment
 import com.thefuntasty.mvvmsample.ui.detail.DetailActivity
 import com.thefuntasty.mvvmsample.ui.form.FormActivity
 import com.thefuntasty.mvvmsample.ui.login.activity.LoginActivity
@@ -23,5 +24,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
         observeEvent(ShowFormEvent::class) { startActivity(FormActivity.getStartIntent(this)) }
 
         observeEvent(ShowLoginEvent::class) { startActivity(LoginActivity.getStartIntent(this)) }
+
+        observeEvent(ShowBottomSheetEvent::class) { ExampleBottomSheetFragment.newInstance().show(supportFragmentManager) }
     }
 }
