@@ -84,6 +84,13 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, Lifecycl
         observeLiveDataNonNull(this, callback)
     }
 
+    /**
+     * Observe one-shot [Event] defined by event class and run observer lambda whenever event is
+     * received. This event class must be associated with current Activity/Fragment ViewState.
+     * @param lifecycleOwner Particular lifecycle owner that should be used for observing events
+     * @param eventClass Observed event class
+     * @param observer Lambda called when one-shot event is received
+     * */
     fun observeEvent(
         lifecycleOwner: LifecycleOwner,
         eventClass: KClass<out Event<VS>>,
