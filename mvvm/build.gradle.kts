@@ -26,6 +26,7 @@ dependencies {
     implementation(Deps.javaX)
 
     implementation(Deps.AndroidX.appcompat)
+    implementation(Deps.AndroidX.material)
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.lifecycleExtensions)
     implementation(Deps.AndroidX.livedataExtensions)

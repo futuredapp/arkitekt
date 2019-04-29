@@ -24,6 +24,7 @@ object Deps {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
         const val annnotation = "androidx.annotation:annotation:${Versions.androidx}"
         const val palette = "androidx.palette:palette:${Versions.androidx}"
+        const val material = "com.google.android.material:material:${Versions.androidx}"
         const val ktx = "androidx.core:core-ktx:${Versions.androidxCore}"
         const val vectordrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
 

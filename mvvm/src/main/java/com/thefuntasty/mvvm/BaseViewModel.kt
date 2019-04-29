@@ -84,7 +84,7 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), Observable, Lifecycl
         observeLiveDataNonNull(this, callback)
     }
 
-    internal fun observeEvent(
+    fun observeEvent(
         lifecycleOwner: LifecycleOwner,
         eventClass: KClass<out Event<VS>>,
         observer: (Event<VS>) -> Unit
