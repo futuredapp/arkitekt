@@ -2,12 +2,14 @@ package com.thefuntasty.mvvmsample.ui.login.fragment
 
 import android.view.View
 import com.thefuntasty.interactors.BaseRxViewModel
-import com.thefuntasty.mvvmsample.domain.LoginInteractor
+import com.thefuntasty.mvvmsample.domain.GetUserFullNameObservabler
+import com.thefuntasty.mvvmsample.domain.LoginCompletabler
 import com.thefuntasty.mvvmsample.domain.StateInteractor
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
-    private val loginInteractor: LoginInteractor,
+    private val loginCompletabler: LoginCompletabler,
+    private val getUserFullNameObservabler: GetUserFullNameObservabler,
     private val stateInteractor: StateInteractor
 ) : BaseRxViewModel<LoginViewState>() {
     override val viewState = LoginViewState()
@@ -18,13 +20,17 @@ class LoginViewModel @Inject constructor(
         }, {
             // do nothing
         })
+
+        getUserFullNameObservabler.execute { fullName ->
+            viewState.fullName.value = fullName
+        }
     }
 
     fun logIn() = with(viewState) {
-        loginInteractor.init(name.value, surname.value).execute {
-            val fullNameString = "${it.first} ${it.second}"
-            fullName.value = fullNameString
-            sendEvent(NotifyActivityEvent(fullNameString))
-        }
+        loginCompletabler.init(name.value, surname.value).execute({
+            sendEvent(NotifyActivityEvent("Successfully logged in!"))
+        }, {
+            sendEvent(NotifyActivityEvent("Login error!"))
+        })
     }
 }
