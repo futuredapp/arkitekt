@@ -9,3 +9,5 @@ object ShowDetailEvent : MainEvent()
 object ShowFormEvent : MainEvent()
 
 object ShowLoginEvent : MainEvent()
+
+object ShowBottomSheetEvent : MainEvent()
