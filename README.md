@@ -352,7 +352,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 # Stores (Repositories)
 All our applications respect broadly known repository pattern. The main message this
 pattern tells: Define `Store` (Repository) classes with single entity related business logic 
-eg. `UserStore`, `OrderStore`, `DeviceStore` etc. Let's discuss this principle on `UserStore` 
+eg. `UserStore`, `OrderStore`, `DeviceStore` etc. Let's see this principle on `UserStore` class
 from sample app:
 
 ```kotlin
