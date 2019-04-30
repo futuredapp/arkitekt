@@ -32,7 +32,8 @@ dependencies {
 1. [Getting started - Minimal project file hierarchy](#getting-started---minimal-project-file-hierarchy)
 2. [Interactors (use-cases)](#interactors-use-cases)
 3. [UI changes flow](#ui-changes-flow)
-4. [About](#about)
+4. [Stores (Repositories)](#stores-repositories)
+5. [About](#about)
 
 # Getting started - Minimal project file hierarchy
 Minimal working project must contain files as presented in `example-minimal`
@@ -347,6 +348,56 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
     }
 }
 ```
+
+# Stores (Repositories)
+All our applications respect broadly known repository pattern. The main message this
+pattern tells: Define `Store` (Repository) classes with single entity related business logic 
+eg. `UserStore`, `OrderStore`, `DeviceStore` etc. Let's discuss this principle on `UserStore` 
+from sample app:
+
+```kotlin
+@Singleton
+class UserStore @Inject constructor() {
+    private val userRelay = BehaviorRelay.createDefault(User.EMPTY)
+
+    fun setUser(user: User) {
+        userRelay.accept(user)
+        // ... optionally persist user
+    }
+
+    fun getUser(): Observable<User> {
+        return userRelay.hide()
+    }
+}
+```
+
+With this approach only one class is responsible for `User` related data access. Besides 
+custom classes, Room library `Dao`s or for example Retrofit API interfaces might be 
+perceived on the same domain level as stores. Thanks to interactors we can easily access, 
+manipulate and combine this kind of data on background threads. 
+
+```kotlin
+class GetUserFullNameObservabler @Inject constructor(
+    private val userStore: UserStore
+) : BaseObservabler<String>() {
+
+    override fun prepare(): Observable<String> {
+        return userStore.getUser()
+            .map { "${it.firstName} ${it.lastName}" }
+    }
+}
+```
+
+We strictly respect this injection hierarchy:
+
+| Application Component | Can inject |
+| --------- | --------------------- |
+| Activity/Fragment | `ViewModel` |
+| ViewModel | `ViewState`, Interactor |
+| Interactor | `Dao`, `Store`, `ApiService` |
+| Store | `Persistence`, `ApiService` |
+
+
 
 # About
 Created with &#x2764; at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
