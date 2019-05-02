@@ -15,7 +15,5 @@ class UserStore @Inject constructor() {
         // ... optionally persist user
     }
 
-    fun getUser(): Observable<User> {
-        return userRelay.hide()
-    }
+    fun getUser(): Observable<User> = userRelay.hide()
 }
