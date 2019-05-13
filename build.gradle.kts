@@ -43,7 +43,7 @@ subprojects {
 detekt {
     version = Versions.detekt
     input = files(
-        "app/src/main/java",
+        "example/src/main/java",
         "mvvm/src/main/java",
         "dagger/src/main/java",
         "bindingadapters/src/main/java",
