@@ -121,7 +121,7 @@ class ApplicationModule {
 
 All of Activities in the project should inherit from this class to make DataBinding work properly.
 Be aware of fact BR class used in this class is generated when there is at least one layout file 
-with correctly defined data variables. Read more [here](activity_main.xml).
+with correctly defined data variables. Read more [here](#activity_mainxml).
 ```kotlin
 abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
     BaseDaggerBindingActivity<VM, VS, B>() {
@@ -255,7 +255,7 @@ class LoginSingler @Inject constructor(
     }
 }
 ```
-#### LoginState.kt
+#### LoginViewState.kt
 ```kotlin
 class LoginViewState : ViewState {
     // IN - values provided by UI
