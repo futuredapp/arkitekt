@@ -390,12 +390,12 @@ class GetUserFullNameObservabler @Inject constructor(
 
 We strictly respect this injection hierarchy:
 
-| Application Component | Can inject |
+| Application Component | Injects |
 | --------- | --------------------- |
 | Activity/Fragment | `ViewModel` |
 | ViewModel | `ViewState`, Interactor |
-| Interactor | `Dao`, `Store`, `ApiService` |
-| Store | `Persistence`, `ApiService` |
+| Interactor | `Store` |
+| Store | `Dao`, `Persistence`, `ApiService` |
 
 
 
