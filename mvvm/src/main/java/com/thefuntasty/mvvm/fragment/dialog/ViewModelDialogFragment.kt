@@ -64,4 +64,3 @@ abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
         viewModel.observeEvent(this, event, observer as (Event<VS>) -> Unit)
     }
 }
-
