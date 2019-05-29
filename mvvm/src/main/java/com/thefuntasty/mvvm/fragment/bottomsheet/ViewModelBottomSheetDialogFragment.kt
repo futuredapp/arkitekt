@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm
+package com.thefuntasty.mvvm.fragment.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.thefuntasty.mvvm.BaseViewModel
+import com.thefuntasty.mvvm.ViewModelCreator
+import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 

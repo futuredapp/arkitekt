@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm
+package com.thefuntasty.mvvm.fragment.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.thefuntasty.mvvm.BaseViewModel
+import com.thefuntasty.mvvm.ViewState
 
 /**
  * Base BottomSheetDialogFragment class with built-in ViewModel and DataBinding support

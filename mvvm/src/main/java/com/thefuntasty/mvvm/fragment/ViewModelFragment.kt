@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm
+package com.thefuntasty.mvvm.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.thefuntasty.mvvm.BaseViewModel
+import com.thefuntasty.mvvm.ViewModelCreator
+import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 

@@ -1,9 +1,11 @@
-package com.thefuntasty.mvvm
+package com.thefuntasty.mvvm.activity
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
+import com.thefuntasty.mvvm.BaseViewModel
+import com.thefuntasty.mvvm.ViewState
 
 /**
  * Base Activity class with built-in ViewModel and DataBinding support.
