@@ -27,33 +27,39 @@ dependencies {
 }    
 ```
 
-# Getting started
+# Table of contents
 
-## Project file hierarchy
+1. [Getting started - Minimal project file hierarchy](#getting-started---minimal-project-file-hierarchy)
+2. [Interactors (use-cases)](#interactors-use-cases)
+3. [UI changes flow](#ui-changes-flow)
+4. [Stores (Repositories)](#stores-repositories)
+5. [About](#about)
+
+# Getting started - Minimal project file hierarchy
 Minimal working project must contain files as presented in `example-minimal`
 module. File hierarchy might looks like this:
 ```
 example-minimal
-|-- src/main
-|   |-- java/com/example
-|   |   |-- injection  
-|   |   |   |-- ActivityBuilderModule.kt
-|   |   |   |-- ApplicationComponent.kt
-|   |   |   `-- ApplicationModule.kt
-|   |   |-- ui 
-|   |   |   |-- base/BaseActivity.kt
-|   |   |   `-- main
-|   |   |       |-- MainActivity.kt
-|   |   |       |-- MainActivityModule.kt
-|   |   |       |-- MainView.kt
-|   |   |       |-- MainViewModel.kt
-|   |   |       |-- MainViewModelFactory.kt
-|   |   |       `-- MainViewState.kt
-|   |   `-- App.kt 
-|   `-- res/layout/activity_main.xml  
+`-- src/main
+    |-- java/com/example
+    |   |-- injection  
+    |   |   |-- ActivityBuilderModule.kt
+    |   |   |-- ApplicationComponent.kt
+    |   |   `-- ApplicationModule.kt
+    |   |-- ui 
+    |   |   |-- base/BaseActivity.kt
+    |   |   `-- main
+    |   |       |-- MainActivity.kt
+    |   |       |-- MainActivityModule.kt
+    |   |       |-- MainView.kt
+    |   |       |-- MainViewModel.kt
+    |   |       |-- MainViewModelFactory.kt
+    |   |       `-- MainViewState.kt
+    |   `-- App.kt 
+    `-- res/layout/activity_main.xml  
 ```
 
-Keep in mind this description focuses on architecture .kt files. Android files like an 
+Keep in mind this description focuses on architecture `.kt` files. Android related files like an 
 `AndroidManifest.xml` are omitted. Let's describe individual files one by one:
 
 #### `ActivityBuilderModule.kt` 
@@ -115,7 +121,7 @@ class ApplicationModule {
 
 All of Activities in the project should inherit from this class to make DataBinding work properly.
 Be aware of fact BR class used in this class is generated when there is at least one layout file 
-with correctly defined data variables. Read more [here](activity_main.xml).
+with correctly defined data variables. Read more [here](#activity_mainxml).
 ```kotlin
 abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
     BaseDaggerBindingActivity<VM, VS, B>() {
@@ -220,7 +226,7 @@ types are defined.
 </layout>
 ```
 
-## Interactors (use-cases)
+# Interactors (use-cases)
 
 Module `interactors` contains set of base classes useful to easy execution of
 background tasks through RxJava streams. There are five basic types of 
@@ -249,7 +255,7 @@ class LoginSingler @Inject constructor(
     }
 }
 ```
-#### LoginState.kt
+#### LoginViewState.kt
 ```kotlin
 class LoginViewState : ViewState {
     // IN - values provided by UI
@@ -278,8 +284,11 @@ class LoginViewModel @Inject constructor(
 }
 ```
 
-## UI updates
-### State observation
+# UI changes flow
+There are two main ways how to reflect data changes in UI. Through `ViewState` observation
+or one-shot `Events`. 
+
+## ViewState observation
 
 You can observe state changes and reflect these changes in UI via DataBinding 
 observation directly in xml layout:
@@ -300,7 +309,7 @@ observation directly in xml layout:
  </layout>
 ```
 
-### Events
+## Events
 Events are one-shot messages sent from `ViewModel` to an Activity/Fragment. They
 are based on `LiveData` bus. Events are guaranteed to be delivered only once even when
 there is screen rotation in progress. Basic event communication might look like this:
@@ -340,5 +349,55 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 }
 ```
 
-## About
+# Stores (Repositories)
+All our applications respect broadly known repository pattern. The main message this
+pattern tells: Define `Store` (Repository) classes with single entity related business logic 
+eg. `UserStore`, `OrderStore`, `DeviceStore` etc. Let's see this principle on `UserStore` class
+from sample app:
+
+```kotlin
+@Singleton
+class UserStore @Inject constructor() {
+    private val userRelay = BehaviorRelay.createDefault(User.EMPTY)
+
+    fun setUser(user: User) {
+        userRelay.accept(user)
+        // ... optionally persist user
+    }
+
+    fun getUser(): Observable<User> {
+        return userRelay.hide()
+    }
+}
+```
+
+With this approach only one class is responsible for `User` related data access. Besides 
+custom classes, Room library `Dao`s or for example Retrofit API interfaces might be 
+perceived on the same domain level as stores. Thanks to interactors we can easily access, 
+manipulate and combine this kind of data on background threads. 
+
+```kotlin
+class GetUserFullNameObservabler @Inject constructor(
+    private val userStore: UserStore
+) : BaseObservabler<String>() {
+
+    override fun prepare(): Observable<String> {
+        return userStore.getUser()
+            .map { "${it.firstName} ${it.lastName}" }
+    }
+}
+```
+
+We strictly respect this injection hierarchy:
+
+| Application Component | Injects |
+| --------- | --------------------- |
+| Activity/Fragment | `ViewModel` |
+| ViewModel | `ViewState`, Interactor |
+| Interactor | `Store` |
+| Store | `Dao`, `Persistence`, `ApiService` |
+
+
+
+# About
 Created with &#x2764; at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
