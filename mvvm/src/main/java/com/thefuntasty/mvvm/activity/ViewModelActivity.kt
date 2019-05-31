@@ -1,7 +1,10 @@
-package com.thefuntasty.mvvm
+package com.thefuntasty.mvvm.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.thefuntasty.mvvm.BaseViewModel
+import com.thefuntasty.mvvm.ViewModelCreator
+import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 

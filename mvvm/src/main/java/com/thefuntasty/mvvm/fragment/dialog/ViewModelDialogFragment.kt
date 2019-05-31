@@ -1,19 +1,22 @@
-package com.thefuntasty.mvvm
+package com.thefuntasty.mvvm.fragment.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.thefuntasty.mvvm.BaseViewModel
+import com.thefuntasty.mvvm.ViewModelCreator
+import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.event.Event
 import kotlin.reflect.KClass
 
 /**
- * Base BottomSheetDialogFragment class with built-in ViewModel support
+ * Base DialogFragment class with built-in ViewModel support
  */
-abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> : BottomSheetDialogFragment(),
+abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> : DialogFragment(),
     ViewModelCreator<VM> {
 
     /**
