@@ -6,5 +6,6 @@ include(
     ":example",
     ":example-minimal",
     ":interactors",
-    ":bindingadapters"
+    ":bindingadapters",
+    ":cr-interactors"
 )

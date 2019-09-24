@@ -10,13 +10,14 @@ object Versions {
 
     // kotlin
     const val kotlin = "1.3.41"
+    const val coroutines = "1.3.0"
 
     // core
     const val androidx = "1.1.0-alpha02"
     const val androidxCore = "1.1.0-alpha04"
     const val test = "2.0.0-alpha1"
     const val vectorDrawable = "1.1.0-alpha01"
-    const val archComponents = "2.1.0-alpha02"
+    const val archComponents = "2.2.0-alpha02"
     const val dagger = "2.24"
     const val espresso = "3.1.0"
     const val rxIdler = "0.9.0"

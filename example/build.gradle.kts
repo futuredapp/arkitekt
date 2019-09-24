@@ -30,9 +30,11 @@ dependencies {
     implementation(project(":mvvm"))
     implementation(project(":dagger"))
     implementation(project(":interactors"))
+    implementation(project(":cr-interactors"))
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(Deps.Kotlin.coroutines)
 
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.material)
