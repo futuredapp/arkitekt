@@ -12,12 +12,12 @@ import org.junit.Before
 abstract class BaseCoroutineScopeOwnerTest : CoroutineScopeOwner {
 
     private val testDispatcher = TestCoroutineDispatcher()
-    override lateinit var coroutineScope: TestCoroutineScope
+    override val coroutineScope = TestCoroutineScope(testDispatcher)
     override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher
+
     @Before
     fun setDispatchers() {
         Dispatchers.setMain(testDispatcher)
-        coroutineScope = TestCoroutineScope(testDispatcher)
     }
 
     @After
