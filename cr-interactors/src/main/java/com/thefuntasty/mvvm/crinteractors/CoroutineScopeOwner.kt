@@ -27,6 +27,9 @@ interface CoroutineScopeOwner {
      */
     fun getWorkerDispatcher() = Dispatchers.IO
 
+    /**
+     * Asynchronously executes interactor, all previous pending executions are canceled and error is not handled
+     */
     fun <T : Any?> BaseCoroutineInteractor<T>.execute(onSuccess: (T) -> Unit) = execute(
         onSuccess,
         null
