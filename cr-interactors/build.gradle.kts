@@ -30,6 +30,10 @@ dependencies {
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.AndroidX.viewmodelExtensions)
     implementation(Deps.Kotlin.coroutines)
+
+    testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.assertJ)
+    testImplementation(Deps.Test.testCoroutines)
 }
 
 tasks {

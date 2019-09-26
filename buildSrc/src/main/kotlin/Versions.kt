@@ -10,7 +10,7 @@ object Versions {
 
     // kotlin
     const val kotlin = "1.3.41"
-    const val coroutines = "1.3.0"
+    const val coroutines = "1.3.1"
 
     // core
     const val androidx = "1.1.0-alpha02"

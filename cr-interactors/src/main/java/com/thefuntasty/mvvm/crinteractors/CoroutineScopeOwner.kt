@@ -1,6 +1,8 @@
 package com.thefuntasty.mvvm.crinteractors
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -14,7 +16,16 @@ import kotlinx.coroutines.launch
  */
 interface CoroutineScopeOwner {
 
+    /**
+     * [CoroutineScope] scope used to execute coroutine based interactors. [CoroutineScope] lifecycle is not handled
+     * by this interface
+     */
     val coroutineScope: CoroutineScope
+
+    /**
+     * Provides Dispatcher for background tasks. This may be overridden for testing purposes
+     */
+    fun getWorkerDispatcher() = Dispatchers.IO
 
     fun <T : Any?> BaseCoroutineInteractor<T>.execute(onSuccess: (T) -> Unit) = execute(
         onSuccess,
@@ -29,10 +40,10 @@ interface CoroutineScopeOwner {
         onError: ((Throwable) -> Unit)?
     ) {
         deferred?.cancel()
-        deferred = coroutineScope.async(kotlinx.coroutines.Dispatchers.IO) {
+        deferred = coroutineScope.async(getWorkerDispatcher()) {
             build()
         }.also {
-            coroutineScope.launch(kotlinx.coroutines.Dispatchers.Main) {
+            coroutineScope.launch(Dispatchers.Main) {
                 try {
                     onSuccess(it.await())
                 } catch (error: Throwable) {
@@ -53,19 +64,25 @@ interface CoroutineScopeOwner {
         onComplete: () -> Unit = {}
     ) {
         job?.cancel()
-        job = coroutineScope.launch(kotlinx.coroutines.Dispatchers.IO) {
-            build()
-                .onEach {
-                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
-                        onNext(it)
+        job = coroutineScope.launch(getWorkerDispatcher()) {
+            try {
+                build()
+                    .onEach {
+                        kotlinx.coroutines.withContext(Dispatchers.Main) {
+                            onNext(it)
+                        }
                     }
-                }
-                .onCompletion { error ->
-                    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
-                        error?.also { onError?.invoke(it) ?: throw error } ?: onComplete()
+                    .onCompletion { error ->
+                        kotlinx.coroutines.withContext(Dispatchers.Main) {
+                            error?.also { onError?.invoke(it) ?: throw error } ?: onComplete()
+                        }
                     }
-                }
-                .collect()
+                    .collect()
+            } catch (cancellation: CancellationException) {
+                // do nothing this is normal way of suspend function interruption
+            } catch (error: Exception) {
+                onError?.invoke(error) ?: throw error
+            }
         }
     }
 }
