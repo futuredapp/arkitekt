@@ -15,10 +15,9 @@ class FormViewModel @Inject constructor(
     override fun onStart() {
         getFormFlowInteractor.execute({
             viewState.storedContent.value = "${it.first} ${it.second}"
-        },{
-
         })
     }
+
     fun onSubmit() {
         saveFormInteractor.init(viewState.login.value to viewState.password.value).execute {
             sendEvent(ShowToastEvent("${it.first} ${it.second}"))
