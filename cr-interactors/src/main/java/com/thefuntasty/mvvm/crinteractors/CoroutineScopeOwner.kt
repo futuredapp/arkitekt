@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 interface CoroutineScopeOwner {
 
     /**
-     * [CoroutineScope] scope used to execute coroutine based interactors. [CoroutineScope] lifecycle is not handled
-     * by this interface
+     * [CoroutineScope] scope used to execute coroutine based interactors. It is your responsibility to cancel it when all running
+     * tasks should be stopped
      */
     val coroutineScope: CoroutineScope
 
