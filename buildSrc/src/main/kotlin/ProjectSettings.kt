@@ -5,6 +5,10 @@ object ProjectSettings {
     const val minSdk = 18
 
     object Templates {
+        /**
+         * this version will be used only for local builds, jitpack will automatically provide TAG version
+         */
+        const val version = "0.0.1-test"
         const val group = "com.github.thefuntasty"
         const val module = "mvvm-android"
         const val id = "$group.$module"

@@ -21,7 +21,9 @@ plugins {
     idea
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
-    //id(ProjectSettings.Templates.id) version ProjectSettings.version
+
+//    uncomment this line for local testing purposes during template module development
+//    id(ProjectSettings.Templates.id) version ProjectSettings.Templates.version
 }
 
 allprojects {

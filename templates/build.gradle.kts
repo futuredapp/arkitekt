@@ -6,6 +6,8 @@ plugins {
 
 project.setProperty("archivesBaseName", ProjectSettings.Templates.module)
 
+version = ProjectSettings.Templates.version
+
 repositories {
     jcenter()
 }
