@@ -1,3 +1,4 @@
+rootProject.name = "mvvm-android"
 rootProject.buildFileName = "build.gradle.kts"
 
 include(
@@ -6,5 +7,6 @@ include(
     ":example",
     ":example-minimal",
     ":interactors",
-    ":bindingadapters"
+    ":bindingadapters",
+    ":templates"
 )
