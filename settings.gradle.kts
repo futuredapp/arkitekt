@@ -8,6 +8,7 @@ include(
     ":example-minimal",
     ":interactors",
     ":bindingadapters",
+    ":cr-interactors",
     ":templates"
 )
 

@@ -40,6 +40,11 @@
             android:onClick="@{() -> viewModel.onSubmit()}"
             android:text="submit"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewState.storedContent}"/>
+
     </LinearLayout>
 
 </layout>
