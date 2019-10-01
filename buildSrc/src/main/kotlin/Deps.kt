@@ -12,6 +12,7 @@ object Deps {
         const val gradlePlugin = "gradle-plugin"
         const val stdlib = "stdlib-jdk7"
         const val reflect = "reflect"
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     }
 
     object DI {
@@ -31,6 +32,7 @@ object Deps {
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.archComponents}"
         const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.archComponents}"
         const val livedataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.archComponents}"
+        const val viewmodelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.archComponents}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
@@ -53,5 +55,6 @@ object Deps {
         const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
         const val assertJ = "org.assertj:assertj-core:${Versions.assertJ}"
         const val mockitoKotlin = "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"
+        const val testCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     }
 }

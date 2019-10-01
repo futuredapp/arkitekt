@@ -11,4 +11,5 @@ class FormViewState(login: String, password: String) : ViewState {
     val submitEnabled = combineLiveData(this.login, this.password) { login, password ->
         login.isNotEmpty() && password.isNotEmpty()
     }
+    val storedContent = DefaultValueLiveData("")
 }

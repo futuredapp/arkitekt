@@ -15,4 +15,3 @@ abstract class BaseDaggerBindingDialogFragment<VM : BaseViewModel<VS>, VS : View
         super.onAttach(context)
     }
 }
-
