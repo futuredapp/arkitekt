@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template
+    name="Screen"
+    description="Creates a new MVVM Activity, ViewModel, ViewModelFactory and Layout"
+    format="4"
+    minApi="19"
+    minBuildApi="19"
+    revision="1">
+
+    <category value="Funtasty MVVM Activity"/>
+    <formfactor value="Mobile"/>
+
+    <parameter
+        name="Activity Name"
+        constraints="class|unique|nonempty"
+        default=""
+        help="The name of the activity class to create"
+        id="className"
+        type="string"/>
+
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
+
+</template>

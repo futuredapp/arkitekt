@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template
+    name="Screen"
+    description="Creates a new MVVM Fragment, ViewModel, ViewModelFactory and Layout"
+    format="4"
+    minApi="19"
+    minBuildApi="19"
+    revision="1">
+
+    <category value="Funtasty MVVM Fragment"/>
+    <formfactor value="Mobile"/>
+
+    <parameter
+        name="Fragment Name"
+        constraints="class|unique|nonempty"
+        default=""
+        help="The name of the fragment class to create"
+        id="className"
+        type="string"/>
+
+    <parameter
+        name="Navigation components"
+        default="true"
+        help="The fragment will be used for navigation components"
+        id="isNavComponents"
+        type="boolean" />
+
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
+
+</template>
