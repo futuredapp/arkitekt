@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SaveFormInteractor @Inject constructor(
     private val formStore: FormStore
-): BaseCoroutineInteractor<Pair<String, String>>() {
+) : BaseCoroutineInteractor<Pair<String, String>>() {
 
     private lateinit var form: Pair<String, String>
 

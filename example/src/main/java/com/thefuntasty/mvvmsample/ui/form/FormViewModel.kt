@@ -1,5 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.form
 
+import android.util.Log
 import com.thefuntasty.mvvm.crinteractors.BaseCrViewModel
 import com.thefuntasty.mvvmsample.domain.GetFormFlowInteractor
 import com.thefuntasty.mvvmsample.domain.SaveFormInteractor
@@ -15,6 +16,8 @@ class FormViewModel @Inject constructor(
     override fun onStart() {
         getFormFlowInteractor.execute({
             viewState.storedContent.value = "${it.first} ${it.second}"
+        }, {
+            Log.e("error", it.message, it)
         })
     }
 
