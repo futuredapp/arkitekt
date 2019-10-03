@@ -25,6 +25,15 @@
         id="isNavComponents"
         type="boolean" />
 
+    <parameter
+        name="Interactor type"
+        default="coroutines"
+        id="interactorType"
+        type="enum">
+        <option id="coroutines">Coroutines</option>
+        <option id="rx">RxJava</option>
+    </parameter>
+
     <globals file="globals.xml.ftl"/>
     <execute file="recipe.xml.ftl"/>
 
