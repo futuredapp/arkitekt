@@ -8,9 +8,9 @@ object ProjectSettings {
         /**
          * this version will be used only for local builds, jitpack will automatically provide TAG version
          */
-        const val version = "0.0.1-test"
-        const val group = "com.github.thefuntasty"
-        const val module = "mvvm-android"
+        val version = System.getenv("BITRISE_GIT_TAG")?:"0.0.1-TEST"
+        const val group = "com.thefuntasty.mvvm"
+        const val module = "android-templates"
         const val id = "$group.$module"
         const val name = "copyTemplates"
         const val implementationClass = "com.thefuntasty.mvvm.templates.Templates"
