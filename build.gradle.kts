@@ -14,7 +14,8 @@ buildscript {
         classpath(Deps.gradlePlugin)
         classpath(Deps.Plugins.androidMaven)
         classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+        classpath(Deps.Plugins.bintray)
+        classpath(Deps.Plugins.dokka)
     }
 
     extra.apply{

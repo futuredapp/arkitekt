@@ -7,6 +7,8 @@ object Versions {
     const val ktlint = "7.1.0"
     const val ktlintExtension = "0.31.0"
     const val androidMaven = "1.4.1"
+    const val bintray = "1.8.4"
+    const val dokka = "0.9.18"
 
     // kotlin
     const val kotlin = "1.3.41"

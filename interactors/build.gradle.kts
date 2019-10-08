@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
@@ -6,6 +7,7 @@ plugins {
     id("com.github.dcendents.android-maven")
     id("kotlin-kapt")
     id("com.jfrog.bintray")
+    id("org.jetbrains.dokka-android")
 }
 
 group = ProjectSettings.group
@@ -62,8 +64,20 @@ tasks {
         classifier = "sources"
     }
 
+    val dokka by getting(DokkaTask::class) {
+        outputFormat = "javadoc"
+        outputDirectory = "$buildDir/dokka"
+    }
+
+    val kotlinDocJar by creating(type = Jar::class) {
+        dependsOn(dokka)
+        classifier = "javadoc"
+        from("$buildDir/dokka")
+    }
+
     artifacts {
         add("archives", sourcesJar)
+        add("archives", kotlinDocJar)
     }
 }
 

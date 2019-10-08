@@ -1,4 +1,3 @@
-
 install {
     repositories.mavenInstaller {
         pom.project {
@@ -31,19 +30,10 @@ install {
     }
 }
 
-artifacts {
-    archives sourcesJar
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 bintray {
 
     user = project.findProperty("BINTRAY_USER")
     key = project.findProperty("BINTRAY_KEY")
-
-    println "A message which is logged at QUIET level $key"
 
     configurations = ['archives']
 
