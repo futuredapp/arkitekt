@@ -5,7 +5,11 @@ plugins {
     id("kotlin-android")
     id("com.github.dcendents.android-maven")
     id("kotlin-kapt")
+    id("com.jfrog.bintray")
 }
+
+group = ProjectSettings.group
+version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -37,3 +41,11 @@ tasks {
         add("archives", sourcesJar)
     }
 }
+
+project.apply {
+    extensions.add("artifact", ProjectSettings.BindingAdapters.artifact)
+    extensions.add("libraryName", ProjectSettings.BindingAdapters.artifact)
+    extensions.add("libraryDescription", ProjectSettings.BindingAdapters.libraryDescription)
+}
+
+apply("../publish.script.gradle")
