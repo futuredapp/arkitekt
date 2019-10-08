@@ -42,7 +42,7 @@ object ProjectSettings {
     }
 
     object Publish {
-        const val bintrayRepo = "mvvm-android "
+        const val bintrayRepo = "mvvm-android"
         const val siteUrl = "https://github.com/thefuntasty/mvvm-android"
         const val gitUrl = "https://github.com/thefuntasty/mvvm-android.git"
         const val developerId = "TheFuntasty"
