@@ -1,0 +1,71 @@
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+            name libraryName
+            description libraryDescription
+            url siteUrl
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+
+    user = project.findProperty("BINTRAY_USER")
+    key = project.findProperty("BINTRAY_KEY")
+
+    println "A message which is logged at QUIET level $key"
+
+    configurations = ['archives']
+
+    pkg {
+        repo = bintrayRepo
+        name = libraryName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            gpg {
+                sign = true
+                passphrase = project.findProperty("BINTRAY_GPG_KEY")
+            }
+            name = ProjectSettings.version
+            vcsTag = ProjectSettings.version
+            desc = libraryDescription
+        }
+    }
+}

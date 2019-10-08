@@ -14,6 +14,20 @@ buildscript {
         classpath(Deps.gradlePlugin)
         classpath(Deps.Plugins.androidMaven)
         classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
+        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+    }
+
+    extra.apply{
+        set ("bintrayRepo", ProjectSettings.Publish.bintrayRepo)
+        set ("publishedGroupId", ProjectSettings.group)
+        set ("siteUrl", ProjectSettings.Publish.siteUrl)
+        set ("gitUrl",  ProjectSettings.Publish.gitUrl)
+        set ("developerId", ProjectSettings.Publish.developerId)
+        set ("developerName", ProjectSettings.Publish.developerName)
+        set ("developerEmail", ProjectSettings.Publish.developerEmail)
+        set ("licenseName", ProjectSettings.Publish.licenseName)
+        set ("licenseUrl", ProjectSettings.Publish.licenseUrl)
+        set ("allLicenses", ProjectSettings.Publish.allLicenses)
     }
 }
 
@@ -21,7 +35,6 @@ plugins {
     idea
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
-
 //    uncomment this line for local testing purposes during template module development
 //    id(ProjectSettings.Templates.id) version ProjectSettings.Templates.version
 }

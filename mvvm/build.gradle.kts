@@ -5,6 +5,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.github.dcendents.android-maven")
+    id("com.jfrog.bintray")
 }
 
 android {
@@ -19,6 +20,9 @@ android {
         isEnabled = true
     }
 }
+
+group = ProjectSettings.group
+version = ProjectSettings.version
 
 dependencies {
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
@@ -48,3 +52,11 @@ tasks {
         add("archives", sourcesJar)
     }
 }
+project.apply {
+    extensions.add("artifact", ProjectSettings.Mvvm.artifact)
+    extensions.add("libraryName", ProjectSettings.Mvvm.artifact)
+    extensions.add("libraryDescription", ProjectSettings.Mvvm.libraryDescription)
+
+}
+apply("https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/1.0.4/gradle-mavenizer.gradle")
+apply("../publish.script.gradle")

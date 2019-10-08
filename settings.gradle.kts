@@ -24,7 +24,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == ProjectSettings.Templates.id) {
-                useModule("${ProjectSettings.Templates.group}:${ProjectSettings.Templates.module}:${requested.version}")
+                useModule("${ProjectSettings.group}:${ProjectSettings.Templates.module}:${requested.version}")
             }
         }
     }
