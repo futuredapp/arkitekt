@@ -27,7 +27,7 @@ task sourcesJar(type: Jar) {
 
 dokka {
     outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/dokkaHtml"
+    outputDirectory = "$buildDir/dokka"
 }
 
 task kotlinDocJar(type: Jar, dependsOn:dokka){
