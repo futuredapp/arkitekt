@@ -1,31 +1,19 @@
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-            groupId publishedGroupId
-            artifactId artifact
-            name libraryName
-            description libraryDescription
-            url siteUrl
+apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/1.0.3/artifact-pom-manager.gradle"
+apply plugin: 'maven-publish'
 
-            licenses {
-                license {
-                    name licenseName
-                    url licenseUrl
-                }
-            }
-            developers {
-                developer {
-                    id developerId
-                    name developerName
-                    email developerEmail
-                }
-            }
-            scm {
-                connection gitUrl
-                developerConnection gitUrl
-                url siteUrl
-            }
+project.ext {
+    mavDevelopers = ["$developerName":"$developerName"]
+    mavSiteUrl =  siteUrl
+    mavGitUrl = gitUrl
+    mavProjectName = "$libraryName"
+    mavLibraryLicenses = ["${allLicenses[0]}":"${licenseUrl}"]
+    mavLibraryDescription = "$libraryDescription"
+}
+
+publishing {
+    publications {
+        MavenCentralPublication(MavenPublication) {
+            decoratePom(pom)
         }
     }
 }
@@ -36,6 +24,7 @@ bintray {
     key = project.findProperty("BINTRAY_KEY")
 
     configurations = ['archives']
+    publications = ['MavenCentralPublication']
 
     pkg {
         repo = bintrayRepo
