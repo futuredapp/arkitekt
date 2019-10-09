@@ -1,13 +1,9 @@
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.github.dcendents.android-maven")
-    id("com.jfrog.bintray")
-    id("org.jetbrains.dokka-android")
 }
 
 group = ProjectSettings.group
@@ -42,29 +38,6 @@ dependencies {
     testImplementation(Deps.Test.assertJ)
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.AndroidX.archTesting)
-}
-
-tasks {
-    val sourcesJar by creating(type = Jar::class) {
-        from(android.sourceSets.getByName("main").java.srcDirs)
-        classifier = "sources"
-    }
-
-    val dokka by getting(DokkaTask::class) {
-        outputFormat = "javadoc"
-        outputDirectory = "$buildDir/dokka"
-    }
-
-    val kotlinDocJar by creating(type = Jar::class) {
-        dependsOn(dokka)
-        classifier = "javadoc"
-        from("$buildDir/dokka")
-    }
-
-    artifacts {
-        add("archives", sourcesJar)
-        add("archives", kotlinDocJar)
-    }
 }
 
 project.apply {
