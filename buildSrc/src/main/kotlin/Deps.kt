@@ -49,6 +49,13 @@ object Deps {
         const val rxIdler = "com.squareup.rx.idler:rx2-idler:${Versions.rxIdler}"
     }
 
+    object Lint {
+        const val core = "com.android.tools.lint:lint:${Versions.androidTools}"
+        const val api = "com.android.tools.lint:lint-api:${Versions.androidTools}"
+        const val checks = "com.android.tools.lint:lint-checks:${Versions.androidTools}"
+        const val tests = "com.android.tools.lint:lint-tests:${Versions.androidTools}"
+    }
+
     object Test {
         const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
         const val androidXTestRunnner = "androidx.test:runner:${Versions.androidxTestRunner}"
