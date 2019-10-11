@@ -5,5 +5,5 @@ import com.android.tools.lint.detector.api.Issue
 
 class MvvmIssueRegistry : IssueRegistry() {
 
-    override val issues: List<Issue> = listOf()
+    override val issues: List<Issue> = listOf(WrongEventNameDetector.ISSUE)
 }
