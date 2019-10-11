@@ -39,7 +39,7 @@ dependencies {
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.AndroidX.archTesting)
 
-    lintChecks(project(":mvvm-lint"))
+    lintPublish(project(":mvvm-lint"))
 }
 
 project.apply {
