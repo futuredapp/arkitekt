@@ -46,6 +46,8 @@ dependencies {
     testImplementation(Deps.AndroidX.archTesting)
     testImplementation(Deps.Test.robolectric)
     testImplementation(Deps.Test.androidXTestCore)
+
+    lintChecks(project(":mvvm-lint"))
 }
 
 project.apply {
