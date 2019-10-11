@@ -1,6 +1,5 @@
 package com.thefuntasty.mvvm.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProviders
@@ -12,14 +11,11 @@ import com.thefuntasty.mvvm.viewmodel.testactivity.TestViewModel
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class BaseViewModelTest {
-
-    @JvmField @Rule val rule = InstantTaskExecutorRule()
 
     private lateinit var activityScenario: ActivityScenario<TestActivity>
     private lateinit var activity: TestActivity
