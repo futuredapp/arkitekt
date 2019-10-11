@@ -18,6 +18,12 @@ android {
     dataBinding {
         isEnabled = true
     }
+
+    testOptions {
+        unitTests.apply {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -36,6 +42,8 @@ dependencies {
     testImplementation(Deps.Test.assertJ)
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.AndroidX.archTesting)
+    testImplementation(Deps.Test.robolectric)
+    testImplementation(Deps.Test.androidXTestCore)
 }
 
 tasks {
