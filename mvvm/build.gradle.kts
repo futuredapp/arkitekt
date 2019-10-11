@@ -38,6 +38,8 @@ dependencies {
     testImplementation(Deps.Test.assertJ)
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.AndroidX.archTesting)
+
+    lintChecks(project(":mvvm-lint"))
 }
 
 project.apply {
