@@ -9,7 +9,8 @@ include(
     ":interactors",
     ":bindingadapters",
     ":cr-interactors",
-    ":templates"
+    ":templates",
+    ":mvvm-lint"
 )
 
 pluginManagement {

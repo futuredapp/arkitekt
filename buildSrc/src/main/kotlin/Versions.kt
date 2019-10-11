@@ -31,6 +31,9 @@ object Versions {
     const val rxRelay = "2.1.0"
     const val rxDebug = "1.1.2"
 
+    // android tools
+    const val androidTools = "26.5.1"
+
     // test
     const val mockitoCore = "2.28.2"
     const val androidxTestRunner = "1.1.0"
