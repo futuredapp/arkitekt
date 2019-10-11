@@ -4,8 +4,10 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.github.dcendents.android-maven")
 }
+
+group = ProjectSettings.group
+version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -38,13 +40,10 @@ dependencies {
     testImplementation(Deps.AndroidX.archTesting)
 }
 
-tasks {
-    val sourcesJar by creating(type = Jar::class) {
-        from(android.sourceSets.getByName("main").java.srcDirs)
-        classifier = "sources"
-    }
-
-    artifacts {
-        add("archives", sourcesJar)
-    }
+project.apply {
+    extensions.add("artifact", ProjectSettings.Mvvm.artifact)
+    extensions.add("libraryName", ProjectSettings.Mvvm.artifact)
+    extensions.add("libraryDescription", ProjectSettings.Mvvm.libraryDescription)
 }
+
+apply("../publish.script.gradle")

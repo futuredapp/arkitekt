@@ -7,8 +7,8 @@ plugins {
 
 project.setProperty("archivesBaseName", ProjectSettings.Templates.module)
 
-version = ProjectSettings.Templates.version
-group = ProjectSettings.Templates.group
+version = ProjectSettings.version
+group = ProjectSettings.group
 
 repositories {
     jcenter()

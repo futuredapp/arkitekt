@@ -3,9 +3,11 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("com.github.dcendents.android-maven")
     id("kotlin-kapt")
 }
+
+group = ProjectSettings.group
+version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -36,13 +38,10 @@ dependencies {
     testImplementation(Deps.Test.testCoroutines)
 }
 
-tasks {
-    val sourcesJar by creating(type = Jar::class) {
-        from(android.sourceSets.getByName("main").java.srcDirs)
-        classifier = "sources"
-    }
-
-    artifacts {
-        add("archives", sourcesJar)
-    }
+project.apply {
+    extensions.add("artifact", ProjectSettings.CrInteractors.artifact)
+    extensions.add("libraryName", ProjectSettings.CrInteractors.artifact)
+    extensions.add("libraryDescription", ProjectSettings.CrInteractors.libraryDescription)
 }
+
+apply("../publish.script.gradle")
