@@ -18,7 +18,7 @@ buildscript {
         classpath(Deps.Plugins.dokka)
     }
 
-    extra.apply{
+    extra.apply {
         set ("bintrayRepo", ProjectSettings.Publish.bintrayRepo)
         set ("publishedGroupId", ProjectSettings.group)
         set ("siteUrl", ProjectSettings.Publish.siteUrl)

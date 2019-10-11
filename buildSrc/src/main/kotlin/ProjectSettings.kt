@@ -23,7 +23,7 @@ object ProjectSettings {
 
     object RxInteractors {
         const val artifact = "interactors"
-        const val libraryDescription = "RXJava based interactors meant to be used with MVVM-Android framework"
+        const val libraryDescription = "RxJava based interactors meant to be used with MVVM-Android framework"
     }
 
     object CrInteractors {
