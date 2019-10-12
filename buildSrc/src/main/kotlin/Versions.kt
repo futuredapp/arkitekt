@@ -32,7 +32,7 @@ object Versions {
     const val rxDebug = "1.1.2"
 
     // test
-    const val mockitoCore = "2.8.9"
+    const val mockitoCore = "2.28.2"
     const val androidxTestRunner = "1.1.0"
     const val javaX = "1"
     const val jUnit = "1.0.0"
@@ -40,4 +40,5 @@ object Versions {
     const val rxSchedulerRule = "1.0.2"
     const val assertJ = "3.8.0"
     const val mockitoKotlin = "1.6.0"
+    const val robolectric = "4.3"
 }
