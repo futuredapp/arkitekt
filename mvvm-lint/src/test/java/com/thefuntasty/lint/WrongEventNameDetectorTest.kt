@@ -22,7 +22,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
         """).indented()
 
     @Test
-    fun testBasic() {
+    fun testWarning() {
         lint().files(
             eventStub,
             kotlin("""
@@ -37,6 +37,25 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
         )
             .issues(WrongEventNameDetector.ISSUE)
             .run()
-            .expectErrorCount(1)
+            .expectWarningCount(1)
+    }
+
+    @Test
+    fun testNoWarnings() {
+        lint().files(
+            eventStub,
+            kotlin("""
+                import com.thefuntasty.mvvm.event.Event
+                
+                sealed class MainEvent : Event<MainViewState>()
+                
+                object ShowDetailEvent : MainEvent()
+    
+                object ShowFormEvent : MainEvent()
+            """).indented()
+        )
+            .issues(WrongEventNameDetector.ISSUE)
+            .run()
+            .expectClean()
     }
 }
