@@ -5,6 +5,7 @@ import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Implementation
 import com.android.tools.lint.detector.api.Issue
 import com.android.tools.lint.detector.api.JavaContext
+import com.android.tools.lint.detector.api.LintFix
 import com.android.tools.lint.detector.api.Scope
 import com.android.tools.lint.detector.api.Severity
 import org.jetbrains.uast.UClass
@@ -41,10 +42,22 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
                         issue = ISSUE,
                         scopeClass = declaration,
                         location = context.getNameLocation(declaration),
-                        message = "Event names should end with 'Event' suffix. Suggested name: ${declaration.name}Event"
+                        message = "Event names should end with 'Event' suffix. Suggested name: ${declaration.name}Event",
+                        quickfixData = createQuickFix(declaration)
                     )
                 }
             }
+        }
+    }
+
+    private fun createQuickFix(declaration: UClass): LintFix? {
+        return declaration.name?.let { name ->
+            LintFix.create()
+                .name("Replace with ${name}Event")
+                .replace()
+                .text(name)
+                .with("${name}Event")
+                .build()
         }
     }
 }
