@@ -12,7 +12,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
     }
 
     override fun getIssues(): MutableList<Issue> {
-        return mutableListOf(WrongEventNameDetector.ISSUE_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
+        return mutableListOf(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
     }
 
     private val eventStub = kotlin("""
@@ -40,7 +40,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowForm : MainEvent()
             """).indented()
             )
-            .issues(WrongEventNameDetector.ISSUE_SUFFIX)
+            .issues(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX)
             .run()
             .expectWarningCount(2)
     }
@@ -89,7 +89,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
             """).indented()
             )
             .issues(
-                WrongEventNameDetector.ISSUE_SUFFIX,
+                WrongEventNameDetector.ISSUE_MUSSING_SUFFIX,
                 WrongEventNameDetector.ISSUE_MISSPELL
             )
             .run()

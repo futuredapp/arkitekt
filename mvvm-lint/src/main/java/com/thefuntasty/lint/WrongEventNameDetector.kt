@@ -15,7 +15,7 @@ import java.util.regex.Pattern
 class WrongEventNameDetector : Detector(), Detector.UastScanner {
 
     companion object {
-        val ISSUE_SUFFIX = Issue.create(
+        val ISSUE_MUSSING_SUFFIX = Issue.create(
             id = "MvvmEventNameMissingSuffix",
             briefDescription = "Wrong event name",
             explanation = "Event names should end with 'Event' suffix",
@@ -82,7 +82,7 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
                     val suggestedName = "${declaration.name}Event"
 
                     context.report(
-                        issue = ISSUE_SUFFIX,
+                        issue = ISSUE_MUSSING_SUFFIX,
                         scopeClass = declaration,
                         location = context.getNameLocation(declaration),
                         message = "Event names should end with 'Event' suffix. Suggested name: $suggestedName",
