@@ -31,7 +31,7 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
         val ISSUE_MISSPELL = Issue.create(
             id = "MvvmEventNameMisspell",
             briefDescription = "Misspelled event name",
-            explanation = "Event name is misspelled",
+            explanation = "Event name looks misspelled",
             category = Category.CORRECTNESS,
             priority = 5,
             severity = Severity.WARNING,
