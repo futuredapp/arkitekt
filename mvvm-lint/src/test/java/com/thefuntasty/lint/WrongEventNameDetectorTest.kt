@@ -22,7 +22,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
         """).indented()
 
     @Test
-    fun testSuffixWarning() {
+    fun testMissingSuffixWarning() {
         lint()
             .files(
                 eventStub,
