@@ -54,12 +54,12 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
 
         val className = declaration.name
 
-        val isMvvmEvent = context.evaluator.getQualifiedName(declaration) == "com.thefuntasty.mvvm.event.Event"
-        val extendsMvvmEvent = declaration.superClass?.let {
+        val isMvvmLibraryEvent = context.evaluator.getQualifiedName(declaration) == "com.thefuntasty.mvvm.event.Event"
+        val directlyExtendsMvvmEvent = declaration.superClass?.let {
             context.evaluator.getQualifiedName(it)
         } == "com.thefuntasty.mvvm.event.Event"
 
-        val isEligibleForDetection = isMvvmEvent.not() && extendsMvvmEvent.not()
+        val isEligibleForDetection = isMvvmLibraryEvent.not() && directlyExtendsMvvmEvent.not()
 
         if (className != null && isEligibleForDetection) {
             when {
