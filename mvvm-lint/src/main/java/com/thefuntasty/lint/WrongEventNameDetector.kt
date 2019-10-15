@@ -33,7 +33,7 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
             briefDescription = "Misspelled event name",
             explanation = "Event name looks misspelled",
             category = Category.CORRECTNESS,
-            priority = 5,
+            priority = 3,
             severity = Severity.WARNING,
             implementation = Implementation(
                 WrongEventNameDetector::class.java,
