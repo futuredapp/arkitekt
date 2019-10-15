@@ -41,23 +41,24 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
             )
         )
 
+        private const val MVVM_EVENT_QUALIFIED_NAME = "com.thefuntasty.mvvm.event.Event"
         private val PATTERN_MISSPELL = Pattern.compile("Event[a-z]+")
         private val PATTERN_SUFFIX = Pattern.compile("(.+Event)")
     }
 
     override fun getApplicableUastTypes() = listOf(UClass::class.java)
 
-    override fun applicableSuperClasses() = listOf("com.thefuntasty.mvvm.event.Event")
+    override fun applicableSuperClasses() = listOf(MVVM_EVENT_QUALIFIED_NAME)
 
     override fun visitClass(context: JavaContext, declaration: UClass) {
         super.visitClass(context, declaration)
 
         val className = declaration.name
 
-        val isMvvmLibraryEvent = context.evaluator.getQualifiedName(declaration) == "com.thefuntasty.mvvm.event.Event"
+        val isMvvmLibraryEvent = context.evaluator.getQualifiedName(declaration) == MVVM_EVENT_QUALIFIED_NAME
         val directlyExtendsMvvmEvent = declaration.superClass?.let {
             context.evaluator.getQualifiedName(it)
-        } == "com.thefuntasty.mvvm.event.Event"
+        } == MVVM_EVENT_QUALIFIED_NAME
 
         val isEligibleForDetection = isMvvmLibraryEvent.not() && directlyExtendsMvvmEvent.not()
 
