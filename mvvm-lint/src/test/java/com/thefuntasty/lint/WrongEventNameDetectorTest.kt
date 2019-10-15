@@ -12,39 +12,71 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
     }
 
     override fun getIssues(): MutableList<Issue> {
-        return mutableListOf(WrongEventNameDetector.ISSUE)
+        return mutableListOf(WrongEventNameDetector.ISSUE_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
     }
 
     private val eventStub = kotlin("""
         package com.thefuntasty.mvvm.event
         
-        abstract class Event<T>
+        abstract class Event<T : ViewState>
         """).indented()
 
     @Test
-    fun testWarning() {
-        lint().files(
-            eventStub,
-            kotlin("""
+    fun testSuffixWarning() {
+        lint()
+            .files(
+                eventStub,
+                kotlin("""
                 import com.thefuntasty.mvvm.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
                 
+                object ShowDetailEvent : MainEvent()
+                
                 object ShowDetail : MainEvent()
     
                 object ShowFormEvent : MainEvent()
+                
+                object ShowForm : MainEvent()
             """).indented()
-        )
-            .issues(WrongEventNameDetector.ISSUE)
+            )
+            .issues(WrongEventNameDetector.ISSUE_SUFFIX)
             .run()
-            .expectWarningCount(1)
+            .expectWarningCount(2)
+    }
+
+    @Test
+    fun testMisspellWarning() {
+        lint()
+            .files(
+                eventStub,
+                kotlin("""
+                import com.thefuntasty.mvvm.event.Event
+                
+                sealed class MainEvent : Event<MainViewState>()
+                
+                object ShowDetailEvent : MainEvent()
+                
+                object ShowDetailEventt : MainEvent()
+                
+                object ShowFormEvent : MainEvent()
+                
+                object ShowFormEvents : MainEvent()
+                
+                object ShowEventDataFormEvents : MainEvent()
+            """).indented()
+            )
+            .issues(WrongEventNameDetector.ISSUE_MISSPELL)
+            .run()
+            .expectWarningCount(3)
     }
 
     @Test
     fun testNoWarnings() {
-        lint().files(
-            eventStub,
-            kotlin("""
+        lint()
+            .files(
+                eventStub,
+                kotlin("""
                 import com.thefuntasty.mvvm.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
@@ -52,9 +84,14 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowDetailEvent : MainEvent()
     
                 object ShowFormEvent : MainEvent()
+                
+                object SendEventDataEvent : MainEvent()
             """).indented()
-        )
-            .issues(WrongEventNameDetector.ISSUE)
+            )
+            .issues(
+                WrongEventNameDetector.ISSUE_SUFFIX,
+                WrongEventNameDetector.ISSUE_MISSPELL
+            )
             .run()
             .expectClean()
     }
