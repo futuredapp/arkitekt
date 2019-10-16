@@ -13,7 +13,7 @@ project.ext {
 
 publishing {
     publications {
-        MyPublication(MavenPublication) {
+        JcenterPublication(MavenPublication) {
             pom.packaging = "aar"
             pom.withXml {
                 def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
@@ -59,7 +59,7 @@ bintray {
     key = project.findProperty("BINTRAY_KEY")
 
     configurations = ['archives']
-    publications = ['MyPublication']
+    publications = ['JcenterPublication']
 
     pkg {
         repo = bintrayRepo
