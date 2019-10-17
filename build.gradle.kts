@@ -68,7 +68,8 @@ detekt {
         "mvvm/src/main/java",
         "dagger/src/main/java",
         "bindingadapters/src/main/java",
-        "interactors/src/main/java"
+        "interactors/src/main/java",
+        "mvvm-lint/src/main/java"
     )
     filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt.yml")
