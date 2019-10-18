@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.activity
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewModelCreator
 import com.thefuntasty.mvvm.ViewState
@@ -28,7 +28,7 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
         }
     }
 
-    private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
+    private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     /**
      * Observe event defined by event class and run observer lambda whenever event is
