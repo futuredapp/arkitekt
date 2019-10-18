@@ -5,3 +5,5 @@ import com.thefuntasty.mvvm.event.Event
 sealed class FormEvent : Event<FormViewState>()
 
 data class ShowToastEvent(val message: String) : FormEvent()
+
+object NavigateBackEvent : FormEvent()

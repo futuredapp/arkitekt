@@ -33,4 +33,6 @@ class LoginViewModel @Inject constructor(
             sendEvent(NotifyActivityEvent("Login error!"))
         })
     }
+
+    fun onBack() = sendEvent(NavigateBackEvent)
 }

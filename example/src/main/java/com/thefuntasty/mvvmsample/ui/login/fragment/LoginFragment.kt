@@ -20,5 +20,9 @@ class LoginFragment : BaseFragment<LoginViewModel, LoginViewState, FragmentLogin
         observeEvent(NotifyActivityEvent::class) {
             getActivityViewModel<ALoginViewModel>().sendToastEvent(it.message)
         }
+
+        observeEvent(NavigateBackEvent::class) {
+            requireActivity().onBackPressed()
+        }
     }
 }
