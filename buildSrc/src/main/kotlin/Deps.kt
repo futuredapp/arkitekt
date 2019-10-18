@@ -1,5 +1,5 @@
 object Deps {
-    const val gradlePlugin = "com.android.tools.build:gradle:${Versions.gradle}"
+    const val gradlePlugin = "com.android.tools.build:gradle:${Versions.gradlePlugin}"
     const val javaX = "javax.inject:javax.inject:${Versions.javaX}"
 
     object Plugins {
@@ -26,15 +26,13 @@ object Deps {
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
         const val annnotation = "androidx.annotation:annotation:${Versions.androidx}"
-        const val palette = "androidx.palette:palette:${Versions.androidx}"
-        const val material = "com.google.android.material:material:${Versions.androidx}"
-        const val ktx = "androidx.core:core-ktx:${Versions.androidxCore}"
+        const val material = "com.google.android.material:material:${Versions.material}"
         const val vectordrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
 
-        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.archComponents}"
-        const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.archComponents}"
-        const val livedataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.archComponents}"
-        const val viewmodelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.archComponents}"
+        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifeCycle}"
+        const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
+        const val livedataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
+        const val viewmodelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
