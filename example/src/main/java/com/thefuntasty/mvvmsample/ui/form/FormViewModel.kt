@@ -26,4 +26,6 @@ class FormViewModel @Inject constructor(
             sendEvent(ShowToastEvent("${it.first} ${it.second}"))
         }
     }
+
+    fun onBack() = sendEvent(NavigateBackEvent)
 }

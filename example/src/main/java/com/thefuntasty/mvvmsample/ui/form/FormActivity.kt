@@ -25,5 +25,9 @@ class FormActivity : BaseActivity<FormViewModel, FormViewState, ActivityFormBind
         observeEvent(ShowToastEvent::class) {
             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
+
+        observeEvent(NavigateBackEvent::class) {
+            onBackPressed()
+        }
     }
 }

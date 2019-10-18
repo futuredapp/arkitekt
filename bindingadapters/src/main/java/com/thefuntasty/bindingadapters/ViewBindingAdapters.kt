@@ -28,7 +28,7 @@ fun visibility(visibility: Boolean) = if (visibility) View.VISIBLE else View.GON
  *  Animate view visibility true/false to View.VISIBLE and View.GONE
  *  @param visibility final visible state
  */
-@BindingAdapter("app:animatedVisibility")
+@BindingAdapter("animatedVisibility")
 fun View.animatedVisibility(visibility: Boolean) {
     if (visibility) {
         animateShow()
@@ -41,7 +41,7 @@ fun View.animatedVisibility(visibility: Boolean) {
  *  Animate view visibility true/false to View.VISIBLE and View.INVISIBLE
  *  @param visibility final visible state
  */
-@BindingAdapter("app:animatedVisibilityAlpha")
+@BindingAdapter("animatedVisibilityAlpha")
 fun View.animatedVisibilityAlpha(visibility: Boolean) {
     if (visibility) {
         animateShow()
@@ -50,7 +50,7 @@ fun View.animatedVisibilityAlpha(visibility: Boolean) {
     }
 }
 
-@BindingAdapter("app:background")
+@BindingAdapter("background")
 fun View.setBackground(@DrawableRes resId: Int) {
     ContextCompat.getDrawable(context, resId)?.also {
         this.background = it
@@ -62,7 +62,7 @@ fun View.setBackground(@DrawableRes resId: Int) {
  *  @param pixels final margin
  *  @param duration animation duration
  */
-@BindingAdapter("app:animateMarginStart", "app:marginAnimDuration", requireAll = false)
+@BindingAdapter("animateMarginStart", "marginAnimDuration", requireAll = false)
 fun View.animatedMarginStart(pixels: Int, duration: Int? = null) {
     (layoutParams as? ViewGroup.MarginLayoutParams)?.also { params ->
         ValueAnimator.ofInt(params.marginStart, pixels).apply {
@@ -83,7 +83,7 @@ fun View.animatedMarginStart(pixels: Int, duration: Int? = null) {
  *  @param pixels final margin
  *  @param duration animation duration
  */
-@BindingAdapter("app:animateMarginEnd", "app:marginAnimDuration", requireAll = false)
+@BindingAdapter("animateMarginEnd", "marginAnimDuration", requireAll = false)
 fun View.animatedMarginEnd(pixels: Int, duration: Int? = null) {
     (layoutParams as? ViewGroup.MarginLayoutParams)?.also { params ->
         ValueAnimator.ofInt(params.marginEnd, pixels).apply {
@@ -104,7 +104,7 @@ fun View.animatedMarginEnd(pixels: Int, duration: Int? = null) {
  *  @param drawable TransitionDrawable
  *  @param duration animation duration
  */
-@BindingAdapter("app:animBgTransition", "app:animBgDirectedDuration", requireAll = false)
+@BindingAdapter("animBgTransition", "animBgDirectedDuration", requireAll = false)
 fun View.animatedColor(drawable: Drawable, duration: Int? = null) {
     (drawable as? TransitionDrawable)?.also { transition ->
         background = transition
@@ -130,7 +130,7 @@ fun View.animatedColor(drawable: Drawable, duration: Int? = null) {
  *  @param duration animation duration
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-@BindingAdapter("app:animElevation", "app:animElevationDuration", requireAll = false)
+@BindingAdapter("animElevation", "animElevationDuration", requireAll = false)
 fun View.animateElevation(pixels: Int, duration: Int? = null) {
     ValueAnimator.ofFloat(elevation, pixels.toFloat()).apply {
         duration?.let { setDuration(it.toLong()) }
@@ -147,7 +147,7 @@ fun View.animateElevation(pixels: Int, duration: Int? = null) {
  *  Set onFocusChangedListener
  *  @param listener View.OnFocusChangeListener
  */
-@BindingAdapter("app:onFocusChanged")
+@BindingAdapter("onFocusChanged")
 fun View.onFocusChanged(listener: View.OnFocusChangeListener) {
     onFocusChangeListener = listener
 }

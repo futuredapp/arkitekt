@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":dagger"))
     implementation(project(":interactors"))
     implementation(project(":cr-interactors"))
+    implementation(project(":bindingadapters"))
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
