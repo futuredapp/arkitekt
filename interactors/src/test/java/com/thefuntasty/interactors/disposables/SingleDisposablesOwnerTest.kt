@@ -18,7 +18,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempSingler.execute("Hello")
+            tempSingler.execute("Hello") { }
         }
 
         withDisposablesOwner {
@@ -78,7 +78,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (SingleDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempSingler.execute("Hello"))
+            disposablesList.add(tempSingler.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -113,5 +113,26 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(disposablesList.size == 2)
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempSingler = object : BaseSingler<Unit, String>() {
+            override fun prepare(args: Unit) = Single.just("Hello")
+        }
+
+        withDisposablesOwner {
+            tempSingler.execute {
+                onSuccess {
+                    assertEquals(it, "Hello")
+                }
+            }
+
+            tempSingler.executeNoArgs {
+                onSuccess {
+                    assertEquals(it, "Hello")
+                }
+            }
+        }
     }
 }

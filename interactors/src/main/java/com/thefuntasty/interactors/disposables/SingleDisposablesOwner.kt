@@ -13,8 +13,40 @@ interface SingleDisposablesOwner {
         return execute(args, { })
     }
 
-    fun <ARGS, T> BaseSingler<ARGS, T>.execute(args: ARGS): Disposable {
-        return execute(args, { })
+    fun <T> BaseSingler<Unit, T>.execute(result: SinglerResult.Builder<T>.() -> Unit): Disposable {
+        val singlerResult = SinglerResult.Builder<T>().run {
+            result.invoke(this)
+            return@run build()
+        }
+
+        if (singlerResult.disposePrevious) {
+            this@execute.currentDisposable?.dispose()
+        }
+
+        val disposable = create(Unit).subscribe(singlerResult.onSuccess, singlerResult.onError)
+
+        this@execute.currentDisposable = disposable
+        disposables += disposable
+
+        return disposable
+    }
+
+    fun <T> BaseSingler<Unit, T>.executeNoArgs(result: SinglerResult.Builder<T>.() -> Unit): Disposable {
+        val singlerResult = SinglerResult.Builder<T>().run {
+            result.invoke(this)
+            return@run build()
+        }
+
+        if (singlerResult.disposePrevious) {
+            this@executeNoArgs.currentDisposable?.dispose()
+        }
+
+        val disposable = create(Unit).subscribe(singlerResult.onSuccess, singlerResult.onError)
+
+        this@executeNoArgs.currentDisposable = disposable
+        disposables += disposable
+
+        return disposable
     }
 
     fun <ARGS, T> BaseSingler<ARGS, T>.execute(args: ARGS, result: SinglerResult.Builder<T>.() -> Unit): Disposable {
