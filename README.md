@@ -11,19 +11,14 @@ interactors (use cases). Architecture described here is used among wide variety 
 projects and it's production ready.
 
 # Download
-`build.gradle.kts`
-```groovy
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
 `app/build.gradle.kts`
 ```groovy
 dependencies {
-    implementation("com.github.thefuntasty:mvvm-android:LatestVersion")
+    implementation("com.thefuntasty.mvvm:mvvm:LatestVersion")
+    implementation("com.thefuntasty.mvvm:bindingadapters:LatestVersion")
+    implementation("com.thefuntasty.mvvm:dagger:LatestVersion")
+    implementation("com.thefuntasty.mvvm:cr-interactors:LatestVersion")
+    implementation("com.thefuntasty.mvvm:interactors:LatestVersion")
 }    
 ```
 
