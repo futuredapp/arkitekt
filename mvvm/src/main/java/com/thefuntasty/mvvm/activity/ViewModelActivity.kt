@@ -28,6 +28,13 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
         }
     }
 
+    /**
+     * Reference to Activity ViewState
+     */
+    val viewState: VS get() {
+        return viewModel.viewState
+    }
+
     private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     /**

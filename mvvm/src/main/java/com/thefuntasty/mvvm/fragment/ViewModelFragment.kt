@@ -32,6 +32,13 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
         }
     }
 
+    /**
+     * Reference to Fragment ViewState
+     */
+    val viewState: VS get() {
+        return viewModel.viewState
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutResId, container, false)
 
