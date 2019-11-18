@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/thefuntasty/mvvm-android.svg)](https://jitpack.io/#thefuntasty/mvvm-android)
+[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
 [![Build Status](https://app.bitrise.io/app/7bcc28f1329d6773/status.svg?token=RvtAnWzfOq-0n7TIW5By8g&branch=master)](https://app.bitrise.io/app/7bcc28f1329d6773)
 
 # MVVM Android
@@ -13,7 +13,7 @@ projects and it's production ready.
 ![MVVM architecture](extras/architecture-diagram.png)
 
 # Download
-`app/build.gradle.kts`
+[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
 ```groovy
 dependencies {
     implementation("com.thefuntasty.mvvm:mvvm:LatestVersion")
