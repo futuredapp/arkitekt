@@ -13,7 +13,7 @@ projects and it's production ready.
 ![MVVM architecture](extras/architecture-diagram.png)
 
 # Download
-[ ![Download](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
+[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
 ```groovy
 dependencies {
     implementation("com.thefuntasty.mvvm:mvvm:LatestVersion")
