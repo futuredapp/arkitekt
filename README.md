@@ -10,6 +10,8 @@ support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJav
 interactors (use cases). Architecture described here is used among wide variety of
 projects and it's production ready.
 
+![MVVM architecture](extras/architecture-diagram.png)
+
 # Download
 `app/build.gradle.kts`
 ```groovy
