@@ -6,6 +6,7 @@ import com.thefuntasty.interactors.BaseFlowabler
 import com.thefuntasty.interactors.BaseMayber
 import com.thefuntasty.interactors.BaseObservabler
 import com.thefuntasty.interactors.BaseSingler
+import com.thefuntasty.interactors.InteractorErrorHandler
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -82,7 +83,7 @@ interface DisposablesOwner {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
-            .subscribe(onNext, onError, onComplete)
+            .subscribe(onNext, wrapWithGlobalOnErrorLogger(onError), onComplete)
 
         this@execute.currentDisposable = disposable
         disposables += disposable
@@ -134,7 +135,7 @@ interface DisposablesOwner {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
-            .subscribe(onNext, onError, onComplete)
+            .subscribe(onNext, wrapWithGlobalOnErrorLogger(onError), onComplete)
 
         this@execute.currentDisposable = disposable
         disposables += disposable
@@ -181,7 +182,7 @@ interface DisposablesOwner {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
-            .subscribe(onSuccess, onError)
+            .subscribe(onSuccess, wrapWithGlobalOnErrorLogger(onError))
 
         this@execute.currentDisposable = disposable
         disposables += disposable
@@ -231,7 +232,7 @@ interface DisposablesOwner {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
-            .subscribe(onSuccess, onError, onComplete)
+            .subscribe(onSuccess, wrapWithGlobalOnErrorLogger(onError), onComplete)
 
         this@execute.currentDisposable = disposable
         disposables += disposable
@@ -278,7 +279,7 @@ interface DisposablesOwner {
         this@execute.currentDisposable?.dispose()
 
         val disposable = stream()
-            .subscribe(onComplete, onError)
+            .subscribe(onComplete, wrapWithGlobalOnErrorLogger(onError))
 
         this@execute.currentDisposable = disposable
         disposables += disposable
@@ -317,7 +318,7 @@ interface DisposablesOwner {
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
     ): Disposable {
-        return subscribe(onNext, onError, onComplete).also {
+        return subscribe(onNext, wrapWithGlobalOnErrorLogger(onError), onComplete).also {
             disposables += it
         }
     }
@@ -353,7 +354,7 @@ interface DisposablesOwner {
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
     ): Disposable {
-        return subscribe(onNext, onError, onComplete).also {
+        return subscribe(onNext, wrapWithGlobalOnErrorLogger(onError), onComplete).also {
             disposables += it
         }
     }
@@ -384,7 +385,7 @@ interface DisposablesOwner {
         onSuccess: (T) -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda
     ): Disposable {
-        return subscribe(onSuccess, onError).also {
+        return subscribe(onSuccess, wrapWithGlobalOnErrorLogger(onError)).also {
             disposables += it
         }
     }
@@ -418,7 +419,7 @@ interface DisposablesOwner {
         onError: (Throwable) -> Unit = onErrorLambda,
         onComplete: () -> Unit = { }
     ): Disposable {
-        return subscribe(onSuccess, onError, onComplete).also {
+        return subscribe(onSuccess, wrapWithGlobalOnErrorLogger(onError), onComplete).also {
             disposables += it
         }
     }
@@ -449,7 +450,7 @@ interface DisposablesOwner {
         onComplete: () -> Unit,
         onError: (Throwable) -> Unit = onErrorLambda
     ): Disposable {
-        return subscribe(onComplete, onError).also {
+        return subscribe(onComplete, wrapWithGlobalOnErrorLogger(onError)).also {
             disposables += it
         }
     }
@@ -493,5 +494,12 @@ interface DisposablesOwner {
         stream().subscribe(observer)
 
         disposables += observer
+    }
+
+    private fun wrapWithGlobalOnErrorLogger(onError: (Throwable) -> Unit): (Throwable) -> Unit {
+        return { error ->
+            InteractorErrorHandler.globalOnErrorLogger(error)
+            onError(error)
+        }
     }
 }
