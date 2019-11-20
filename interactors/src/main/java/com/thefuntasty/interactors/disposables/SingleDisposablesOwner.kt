@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
-interface SingleDisposablesOwner {
+interface SingleDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
@@ -17,7 +17,10 @@ interface SingleDisposablesOwner {
         return execute(args, { })
     }
 
-    fun <ARGS, T> BaseSingler<ARGS, T>.execute(args: ARGS, result: SinglerResult.Builder<T>.() -> Unit): Disposable {
+    fun <ARGS, T> BaseSingler<ARGS, T>.execute(
+        args: ARGS,
+        result: SinglerResult.Builder<T>.() -> Unit
+    ): Disposable {
         val singlerResult = SinglerResult.Builder<T>().run {
             result.invoke(this)
             return@run build()
@@ -27,7 +30,10 @@ interface SingleDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
-        val disposable = create(args).subscribe(singlerResult.onSuccess, singlerResult.onError)
+        val disposable = create(args).subscribe(
+            singlerResult.onSuccess,
+            wrapWithGlobalOnErrorLogger(singlerResult.onError)
+        )
 
         this@execute.currentDisposable = disposable
         disposables += disposable

@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
-interface ObservableDisposablesOwner {
+interface ObservableDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
@@ -17,7 +17,10 @@ interface ObservableDisposablesOwner {
         return execute(args, { })
     }
 
-    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS, result: ObservablerResult.Builder<T>.() -> Unit): Disposable {
+    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(
+        args: ARGS,
+        result: ObservablerResult.Builder<T>.() -> Unit
+    ): Disposable {
         val observablerResult = ObservablerResult.Builder<T>().run {
             result.invoke(this)
             return@run build()
@@ -28,7 +31,11 @@ interface ObservableDisposablesOwner {
         }
 
         val disposable = create(args)
-            .subscribe(observablerResult.onNext, observablerResult.onError, observablerResult.onComplete)
+            .subscribe(
+                observablerResult.onNext,
+                wrapWithGlobalOnErrorLogger(observablerResult.onError),
+                observablerResult.onComplete
+            )
 
         this@execute.currentDisposable = disposable
         disposables += disposable

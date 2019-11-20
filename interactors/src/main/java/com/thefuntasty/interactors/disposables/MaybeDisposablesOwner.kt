@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
-interface MaybeDisposablesOwner {
+interface MaybeDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
@@ -28,7 +28,11 @@ interface MaybeDisposablesOwner {
         }
 
         val disposable = create(args)
-            .subscribe(mayberResult.onSuccess, mayberResult.onError, mayberResult.onComplete)
+            .subscribe(
+                mayberResult.onSuccess,
+                wrapWithGlobalOnErrorLogger(mayberResult.onError),
+                mayberResult.onComplete
+            )
 
         this@execute.currentDisposable = disposable
         disposables += disposable

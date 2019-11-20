@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
-interface FlowableDisposablesOwner {
+interface FlowableDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
@@ -17,7 +17,10 @@ interface FlowableDisposablesOwner {
         return execute(args, { })
     }
 
-    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(args: ARGS, result: FlowablerResult.Builder<T>.() -> Unit): Disposable {
+    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(
+        args: ARGS,
+        result: FlowablerResult.Builder<T>.() -> Unit
+    ): Disposable {
         val flowablerResult = FlowablerResult.Builder<T>().run {
             result.invoke(this)
             return@run build()
@@ -28,7 +31,11 @@ interface FlowableDisposablesOwner {
         }
 
         val disposable = create(args)
-            .subscribe(flowablerResult.onNext, flowablerResult.onError, flowablerResult.onComplete)
+            .subscribe(
+                flowablerResult.onNext,
+                wrapWithGlobalOnErrorLogger(flowablerResult.onError),
+                flowablerResult.onComplete
+            )
 
         this@execute.currentDisposable = disposable
         disposables += disposable

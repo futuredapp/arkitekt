@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
-interface CompletableDisposablesOwner {
+interface CompletableDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
@@ -28,7 +28,10 @@ interface CompletableDisposablesOwner {
         }
 
         val disposable = create(args)
-            .subscribe(completablerResult.onComplete, completablerResult.onError)
+            .subscribe(
+                completablerResult.onComplete,
+                wrapWithGlobalOnErrorLogger(completablerResult.onError)
+            )
 
         this@execute.currentDisposable = disposable
         disposables += disposable
