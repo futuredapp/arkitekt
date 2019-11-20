@@ -1,34 +1,74 @@
 package com.thefuntasty.interactors.disposables
 
 import com.thefuntasty.interactors.interactors.BaseObservabler
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
+/**
+ * This interface gives your class ability to execute [BaseObservabler] interactors
+ * and automatically add resulting disposables to one composite disposable. You
+ * may find handy to implement this interface in custom Presenters, ViewHolders etc.
+ *
+ * Consider using [DisposablesOwner] to support all of the basic RxJava 2 types.
+ *
+ * It is your responsibility to clear this composite disposable when all
+ * running tasks should be stopped.
+ */
 interface ObservableDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
+    /**
+     * Executes the interactor and adds its disposable to
+     * shared, automatically disposed, composite disposable. In case some
+     * variant of [BaseObservabler.execute] method has already been called
+     * on this instance of [BaseObservabler], previous one is disposed,
+     * no matter what current state of internal Observable is.
+     * Use [Observable.executeStream] if you want to run one
+     * [BaseObservabler] multiple times simultaneously.
+     *
+     * @param args Arguments used for initial interactor initialisation.
+     * @return disposable of internal [Observable]. This disposable is disposed
+     * automatically. It might be used to dispose interactor when you need
+     * to dispose it in advance on your own.
+     */
     fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
+    /**
+     * Executes the interactor and adds its disposable to
+     * shared, automatically disposed, composite disposable. In case some
+     * variant of [BaseObservabler.execute] method has already been called
+     * on this instance of [BaseObservabler], previous one is disposed,
+     * no matter what current state of internal Observable is.
+     * Use [Observable.executeStream] if you want to run one
+     * [BaseObservabler] multiple times simultaneously.
+     *
+     * @param args Arguments used for initial interactor initialisation.
+     * @param config [ObservablerConfig] used to process results of internal [Observable].
+     * @return disposable of internal [Observable]. This disposable is disposed
+     * automatically. It might be used to dispose interactor when you need
+     * to dispose it in advance on your own.
+     */
     fun <ARGS, T> BaseObservabler<ARGS, T>.execute(
         args: ARGS,
         config: ObservablerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val observablerResult = ObservablerConfig.Builder<T>().run {
+        val observablerConfig = ObservablerConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (observablerResult.disposePrevious) {
+        if (observablerConfig.disposePrevious) {
             this@execute.currentDisposable?.dispose()
         }
 
         val disposable = create(args)
             .subscribe(
-                observablerResult.onNext,
-                wrapWithGlobalOnErrorLogger(observablerResult.onError),
-                observablerResult.onComplete
+                observablerConfig.onNext,
+                wrapWithGlobalOnErrorLogger(observablerConfig.onError),
+                observablerConfig.onComplete
             )
 
         this@execute.currentDisposable = disposable
@@ -36,32 +76,90 @@ interface ObservableDisposablesOwner : BaseDisposableOwner {
 
         return disposable
     }
+
+    /**
+     * Executes the [Observable] and adds its disposable to
+     * shared, automatically disposed, composite disposable.
+     *
+     * @param config [ObservablerConfig] used to process results of internal Observable.
+     * @return disposable of internal [Observable]. It might be used to
+     * dispose interactor when you need to dispose it in advance on your own.
+     */
+    fun <T : Any> Observable<T>.executeStream(
+        config: ObservablerConfig.Builder<T>.() -> Unit
+    ): Disposable {
+        val observablerConfig = ObservablerConfig.Builder<T>().run {
+            config.invoke(this)
+            return@run build()
+        }
+
+        return subscribe(
+            observablerConfig.onNext,
+            wrapWithGlobalOnErrorLogger(observablerConfig.onError),
+            observablerConfig.onComplete
+        ).also {
+            disposables += it
+        }
+    }
 }
 
-data class ObservablerConfig<T> constructor(
+/**
+ * Holds references to lambdas and some basic configuration
+ * used to process results of Observabler interactor.
+ * Use [ObservablerConfig.Builder] to construct this object.
+ */
+class ObservablerConfig<T> private constructor(
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
 ) {
+    /**
+     * Constructs references to lambdas and some basic configuration
+     * used to process results of Observabler interactor.
+     */
     class Builder<T> {
         private var onNext: ((T) -> Unit)? = null
         private var onComplete: (() -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
 
+        /**
+         * Set lambda which is called when onNext on
+         * internal Observable is called
+         * @param onNext Lambda called when onNext is
+         * emitted.
+         */
         fun onNext(onNext: (T) -> Unit) {
             this.onNext = onNext
         }
 
+        /**
+         * Set lambda which is called when onComplete on
+         * internal Observable is called
+         * @param onComplete Lambda called when onComplete is
+         * emitted.
+         */
         fun onComplete(onComplete: () -> Unit) {
             this.onComplete = onComplete
         }
 
+        /**
+         * Set lambda which is called when onError on
+         * internal Observable is called
+         * @param onError Lambda called when onError is
+         * emitted.
+         */
         fun onError(onError: (Throwable) -> Unit) {
             this.onError = onError
         }
 
+        /**
+         * Set whether currently running internal Observable
+         * should be disposed when execute is called repeatedly.
+         * @param disposePrevious True if currently running
+         * internal Observable should be disposed
+         */
         fun disposePrevious(disposePrevious: Boolean) {
             this.disposePrevious = disposePrevious
         }

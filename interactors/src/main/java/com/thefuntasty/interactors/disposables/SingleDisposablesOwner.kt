@@ -46,7 +46,7 @@ interface SingleDisposablesOwner : BaseDisposableOwner {
      * [BaseSingler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialization.
-     * @param config [SinglerConfig] used to process results of internal Single.
+     * @param config [SinglerConfig] used to process results of internal [Single].
      * @return disposable of internal [Single]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
@@ -55,18 +55,18 @@ interface SingleDisposablesOwner : BaseDisposableOwner {
         args: ARGS,
         config: SinglerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val singlerResult = SinglerConfig.Builder<T>().run {
+        val singlerConfig = SinglerConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (singlerResult.disposePrevious) {
+        if (singlerConfig.disposePrevious) {
             this@execute.currentDisposable?.dispose()
         }
 
         val disposable = create(args).subscribe(
-            singlerResult.onSuccess,
-            wrapWithGlobalOnErrorLogger(singlerResult.onError)
+            singlerConfig.onSuccess,
+            wrapWithGlobalOnErrorLogger(singlerConfig.onError)
         )
 
         this@execute.currentDisposable = disposable
@@ -86,14 +86,14 @@ interface SingleDisposablesOwner : BaseDisposableOwner {
     fun <T : Any> Single<T>.executeStream(
         config: SinglerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val singlerResult = SinglerConfig.Builder<T>().run {
+        val singlerConfig = SinglerConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
         return subscribe(
-            singlerResult.onSuccess,
-            wrapWithGlobalOnErrorLogger(singlerResult.onError)
+            singlerConfig.onSuccess,
+            wrapWithGlobalOnErrorLogger(singlerConfig.onError)
         ).also {
             disposables += it
         }
@@ -149,9 +149,6 @@ class SinglerConfig<T> private constructor(
             this.disposePrevious = disposePrevious
         }
 
-        /**
-         * Build SingleResult
-         */
         fun build(): SinglerConfig<T> {
             return SinglerConfig(
                 onSuccess ?: { },
