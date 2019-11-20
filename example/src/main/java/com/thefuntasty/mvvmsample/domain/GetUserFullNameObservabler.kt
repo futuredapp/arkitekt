@@ -9,7 +9,6 @@ class GetUserFullNameObservabler @Inject constructor(
     private val userStore: UserStore
 ) : BaseObservabler<Unit, String>() {
 
-    override fun prepare(args: Unit): Observable<String> {
-        return userStore.getUser().map { "${it.firstName} ${it.lastName}" }
-    }
+    override fun prepare(args: Unit): Observable<String> =
+        userStore.getUser().map { "${it.firstName} ${it.lastName}" }
 }
