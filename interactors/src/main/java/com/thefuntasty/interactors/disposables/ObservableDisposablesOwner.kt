@@ -13,10 +13,10 @@ interface ObservableDisposablesOwner : BaseDisposableOwner {
 
     fun <ARGS, T> BaseObservabler<ARGS, T>.execute(
         args: ARGS,
-        result: ObservablerResult.Builder<T>.() -> Unit
+        config: ObservablerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val observablerResult = ObservablerResult.Builder<T>().run {
-            result.invoke(this)
+        val observablerResult = ObservablerConfig.Builder<T>().run {
+            config.invoke(this)
             return@run build()
         }
 
@@ -38,7 +38,7 @@ interface ObservableDisposablesOwner : BaseDisposableOwner {
     }
 }
 
-data class ObservablerResult<T> constructor(
+data class ObservablerConfig<T> constructor(
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
@@ -66,8 +66,8 @@ data class ObservablerResult<T> constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): ObservablerResult<T> {
-            return ObservablerResult(
+        fun build(): ObservablerConfig<T> {
+            return ObservablerConfig(
                 onNext ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },

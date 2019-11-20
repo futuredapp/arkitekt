@@ -13,10 +13,10 @@ interface FlowableDisposablesOwner : BaseDisposableOwner {
 
     fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(
         args: ARGS,
-        result: FlowablerResult.Builder<T>.() -> Unit
+        config: FlowablerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val flowablerResult = FlowablerResult.Builder<T>().run {
-            result.invoke(this)
+        val flowablerResult = FlowablerConfig.Builder<T>().run {
+            config.invoke(this)
             return@run build()
         }
 
@@ -38,7 +38,7 @@ interface FlowableDisposablesOwner : BaseDisposableOwner {
     }
 }
 
-data class FlowablerResult<T> constructor(
+data class FlowablerConfig<T> constructor(
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
@@ -66,8 +66,8 @@ data class FlowablerResult<T> constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): FlowablerResult<T> {
-            return FlowablerResult(
+        fun build(): FlowablerConfig<T> {
+            return FlowablerConfig(
                 onNext ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },

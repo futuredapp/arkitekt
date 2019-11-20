@@ -11,9 +11,12 @@ interface CompletableDisposablesOwner : BaseDisposableOwner {
 
     fun <ARGS> BaseCompletabler<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
 
-    fun <ARGS> BaseCompletabler<ARGS>.execute(args: ARGS, result: CompletablerResult.Builder.() -> Unit): Disposable {
-        val completablerResult = CompletablerResult.Builder().run {
-            result.invoke(this)
+    fun <ARGS> BaseCompletabler<ARGS>.execute(
+        args: ARGS,
+        config: CompletablerConfig.Builder.() -> Unit
+    ): Disposable {
+        val completablerResult = CompletablerConfig.Builder().run {
+            config.invoke(this)
             return@run build()
         }
 
@@ -34,7 +37,7 @@ interface CompletableDisposablesOwner : BaseDisposableOwner {
     }
 }
 
-data class CompletablerResult constructor(
+data class CompletablerConfig constructor(
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
@@ -56,8 +59,8 @@ data class CompletablerResult constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): CompletablerResult {
-            return CompletablerResult(
+        fun build(): CompletablerConfig {
+            return CompletablerConfig(
                 onComplete ?: { },
                 onError ?: { throw it },
                 disposePrevious

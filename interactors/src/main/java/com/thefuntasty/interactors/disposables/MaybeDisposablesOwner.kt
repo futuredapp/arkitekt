@@ -11,9 +11,12 @@ interface MaybeDisposablesOwner : BaseDisposableOwner {
 
     fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
-    fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS, result: MayberResult.Builder<T>.() -> Unit): Disposable {
-        val mayberResult = MayberResult.Builder<T>().run {
-            result.invoke(this)
+    fun <ARGS, T> BaseMayber<ARGS, T>.execute(
+        args: ARGS,
+        config: MayberConfig.Builder<T>.() -> Unit
+    ): Disposable {
+        val mayberResult = MayberConfig.Builder<T>().run {
+            config.invoke(this)
             return@run build()
         }
 
@@ -35,7 +38,7 @@ interface MaybeDisposablesOwner : BaseDisposableOwner {
     }
 }
 
-data class MayberResult<T> constructor(
+data class MayberConfig<T> constructor(
     val onSuccess: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
@@ -63,8 +66,8 @@ data class MayberResult<T> constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): MayberResult<T> {
-            return MayberResult(
+        fun build(): MayberConfig<T> {
+            return MayberConfig(
                 onSuccess ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },

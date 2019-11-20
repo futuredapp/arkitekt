@@ -46,17 +46,17 @@ interface SingleDisposablesOwner : BaseDisposableOwner {
      * [BaseSingler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialization.
-     * @param result [SinglerResult] used to process results of internal Single.
+     * @param config [SinglerConfig] used to process results of internal Single.
      * @return disposable of internal [Single]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
     fun <ARGS, T> BaseSingler<ARGS, T>.execute(
         args: ARGS,
-        result: SinglerResult.Builder<T>.() -> Unit
+        config: SinglerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val singlerResult = SinglerResult.Builder<T>().run {
-            result.invoke(this)
+        val singlerResult = SinglerConfig.Builder<T>().run {
+            config.invoke(this)
             return@run build()
         }
 
@@ -79,15 +79,15 @@ interface SingleDisposablesOwner : BaseDisposableOwner {
      * Executes the [Single] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param result [SinglerResult] used to process results of internal Single.
+     * @param config [SinglerConfig] used to process results of internal Single.
      * @return disposable of internal [Single]. It might be used to
      * dispose interactor when you need to dispose it in advance on your own.
      */
     fun <T : Any> Single<T>.executeStream(
-        result: SinglerResult.Builder<T>.() -> Unit
+        config: SinglerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val singlerResult = SinglerResult.Builder<T>().run {
-            result.invoke(this)
+        val singlerResult = SinglerConfig.Builder<T>().run {
+            config.invoke(this)
             return@run build()
         }
 
@@ -103,9 +103,9 @@ interface SingleDisposablesOwner : BaseDisposableOwner {
 /**
  * Holds references to lambdas and some basic configuration
  * used to process results of Singler interactor.
- * Use [SinglerResult.Builder] to construct this object.
+ * Use [SinglerConfig.Builder] to construct this object.
  */
-class SinglerResult<T> private constructor(
+class SinglerConfig<T> private constructor(
     val onSuccess: (T) -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
@@ -152,8 +152,8 @@ class SinglerResult<T> private constructor(
         /**
          * Build SingleResult
          */
-        fun build(): SinglerResult<T> {
-            return SinglerResult(
+        fun build(): SinglerConfig<T> {
+            return SinglerConfig(
                 onSuccess ?: { },
                 onError ?: { throw it },
                 disposePrevious
