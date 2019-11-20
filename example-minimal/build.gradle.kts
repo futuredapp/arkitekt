@@ -21,8 +21,8 @@ android {
     }
 
     compileOptions {
-        setSourceCompatibility(JavaVersion.VERSION_1_8)
-        setTargetCompatibility(JavaVersion.VERSION_1_8)
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -36,7 +36,6 @@ dependencies {
 
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.annnotation)
-    implementation(Deps.AndroidX.vectordrawable)
 
     implementation(Deps.Rx.rxKotlin)
     implementation(Deps.Rx.rxAndroid)
