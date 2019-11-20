@@ -9,13 +9,7 @@ interface MaybeDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
-    infix fun <ARGS, T> BaseMayber<ARGS, T>.executeWith(args: ARGS): Disposable {
-        return execute(args, { })
-    }
-
-    fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS): Disposable {
-        return execute(args, { })
-    }
+    fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS, result: MayberResult.Builder<T>.() -> Unit): Disposable {
         val mayberResult = MayberResult.Builder<T>().run {

@@ -9,13 +9,7 @@ interface SingleDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
-    infix fun <ARGS, T> BaseSingler<ARGS, T>.executeWith(args: ARGS): Disposable {
-        return execute(args, { })
-    }
-
-    fun <ARGS, T> BaseSingler<ARGS, T>.execute(args: ARGS): Disposable {
-        return execute(args, { })
-    }
+    fun <ARGS, T> BaseSingler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     fun <ARGS, T> BaseSingler<ARGS, T>.execute(
         args: ARGS,

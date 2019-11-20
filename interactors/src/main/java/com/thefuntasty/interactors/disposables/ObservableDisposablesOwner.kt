@@ -9,13 +9,7 @@ interface ObservableDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
-    infix fun <ARGS, T> BaseObservabler<ARGS, T>.executeWith(args: ARGS): Disposable {
-        return execute(args, { })
-    }
-
-    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS): Disposable {
-        return execute(args, { })
-    }
+    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     fun <ARGS, T> BaseObservabler<ARGS, T>.execute(
         args: ARGS,

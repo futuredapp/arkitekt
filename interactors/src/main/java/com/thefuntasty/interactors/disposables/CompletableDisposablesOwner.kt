@@ -9,13 +9,7 @@ interface CompletableDisposablesOwner : BaseDisposableOwner {
 
     val disposables: CompositeDisposable
 
-    infix fun <ARGS> BaseCompletabler<ARGS>.executeWith(args: ARGS): Disposable {
-        return execute(args, { })
-    }
-
-    fun <ARGS> BaseCompletabler<ARGS>.execute(args: ARGS): Disposable {
-        return execute(args, { })
-    }
+    fun <ARGS> BaseCompletabler<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
 
     fun <ARGS> BaseCompletabler<ARGS>.execute(args: ARGS, result: CompletablerResult.Builder.() -> Unit): Disposable {
         val completablerResult = CompletablerResult.Builder().run {
