@@ -1,6 +1,7 @@
 package com.thefuntasty.interactors.disposables
 
 import com.thefuntasty.interactors.interactors.BaseSingler
+import com.thefuntasty.interactors.wrapWithGlobalOnErrorLogger
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -16,7 +17,7 @@ import io.reactivex.rxkotlin.plusAssign
  * It is your responsibility to clear this composite disposable when all
  * running tasks should be stopped.
  */
-interface SingleDisposablesOwner : BaseDisposableOwner {
+interface SingleDisposablesOwner {
 
     val disposables: CompositeDisposable
 
