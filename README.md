@@ -237,20 +237,14 @@ result of this call.
 ```kotlin
 class LoginSingler @Inject constructor(
     private val apiManager: ApiManager // Retrofit Service
-) : BaseSingler<User>() {
+) : BaseSingler<LoginData, User>() {
 
-    private lateinit var email: String
-    private lateinit var pass: String
-
-    fun init(email: String, pass: String) = apply {
-        this.email = email
-        this.pass = pass
-    }
-
-    override fun prepare(): Single<User> {
-        return apiManager.login(email, pass)
+    override fun prepare(args: LoginData): Single<User> {
+        return apiManager.getUser(args)
     }
 }
+
+data class LoginData(val email: String, val password: String)
 ```
 #### LoginViewState.kt
 ```kotlin
@@ -272,11 +266,14 @@ class LoginViewModel @Inject constructor(
     override val viewState = LoginViewState()
 
     fun logIn() = with(viewState) {
-        loginInteractor.init(email.value, pass.value).execute ({ user ->
-            fullName.value = user.fullName // handle success & manipulate state
-        }, {
-            // handle error
-        })
+        getLoginSingler.execute(LoginData(email.value, email.password)) {
+            onSuccess {
+                fullName.value = user.fullName // handle success & manipulate state
+            }
+            onError {
+                // handle error
+            }
+        }
     }
 }
 ```
