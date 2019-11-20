@@ -2,6 +2,7 @@ package com.thefuntasty.interactors
 
 import androidx.lifecycle.LiveData
 import com.thefuntasty.interactors.disposables.DisposablesOwner
+import com.thefuntasty.interactors.interactors.BaseObservabler
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 import io.reactivex.disposables.CompositeDisposable
