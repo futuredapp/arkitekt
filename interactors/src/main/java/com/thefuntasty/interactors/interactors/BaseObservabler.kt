@@ -6,9 +6,7 @@ abstract class BaseObservabler<ARGS, T> : BaseInteractor() {
 
     protected abstract fun prepare(args: ARGS): Observable<T>
 
-    fun create(args: ARGS): Observable<T> {
-        return prepare(args).applySchedulers()
-    }
+    fun create(args: ARGS): Observable<T> = prepare(args).applySchedulers()
 
     private fun Observable<T>.applySchedulers(): Observable<T> {
         return compose { resultObservable ->
