@@ -30,7 +30,8 @@ interface CoroutineScopeOwner {
     /**
      * Asynchronously executes interactor, all previous pending executions are canceled and error is not handled
      */
-    fun <T : Any?> BaseCoroutineInteractor<T>.execute(onSuccess: (T) -> Unit) = execute(
+    fun <ARGS, T : Any?> BaseCoroutineInteractor<ARGS, T>.execute(args: ARGS, onSuccess: (T) -> Unit) = execute(
+        args,
         onSuccess,
         null
     )
@@ -38,13 +39,14 @@ interface CoroutineScopeOwner {
     /**
      * Asynchronously executes interactor, all previous pending executions are canceled
      */
-    fun <T : Any?> BaseCoroutineInteractor<T>.execute(
+    fun <ARGS, T : Any?> BaseCoroutineInteractor<ARGS, T>.execute(
+        args: ARGS,
         onSuccess: (T) -> Unit,
         onError: ((Throwable) -> Unit)?
     ) {
         deferred?.cancel()
         deferred = coroutineScope.async(getWorkerDispatcher()) {
-            build()
+            build(args)
         }.also {
             coroutineScope.launch(Dispatchers.Main) {
                 try {
@@ -61,7 +63,8 @@ interface CoroutineScopeOwner {
      * all previous pending executions are canceled.
      * When suspend function in interactor ends onComplete is called on UI thread
      **/
-    fun <T : Any?> BaseFlowInteractor<T>.execute(
+    fun <ARGS, T : Any?> BaseFlowInteractor<ARGS, T>.execute(
+        args: ARGS,
         onNext: (T) -> Unit = {},
         onError: ((Throwable) -> Unit)? = null,
         onComplete: () -> Unit = {}
@@ -69,7 +72,7 @@ interface CoroutineScopeOwner {
         job?.cancel()
         job = coroutineScope.launch(getWorkerDispatcher()) {
             try {
-                build()
+                build(args)
                     .onEach {
                         kotlinx.coroutines.withContext(Dispatchers.Main) {
                             onNext(it)

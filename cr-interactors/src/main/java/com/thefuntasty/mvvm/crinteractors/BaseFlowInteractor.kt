@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Base [Flow] interactor meant to use in [CoroutineScopeOwner] implementations
  */
-abstract class BaseFlowInteractor<T> {
+abstract class BaseFlowInteractor<ARGS, T> {
 
     /**
      *  [Job] used to hold and cancel existing run of this interactor
@@ -16,5 +16,5 @@ abstract class BaseFlowInteractor<T> {
     /**
      * Suspend function which should contain business logic
      */
-    abstract suspend fun build(): Flow<T>
+    abstract suspend fun build(args: ARGS): Flow<T>
 }

@@ -6,16 +6,12 @@ import javax.inject.Inject
 
 class SaveFormInteractor @Inject constructor(
     private val formStore: FormStore
-) : BaseCoroutineInteractor<Pair<String, String>>() {
+) : BaseCoroutineInteractor<SaveFormInteractor.Data, Pair<String, String>>() {
 
-    private lateinit var form: Pair<String, String>
+    data class Data(val form: Pair<String, String>)
 
-    fun init(form: Pair<String, String>) = apply {
-        this.form = form
-    }
-
-    override suspend fun build(): Pair<String, String> {
-        formStore.saveForm(form)
-        return form
+    override suspend fun build(args: Data): Pair<String, String> {
+        formStore.saveForm(args.form)
+        return args.form
     }
 }

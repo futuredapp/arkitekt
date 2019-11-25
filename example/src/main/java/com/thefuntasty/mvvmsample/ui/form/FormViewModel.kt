@@ -14,7 +14,7 @@ class FormViewModel @Inject constructor(
     override val viewState = FormViewState("", "")
 
     override fun onStart() {
-        getFormFlowInteractor.execute({
+        getFormFlowInteractor.execute(Unit, {
             viewState.storedContent.value = "${it.first} ${it.second}"
         }, {
             Log.e("error", it.message, it)
@@ -22,7 +22,7 @@ class FormViewModel @Inject constructor(
     }
 
     fun onSubmit() {
-        saveFormInteractor.init(viewState.login.value to viewState.password.value).execute {
+        saveFormInteractor.execute(SaveFormInteractor.Data(viewState.login.value to viewState.password.value)) {
             sendEvent(ShowToastEvent("${it.first} ${it.second}"))
         }
     }

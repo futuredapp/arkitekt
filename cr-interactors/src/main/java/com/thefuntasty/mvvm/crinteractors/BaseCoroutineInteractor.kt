@@ -5,14 +5,14 @@ import kotlinx.coroutines.Deferred
 /**
  * Base interactor meant to use in [CoroutineScopeOwner] implementations
  */
-abstract class BaseCoroutineInteractor<T> {
+abstract class BaseCoroutineInteractor<ARGS, T> {
     /**
-     *  [Deffered] used to hold and cancel existing run of this interactor
+     *  [Deferred] used to hold and cancel existing run of this interactor
      */
     var deferred: Deferred<T>? = null
 
     /**
      * Suspend function which should contain business logic
      */
-    abstract suspend fun build(): T
+    abstract suspend fun build(args: ARGS): T
 }
