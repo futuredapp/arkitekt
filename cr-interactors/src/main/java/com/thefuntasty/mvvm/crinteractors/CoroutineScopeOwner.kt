@@ -2,6 +2,7 @@ package com.thefuntasty.mvvm.crinteractors
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
@@ -43,7 +44,7 @@ interface CoroutineScopeOwner {
         onError: ((Throwable) -> Unit)?
     ) {
         deferred?.cancel()
-        deferred = coroutineScope.async(getWorkerDispatcher()) {
+        deferred = coroutineScope.async(getWorkerDispatcher(), CoroutineStart.LAZY) {
             build()
         }.also {
             coroutineScope.launch(Dispatchers.Main) {
