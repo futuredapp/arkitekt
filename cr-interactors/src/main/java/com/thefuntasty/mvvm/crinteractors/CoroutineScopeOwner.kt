@@ -50,14 +50,14 @@ interface CoroutineScopeOwner {
                 coroutineScope.launch(Dispatchers.Main) {
                     try {
                         onSuccess(it.await())
-                    } catch (error: Exception) {
+                    } catch (error: Throwable) {
                         onError?.invoke(error) ?: throw error
                     }
                 }
             }
         } catch (cancellation: CancellationException) {
 
-        } catch (error: Exception) {
+        } catch (error: Throwable) {
             onError?.invoke(error) ?: throw error
         }
 
@@ -90,7 +90,7 @@ interface CoroutineScopeOwner {
                     .collect()
             } catch (cancellation: CancellationException) {
                 // do nothing this is normal way of suspend function interruption
-            } catch (error: Exception) {
+            } catch (error: Throwable) {
                 onError?.invoke(error) ?: throw error
             }
         }
