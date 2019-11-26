@@ -42,18 +42,25 @@ interface CoroutineScopeOwner {
         onSuccess: (T) -> Unit,
         onError: ((Throwable) -> Unit)?
     ) {
-        deferred?.cancel()
-        deferred = coroutineScope.async(getWorkerDispatcher()) {
-            build()
-        }.also {
-            coroutineScope.launch(Dispatchers.Main) {
-                try {
-                    onSuccess(it.await())
-                } catch (error: Throwable) {
-                    onError?.invoke(error) ?: throw error
+        try {
+            deferred?.cancel()
+            deferred = coroutineScope.async(getWorkerDispatcher()) {
+                build()
+            }.also {
+                coroutineScope.launch(Dispatchers.Main) {
+                    try {
+                        onSuccess(it.await())
+                    } catch (error: Exception) {
+                        onError?.invoke(error) ?: throw error
+                    }
                 }
             }
+        } catch (cancellation: CancellationException) {
+
+        } catch (error: Exception) {
+            onError?.invoke(error) ?: throw error
         }
+
     }
 
     /**
