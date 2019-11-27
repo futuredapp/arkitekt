@@ -27,8 +27,6 @@ interface ObservableDisposablesOwner {
      * variant of [BaseObservabler.execute] method has already been called
      * on this instance of [BaseObservabler], previous one is disposed,
      * no matter what current state of internal Observable is.
-     * Use [Observable.executeStream] if you want to run one
-     * [BaseObservabler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Observable]. This disposable is disposed
@@ -43,8 +41,6 @@ interface ObservableDisposablesOwner {
      * variant of [BaseObservabler.execute] method has already been called
      * on this instance of [BaseObservabler], previous one is disposed,
      * no matter what current state of internal Observable is.
-     * Use [Observable.executeStream] if you want to run one
-     * [BaseObservabler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @param config [ObservablerConfig] used to process results of internal [Observable].

@@ -27,8 +27,6 @@ interface CompletableDisposablesOwner {
      * variant of [BaseCompletabler.execute] method has already been called
      * on this instance of [BaseCompletabler], previous one is disposed,
      * no matter what current state of internal Completable is.
-     * Use [Completable.executeStream] if you want to run one
-     * [BaseCompletabler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Completable]. This disposable is disposed
@@ -43,8 +41,6 @@ interface CompletableDisposablesOwner {
      * variant of [BaseCompletabler.execute] method has already been called
      * on this instance of [BaseCompletabler], previous one is disposed,
      * no matter what current state of internal Completable is.
-     * Use [Completable.executeStream] if you want to run one
-     * [BaseCompletabler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @param config [CompletablerConfig] used to process results of internal [Completable].

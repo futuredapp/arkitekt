@@ -27,8 +27,6 @@ interface FlowableDisposablesOwner {
      * variant of [BaseFlowabler.execute] method has already been called
      * on this instance of [BaseFlowabler], previous one is disposed,
      * no matter what current state of internal Flowable is.
-     * Use [Flowable.executeStream] if you want to run one
-     * [BaseFlowabler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Flowable]. This disposable is disposed
@@ -43,8 +41,6 @@ interface FlowableDisposablesOwner {
      * variant of [BaseFlowabler.execute] method has already been called
      * on this instance of [BaseFlowabler], previous one is disposed,
      * no matter what current state of internal Flowable is.
-     * Use [Flowable.executeStream] if you want to run one
-     * [BaseFlowabler] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @param config [FlowablerConfig] used to process results of internal [Flowable].

@@ -27,8 +27,6 @@ interface MaybeDisposablesOwner {
      * variant of [BaseMayber.execute] method has already been called
      * on this instance of [BaseMayber], previous one is disposed,
      * no matter what current state of internal Maybe is.
-     * Use [Maybe.executeStream] if you want to run one
-     * [BaseMayber] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Maybe]. This disposable is disposed
@@ -43,8 +41,6 @@ interface MaybeDisposablesOwner {
      * variant of [BaseMayber.execute] method has already been called
      * on this instance of [BaseMayber], previous one is disposed,
      * no matter what current state of internal Maybe is.
-     * Use [Maybe.executeStream] if you want to run one
-     * [BaseMayber] multiple times simultaneously.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @param config [MayberConfig] used to process results of internal [Maybe].
