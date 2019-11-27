@@ -26,7 +26,9 @@ interface MaybeDisposablesOwner {
      * shared, automatically disposed, composite disposable. In case some
      * variant of [BaseMayber.execute] method has already been called
      * on this instance of [BaseMayber], previous one is disposed,
-     * no matter what current state of internal Maybe is.
+     * no matter what current state of internal Maybe is. This behavior
+     * can be disabled by passing false to [MayberConfig.disposePrevious]
+     * method.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Maybe]. This disposable is disposed
@@ -40,7 +42,9 @@ interface MaybeDisposablesOwner {
      * shared, automatically disposed, composite disposable. In case some
      * variant of [BaseMayber.execute] method has already been called
      * on this instance of [BaseMayber], previous one is disposed,
-     * no matter what current state of internal Maybe is.
+     * no matter what current state of internal Maybe is. This behavior
+     * can be disabled by passing false to [MayberConfig.disposePrevious]
+     * method.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @param config [MayberConfig] used to process results of internal [Maybe].

@@ -28,7 +28,9 @@ interface SingleDisposablesOwner {
      * on this instance of [BaseSingler], previous one is disposed,
      * no matter what current state of internal Single is.
      * Use [Single.executeStream] if you want to run one
-     * [BaseSingler] multiple times simultaneously.
+     * [BaseSingler] multiple times simultaneously. This behavior
+     * can be disabled by passing false to [SinglerConfig.disposePrevious]
+     * method.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Single]. This disposable is disposed
@@ -44,7 +46,9 @@ interface SingleDisposablesOwner {
      * on this instance of [BaseSingler], previous one is disposed,
      * no matter what current state of internal Single is.
      * Use [Single.executeStream] if you want to run one
-     * [BaseSingler] multiple times simultaneously.
+     * [BaseSingler] multiple times simultaneously. This behavior
+     * can be disabled by passing false to [SinglerConfig.disposePrevious]
+     * method.
      *
      * @param args Arguments used for initial interactor initialization.
      * @param config [SinglerConfig] used to process results of internal [Single].

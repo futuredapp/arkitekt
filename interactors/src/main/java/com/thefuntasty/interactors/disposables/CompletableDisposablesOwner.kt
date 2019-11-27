@@ -26,7 +26,9 @@ interface CompletableDisposablesOwner {
      * shared, automatically disposed, composite disposable. In case some
      * variant of [BaseCompletabler.execute] method has already been called
      * on this instance of [BaseCompletabler], previous one is disposed,
-     * no matter what current state of internal Completable is.
+     * no matter what current state of internal Completable is. This behavior
+     * can be disabled by passing false to [CompletablerConfig.disposePrevious]
+     * method.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Completable]. This disposable is disposed
@@ -40,7 +42,9 @@ interface CompletableDisposablesOwner {
      * shared, automatically disposed, composite disposable. In case some
      * variant of [BaseCompletabler.execute] method has already been called
      * on this instance of [BaseCompletabler], previous one is disposed,
-     * no matter what current state of internal Completable is.
+     * no matter what current state of internal Completable is. This behavior
+     * can be disabled by passing false to [CompletablerConfig.disposePrevious]
+     * method.
      *
      * @param args Arguments used for initial interactor initialisation.
      * @param config [CompletablerConfig] used to process results of internal [Completable].
