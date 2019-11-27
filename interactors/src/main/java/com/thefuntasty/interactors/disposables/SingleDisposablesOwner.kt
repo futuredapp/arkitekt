@@ -37,14 +37,12 @@ interface SingleDisposablesOwner {
      * to dispose it in advance on your own.
      */
     // variant A of execute without params
-    fun <T> BaseSingler<Unit, T>.execute(result: SinglerConfig.Builder<T>.() -> Unit): Disposable {
-        return execute(Unit,result)
-    }
+    fun <T> BaseSingler<Unit, T>.execute(result: SinglerConfig.Builder<T>.() -> Unit): Disposable =
+        execute(Unit, result)
 
     // variant B of execute without params
-    fun <T> BaseSingler<Unit, T>.executeNoArgs(result: SinglerConfig.Builder<T>.() -> Unit): Disposable {
-        return execute(Unit,result)
-    }
+    fun <T> BaseSingler<Unit, T>.executeNoArgs(result: SinglerConfig.Builder<T>.() -> Unit): Disposable =
+        execute(Unit, result)
 
     /**
      * Executes the interactor and adds its disposable to
