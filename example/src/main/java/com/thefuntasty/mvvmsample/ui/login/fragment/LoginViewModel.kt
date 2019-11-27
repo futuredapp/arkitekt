@@ -15,23 +15,21 @@ class LoginViewModel @Inject constructor(
     override val viewState = LoginViewState()
 
     override fun onStart() {
-        stateInteractor.init(true).execute({
-            viewState.showHeader.value = View.VISIBLE
-        }, {
-            // do nothing
-        })
+        stateInteractor.execute(true) {
+            onSuccess { viewState.showHeader.value = View.VISIBLE }
+            onError { }
+        }
 
-        getUserFullNameObservabler.execute { fullName ->
-            viewState.fullName.value = fullName
+        getUserFullNameObservabler.execute(Unit) {
+            onNext { viewState.fullName.value = it }
         }
     }
 
     fun logIn() = with(viewState) {
-        loginCompletabler.init(name.value, surname.value).execute({
-            sendEvent(NotifyActivityEvent("Successfully logged in!"))
-        }, {
-            sendEvent(NotifyActivityEvent("Login error!"))
-        })
+        loginCompletabler.execute(LoginCompletabler.LoginData(name.value, surname.value)) {
+            onComplete { sendEvent(NotifyActivityEvent("Successfully logged in!")) }
+            onError { sendEvent(NotifyActivityEvent("Login error!")) }
+        }
     }
 
     fun onBack() = sendEvent(NavigateBackEvent)

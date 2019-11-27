@@ -1,4 +1,4 @@
-package com.thefuntasty.interactors
+package com.thefuntasty.interactors.interactors
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

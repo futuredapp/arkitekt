@@ -12,3 +12,10 @@ object InteractorErrorHandler {
      */
     var globalOnErrorLogger: (Throwable) -> Unit = {}
 }
+
+internal fun wrapWithGlobalOnErrorLogger(onError: (Throwable) -> Unit): (Throwable) -> Unit {
+    return { error ->
+        InteractorErrorHandler.globalOnErrorLogger(error)
+        onError(error)
+    }
+}
