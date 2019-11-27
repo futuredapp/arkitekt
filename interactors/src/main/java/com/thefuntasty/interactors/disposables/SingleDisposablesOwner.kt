@@ -32,12 +32,19 @@ interface SingleDisposablesOwner {
      * can be disabled by passing false to [SinglerConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial interactor initialisation.
      * @return disposable of internal [Single]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseSingler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    // variant A of execute without params
+    fun <T> BaseSingler<Unit, T>.execute(result: SinglerConfig.Builder<T>.() -> Unit): Disposable {
+        return execute(Unit,result)
+    }
+
+    // variant B of execute without params
+    fun <T> BaseSingler<Unit, T>.executeNoArgs(result: SinglerConfig.Builder<T>.() -> Unit): Disposable {
+        return execute(Unit,result)
+    }
 
     /**
      * Executes the interactor and adds its disposable to

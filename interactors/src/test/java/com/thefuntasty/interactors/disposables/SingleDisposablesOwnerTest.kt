@@ -116,18 +116,36 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
             override fun prepare(args: Unit) = Single.just("Hello")
         }
 
+        var capturedString = ""
+
         withDisposablesOwner {
             tempSingler.execute {
                 onSuccess {
-                    assertEquals(it, "Hello")
-                }
-            }
-
-            tempSingler.executeNoArgs {
-                onSuccess {
-                    assertEquals(it, "Hello")
+                    capturedString = it
                 }
             }
         }
+
+        assertEquals(capturedString, "Hello")
+
+    }
+
+    @Test
+    fun `run executeNoParams without params`() {
+        val tempSingler = object : BaseSingler<Unit, String>() {
+            override fun prepare(args: Unit) = Single.just("Hello")
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempSingler.executeNoArgs {
+                onSuccess {
+                    capturedString = it
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }
