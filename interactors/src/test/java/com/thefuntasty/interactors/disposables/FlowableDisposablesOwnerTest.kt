@@ -7,7 +7,6 @@ import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.lang.RuntimeException
 
 class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
@@ -27,10 +26,6 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
                 onComplete { }
                 onError { }
             }
-        }
-
-        withDisposablesOwner {
-            tempFlowabler executeWith ""
         }
 
         withDisposablesOwner {

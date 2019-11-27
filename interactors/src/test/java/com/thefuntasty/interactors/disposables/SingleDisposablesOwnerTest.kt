@@ -7,7 +7,6 @@ import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.lang.RuntimeException
 
 class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
@@ -26,10 +25,6 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
                 onSuccess { }
                 onError { }
             }
-        }
-
-        withDisposablesOwner {
-            tempSingler executeWith ""
         }
 
         withDisposablesOwner {

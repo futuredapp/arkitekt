@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewModelCreator
 import com.thefuntasty.mvvm.ViewState
@@ -32,17 +32,24 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
         }
     }
 
+    /**
+     * Reference to Fragment ViewState
+     */
+    val viewState: VS get() {
+        return viewModel.viewState
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutResId, container, false)
 
-    private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
+    private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     /**
      * Get reference to Activity ViewModel. Make sure correct VM class is
      * specified.
      */
     inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
-        ViewModelProviders.of(requireActivity()).get(AVM::class.java)
+        ViewModelProvider(requireActivity()).get(AVM::class.java)
 
     /**
      * Observe event defined by event class and run observer lambda whenever event is

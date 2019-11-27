@@ -1,64 +1,74 @@
 package com.thefuntasty.interactors
 
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
+import com.thefuntasty.interactors.interactors.BaseCompletabler
 import com.thefuntasty.mvvm.ViewState
+import io.reactivex.Completable
 import org.junit.Test
 
 class BaseRxViewModelTest : RxMockitoJUnitRunner() {
 
-    private val mockViewState = mock<ViewState>()
+    class TestViewState : ViewState {
+        fun fnI(num: Int) {}
+    }
+
+    private val mockViewState = mock<TestViewState>()
 
     @Test
-    fun `check disposable removed after clean`() {
-//        val testSubscriber = TestSubscriber<String>()
-//        val mockVM = object : BaseRxViewModel<TestViewState>() {
-//            override val viewState = mockViewState
-//
-//            fun runTwoEmitsFlowable() = TestFlowablerFactory.twoEmits.executeSubscriber(testSubscriber)
-//
-//            fun clear() = onCleared()
-//
-//            override fun onCleared() {
-//                super.onCleared()
-//                viewState.testMethodCall2(disposables.size())
-//            }
-//        }
-//
-//        mockVM.runTwoEmitsFlowable()
-//        testSubscriber.await()
-//        mockVM.clear()
-//
-//        verify(mockViewState).testMethodCall2(0)
-//        verifyNoMoreInteractions(mockViewState)
-        // TODO
+    fun `check disposable removed after clear`() {
+        val vm = object : BaseRxViewModel<ViewState>() {
+            override val viewState = mockViewState
+
+            fun runInteractor() {
+                object : BaseCompletabler<Unit>() {
+                    override fun prepare(args: Unit) = Completable.complete()
+                }.execute(Unit)
+            }
+
+            fun clear() = onCleared()
+
+            override fun onCleared() {
+                super.onCleared()
+                viewState.fnI(disposables.size())
+            }
+        }
+
+        vm.runInteractor()
+        vm.clear()
+
+        verify(mockViewState).fnI(0)
+        verifyNoMoreInteractions(mockViewState)
     }
 
     @Test
-    fun `check disposable stored before completion`() {
-//        val mockVM = object : BaseRxViewModel<TestViewState>() {
-//            override val viewState = mockViewState
-//
-//            fun runNeverCompletesFlowable() = TestFlowablerFactory.neverCompletes.execute { }
-//
-//            fun clear() = onCleared()
-//
-//            override fun onCleared() {
-//                viewState.testMethodCall2(disposables.size())
-//                super.onCleared()
-//                viewState.testMethodCall2(disposables.size())
-//            }
-//        }
-//
-//        mockVM.runNeverCompletesFlowable()
-//        mockVM.clear()
-//
-//        // one disposable in disposables
-//        verify(mockViewState).testMethodCall2(1)
-//
-//        // zero disposables after onCleared call
-//        verify(mockViewState).testMethodCall2(0)
-//        verifyNoMoreInteractions(mockViewState)
-        // TODO
+    fun `check disposable stored in composite disposables before onClear`() {
+        val vm = object : BaseRxViewModel<ViewState>() {
+            override val viewState = mockViewState
+
+            fun runInteractor() {
+                object : BaseCompletabler<Unit>() {
+                    override fun prepare(args: Unit) = Completable.complete()
+                }.execute(Unit)
+            }
+
+            fun clear() = onCleared()
+
+            override fun onCleared() {
+                viewState.fnI(disposables.size())
+                super.onCleared()
+                viewState.fnI(disposables.size())
+            }
+        }
+
+        vm.runInteractor()
+        vm.clear()
+
+        verify(mockViewState).fnI(1)
+
+        verify(mockViewState).fnI(0)
+        verifyNoMoreInteractions(mockViewState)
     }
 }
