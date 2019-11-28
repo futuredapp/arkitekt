@@ -65,8 +65,8 @@ interface MaybeDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
-        mayberConfig.onStart()
         val disposable = create(args)
+            .doOnSubscribe { mayberConfig.onStart() }
             .subscribe(
                 mayberConfig.onSuccess,
                 wrapWithGlobalOnErrorLogger(mayberConfig.onError),
@@ -95,14 +95,14 @@ interface MaybeDisposablesOwner {
             return@run build()
         }
 
-        mayberConfig.onStart()
-        return subscribe(
-            mayberConfig.onSuccess,
-            wrapWithGlobalOnErrorLogger(mayberConfig.onError),
-            mayberConfig.onComplete
-        ).also {
-            disposables += it
-        }
+        return doOnSubscribe { mayberConfig.onStart() }
+            .subscribe(
+                mayberConfig.onSuccess,
+                wrapWithGlobalOnErrorLogger(mayberConfig.onError),
+                mayberConfig.onComplete
+            ).also {
+                disposables += it
+            }
     }
 }
 

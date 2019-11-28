@@ -65,8 +65,9 @@ interface CompletableDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
-        completablerConfig.onStart()
-        val disposable = create(args).subscribe(
+        val disposable = create(args)
+            .doOnSubscribe { completablerConfig.onStart() }
+            .subscribe(
                 completablerConfig.onComplete,
                 wrapWithGlobalOnErrorLogger(completablerConfig.onError)
             )
@@ -93,13 +94,13 @@ interface CompletableDisposablesOwner {
             return@run build()
         }
 
-        completablerConfig.onStart()
-        return subscribe(
-            completablerConfig.onComplete,
-            wrapWithGlobalOnErrorLogger(completablerConfig.onError)
-        ).also {
-            disposables += it
-        }
+        return doOnSubscribe { completablerConfig.onStart() }
+            .subscribe(
+                completablerConfig.onComplete,
+                wrapWithGlobalOnErrorLogger(completablerConfig.onError)
+            ).also {
+                disposables += it
+            }
     }
 }
 

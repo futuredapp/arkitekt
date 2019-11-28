@@ -69,11 +69,12 @@ interface SingleDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
-        singlerConfig.onStart()
-        val disposable = create(args).subscribe(
-            singlerConfig.onSuccess,
-            wrapWithGlobalOnErrorLogger(singlerConfig.onError)
-        )
+        val disposable = create(args)
+            .doOnSubscribe { singlerConfig.onStart() }
+            .subscribe(
+                singlerConfig.onSuccess,
+                wrapWithGlobalOnErrorLogger(singlerConfig.onError)
+            )
 
         this@execute.currentDisposable = disposable
         disposables += disposable
@@ -97,13 +98,13 @@ interface SingleDisposablesOwner {
             return@run build()
         }
 
-        singlerConfig.onStart()
-        return subscribe(
-            singlerConfig.onSuccess,
-            wrapWithGlobalOnErrorLogger(singlerConfig.onError)
-        ).also {
-            disposables += it
-        }
+        return doOnSubscribe { singlerConfig.onStart() }
+            .subscribe(
+                singlerConfig.onSuccess,
+                wrapWithGlobalOnErrorLogger(singlerConfig.onError)
+            ).also {
+                disposables += it
+            }
     }
 }
 

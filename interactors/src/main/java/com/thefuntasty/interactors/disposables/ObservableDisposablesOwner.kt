@@ -65,8 +65,8 @@ interface ObservableDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
-        observablerConfig.onStart()
         val disposable = create(args)
+            .doOnSubscribe { observablerConfig.onStart() }
             .subscribe(
                 observablerConfig.onNext,
                 wrapWithGlobalOnErrorLogger(observablerConfig.onError),
@@ -95,14 +95,14 @@ interface ObservableDisposablesOwner {
             return@run build()
         }
 
-        observablerConfig.onStart()
-        return subscribe(
-            observablerConfig.onNext,
-            wrapWithGlobalOnErrorLogger(observablerConfig.onError),
-            observablerConfig.onComplete
-        ).also {
-            disposables += it
-        }
+        return doOnSubscribe { observablerConfig.onStart() }
+            .subscribe(
+                observablerConfig.onNext,
+                wrapWithGlobalOnErrorLogger(observablerConfig.onError),
+                observablerConfig.onComplete
+            ).also {
+                disposables += it
+            }
     }
 }
 

@@ -65,8 +65,8 @@ interface FlowableDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
-        flowablerConfig.onStart()
         val disposable = create(args)
+            .doOnSubscribe { flowablerConfig.onStart() }
             .subscribe(
                 flowablerConfig.onNext,
                 wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
@@ -95,14 +95,14 @@ interface FlowableDisposablesOwner {
             return@run build()
         }
 
-        flowablerConfig.onStart()
-        return subscribe(
-            flowablerConfig.onNext,
-            wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
-            flowablerConfig.onComplete
-        ).also {
-            disposables += it
-        }
+        return doOnSubscribe { flowablerConfig.onStart() }
+            .subscribe(
+                flowablerConfig.onNext,
+                wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
+                flowablerConfig.onComplete
+            ).also {
+                disposables += it
+            }
     }
 }
 
