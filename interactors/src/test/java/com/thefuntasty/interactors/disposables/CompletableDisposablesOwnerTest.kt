@@ -109,4 +109,40 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
     }
+
+    @Test
+    fun `onStart should be called before subscription for execute method`() {
+        val tempCompletabler = object : BaseCompletabler<String>() {
+            override fun prepare(args: String) = Completable.fromCallable { args }
+        }
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            tempCompletabler.execute("Hello") {
+                onStart { events.add("start") }
+                onComplete { events.add("complete") }
+            }
+        }
+
+        assertEquals(2, events.size)
+        assertEquals("start", events[0])
+        assertEquals("complete", events[1])
+    }
+
+    @Test
+    fun `onStart should be called before subscription for executeStream method`() {
+        val tempCompletable = Completable.fromCallable { Unit }
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            tempCompletable.executeStream {
+                onStart { events.add("start") }
+                onComplete { events.add("complete") }
+            }
+        }
+
+        assertEquals(2, events.size)
+        assertEquals("start", events[0])
+        assertEquals("complete", events[1])
+    }
 }

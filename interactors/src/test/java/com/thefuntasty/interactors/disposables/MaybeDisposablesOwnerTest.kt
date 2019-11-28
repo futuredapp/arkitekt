@@ -110,4 +110,40 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
     }
+
+    @Test
+    fun `onStart should be called before subscription for execute method`() {
+        val testMayber = object : BaseMayber<Unit, String>() {
+            override fun prepare(args: Unit) = Maybe.fromCallable { "result" }
+        }
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            testMayber.execute(Unit) {
+                onStart { events.add("start") }
+                onSuccess { events.add(it) }
+            }
+        }
+
+        assertEquals(2, events.size)
+        assertEquals("start", events[0])
+        assertEquals("result", events[1])
+    }
+
+    @Test
+    fun `onStart should be called before subscription for executeStream method`() {
+        val testMaybe = Maybe.fromCallable { "result" }
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            testMaybe.executeStream {
+                onStart { events.add("start") }
+                onSuccess { events.add(it) }
+            }
+        }
+
+        assertEquals(2, events.size)
+        assertEquals("start", events[0])
+        assertEquals("result", events[1])
+    }
 }

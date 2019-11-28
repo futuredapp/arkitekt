@@ -66,6 +66,7 @@ interface MaybeDisposablesOwner {
         }
 
         val disposable = create(args)
+            .doOnSubscribe { mayberConfig.onStart() }
             .subscribe(
                 mayberConfig.onSuccess,
                 wrapWithGlobalOnErrorLogger(mayberConfig.onError),
@@ -94,13 +95,14 @@ interface MaybeDisposablesOwner {
             return@run build()
         }
 
-        return subscribe(
-            mayberConfig.onSuccess,
-            wrapWithGlobalOnErrorLogger(mayberConfig.onError),
-            mayberConfig.onComplete
-        ).also {
-            disposables += it
-        }
+        return doOnSubscribe { mayberConfig.onStart() }
+            .subscribe(
+                mayberConfig.onSuccess,
+                wrapWithGlobalOnErrorLogger(mayberConfig.onError),
+                mayberConfig.onComplete
+            ).also {
+                disposables += it
+            }
     }
 }
 
@@ -110,6 +112,7 @@ interface MaybeDisposablesOwner {
  * Use [MayberConfig.Builder] to construct this object.
  */
 class MayberConfig<T> private constructor(
+    val onStart: () -> Unit,
     val onSuccess: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
@@ -120,10 +123,21 @@ class MayberConfig<T> private constructor(
      * used to process results of Mayber interactor.
      */
     class Builder<T> {
+        private var onStart: (() -> Unit)? = null
         private var onSuccess: ((T) -> Unit)? = null
         private var onComplete: (() -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
+
+        /**
+         * Set lambda which is called right before
+         * internal Maybe is subscribed
+         * @param onStart Lambda called right before Maybe is
+         * subscribed.
+         */
+        fun onStart(onStart: () -> Unit) {
+            this.onStart = onStart
+        }
 
         /**
          * Set lambda which is called when onSuccess on
@@ -167,6 +181,7 @@ class MayberConfig<T> private constructor(
 
         fun build(): MayberConfig<T> {
             return MayberConfig(
+                onStart ?: { },
                 onSuccess ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },
