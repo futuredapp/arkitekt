@@ -268,15 +268,15 @@ class LoginViewModel @Inject constructor(
 
     fun logIn() = with(viewState) {
         getLoginSingler.execute(LoginData(email.value, email.password)) {
-        	onStart {
-        		isLoading.value = true
-        	}
+            onStart {
+                isLoading.value = true
+            }
             onSuccess {
-            	isLoading.value = false
+                isLoading.value = false
                 fullName.value = user.fullName // handle success & manipulate state
             }
             onError {
-            	isLoading.value = false
+                isLoading.value = false
                 // handle error
             }
         }
