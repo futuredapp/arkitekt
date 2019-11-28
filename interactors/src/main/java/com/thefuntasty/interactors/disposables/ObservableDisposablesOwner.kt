@@ -65,6 +65,7 @@ interface ObservableDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
+        observablerConfig.onStart()
         val disposable = create(args)
             .subscribe(
                 observablerConfig.onNext,
@@ -94,6 +95,7 @@ interface ObservableDisposablesOwner {
             return@run build()
         }
 
+        observablerConfig.onStart()
         return subscribe(
             observablerConfig.onNext,
             wrapWithGlobalOnErrorLogger(observablerConfig.onError),
@@ -110,6 +112,7 @@ interface ObservableDisposablesOwner {
  * Use [ObservablerConfig.Builder] to construct this object.
  */
 class ObservablerConfig<T> private constructor(
+    val onStart: () -> Unit,
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
@@ -120,10 +123,21 @@ class ObservablerConfig<T> private constructor(
      * used to process results of Observabler interactor.
      */
     class Builder<T> {
+        private var onStart: (() -> Unit)? = null
         private var onNext: ((T) -> Unit)? = null
         private var onComplete: (() -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
+
+        /**
+         * Set lambda which is called right before
+         * internal Observable is subscribed
+         * @param onStart Lambda called right before Observable is
+         * subscribed.
+         */
+        fun onStart(onStart: () -> Unit) {
+            this.onStart = onStart
+        }
 
         /**
          * Set lambda which is called when onNext on
@@ -167,6 +181,7 @@ class ObservablerConfig<T> private constructor(
 
         fun build(): ObservablerConfig<T> {
             return ObservablerConfig(
+                onStart ?: { },
                 onNext ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },

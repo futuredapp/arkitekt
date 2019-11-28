@@ -110,4 +110,46 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
     }
+
+    @Test
+    fun `onStart should be called before subscription for execute methods`() {
+        val tempFlowabler = object : BaseFlowabler<Unit, String>() {
+            override fun prepare(args: Unit) = Flowable.just("first", "second")
+        }
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            tempFlowabler.execute(Unit) {
+                onStart { events.add("start") }
+                onNext { events.add(it) }
+                onComplete { events.add("complete") }
+            }
+        }
+
+        assertEquals(4, events.size)
+        assertEquals("start", events[0])
+        assertEquals("first", events[1])
+        assertEquals("second", events[2])
+        assertEquals("complete", events[3])
+    }
+
+    @Test
+    fun `onStart should be called before subscription for execute stream method`() {
+        val tempFlowable = Flowable.just("first", "second")
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            tempFlowable.executeStream {
+                onStart { events.add("start") }
+                onNext { events.add(it) }
+                onComplete { events.add("complete") }
+            }
+        }
+
+        assertEquals(4, events.size)
+        assertEquals("start", events[0])
+        assertEquals("first", events[1])
+        assertEquals("second", events[2])
+        assertEquals("complete", events[3])
+    }
 }

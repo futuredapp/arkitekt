@@ -129,4 +129,46 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
     }
+
+    @Test
+    fun `onStart should be called before subscription for execute methods`() {
+        val testObservabler = object : BaseObservabler<Unit, String>() {
+            override fun prepare(args: Unit) = Observable.just("first", "second")
+        }
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            testObservabler.execute(Unit) {
+                onStart { events.add("start") }
+                onNext { events.add(it) }
+                onComplete { events.add("complete") }
+            }
+        }
+
+        assertEquals(4, events.size)
+        assertEquals("start", events[0])
+        assertEquals("first", events[1])
+        assertEquals("second", events[2])
+        assertEquals("complete", events[3])
+    }
+
+    @Test
+    fun `onStart should be called before subscription for execute stream method`() {
+        val testObservable = Observable.just("first", "second")
+        val events = mutableListOf<String>()
+
+        withDisposablesOwner {
+            testObservable.executeStream {
+                onStart { events.add("start") }
+                onNext { events.add(it) }
+                onComplete { events.add("complete") }
+            }
+        }
+
+        assertEquals(4, events.size)
+        assertEquals("start", events[0])
+        assertEquals("first", events[1])
+        assertEquals("second", events[2])
+        assertEquals("complete", events[3])
+    }
 }

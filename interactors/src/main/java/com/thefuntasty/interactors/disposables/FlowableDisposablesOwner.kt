@@ -65,6 +65,7 @@ interface FlowableDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
+        flowablerConfig.onStart()
         val disposable = create(args)
             .subscribe(
                 flowablerConfig.onNext,
@@ -94,6 +95,7 @@ interface FlowableDisposablesOwner {
             return@run build()
         }
 
+        flowablerConfig.onStart()
         return subscribe(
             flowablerConfig.onNext,
             wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
@@ -110,16 +112,28 @@ interface FlowableDisposablesOwner {
  * Use [FlowablerConfig.Builder] to construct this object.
  */
 class FlowablerConfig<T> private constructor(
+    val onStart: () -> Unit,
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
 ) {
     class Builder<T> {
+        private var onStart: (() -> Unit)? = null
         private var onNext: ((T) -> Unit)? = null
         private var onComplete: (() -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
+
+        /**
+         * Set lambda which is called right before
+         * internal Flowable is subscribed
+         * @param onStart Lambda called right before Flowable is
+         * subscribed.
+         */
+        fun onStart(onStart: () -> Unit) {
+            this.onStart = onStart
+        }
 
         /**
          * Set lambda which is called when onNext on
@@ -163,6 +177,7 @@ class FlowablerConfig<T> private constructor(
 
         fun build(): FlowablerConfig<T> {
             return FlowablerConfig(
+                onStart ?: { },
                 onNext ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },

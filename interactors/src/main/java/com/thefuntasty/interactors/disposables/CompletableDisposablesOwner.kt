@@ -65,8 +65,8 @@ interface CompletableDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
-        val disposable = create(args)
-            .subscribe(
+        completablerConfig.onStart()
+        val disposable = create(args).subscribe(
                 completablerConfig.onComplete,
                 wrapWithGlobalOnErrorLogger(completablerConfig.onError)
             )
@@ -88,14 +88,15 @@ interface CompletableDisposablesOwner {
     fun Completable.executeStream(
         config: CompletablerConfig.Builder.() -> Unit
     ): Disposable {
-        val flowablerConfig = CompletablerConfig.Builder().run {
+        val completablerConfig = CompletablerConfig.Builder().run {
             config.invoke(this)
             return@run build()
         }
 
+        completablerConfig.onStart()
         return subscribe(
-            flowablerConfig.onComplete,
-            wrapWithGlobalOnErrorLogger(flowablerConfig.onError)
+            completablerConfig.onComplete,
+            wrapWithGlobalOnErrorLogger(completablerConfig.onError)
         ).also {
             disposables += it
         }
@@ -108,6 +109,7 @@ interface CompletableDisposablesOwner {
  * Use [CompletablerConfig.Builder] to construct this object.
  */
 class CompletablerConfig private constructor(
+    val onStart: () -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
@@ -117,9 +119,20 @@ class CompletablerConfig private constructor(
      * used to process results of Completabler interactor.
      */
     class Builder {
+        private var onStart: (() -> Unit)? = null
         private var onComplete: (() -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
+
+        /**
+         * Set lambda which is called right before
+         * internal Completable is subscribed
+         * @param onStart Lambda called right before Completable is
+         * subscribed.
+         */
+        fun onStart(onStart: () -> Unit) {
+            this.onStart = onStart
+        }
 
         /**
          * Set lambda which is called when onComplete on
@@ -153,6 +166,7 @@ class CompletablerConfig private constructor(
 
         fun build(): CompletablerConfig {
             return CompletablerConfig(
+                onStart ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },
                 disposePrevious

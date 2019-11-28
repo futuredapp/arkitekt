@@ -69,6 +69,7 @@ interface SingleDisposablesOwner {
             this@execute.currentDisposable?.dispose()
         }
 
+        singlerConfig.onStart()
         val disposable = create(args).subscribe(
             singlerConfig.onSuccess,
             wrapWithGlobalOnErrorLogger(singlerConfig.onError)
@@ -96,6 +97,7 @@ interface SingleDisposablesOwner {
             return@run build()
         }
 
+        singlerConfig.onStart()
         return subscribe(
             singlerConfig.onSuccess,
             wrapWithGlobalOnErrorLogger(singlerConfig.onError)
@@ -111,6 +113,7 @@ interface SingleDisposablesOwner {
  * Use [SinglerConfig.Builder] to construct this object.
  */
 class SinglerConfig<T> private constructor(
+    val onStart: () -> Unit,
     val onSuccess: (T) -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
@@ -120,9 +123,20 @@ class SinglerConfig<T> private constructor(
      * used to process results of Singler interactor.
      */
     class Builder<T> {
+        private var onStart: (() -> Unit)? = null
         private var onSuccess: ((T) -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
+
+        /**
+         * Set lambda which is called right before
+         * internal Single is subscribed
+         * @param onStart Lambda called right before Single is
+         * subscribed.
+         */
+        fun onStart(onStart: () -> Unit) {
+            this.onStart = onStart
+        }
 
         /**
          * Set lambda which is called when onSuccess on
@@ -156,6 +170,7 @@ class SinglerConfig<T> private constructor(
 
         fun build(): SinglerConfig<T> {
             return SinglerConfig(
+                onStart ?: { },
                 onSuccess ?: { },
                 onError ?: { throw it },
                 disposePrevious
