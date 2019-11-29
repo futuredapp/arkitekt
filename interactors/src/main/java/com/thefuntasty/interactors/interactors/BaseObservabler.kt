@@ -1,24 +1,24 @@
-package com.thefuntasty.interactors
+package com.thefuntasty.interactors.interactors
 
 import io.reactivex.Observable
 
 /**
  * Base interactor which wraps [Observable]. Instance of this
  * interactor can be simply executed in cooperation with
- * [com.thefuntasty.interactors.disposables.DisposablesOwner] interface.
+ * [com.thefuntasty.interactors.disposables.ObservableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseObservabler<T : Any> : BaseInteractor() {
+abstract class BaseObservabler<ARGS, T> : BaseInteractor() {
 
     /**
      * Prepares whole wrapped [Observable] Rx stream. This method does not
      * subscribe to the stream.
      */
-    protected abstract fun prepare(): Observable<T>
+    protected abstract fun prepare(args: ARGS): Observable<T>
 
     /**
      * Creates internal [Observable] Rx stream, applies requested work
@@ -26,11 +26,11 @@ abstract class BaseObservabler<T : Any> : BaseInteractor() {
      * is handy when you want to combine streams of multiple interactors.
      * For example:
      *
-     * interactor_A.stream().flatMap {
-     *     interactor_B.stream()
+     * interactor_A.create(Unit).flatMap {
+     *     interactor_B.create(Unit)
      * }
      */
-    fun stream(): Observable<T> = prepare().applySchedulers()
+    fun create(args: ARGS): Observable<T> = prepare(args).applySchedulers()
 
     private fun Observable<T>.applySchedulers(): Observable<T> {
         return compose { resultObservable ->

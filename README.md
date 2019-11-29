@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/thefuntasty/mvvm-android.svg)](https://jitpack.io/#thefuntasty/mvvm-android)
+[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
 [![Build Status](https://app.bitrise.io/app/7bcc28f1329d6773/status.svg?token=RvtAnWzfOq-0n7TIW5By8g&branch=master)](https://app.bitrise.io/app/7bcc28f1329d6773)
 
 # MVVM Android
@@ -10,8 +10,10 @@ support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJav
 interactors (use cases). Architecture described here is used among wide variety of
 projects and it's production ready.
 
+![MVVM architecture](extras/architecture-diagram.png)
+
 # Download
-`app/build.gradle.kts`
+[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
 ```groovy
 dependencies {
     implementation("com.thefuntasty.mvvm:mvvm:LatestVersion")
@@ -235,20 +237,14 @@ result of this call.
 ```kotlin
 class LoginSingler @Inject constructor(
     private val apiManager: ApiManager // Retrofit Service
-) : BaseSingler<User>() {
+) : BaseSingler<LoginData, User>() {
 
-    private lateinit var email: String
-    private lateinit var pass: String
-
-    fun init(email: String, pass: String) = apply {
-        this.email = email
-        this.pass = pass
-    }
-
-    override fun prepare(): Single<User> {
-        return apiManager.login(email, pass)
+    override fun prepare(args: LoginData): Single<User> {
+        return apiManager.getUser(args)
     }
 }
+
+data class LoginData(val email: String, val password: String)
 ```
 #### LoginViewState.kt
 ```kotlin
@@ -259,6 +255,7 @@ class LoginViewState : ViewState {
 
     // OUT - Values observed by UI
     val fullName = MutableLiveData<String>()
+    val isLoading = MutableLiveData<Boolean>()
 }
 ```
 
@@ -270,11 +267,19 @@ class LoginViewModel @Inject constructor(
     override val viewState = LoginViewState()
 
     fun logIn() = with(viewState) {
-        loginInteractor.init(email.value, pass.value).execute ({ user ->
-            fullName.value = user.fullName // handle success & manipulate state
-        }, {
-            // handle error
-        })
+        getLoginSingler.execute(LoginData(email.value, email.password)) {
+            onStart {
+                isLoading.value = true
+            }
+            onSuccess {
+                isLoading.value = false
+                fullName.value = user.fullName // handle success & manipulate state
+            }
+            onError {
+                isLoading.value = false
+                // handle error
+            }
+        }
     }
 }
 ```

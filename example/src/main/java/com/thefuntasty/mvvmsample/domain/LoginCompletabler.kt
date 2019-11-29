@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.interactors.BaseCompletabler
+import com.thefuntasty.interactors.interactors.BaseCompletabler
 import com.thefuntasty.mvvmsample.data.model.User
 import com.thefuntasty.mvvmsample.data.store.UserStore
 import io.reactivex.Completable
@@ -9,19 +9,13 @@ import javax.inject.Inject
 
 class LoginCompletabler @Inject constructor(
     private val userStore: UserStore
-) : BaseCompletabler() {
+) : BaseCompletabler<LoginCompletabler.LoginData>() {
 
-    private lateinit var firstName: String
-    private lateinit var lastName: String
+    data class LoginData(val firstName: String, val lastName: String)
 
-    fun init(firstName: String, lastName: String) = apply {
-        this.firstName = firstName
-        this.lastName = lastName
-    }
-
-    override fun prepare(): Completable {
+    override fun prepare(args: LoginData): Completable {
         return Completable.timer(1, TimeUnit.SECONDS).andThen(
-            Completable.fromCallable { userStore.setUser(User(firstName, lastName)) }
+            Completable.fromCallable { userStore.setUser(User(args.firstName, args.lastName)) }
         )
     }
 }

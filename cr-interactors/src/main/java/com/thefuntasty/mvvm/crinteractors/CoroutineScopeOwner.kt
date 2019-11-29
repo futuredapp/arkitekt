@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 /**
- * This interface gives your class ability to execute [BaseUsecase] and [BaseFlowUsecase] interactors
+ * This interface gives your class ability to execute [BaseUsecase] and [BaseFlowUsecase] Coroutine interactors.
  * You may find handy to implement this interface in custom Presenters, ViewHolders etc.
  * It is your responsibility to cancel [coroutineScope] when when all running tasks should be stopped.
  */
@@ -51,26 +51,32 @@ interface CoroutineScopeOwner {
         args: ARGS,
         config: UsecaseConfig.Builder<T>.() -> Unit
     ) {
-        val usecaseConfig = UsecaseConfig.Builder<T>().run {
-            config.invoke(this)
-            return@run build()
-        }
+        try {
+            val usecaseConfig = UsecaseConfig.Builder<T>().run {
+                config.invoke(this)
+                return@run build()
+            }
 
-        if (usecaseConfig.disposePrevious) {
-            deferred?.cancel()
-        }
+            if (usecaseConfig.disposePrevious) {
+                deferred?.cancel()
+            }
 
-        usecaseConfig.onStart()
-        deferred = coroutineScope.async(getWorkerDispatcher()) {
-            build(args)
-        }.also {
-            coroutineScope.launch(Dispatchers.Main) {
-                try {
-                    usecaseConfig.onSuccess(it.await())
-                } catch (error: Throwable) {
-                    usecaseConfig.onError.invoke(error)
+            usecaseConfig.onStart()
+            deferred = coroutineScope.async(getWorkerDispatcher()) {
+                build(args)
+            }.also {
+                coroutineScope.launch(Dispatchers.Main) {
+                    try {
+                        usecaseConfig.onSuccess(it.await())
+                    } catch (error: Throwable) {
+                        usecaseConfig.onError.invoke(error)
+                    }
                 }
             }
+        } catch (cancellation: CancellationException) {
+
+        } catch (error: Throwable) {
+            onError?.invoke(error) ?: throw error
         }
     }
 
@@ -188,7 +194,7 @@ interface CoroutineScopeOwner {
                     .collect()
             } catch (cancellation: CancellationException) {
                 // do nothing this is normal way of suspend function interruption
-            } catch (error: Exception) {
+            } catch (error: Throwable) {
                 flowUsecaseConfig.onError.invoke(error)
             }
         }
