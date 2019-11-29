@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 /**
- * This interface gives your class ability to execute [BaseCoroutiner] and [BaseFlower] interactors
+ * This interface gives your class ability to execute [BaseUsecase] and [BaseFlowUsecase] interactors
  * You may find handy to implement this interface in custom Presenters, ViewHolders etc.
  * It is your responsibility to cancel [coroutineScope] when when all running tasks should be stopped.
  */
@@ -32,10 +32,10 @@ interface CoroutineScopeOwner {
      * pending executions are canceled, which can be changed by the [config].
      * This version is used for interactors without initial arguments.
      *
-     * @param config [CoroutinerConfig] used to process results of internal
+     * @param config [UsecaseConfig] used to process results of internal
      * Coroutine and to set configuration options.
      */
-    fun <T : Any?> BaseCoroutiner<Unit, T>.execute(config: CoroutinerConfig.Builder<T>.() -> Unit) =
+    fun <T : Any?> BaseUsecase<Unit, T>.execute(config: UsecaseConfig.Builder<T>.() -> Unit) =
         execute(Unit, config)
 
     /**
@@ -44,31 +44,31 @@ interface CoroutineScopeOwner {
      * This version gets initial arguments by [args].
      *
      * @param args Arguments used for initial interactor initialization.
-     * @param config [CoroutinerConfig] used to process results of internal
+     * @param config [UsecaseConfig] used to process results of internal
      * Coroutine and to set configuration options.
      */
-    fun <ARGS, T : Any?> BaseCoroutiner<ARGS, T>.execute(
+    fun <ARGS, T : Any?> BaseUsecase<ARGS, T>.execute(
         args: ARGS,
-        config: CoroutinerConfig.Builder<T>.() -> Unit
+        config: UsecaseConfig.Builder<T>.() -> Unit
     ) {
-        val coroutinerConfig = CoroutinerConfig.Builder<T>().run {
+        val usecaseConfig = UsecaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (coroutinerConfig.disposePrevious) {
+        if (usecaseConfig.disposePrevious) {
             deferred?.cancel()
         }
 
+        usecaseConfig.onStart()
         deferred = coroutineScope.async(getWorkerDispatcher()) {
-            coroutinerConfig.onStart()
             build(args)
         }.also {
             coroutineScope.launch(Dispatchers.Main) {
                 try {
-                    coroutinerConfig.onSuccess(it.await())
+                    usecaseConfig.onSuccess(it.await())
                 } catch (error: Throwable) {
-                    coroutinerConfig.onError.invoke(error)
+                    usecaseConfig.onError.invoke(error)
                 }
             }
         }
@@ -76,10 +76,10 @@ interface CoroutineScopeOwner {
 
     /**
      * Holds references to lambdas and some basic configuration
-     * used to process results of Coroutiner interactor.
-     * Use [CoroutinerConfig.Builder] to construct this object.
+     * used to process results of Coroutine interactor.
+     * Use [UsecaseConfig.Builder] to construct this object.
      */
-    class CoroutinerConfig<T> private constructor(
+    class UsecaseConfig<T> private constructor(
         val onStart: () -> Unit,
         val onSuccess: (T) -> Unit,
         val onError: (Throwable) -> Unit,
@@ -87,7 +87,7 @@ interface CoroutineScopeOwner {
     ) {
         /**
          * Constructs references to lambdas and some basic configuration
-         * used to process results of Coroutiner interactor.
+         * used to process results of Coroutine interactor.
          */
         class Builder<T> {
             private var onStart: (() -> Unit)? = null
@@ -96,9 +96,9 @@ interface CoroutineScopeOwner {
             private var disposePrevious = true
 
             /**
-             * Set lambda which is called right after
+             * Set lambda which is called right before
              * the internal Coroutine is created
-             * @param onStart Lambda called right after Coroutine is
+             * @param onStart Lambda called right before Coroutine is
              * created
              */
             fun onStart(onStart: () -> Unit) {
@@ -134,8 +134,8 @@ interface CoroutineScopeOwner {
                 this.disposePrevious = disposePrevious
             }
 
-            fun build(): CoroutinerConfig<T> {
-                return CoroutinerConfig(
+            fun build(): UsecaseConfig<T> {
+                return UsecaseConfig(
                     onStart ?: { },
                     onSuccess ?: { },
                     onError ?: { throw it },
@@ -145,7 +145,7 @@ interface CoroutineScopeOwner {
         }
     }
 
-    fun <T : Any?> BaseFlower<Unit, T>.execute(config: FlowerConfig.Builder<T>.() -> Unit) =
+    fun <T : Any?> BaseFlowUsecase<Unit, T>.execute(config: FlowUsecaseConfig.Builder<T>.() -> Unit) =
         execute(Unit, config)
 
     /**
@@ -155,51 +155,51 @@ interface CoroutineScopeOwner {
      * on UI thread. This version is gets initial arguments by [args].
      *
      * @param args Arguments used for initial interactor initialization.
-     * @param config [FlowerConfig] used to process results of internal
+     * @param config [FlowUsecaseConfig] used to process results of internal
      * Flow and to set configuration options.
      **/
-    fun <ARGS, T : Any?> BaseFlower<ARGS, T>.execute(
+    fun <ARGS, T : Any?> BaseFlowUsecase<ARGS, T>.execute(
         args: ARGS,
-        config: FlowerConfig.Builder<T>.() -> Unit
+        config: FlowUsecaseConfig.Builder<T>.() -> Unit
     ) {
-        val flowerConfig = FlowerConfig.Builder<T>().run {
+        val flowUsecaseConfig = FlowUsecaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (flowerConfig.disposePrevious) {
+        if (flowUsecaseConfig.disposePrevious) {
             job?.cancel()
         }
 
+        flowUsecaseConfig.onStart()
         job = coroutineScope.launch(getWorkerDispatcher()) {
-            flowerConfig.onStart()
             try {
                 build(args)
                     .onEach {
                         kotlinx.coroutines.withContext(Dispatchers.Main) {
-                            flowerConfig.onNext(it)
+                            flowUsecaseConfig.onNext(it)
                         }
                     }
                     .onCompletion { error ->
                         kotlinx.coroutines.withContext(Dispatchers.Main) {
-                            error?.also { flowerConfig.onError.invoke(it) } ?: flowerConfig.onComplete()
+                            error?.also { flowUsecaseConfig.onError.invoke(it) } ?: flowUsecaseConfig.onComplete()
                         }
                     }
                     .collect()
             } catch (cancellation: CancellationException) {
                 // do nothing this is normal way of suspend function interruption
             } catch (error: Exception) {
-                flowerConfig.onError.invoke(error)
+                flowUsecaseConfig.onError.invoke(error)
             }
         }
     }
 
     /**
      * Holds references to lambdas and some basic configuration
-     * used to process results of Flower interactor.
-     * Use [FlowerConfig.Builder] to construct this object.
+     * used to process results of Flow interactor.
+     * Use [FlowUsecaseConfig.Builder] to construct this object.
      */
-    class FlowerConfig<T> private constructor(
+    class FlowUsecaseConfig<T> private constructor(
         val onStart: () -> Unit,
         val onNext: (T) -> Unit,
         val onError: (Throwable) -> Unit,
@@ -208,7 +208,7 @@ interface CoroutineScopeOwner {
     ) {
         /**
          * Constructs references to lambdas and some basic configuration
-         * used to process results of Flower interactor.
+         * used to process results of Flow interactor.
          */
         class Builder<T> {
             private var onStart: (() -> Unit)? = null
@@ -219,8 +219,8 @@ interface CoroutineScopeOwner {
 
             /**
              * Set lambda which is called right before
-             * internal Flow is built
-             * @param onStart Lambda called right before Flow is built.
+             * internal Job of Flow is launched.
+             * @param onStart Lambda called right before Flow Job is launched.
              */
             fun onStart(onStart: () -> Unit) {
                 this.onStart = onStart
@@ -263,8 +263,8 @@ interface CoroutineScopeOwner {
                 this.disposePrevious = disposePrevious
             }
 
-            fun build(): FlowerConfig<T> {
-                return FlowerConfig(
+            fun build(): FlowUsecaseConfig<T> {
+                return FlowUsecaseConfig(
                     onStart ?: { },
                     onNext ?: { },
                     onError ?: { throw it },

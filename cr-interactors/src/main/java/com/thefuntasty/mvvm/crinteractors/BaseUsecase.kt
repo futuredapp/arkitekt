@@ -3,9 +3,9 @@ package com.thefuntasty.mvvm.crinteractors
 import kotlinx.coroutines.Deferred
 
 /**
- * Base interactor meant to use in [CoroutineScopeOwner] implementations
+ * Base Coroutine interactor meant to use in [CoroutineScopeOwner] implementations
  */
-abstract class BaseCoroutiner<ARGS, T> {
+abstract class BaseUsecase<ARGS, T> {
     /**
      *  [Deferred] used to hold and cancel existing run of this interactor
      */

@@ -1,10 +1,10 @@
 package com.thefuntasty.mvvm.crinteractors
 
 import com.thefuntasty.mvvm.crinteractors.testinteractors.base.BaseCoroutineScopeOwnerTest
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFailureInteractor
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowFailureInteractor
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowInteractor
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestInteractor
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFailureUsecase
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowFailureUsecase
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowUsecase
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestUsecase
 import org.junit.Assert
 import org.junit.Test
 
@@ -12,13 +12,13 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun previousExecutionCanceled() {
-        val testInteractor = TestInteractor()
+        val testUsecase = TestUsecase()
         var count = 0
-        testInteractor.execute(1) {
+        testUsecase.execute(1) {
             onSuccess { count++ }
         }
         coroutineScope.advanceTimeBy(500)
-        testInteractor.execute(1) {
+        testUsecase.execute(1) {
             onSuccess { count++ }
         }
         coroutineScope.advanceTimeBy(1000)
@@ -27,9 +27,9 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun onErrorCalled() {
-        val testFailureInteractor = TestFailureInteractor()
+        val testFailureUsecase = TestFailureUsecase()
         var resultError: Throwable? = null
-        testFailureInteractor.execute(IllegalStateException()) {
+        testFailureUsecase.execute(IllegalStateException()) {
             onError { resultError = it }
         }
         Assert.assertNotNull(resultError)
@@ -37,10 +37,10 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun flowPreviousExecutionCanceled() {
-        val testFlowInteractor = TestFlowInteractor()
+        val testFlowUsecase = TestFlowUsecase()
         val testingList = listOfNotNull(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
         val resultList = mutableListOf<Int>()
-        testFlowInteractor.execute(TestFlowInteractor.Data(testingList, 1000)) {
+        testFlowUsecase.execute(TestFlowUsecase.Data(testingList, 1000)) {
             onNext { resultList.add(it) }
             onError {
                 it.printStackTrace()
@@ -51,7 +51,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
             }
         }
 
-        testFlowInteractor.execute(TestFlowInteractor.Data(testingList, 1000)) {
+        testFlowUsecase.execute(TestFlowUsecase.Data(testingList, 1000)) {
             onNext { resultList.add(it) }
             onError {
                 Assert.fail("Exception thrown where shouldn't")
@@ -63,10 +63,10 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun flowOnCompleteCalled() {
-        val testFlowInteractor = TestFlowInteractor()
+        val testFlowUsecase = TestFlowUsecase()
         var completed = false
         val testingList = listOfNotNull(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-        testFlowInteractor.execute(TestFlowInteractor.Data(testingList, 1000)) {
+        testFlowUsecase.execute(TestFlowUsecase.Data(testingList, 1000)) {
             onError {
                 Assert.fail("Exception thrown where shouldn't")
             }
@@ -80,9 +80,9 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun flowOnErrorCalled() {
-        val testFlowFailureInteractor = TestFlowFailureInteractor()
+        val testFlowFailureUsecase = TestFlowFailureUsecase()
         var resultError: Throwable? = null
-        testFlowFailureInteractor.execute(IllegalStateException()) {
+        testFlowFailureUsecase.execute(IllegalStateException()) {
             onNext {
                 Assert.fail("onNext called where shouldn't")
             }
