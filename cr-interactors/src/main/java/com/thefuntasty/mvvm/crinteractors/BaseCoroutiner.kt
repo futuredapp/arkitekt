@@ -5,7 +5,7 @@ import kotlinx.coroutines.Deferred
 /**
  * Base interactor meant to use in [CoroutineScopeOwner] implementations
  */
-abstract class BaseCoroutineInteractor<ARGS, T> {
+abstract class BaseCoroutiner<ARGS, T> {
     /**
      *  [Deferred] used to hold and cancel existing run of this interactor
      */

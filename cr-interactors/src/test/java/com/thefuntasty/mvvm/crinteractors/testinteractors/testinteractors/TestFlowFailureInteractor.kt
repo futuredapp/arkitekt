@@ -1,18 +1,12 @@
 package com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors
 
-import com.thefuntasty.mvvm.crinteractors.BaseFlowInteractor
+import com.thefuntasty.mvvm.crinteractors.BaseFlower
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class TestFlowFailureInteractor : BaseFlowInteractor<Unit>() {
+class TestFlowFailureInteractor : BaseFlower<Throwable, Unit>() {
 
-    private lateinit var error: Throwable
-
-    fun init(errorToThrow: Throwable) = apply {
-        this.error = errorToThrow
-    }
-
-    override suspend fun build(): Flow<Unit> = flow {
-        throw error
+    override suspend fun build(args: Throwable): Flow<Unit> = flow {
+        throw args
     }
 }

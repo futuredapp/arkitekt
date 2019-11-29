@@ -1,16 +1,10 @@
 package com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors
 
-import com.thefuntasty.mvvm.crinteractors.BaseCoroutineInteractor
+import com.thefuntasty.mvvm.crinteractors.BaseCoroutiner
 
-class TestFailureInteractor : BaseCoroutineInteractor<Unit>() {
+class TestFailureInteractor : BaseCoroutiner<Throwable, Unit>() {
 
-    private lateinit var error: Throwable
-
-    fun init(errorToThrow: Throwable) = apply {
-        this.error = errorToThrow
-    }
-
-    override suspend fun build() {
-        throw error
+    override suspend fun build(args: Throwable) {
+        throw args
     }
 }

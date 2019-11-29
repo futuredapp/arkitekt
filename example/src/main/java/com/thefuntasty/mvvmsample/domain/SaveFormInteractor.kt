@@ -1,12 +1,12 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.crinteractors.BaseCoroutineInteractor
+import com.thefuntasty.mvvm.crinteractors.BaseCoroutiner
 import com.thefuntasty.mvvmsample.data.store.FormStore
 import javax.inject.Inject
 
 class SaveFormInteractor @Inject constructor(
     private val formStore: FormStore
-) : BaseCoroutineInteractor<SaveFormInteractor.Data, Pair<String, String>>() {
+) : BaseCoroutiner<SaveFormInteractor.Data, Pair<String, String>>() {
 
     data class Data(val form: Pair<String, String>)
 
