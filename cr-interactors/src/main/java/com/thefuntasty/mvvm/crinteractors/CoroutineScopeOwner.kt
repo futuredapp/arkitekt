@@ -51,12 +51,11 @@ interface CoroutineScopeOwner {
         args: ARGS,
         config: UsecaseConfig.Builder<T>.() -> Unit
     ) {
+        val usecaseConfig = UsecaseConfig.Builder<T>().run {
+            config.invoke(this)
+            return@run build()
+        }
         try {
-            val usecaseConfig = UsecaseConfig.Builder<T>().run {
-                config.invoke(this)
-                return@run build()
-            }
-
             if (usecaseConfig.disposePrevious) {
                 deferred?.cancel()
             }
@@ -74,9 +73,9 @@ interface CoroutineScopeOwner {
                 }
             }
         } catch (cancellation: CancellationException) {
-
+            // do nothing - this is normal way of suspend function interruption
         } catch (error: Throwable) {
-            onError?.invoke(error) ?: throw error
+            usecaseConfig.onError.invoke(error)
         }
     }
 
@@ -193,7 +192,7 @@ interface CoroutineScopeOwner {
                     }
                     .collect()
             } catch (cancellation: CancellationException) {
-                // do nothing this is normal way of suspend function interruption
+                // do nothing - this is normal way of suspend function interruption
             } catch (error: Throwable) {
                 flowUsecaseConfig.onError.invoke(error)
             }
