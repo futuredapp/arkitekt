@@ -1,12 +1,12 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.crinteractors.BaseUsecase
+import com.thefuntasty.mvvm.crinteractors.BaseUseCase
 import com.thefuntasty.mvvmsample.data.store.FormStore
 import javax.inject.Inject
 
-class SaveFormUsecase @Inject constructor(
+class SaveFormUseCase @Inject constructor(
     private val formStore: FormStore
-) : BaseUsecase<SaveFormUsecase.Data, Pair<String, String>>() {
+) : BaseUseCase<SaveFormUseCase.Data, Pair<String, String>>() {
 
     data class Data(val form: Pair<String, String>)
 

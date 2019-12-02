@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors
 
-import com.thefuntasty.mvvm.crinteractors.BaseUsecase
+import com.thefuntasty.mvvm.crinteractors.BaseUseCase
 
-class TestFailureUsecase : BaseUsecase<Throwable, Unit>() {
+class TestFailureUseCase : BaseUseCase<Throwable, Unit>() {
 
     override suspend fun build(args: Throwable) {
         throw args

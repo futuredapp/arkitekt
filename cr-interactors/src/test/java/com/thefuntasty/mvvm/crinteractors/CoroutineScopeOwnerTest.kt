@@ -1,10 +1,10 @@
 package com.thefuntasty.mvvm.crinteractors
 
 import com.thefuntasty.mvvm.crinteractors.testinteractors.base.BaseCoroutineScopeOwnerTest
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFailureUsecase
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowFailureUsecase
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowUsecase
-import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestUsecase
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFailureFlowUseCase
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFailureUseCase
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowUseCase
+import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestUseCase
 import org.junit.Assert
 import org.junit.Test
 
@@ -12,13 +12,13 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun previousExecutionCanceled() {
-        val testUsecase = TestUsecase()
+        val testUseCase = TestUseCase()
         var count = 0
-        testUsecase.execute(1) {
+        testUseCase.execute(1) {
             onSuccess { count++ }
         }
         coroutineScope.advanceTimeBy(500)
-        testUsecase.execute(1) {
+        testUseCase.execute(1) {
             onSuccess { count++ }
         }
         coroutineScope.advanceTimeBy(1000)
@@ -27,9 +27,9 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun onErrorCalled() {
-        val testFailureUsecase = TestFailureUsecase()
+        val testFailureUseCase = TestFailureUseCase()
         var resultError: Throwable? = null
-        testFailureUsecase.execute(IllegalStateException()) {
+        testFailureUseCase.execute(IllegalStateException()) {
             onError { resultError = it }
         }
         Assert.assertNotNull(resultError)
@@ -37,10 +37,10 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun flowPreviousExecutionCanceled() {
-        val testFlowUsecase = TestFlowUsecase()
+        val testFlowUseCase = TestFlowUseCase()
         val testingList = listOfNotNull(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
         val resultList = mutableListOf<Int>()
-        testFlowUsecase.execute(TestFlowUsecase.Data(testingList, 1000)) {
+        testFlowUseCase.execute(TestFlowUseCase.Data(testingList, 1000)) {
             onNext { resultList.add(it) }
             onError {
                 it.printStackTrace()
@@ -51,7 +51,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
             }
         }
 
-        testFlowUsecase.execute(TestFlowUsecase.Data(testingList, 1000)) {
+        testFlowUseCase.execute(TestFlowUseCase.Data(testingList, 1000)) {
             onNext { resultList.add(it) }
             onError {
                 Assert.fail("Exception thrown where shouldn't")
@@ -63,10 +63,10 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun flowOnCompleteCalled() {
-        val testFlowUsecase = TestFlowUsecase()
+        val testFlowUseCase = TestFlowUseCase()
         var completed = false
         val testingList = listOfNotNull(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-        testFlowUsecase.execute(TestFlowUsecase.Data(testingList, 1000)) {
+        testFlowUseCase.execute(TestFlowUseCase.Data(testingList, 1000)) {
             onError {
                 Assert.fail("Exception thrown where shouldn't")
             }
@@ -80,9 +80,9 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun flowOnErrorCalled() {
-        val testFlowFailureUsecase = TestFlowFailureUsecase()
+        val testFlowFailureUseCase = TestFailureFlowUseCase()
         var resultError: Throwable? = null
-        testFlowFailureUsecase.execute(IllegalStateException()) {
+        testFlowFailureUseCase.execute(IllegalStateException()) {
             onNext {
                 Assert.fail("onNext called where shouldn't")
             }

@@ -1,12 +1,12 @@
 package com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors
 
-import com.thefuntasty.mvvm.crinteractors.BaseFlowUsecase
+import com.thefuntasty.mvvm.crinteractors.BaseFlowUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.onEach
 
-class TestFlowUsecase : BaseFlowUsecase<TestFlowUsecase.Data, Int>() {
+class TestFlowUseCase : BaseFlowUseCase<TestFlowUseCase.Data, Int>() {
 
     data class Data(
         val listToEmit: List<Int>,

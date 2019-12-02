@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 /**
- * This interface gives your class ability to execute [BaseUsecase] and [BaseFlowUsecase] Coroutine interactors.
+ * This interface gives your class ability to execute [BaseUseCase] and [BaseFlowUseCase] Coroutine use cases.
  * You may find handy to implement this interface in custom Presenters, ViewHolders etc.
  * It is your responsibility to cancel [coroutineScope] when when all running tasks should be stopped.
  */
 interface CoroutineScopeOwner {
 
     /**
-     * [CoroutineScope] scope used to execute coroutine based interactors. It is your responsibility to cancel it when all running
+     * [CoroutineScope] scope used to execute coroutine based use cases. It is your responsibility to cancel it when all running
      * tasks should be stopped
      */
     val coroutineScope: CoroutineScope
@@ -28,63 +28,63 @@ interface CoroutineScopeOwner {
     fun getWorkerDispatcher() = Dispatchers.IO
 
     /**
-     * Asynchronously executes interactor and saves it's Deferred. By default all previous
+     * Asynchronously executes use case and saves it's Deferred. By default all previous
      * pending executions are canceled, which can be changed by the [config].
-     * This version is used for interactors without initial arguments.
+     * This version is used for use cases without initial arguments.
      *
-     * @param config [UsecaseConfig] used to process results of internal
+     * @param config [UseCaseConfig] used to process results of internal
      * Coroutine and to set configuration options.
      */
-    fun <T : Any?> BaseUsecase<Unit, T>.execute(config: UsecaseConfig.Builder<T>.() -> Unit) =
+    fun <T : Any?> BaseUseCase<Unit, T>.execute(config: UseCaseConfig.Builder<T>.() -> Unit) =
         execute(Unit, config)
 
     /**
-     * Asynchronously executes interactor and saves it's Deferred. By default all previous
+     * Asynchronously executes use case and saves it's Deferred. By default all previous
      * pending executions are canceled, which can be changed by the [config].
      * This version gets initial arguments by [args].
      *
-     * @param args Arguments used for initial interactor initialization.
-     * @param config [UsecaseConfig] used to process results of internal
+     * @param args Arguments used for initial use case initialization.
+     * @param config [UseCaseConfig] used to process results of internal
      * Coroutine and to set configuration options.
      */
-    fun <ARGS, T : Any?> BaseUsecase<ARGS, T>.execute(
+    fun <ARGS, T : Any?> BaseUseCase<ARGS, T>.execute(
         args: ARGS,
-        config: UsecaseConfig.Builder<T>.() -> Unit
+        config: UseCaseConfig.Builder<T>.() -> Unit
     ) {
-        val usecaseConfig = UsecaseConfig.Builder<T>().run {
+        val useCaseConfig = UseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
         try {
-            if (usecaseConfig.disposePrevious) {
+            if (useCaseConfig.disposePrevious) {
                 deferred?.cancel()
             }
 
-            usecaseConfig.onStart()
+            useCaseConfig.onStart()
             deferred = coroutineScope.async(getWorkerDispatcher()) {
                 build(args)
             }.also {
                 coroutineScope.launch(Dispatchers.Main) {
                     try {
-                        usecaseConfig.onSuccess(it.await())
+                        useCaseConfig.onSuccess(it.await())
                     } catch (error: Throwable) {
-                        usecaseConfig.onError.invoke(error)
+                        useCaseConfig.onError.invoke(error)
                     }
                 }
             }
         } catch (cancellation: CancellationException) {
             // do nothing - this is normal way of suspend function interruption
         } catch (error: Throwable) {
-            usecaseConfig.onError.invoke(error)
+            useCaseConfig.onError.invoke(error)
         }
     }
 
     /**
      * Holds references to lambdas and some basic configuration
-     * used to process results of Coroutine interactor.
-     * Use [UsecaseConfig.Builder] to construct this object.
+     * used to process results of Coroutine use case.
+     * Use [UseCaseConfig.Builder] to construct this object.
      */
-    class UsecaseConfig<T> private constructor(
+    class UseCaseConfig<T> private constructor(
         val onStart: () -> Unit,
         val onSuccess: (T) -> Unit,
         val onError: (Throwable) -> Unit,
@@ -92,7 +92,7 @@ interface CoroutineScopeOwner {
     ) {
         /**
          * Constructs references to lambdas and some basic configuration
-         * used to process results of Coroutine interactor.
+         * used to process results of Coroutine use case.
          */
         class Builder<T> {
             private var onStart: (() -> Unit)? = null
@@ -139,8 +139,8 @@ interface CoroutineScopeOwner {
                 this.disposePrevious = disposePrevious
             }
 
-            fun build(): UsecaseConfig<T> {
-                return UsecaseConfig(
+            fun build(): UseCaseConfig<T> {
+                return UseCaseConfig(
                     onStart ?: { },
                     onSuccess ?: { },
                     onError ?: { throw it },
@@ -150,24 +150,24 @@ interface CoroutineScopeOwner {
         }
     }
 
-    fun <T : Any?> BaseFlowUsecase<Unit, T>.execute(config: FlowUsecaseConfig.Builder<T>.() -> Unit) =
+    fun <T : Any?> BaseFlowUseCase<Unit, T>.execute(config: FlowUseCaseConfig.Builder<T>.() -> Unit) =
         execute(Unit, config)
 
     /**
-     * Asynchronously executes interactor and consumes data from flow on UI thread.
+     * Asynchronously executes use case and consumes data from flow on UI thread.
      * By default all previous pending executions are canceled, which can be changed
-     * by [config]. When suspend function in interactor finishes, onComplete is called
+     * by [config]. When suspend function in use case finishes, onComplete is called
      * on UI thread. This version is gets initial arguments by [args].
      *
-     * @param args Arguments used for initial interactor initialization.
-     * @param config [FlowUsecaseConfig] used to process results of internal
+     * @param args Arguments used for initial use case initialization.
+     * @param config [FlowUseCaseConfig] used to process results of internal
      * Flow and to set configuration options.
      **/
-    fun <ARGS, T : Any?> BaseFlowUsecase<ARGS, T>.execute(
+    fun <ARGS, T : Any?> BaseFlowUseCase<ARGS, T>.execute(
         args: ARGS,
-        config: FlowUsecaseConfig.Builder<T>.() -> Unit
+        config: FlowUseCaseConfig.Builder<T>.() -> Unit
     ) {
-        val flowUsecaseConfig = FlowUsecaseConfig.Builder<T>().run {
+        val flowUsecaseConfig = FlowUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -201,10 +201,10 @@ interface CoroutineScopeOwner {
 
     /**
      * Holds references to lambdas and some basic configuration
-     * used to process results of Flow interactor.
-     * Use [FlowUsecaseConfig.Builder] to construct this object.
+     * used to process results of Flow use case.
+     * Use [FlowUseCaseConfig.Builder] to construct this object.
      */
-    class FlowUsecaseConfig<T> private constructor(
+    class FlowUseCaseConfig<T> private constructor(
         val onStart: () -> Unit,
         val onNext: (T) -> Unit,
         val onError: (Throwable) -> Unit,
@@ -213,7 +213,7 @@ interface CoroutineScopeOwner {
     ) {
         /**
          * Constructs references to lambdas and some basic configuration
-         * used to process results of Flow interactor.
+         * used to process results of Flow use case.
          */
         class Builder<T> {
             private var onStart: (() -> Unit)? = null
@@ -268,8 +268,8 @@ interface CoroutineScopeOwner {
                 this.disposePrevious = disposePrevious
             }
 
-            fun build(): FlowUsecaseConfig<T> {
-                return FlowUsecaseConfig(
+            fun build(): FlowUseCaseConfig<T> {
+                return FlowUseCaseConfig(
                     onStart ?: { },
                     onNext ?: { },
                     onError ?: { throw it },
