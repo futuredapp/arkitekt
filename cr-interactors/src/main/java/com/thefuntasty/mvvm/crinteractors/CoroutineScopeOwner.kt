@@ -29,7 +29,7 @@ interface CoroutineScopeOwner {
 
     /**
      * Asynchronously executes use case and saves it's Deferred. By default all previous
-     * pending executions are canceled, which can be changed by the [config].
+     * pending executions are canceled, this can be changed by the [config].
      * This version is used for use cases without initial arguments.
      *
      * @param config [UseCaseConfig] used to process results of internal
@@ -40,7 +40,7 @@ interface CoroutineScopeOwner {
 
     /**
      * Asynchronously executes use case and saves it's Deferred. By default all previous
-     * pending executions are canceled, which can be changed by the [config].
+     * pending executions are canceled, this can be changed by the [config].
      * This version gets initial arguments by [args].
      *
      * @param args Arguments used for initial use case initialization.
@@ -101,7 +101,7 @@ interface CoroutineScopeOwner {
             private var disposePrevious = true
 
             /**
-             * Set lambda which is called right before
+             * Set lambda that is called right before
              * the internal Coroutine is created
              * @param onStart Lambda called right before Coroutine is
              * created
@@ -111,7 +111,7 @@ interface CoroutineScopeOwner {
             }
 
             /**
-             * Set lambda which is called when internal Coroutine
+             * Set lambda that is called when internal Coroutine
              * finished without exceptions
              * @param onSuccess Lambda called when Coroutine finished
              */
@@ -120,7 +120,7 @@ interface CoroutineScopeOwner {
             }
 
             /**
-             * Set lambda which is called when exception on
+             * Set lambda that is called when exception on
              * internal Coroutine occurs
              * @param onError Lambda called when exception occurs
              */
@@ -155,7 +155,7 @@ interface CoroutineScopeOwner {
 
     /**
      * Asynchronously executes use case and consumes data from flow on UI thread.
-     * By default all previous pending executions are canceled, which can be changed
+     * By default all previous pending executions are canceled, this can be changed
      * by [config]. When suspend function in use case finishes, onComplete is called
      * on UI thread. This version is gets initial arguments by [args].
      *
@@ -223,7 +223,7 @@ interface CoroutineScopeOwner {
             private var disposePrevious = true
 
             /**
-             * Set lambda which is called right before
+             * Set lambda that is called right before
              * internal Job of Flow is launched.
              * @param onStart Lambda called right before Flow Job is launched.
              */
@@ -232,7 +232,7 @@ interface CoroutineScopeOwner {
             }
 
             /**
-             * Set lambda which is called when internal Flow emits new value
+             * Set lambda that is called when internal Flow emits new value
              * @param onNext Lambda called for every new emitted value
              */
             fun onNext(onNext: (T) -> Unit) {
@@ -240,7 +240,7 @@ interface CoroutineScopeOwner {
             }
 
             /**
-             * Set lambda which is called when some exception on
+             * Set lambda that is called when some exception on
              * internal Flow occurs
              * @param onError Lambda called when exception occurs
              */
@@ -249,7 +249,7 @@ interface CoroutineScopeOwner {
             }
 
             /**
-             * Set lambda which is called when internal Flow is completed
+             * Set lambda that is called when internal Flow is completed
              * without errors
              * @param onComplete Lambda called when Flow is completed
              * without errors
