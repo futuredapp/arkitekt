@@ -4,17 +4,17 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Base [Flow] interactor meant to use in [CoroutineScopeOwner] implementations
+ * Base [Flow] use case meant to use in [CoroutineScopeOwner] implementations
  */
-abstract class BaseFlowInteractor<T> {
+abstract class BaseFlowUseCase<ARGS, T> {
 
     /**
-     *  [Job] used to hold and cancel existing run of this interactor
+     *  [Job] used to hold and cancel existing run of this use case
      */
     var job: Job? = null
 
     /**
      * Suspend function which should contain business logic
      */
-    abstract suspend fun build(): Flow<T>
+    abstract suspend fun build(args: ARGS): Flow<T>
 }
