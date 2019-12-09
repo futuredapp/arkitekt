@@ -7,7 +7,7 @@ include(
     ":example",
     ":example-minimal",
     ":rx-usecases",
-    ":cr-interactors",
+    ":cr-usecases",
     ":bindingadapters",
     ":templates",
     ":mvvm-lint"

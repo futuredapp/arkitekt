@@ -30,7 +30,7 @@ dependencies {
     implementation(project(":mvvm"))
     implementation(project(":dagger"))
     implementation(project(":rx-usecases"))
-    implementation(project(":cr-interactors"))
+    implementation(project(":cr-usecases"))
     implementation(project(":bindingadapters"))
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
