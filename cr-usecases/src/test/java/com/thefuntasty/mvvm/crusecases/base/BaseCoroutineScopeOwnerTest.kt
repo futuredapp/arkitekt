@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.crusecases.testinteractors.base
+package com.thefuntasty.mvvm.crusecases.base
 
 import com.thefuntasty.mvvm.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher

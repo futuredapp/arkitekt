@@ -1,10 +1,10 @@
 package com.thefuntasty.mvvm.crusecases
 
-import com.thefuntasty.mvvm.crusecases.testinteractors.base.BaseCoroutineScopeOwnerTest
-import com.thefuntasty.mvvm.crusecases.testinteractors.testinteractors.TestFailureFlowUseCase
-import com.thefuntasty.mvvm.crusecases.testinteractors.testinteractors.TestFailureUseCase
-import com.thefuntasty.mvvm.crusecases.testinteractors.testinteractors.TestFlowUseCase
-import com.thefuntasty.mvvm.crusecases.testinteractors.testinteractors.TestUseCase
+import com.thefuntasty.mvvm.crusecases.base.BaseCoroutineScopeOwnerTest
+import com.thefuntasty.mvvm.crusecases.testusecases.TestFailureFlowUseCase
+import com.thefuntasty.mvvm.crusecases.testusecases.TestFailureUseCase
+import com.thefuntasty.mvvm.crusecases.testusecases.TestFlowUseCase
+import com.thefuntasty.mvvm.crusecases.testusecases.TestUseCase
 import org.junit.Assert
 import org.junit.Test
 

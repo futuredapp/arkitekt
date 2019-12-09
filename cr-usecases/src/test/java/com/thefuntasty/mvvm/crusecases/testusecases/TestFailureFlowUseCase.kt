@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.crusecases.testinteractors.testinteractors
+package com.thefuntasty.mvvm.crusecases.testusecases
 
 import com.thefuntasty.mvvm.crusecases.FlowUseCase
 import kotlinx.coroutines.flow.Flow
