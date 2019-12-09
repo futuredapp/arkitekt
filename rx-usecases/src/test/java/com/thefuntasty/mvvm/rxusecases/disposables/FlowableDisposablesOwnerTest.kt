@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.base.BaseFlowabler
-import com.thefuntasty.mvvm.rxusecases.base.RxMockitoJUnitRunner
+import com.thefuntasty.mvvm.rxusecases.usecases.FlowablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals
@@ -12,7 +12,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `test interface can be called properly`() {
-        val tempFlowabler = object : BaseFlowabler<String, String>() {
+        val tempFlowabler = object : FlowablerUseCase<String, String>() {
             override fun prepare(args: String) = Flowable.just(args)
         }
 
@@ -35,7 +35,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `onNext handled properly`() {
-        val tempFlowabler = object : BaseFlowabler<String, String>() {
+        val tempFlowabler = object : FlowablerUseCase<String, String>() {
             override fun prepare(args: String) = Flowable.just(args)
         }
         var capturedString = ""
@@ -52,7 +52,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
     @Test
     fun `error handled properly`() {
         val tempException = RuntimeException("test exc")
-        val tempFlowabler = object : BaseFlowabler<Unit, Unit>() {
+        val tempFlowabler = object : FlowablerUseCase<Unit, Unit>() {
             override fun prepare(args: Unit) = Flowable.error<Unit>(tempException)
         }
         var capturedException = Throwable()
@@ -68,7 +68,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable should be disposed`() {
-        val tempFlowabler = object : BaseFlowabler<String, String>() {
+        val tempFlowabler = object : FlowablerUseCase<String, String>() {
             override fun prepare(args: String) = Flowable.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -89,7 +89,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable not disposed when requested`() {
-        val tempFlowabler = object : BaseFlowabler<String, String>() {
+        val tempFlowabler = object : FlowablerUseCase<String, String>() {
             override fun prepare(args: String) = Flowable.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -113,7 +113,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `onStart should be called before subscription for execute methods`() {
-        val tempFlowabler = object : BaseFlowabler<Unit, String>() {
+        val tempFlowabler = object : FlowablerUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Flowable.just("first", "second")
         }
         val events = mutableListOf<String>()

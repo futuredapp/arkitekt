@@ -4,8 +4,8 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import com.thefuntasty.mvvm.ViewState
-import com.thefuntasty.mvvm.rxusecases.base.BaseCompletabler
-import com.thefuntasty.mvvm.rxusecases.base.RxMockitoJUnitRunner
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import io.reactivex.Completable
 import org.junit.Test
 
@@ -23,7 +23,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
             override val viewState = mockViewState
 
             fun runUseCase() {
-                object : BaseCompletabler<Unit>() {
+                object : CompletablerUseCase<Unit>() {
                     override fun prepare(args: Unit) = Completable.complete()
                 }.execute(Unit)
             }
@@ -49,7 +49,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
             override val viewState = mockViewState
 
             fun runUseCase() {
-                object : BaseCompletabler<Unit>() {
+                object : CompletablerUseCase<Unit>() {
                     override fun prepare(args: Unit) = Completable.complete()
                 }.execute(Unit)
             }

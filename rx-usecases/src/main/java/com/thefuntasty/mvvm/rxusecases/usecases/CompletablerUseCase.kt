@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.rxusecases.base
+package com.thefuntasty.mvvm.rxusecases.usecases
 
 import io.reactivex.Completable
 
@@ -12,7 +12,7 @@ import io.reactivex.Completable
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseCompletabler<ARGS> : BaseUseCase() {
+abstract class CompletablerUseCase<ARGS> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Completable] Rx stream. This method does not

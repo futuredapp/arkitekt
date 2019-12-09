@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.base.BaseSingler
+import com.thefuntasty.mvvm.rxusecases.usecases.SinglerUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseSingler] interactors
+ * This interface gives your class ability to execute [SinglerUseCase] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,11 +24,11 @@ interface SingleDisposablesOwner {
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseSingler.execute] method has already been called
-     * on this instance of [BaseSingler], previous one is disposed,
+     * variant of [SinglerUseCase.execute] method has already been called
+     * on this instance of [SinglerUseCase], previous one is disposed,
      * no matter what current state of internal Single is.
      * Use [Single.executeStream] if you want to run one
-     * [BaseSingler] multiple times simultaneously. This behavior
+     * [SinglerUseCase] multiple times simultaneously. This behavior
      * can be disabled by passing false to [SinglerConfig.disposePrevious]
      * method.
      *
@@ -37,16 +37,16 @@ interface SingleDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseSingler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> SinglerUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseSingler.execute] method has already been called
-     * on this instance of [BaseSingler], previous one is disposed,
+     * variant of [SinglerUseCase.execute] method has already been called
+     * on this instance of [SinglerUseCase], previous one is disposed,
      * no matter what current state of internal Single is.
      * Use [Single.executeStream] if you want to run one
-     * [BaseSingler] multiple times simultaneously. This behavior
+     * [SinglerUseCase] multiple times simultaneously. This behavior
      * can be disabled by passing false to [SinglerConfig.disposePrevious]
      * method.
      *
@@ -56,7 +56,7 @@ interface SingleDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseSingler<ARGS, T>.execute(
+    fun <ARGS, T> SinglerUseCase<ARGS, T>.execute(
         args: ARGS,
         config: SinglerConfig.Builder<T>.() -> Unit
     ): Disposable {

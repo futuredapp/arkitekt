@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.base.BaseCompletabler
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseCompletabler] interactors
+ * This interface gives your class ability to execute [CompletablerUseCase] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,8 +24,8 @@ interface CompletableDisposablesOwner {
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseCompletabler.execute] method has already been called
-     * on this instance of [BaseCompletabler], previous one is disposed,
+     * variant of [CompletablerUseCase.execute] method has already been called
+     * on this instance of [CompletablerUseCase], previous one is disposed,
      * no matter what current state of internal Completable is. This behavior
      * can be disabled by passing false to [CompletablerConfig.disposePrevious]
      * method.
@@ -35,13 +35,13 @@ interface CompletableDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS> BaseCompletabler<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS> CompletablerUseCase<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseCompletabler.execute] method has already been called
-     * on this instance of [BaseCompletabler], previous one is disposed,
+     * variant of [CompletablerUseCase.execute] method has already been called
+     * on this instance of [CompletablerUseCase], previous one is disposed,
      * no matter what current state of internal Completable is. This behavior
      * can be disabled by passing false to [CompletablerConfig.disposePrevious]
      * method.
@@ -52,7 +52,7 @@ interface CompletableDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS> BaseCompletabler<ARGS>.execute(
+    fun <ARGS> CompletablerUseCase<ARGS>.execute(
         args: ARGS,
         config: CompletablerConfig.Builder.() -> Unit
     ): Disposable {

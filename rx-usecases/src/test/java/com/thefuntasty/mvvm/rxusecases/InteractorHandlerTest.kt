@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.rxusecases
 
-import com.thefuntasty.mvvm.rxusecases.base.BaseCompletabler
-import com.thefuntasty.mvvm.rxusecases.base.RxMockitoJUnitRunner
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import com.thefuntasty.mvvm.rxusecases.disposables.withDisposablesOwner
 import io.reactivex.Completable
 import org.junit.Assert.assertEquals
@@ -20,7 +20,7 @@ class InteractorHandlerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            object : BaseCompletabler<Unit>() {
+            object : CompletablerUseCase<Unit>() {
                 override fun prepare(args: Unit): Completable {
                     return Completable.error(testException)
                 }

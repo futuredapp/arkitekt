@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.rxusecases.base
+package com.thefuntasty.mvvm.rxusecases.usecases
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

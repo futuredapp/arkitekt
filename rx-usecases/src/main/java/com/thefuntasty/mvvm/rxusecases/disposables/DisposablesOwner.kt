@@ -1,16 +1,16 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
 import androidx.annotation.VisibleForTesting
-import com.thefuntasty.mvvm.rxusecases.base.BaseCompletabler
-import com.thefuntasty.mvvm.rxusecases.base.BaseFlowabler
-import com.thefuntasty.mvvm.rxusecases.base.BaseMayber
-import com.thefuntasty.mvvm.rxusecases.base.BaseObservabler
-import com.thefuntasty.mvvm.rxusecases.base.BaseSingler
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.FlowablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.MayberUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.ObservablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.SinglerUseCase
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * This interface gives your class ability to execute [BaseFlowabler], [BaseSingler],
- * [BaseCompletabler], [BaseObservabler], [BaseMayber] interactors and automatically add
+ * This interface gives your class ability to execute [FlowablerUseCase], [SinglerUseCase],
+ * [CompletablerUseCase], [ObservablerUseCase], [MayberUseCase] interactors and automatically add
  * resulting disposables to one composite disposable. You may find handy to implement
  * this interface in custom Presenters, ViewHolders etc.
  *

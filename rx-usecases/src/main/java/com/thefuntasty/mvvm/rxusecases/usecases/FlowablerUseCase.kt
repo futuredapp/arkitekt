@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.rxusecases.base
+package com.thefuntasty.mvvm.rxusecases.usecases
 
 import io.reactivex.Flowable
 
@@ -12,7 +12,7 @@ import io.reactivex.Flowable
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseFlowabler<ARGS, T> : BaseUseCase() {
+abstract class FlowablerUseCase<ARGS, T> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Flowable] Rx stream. This method does not

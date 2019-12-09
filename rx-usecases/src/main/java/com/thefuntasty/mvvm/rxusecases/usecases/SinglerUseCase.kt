@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.rxusecases.base
+package com.thefuntasty.mvvm.rxusecases.usecases
 
 import io.reactivex.Single
 
@@ -12,7 +12,7 @@ import io.reactivex.Single
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseSingler<ARGS, T> : BaseUseCase() {
+abstract class SinglerUseCase<ARGS, T> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Single] Rx stream. This method does not

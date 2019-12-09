@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.rxusecases.base
+package com.thefuntasty.mvvm.rxusecases.usecases
 
 import io.reactivex.Observable
 
@@ -12,7 +12,7 @@ import io.reactivex.Observable
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseObservabler<ARGS, T> : BaseUseCase() {
+abstract class ObservablerUseCase<ARGS, T> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Observable] Rx stream. This method does not

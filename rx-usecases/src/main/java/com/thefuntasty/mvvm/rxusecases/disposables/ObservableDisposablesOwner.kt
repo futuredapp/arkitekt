@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.base.BaseObservabler
+import com.thefuntasty.mvvm.rxusecases.usecases.ObservablerUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseObservabler] interactors
+ * This interface gives your class ability to execute [ObservablerUseCase] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,8 +24,8 @@ interface ObservableDisposablesOwner {
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseObservabler.execute] method has already been called
-     * on this instance of [BaseObservabler], previous one is disposed,
+     * variant of [ObservablerUseCase.execute] method has already been called
+     * on this instance of [ObservablerUseCase], previous one is disposed,
      * no matter what current state of internal Observable is. This behavior
      * can be disabled by passing false to [ObservablerConfig.disposePrevious]
      * method.
@@ -35,13 +35,13 @@ interface ObservableDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> ObservablerUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseObservabler.execute] method has already been called
-     * on this instance of [BaseObservabler], previous one is disposed,
+     * variant of [ObservablerUseCase.execute] method has already been called
+     * on this instance of [ObservablerUseCase], previous one is disposed,
      * no matter what current state of internal Observable is. This behavior
      * can be disabled by passing false to [ObservablerConfig.disposePrevious]
      * method.
@@ -52,7 +52,7 @@ interface ObservableDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(
+    fun <ARGS, T> ObservablerUseCase<ARGS, T>.execute(
         args: ARGS,
         config: ObservablerConfig.Builder<T>.() -> Unit
     ): Disposable {

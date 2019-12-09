@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.rxusecases.base;
+package com.thefuntasty.mvvm.rxusecases.usecases;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

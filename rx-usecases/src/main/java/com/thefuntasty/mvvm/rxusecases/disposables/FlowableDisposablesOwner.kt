@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.base.BaseFlowabler
+import com.thefuntasty.mvvm.rxusecases.usecases.FlowablerUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseFlowabler] interactors
+ * This interface gives your class ability to execute [FlowablerUseCase] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,8 +24,8 @@ interface FlowableDisposablesOwner {
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseFlowabler.execute] method has already been called
-     * on this instance of [BaseFlowabler], previous one is disposed,
+     * variant of [FlowablerUseCase.execute] method has already been called
+     * on this instance of [FlowablerUseCase], previous one is disposed,
      * no matter what current state of internal Flowable is. This behavior
      * can be disabled by passing false to [FlowablerConfig.disposePrevious]
      * method.
@@ -35,13 +35,13 @@ interface FlowableDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> FlowablerUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseFlowabler.execute] method has already been called
-     * on this instance of [BaseFlowabler], previous one is disposed,
+     * variant of [FlowablerUseCase.execute] method has already been called
+     * on this instance of [FlowablerUseCase], previous one is disposed,
      * no matter what current state of internal Flowable is. This behavior
      * can be disabled by passing false to [FlowablerConfig.disposePrevious]
      * method.
@@ -52,7 +52,7 @@ interface FlowableDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(
+    fun <ARGS, T> FlowablerUseCase<ARGS, T>.execute(
         args: ARGS,
         config: FlowablerConfig.Builder<T>.() -> Unit
     ): Disposable {

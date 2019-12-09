@@ -3,14 +3,14 @@ package com.thefuntasty.mvvm.rxusecases
 import androidx.lifecycle.LiveData
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
-import com.thefuntasty.mvvm.rxusecases.base.BaseObservabler
+import com.thefuntasty.mvvm.rxusecases.usecases.ObservablerUseCase
 import com.thefuntasty.mvvm.rxusecases.disposables.DisposablesOwner
 import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Base ViewModel class prepared for providing data to UI through [LiveData] and
  * obtaining data from Stores (Repositories) by executing RxJava based interactors
- * eg. [BaseObservabler].
+ * eg. [ObservablerUseCase].
  */
 abstract class BaseRxViewModel<S : ViewState> : BaseViewModel<S>(), DisposablesOwner {
 

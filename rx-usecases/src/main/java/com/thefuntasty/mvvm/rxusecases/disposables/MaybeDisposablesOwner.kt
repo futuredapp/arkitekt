@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.base.BaseMayber
+import com.thefuntasty.mvvm.rxusecases.usecases.MayberUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseMayber] interactors
+ * This interface gives your class ability to execute [MayberUseCase] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,8 +24,8 @@ interface MaybeDisposablesOwner {
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseMayber.execute] method has already been called
-     * on this instance of [BaseMayber], previous one is disposed,
+     * variant of [MayberUseCase.execute] method has already been called
+     * on this instance of [MayberUseCase], previous one is disposed,
      * no matter what current state of internal Maybe is. This behavior
      * can be disabled by passing false to [MayberConfig.disposePrevious]
      * method.
@@ -35,13 +35,13 @@ interface MaybeDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> MayberUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseMayber.execute] method has already been called
-     * on this instance of [BaseMayber], previous one is disposed,
+     * variant of [MayberUseCase.execute] method has already been called
+     * on this instance of [MayberUseCase], previous one is disposed,
      * no matter what current state of internal Maybe is. This behavior
      * can be disabled by passing false to [MayberConfig.disposePrevious]
      * method.
@@ -52,7 +52,7 @@ interface MaybeDisposablesOwner {
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseMayber<ARGS, T>.execute(
+    fun <ARGS, T> MayberUseCase<ARGS, T>.execute(
         args: ARGS,
         config: MayberConfig.Builder<T>.() -> Unit
     ): Disposable {
