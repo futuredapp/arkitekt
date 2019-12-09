@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample
 
 import android.util.Log
-import com.thefuntasty.mvvm.usecases.UseCaseErrorHandler
+import com.thefuntasty.mvvm.rxusecases.UseCaseErrorHandler
 import com.thefuntasty.mvvmsample.injection.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.crinteractors.BaseUseCase
+import com.thefuntasty.mvvm.crusecases.BaseUseCase
 import com.thefuntasty.mvvmsample.data.store.FormStore
 import javax.inject.Inject
 

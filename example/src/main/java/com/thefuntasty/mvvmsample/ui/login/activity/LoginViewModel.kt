@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.login.activity
 
-import com.thefuntasty.mvvm.usecases.BaseRxViewModel
+import com.thefuntasty.mvvm.rxusecases.BaseRxViewModel
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor() : BaseRxViewModel<LoginViewState>() {

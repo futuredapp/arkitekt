@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.crinteractors.BaseFlowUseCase
+import com.thefuntasty.mvvm.crusecases.BaseFlowUseCase
 import com.thefuntasty.mvvmsample.data.store.FormStore
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.login.fragment
 
 import android.view.View
-import com.thefuntasty.mvvm.usecases.BaseRxViewModel
+import com.thefuntasty.mvvm.rxusecases.BaseRxViewModel
 import com.thefuntasty.mvvmsample.domain.GetUserFullNameObservabler
 import com.thefuntasty.mvvmsample.domain.LoginCompletabler
 import com.thefuntasty.mvvmsample.domain.StateUseCase

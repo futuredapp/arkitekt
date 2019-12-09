@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.form
 
 import android.util.Log
-import com.thefuntasty.mvvm.crinteractors.BaseCrViewModel
+import com.thefuntasty.mvvm.crusecases.BaseCrViewModel
 import com.thefuntasty.mvvmsample.domain.GetFormFlowUseCase
 import com.thefuntasty.mvvmsample.domain.SaveFormUseCase
 import javax.inject.Inject

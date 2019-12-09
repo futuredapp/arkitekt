@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.usecases.base.BaseCompletabler
+import com.thefuntasty.mvvm.rxusecases.base.BaseCompletabler
 import com.thefuntasty.mvvmsample.data.model.User
 import com.thefuntasty.mvvmsample.data.store.UserStore
 import io.reactivex.Completable

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.usecases.base.BaseMayber
+import com.thefuntasty.mvvm.rxusecases.base.BaseMayber
 import io.reactivex.Maybe
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
