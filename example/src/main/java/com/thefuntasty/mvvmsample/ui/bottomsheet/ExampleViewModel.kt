@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.bottomsheet
 
-import com.thefuntasty.interactors.BaseRxViewModel
+import com.thefuntasty.mvvm.usecases.BaseRxViewModel
 import javax.inject.Inject
 
 class ExampleViewModel @Inject constructor(

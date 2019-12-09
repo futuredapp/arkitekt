@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.interactors.interactors.BaseObservabler
+import com.thefuntasty.mvvm.usecases.base.BaseObservabler
 import com.thefuntasty.mvvmsample.data.store.UserStore
 import io.reactivex.Observable
 import javax.inject.Inject

@@ -1,7 +1,7 @@
-package com.thefuntasty.interactors.disposables
+package com.thefuntasty.mvvm.usecases.disposables
 
-import com.thefuntasty.interactors.interactors.BaseSingler
-import com.thefuntasty.interactors.wrapWithGlobalOnErrorLogger
+import com.thefuntasty.mvvm.usecases.base.BaseSingler
+import com.thefuntasty.mvvm.usecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

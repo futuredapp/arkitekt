@@ -1,4 +1,4 @@
-package com.thefuntasty.interactors.base
+package com.thefuntasty.mvvm.usecases.base
 
 import org.junit.Rule
 import org.junit.runner.RunWith

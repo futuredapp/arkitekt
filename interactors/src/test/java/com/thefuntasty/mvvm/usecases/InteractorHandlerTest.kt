@@ -1,8 +1,8 @@
-package com.thefuntasty.interactors
+package com.thefuntasty.mvvm.usecases
 
-import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
-import com.thefuntasty.interactors.disposables.withDisposablesOwner
-import com.thefuntasty.interactors.interactors.BaseCompletabler
+import com.thefuntasty.mvvm.usecases.base.RxMockitoJUnitRunner
+import com.thefuntasty.mvvm.usecases.disposables.withDisposablesOwner
+import com.thefuntasty.mvvm.usecases.base.BaseCompletabler
 import io.reactivex.Completable
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,7 +15,7 @@ class InteractorHandlerTest : RxMockitoJUnitRunner() {
         var globalLoggedException: Throwable? = null
         var builderException: Throwable? = null
 
-        InteractorErrorHandler.globalOnErrorLogger = {
+        UseCaseErrorHandler.globalOnErrorLogger = {
             globalLoggedException = it
         }
 

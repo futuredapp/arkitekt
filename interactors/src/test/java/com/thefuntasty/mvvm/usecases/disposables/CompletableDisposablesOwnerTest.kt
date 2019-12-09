@@ -1,7 +1,7 @@
-package com.thefuntasty.interactors.disposables
+package com.thefuntasty.mvvm.usecases.disposables
 
-import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
-import com.thefuntasty.interactors.interactors.BaseCompletabler
+import com.thefuntasty.mvvm.usecases.base.RxMockitoJUnitRunner
+import com.thefuntasty.mvvm.usecases.base.BaseCompletabler
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals

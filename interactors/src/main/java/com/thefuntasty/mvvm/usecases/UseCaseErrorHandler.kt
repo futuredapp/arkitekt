@@ -1,9 +1,9 @@
-package com.thefuntasty.interactors
+package com.thefuntasty.mvvm.usecases
 
 /**
  * This object is used for global handling and logging of errors that are thrown in the interactor execution.
  */
-object InteractorErrorHandler {
+object UseCaseErrorHandler {
 
     /**
      * Lambda expression that is invoked every time when an error
@@ -15,7 +15,7 @@ object InteractorErrorHandler {
 
 internal fun wrapWithGlobalOnErrorLogger(onError: (Throwable) -> Unit): (Throwable) -> Unit {
     return { error ->
-        InteractorErrorHandler.globalOnErrorLogger(error)
+        UseCaseErrorHandler.globalOnErrorLogger(error)
         onError(error)
     }
 }

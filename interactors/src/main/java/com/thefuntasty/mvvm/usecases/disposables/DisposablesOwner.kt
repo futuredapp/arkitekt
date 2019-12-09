@@ -1,11 +1,11 @@
-package com.thefuntasty.interactors.disposables
+package com.thefuntasty.mvvm.usecases.disposables
 
 import androidx.annotation.VisibleForTesting
-import com.thefuntasty.interactors.interactors.BaseCompletabler
-import com.thefuntasty.interactors.interactors.BaseFlowabler
-import com.thefuntasty.interactors.interactors.BaseMayber
-import com.thefuntasty.interactors.interactors.BaseObservabler
-import com.thefuntasty.interactors.interactors.BaseSingler
+import com.thefuntasty.mvvm.usecases.base.BaseCompletabler
+import com.thefuntasty.mvvm.usecases.base.BaseFlowabler
+import com.thefuntasty.mvvm.usecases.base.BaseMayber
+import com.thefuntasty.mvvm.usecases.base.BaseObservabler
+import com.thefuntasty.mvvm.usecases.base.BaseSingler
 import io.reactivex.disposables.CompositeDisposable
 
 /**

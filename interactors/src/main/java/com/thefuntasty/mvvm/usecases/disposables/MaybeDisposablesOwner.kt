@@ -1,14 +1,14 @@
-package com.thefuntasty.interactors.disposables
+package com.thefuntasty.mvvm.usecases.disposables
 
-import com.thefuntasty.interactors.interactors.BaseFlowabler
-import com.thefuntasty.interactors.wrapWithGlobalOnErrorLogger
-import io.reactivex.Flowable
+import com.thefuntasty.mvvm.usecases.base.BaseMayber
+import com.thefuntasty.mvvm.usecases.wrapWithGlobalOnErrorLogger
+import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseFlowabler] interactors
+ * This interface gives your class ability to execute [BaseMayber] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -17,60 +17,60 @@ import io.reactivex.rxkotlin.plusAssign
  * It is your responsibility to clear this composite disposable when all
  * running tasks should be stopped.
  */
-interface FlowableDisposablesOwner {
+interface MaybeDisposablesOwner {
 
     val disposables: CompositeDisposable
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseFlowabler.execute] method has already been called
-     * on this instance of [BaseFlowabler], previous one is disposed,
-     * no matter what current state of internal Flowable is. This behavior
-     * can be disabled by passing false to [FlowablerConfig.disposePrevious]
+     * variant of [BaseMayber.execute] method has already been called
+     * on this instance of [BaseMayber], previous one is disposed,
+     * no matter what current state of internal Maybe is. This behavior
+     * can be disabled by passing false to [MayberConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial interactor initialisation.
-     * @return disposable of internal [Flowable]. This disposable is disposed
+     * @return disposable of internal [Maybe]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseFlowabler.execute] method has already been called
-     * on this instance of [BaseFlowabler], previous one is disposed,
-     * no matter what current state of internal Flowable is. This behavior
-     * can be disabled by passing false to [FlowablerConfig.disposePrevious]
+     * variant of [BaseMayber.execute] method has already been called
+     * on this instance of [BaseMayber], previous one is disposed,
+     * no matter what current state of internal Maybe is. This behavior
+     * can be disabled by passing false to [MayberConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial interactor initialisation.
-     * @param config [FlowablerConfig] used to process results of internal [Flowable].
-     * @return disposable of internal [Flowable]. This disposable is disposed
+     * @param config [MayberConfig] used to process results of internal [Maybe].
+     * @return disposable of internal [Maybe]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(
+    fun <ARGS, T> BaseMayber<ARGS, T>.execute(
         args: ARGS,
-        config: FlowablerConfig.Builder<T>.() -> Unit
+        config: MayberConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val flowablerConfig = FlowablerConfig.Builder<T>().run {
+        val mayberConfig = MayberConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (flowablerConfig.disposePrevious) {
+        if (mayberConfig.disposePrevious) {
             this@execute.currentDisposable?.dispose()
         }
 
         val disposable = create(args)
-            .doOnSubscribe { flowablerConfig.onStart() }
+            .doOnSubscribe { mayberConfig.onStart() }
             .subscribe(
-                flowablerConfig.onNext,
-                wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
-                flowablerConfig.onComplete
+                mayberConfig.onSuccess,
+                wrapWithGlobalOnErrorLogger(mayberConfig.onError),
+                mayberConfig.onComplete
             )
 
         this@execute.currentDisposable = disposable
@@ -80,26 +80,26 @@ interface FlowableDisposablesOwner {
     }
 
     /**
-     * Executes the [Flowable] and adds its disposable to
+     * Executes the [Maybe] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [FlowablerConfig] used to process results of internal Flowable.
-     * @return disposable of internal [Flowable]. It might be used to
+     * @param config [MayberConfig] used to process results of internal Maybe.
+     * @return disposable of internal [Maybe]. It might be used to
      * dispose interactor when you need to dispose it in advance on your own.
      */
-    fun <T : Any> Flowable<T>.executeStream(
-        config: FlowablerConfig.Builder<T>.() -> Unit
+    fun <T : Any> Maybe<T>.executeStream(
+        config: MayberConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val flowablerConfig = FlowablerConfig.Builder<T>().run {
+        val mayberConfig = MayberConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        return doOnSubscribe { flowablerConfig.onStart() }
+        return doOnSubscribe { mayberConfig.onStart() }
             .subscribe(
-                flowablerConfig.onNext,
-                wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
-                flowablerConfig.onComplete
+                mayberConfig.onSuccess,
+                wrapWithGlobalOnErrorLogger(mayberConfig.onError),
+                mayberConfig.onComplete
             ).also {
                 disposables += it
             }
@@ -108,27 +108,31 @@ interface FlowableDisposablesOwner {
 
 /**
  * Holds references to lambdas and some basic configuration
- * used to process results of Flowabler interactor.
- * Use [FlowablerConfig.Builder] to construct this object.
+ * used to process results of Mayber interactor.
+ * Use [MayberConfig.Builder] to construct this object.
  */
-class FlowablerConfig<T> private constructor(
+class MayberConfig<T> private constructor(
     val onStart: () -> Unit,
-    val onNext: (T) -> Unit,
+    val onSuccess: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
 ) {
+    /**
+     * Constructs references to lambdas and some basic configuration
+     * used to process results of Mayber interactor.
+     */
     class Builder<T> {
         private var onStart: (() -> Unit)? = null
-        private var onNext: ((T) -> Unit)? = null
+        private var onSuccess: ((T) -> Unit)? = null
         private var onComplete: (() -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
 
         /**
          * Set lambda which is called right before
-         * internal Flowable is subscribed
-         * @param onStart Lambda called right before Flowable is
+         * internal Maybe is subscribed
+         * @param onStart Lambda called right before Maybe is
          * subscribed.
          */
         fun onStart(onStart: () -> Unit) {
@@ -136,18 +140,18 @@ class FlowablerConfig<T> private constructor(
         }
 
         /**
-         * Set lambda which is called when onNext on
-         * internal Flowable is called
-         * @param onNext Lambda called when onNext is
+         * Set lambda which is called when onSuccess on
+         * internal Maybe is called
+         * @param onSuccess Lambda called when onSuccess is
          * emitted.
          */
-        fun onNext(onNext: (T) -> Unit) {
-            this.onNext = onNext
+        fun onSuccess(onSuccess: (T) -> Unit) {
+            this.onSuccess = onSuccess
         }
 
         /**
          * Set lambda which is called when onComplete on
-         * internal Flowable is called
+         * internal Maybe is called
          * @param onComplete Lambda called when onComplete is
          * emitted.
          */
@@ -157,7 +161,7 @@ class FlowablerConfig<T> private constructor(
 
         /**
          * Set lambda which is called when onError on
-         * internal Flowable is called
+         * internal Maybe is called
          * @param onError Lambda called when onError is
          * emitted.
          */
@@ -166,19 +170,19 @@ class FlowablerConfig<T> private constructor(
         }
 
         /**
-         * Set whether currently running internal Flowable
+         * Set whether currently running internal Maybe
          * should be disposed when execute is called repeatedly.
          * @param disposePrevious True if currently running
-         * internal Flowable should be disposed
+         * internal Maybe should be disposed
          */
         fun disposePrevious(disposePrevious: Boolean) {
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): FlowablerConfig<T> {
-            return FlowablerConfig(
+        fun build(): MayberConfig<T> {
+            return MayberConfig(
                 onStart ?: { },
-                onNext ?: { },
+                onSuccess ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },
                 disposePrevious

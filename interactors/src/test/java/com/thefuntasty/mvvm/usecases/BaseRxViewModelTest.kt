@@ -1,10 +1,10 @@
-package com.thefuntasty.interactors
+package com.thefuntasty.mvvm.usecases
 
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
-import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
-import com.thefuntasty.interactors.interactors.BaseCompletabler
+import com.thefuntasty.mvvm.usecases.base.RxMockitoJUnitRunner
+import com.thefuntasty.mvvm.usecases.base.BaseCompletabler
 import com.thefuntasty.mvvm.ViewState
 import io.reactivex.Completable
 import org.junit.Test
@@ -22,7 +22,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
         val vm = object : BaseRxViewModel<ViewState>() {
             override val viewState = mockViewState
 
-            fun runInteractor() {
+            fun runUseCase() {
                 object : BaseCompletabler<Unit>() {
                     override fun prepare(args: Unit) = Completable.complete()
                 }.execute(Unit)
@@ -36,7 +36,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
             }
         }
 
-        vm.runInteractor()
+        vm.runUseCase()
         vm.clear()
 
         verify(mockViewState).fnI(0)
@@ -48,7 +48,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
         val vm = object : BaseRxViewModel<ViewState>() {
             override val viewState = mockViewState
 
-            fun runInteractor() {
+            fun runUseCase() {
                 object : BaseCompletabler<Unit>() {
                     override fun prepare(args: Unit) = Completable.complete()
                 }.execute(Unit)
@@ -63,7 +63,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
             }
         }
 
-        vm.runInteractor()
+        vm.runUseCase()
         vm.clear()
 
         verify(mockViewState).fnI(1)

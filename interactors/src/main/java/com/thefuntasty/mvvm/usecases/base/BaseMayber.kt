@@ -1,18 +1,18 @@
-package com.thefuntasty.interactors.interactors
+package com.thefuntasty.mvvm.usecases.base
 
 import io.reactivex.Maybe
 
 /**
  * Base interactor which wraps [Maybe]. Instance of this
  * interactor can be simply executed in cooperation with
- * [com.thefuntasty.interactors.disposables.MaybeDisposablesOwner] interface.
+ * [com.thefuntasty.usecases.disposables.MaybeDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseMayber<ARGS, T> : BaseInteractor() {
+abstract class BaseMayber<ARGS, T> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Maybe] Rx stream. This method does not

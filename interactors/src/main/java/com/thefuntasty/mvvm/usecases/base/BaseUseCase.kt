@@ -1,4 +1,4 @@
-package com.thefuntasty.interactors.interactors
+package com.thefuntasty.mvvm.usecases.base
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -6,7 +6,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 @Suppress("UnnecessaryAbstractClass")
-abstract class BaseInteractor {
+abstract class BaseUseCase {
 
     internal var currentDisposable: Disposable? = null
 

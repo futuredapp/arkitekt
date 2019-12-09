@@ -1,18 +1,18 @@
-package com.thefuntasty.interactors.interactors
+package com.thefuntasty.mvvm.usecases.base
 
 import io.reactivex.Single
 
 /**
  * Base interactor which wraps [Single]. Instance of this
  * interactor can be simply executed in cooperation with
- * [com.thefuntasty.interactors.disposables.SingleDisposablesOwner] interface.
+ * [com.thefuntasty.usecases.disposables.SingleDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseSingler<ARGS, T> : BaseInteractor() {
+abstract class BaseSingler<ARGS, T> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Single] Rx stream. This method does not

@@ -1,18 +1,18 @@
-package com.thefuntasty.interactors.interactors
+package com.thefuntasty.mvvm.usecases.base
 
 import io.reactivex.Flowable
 
 /**
  * Base interactor which wraps [Flowable]. Instance of this
  * interactor can be simply executed in cooperation with
- * [com.thefuntasty.interactors.disposables.FlowableDisposablesOwner] interface.
+ * [com.thefuntasty.usecases.disposables.FlowableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class BaseFlowabler<ARGS, T> : BaseInteractor() {
+abstract class BaseFlowabler<ARGS, T> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Flowable] Rx stream. This method does not

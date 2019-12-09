@@ -1,14 +1,14 @@
-package com.thefuntasty.interactors.disposables
+package com.thefuntasty.mvvm.usecases.disposables
 
-import com.thefuntasty.interactors.interactors.BaseMayber
-import com.thefuntasty.interactors.wrapWithGlobalOnErrorLogger
-import io.reactivex.Maybe
+import com.thefuntasty.mvvm.usecases.base.BaseObservabler
+import com.thefuntasty.mvvm.usecases.wrapWithGlobalOnErrorLogger
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseMayber] interactors
+ * This interface gives your class ability to execute [BaseObservabler] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -17,60 +17,60 @@ import io.reactivex.rxkotlin.plusAssign
  * It is your responsibility to clear this composite disposable when all
  * running tasks should be stopped.
  */
-interface MaybeDisposablesOwner {
+interface ObservableDisposablesOwner {
 
     val disposables: CompositeDisposable
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseMayber.execute] method has already been called
-     * on this instance of [BaseMayber], previous one is disposed,
-     * no matter what current state of internal Maybe is. This behavior
-     * can be disabled by passing false to [MayberConfig.disposePrevious]
+     * variant of [BaseObservabler.execute] method has already been called
+     * on this instance of [BaseObservabler], previous one is disposed,
+     * no matter what current state of internal Observable is. This behavior
+     * can be disabled by passing false to [ObservablerConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial interactor initialisation.
-     * @return disposable of internal [Maybe]. This disposable is disposed
+     * @return disposable of internal [Observable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseMayber<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseMayber.execute] method has already been called
-     * on this instance of [BaseMayber], previous one is disposed,
-     * no matter what current state of internal Maybe is. This behavior
-     * can be disabled by passing false to [MayberConfig.disposePrevious]
+     * variant of [BaseObservabler.execute] method has already been called
+     * on this instance of [BaseObservabler], previous one is disposed,
+     * no matter what current state of internal Observable is. This behavior
+     * can be disabled by passing false to [ObservablerConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial interactor initialisation.
-     * @param config [MayberConfig] used to process results of internal [Maybe].
-     * @return disposable of internal [Maybe]. This disposable is disposed
+     * @param config [ObservablerConfig] used to process results of internal [Observable].
+     * @return disposable of internal [Observable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseMayber<ARGS, T>.execute(
+    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(
         args: ARGS,
-        config: MayberConfig.Builder<T>.() -> Unit
+        config: ObservablerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val mayberConfig = MayberConfig.Builder<T>().run {
+        val observablerConfig = ObservablerConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (mayberConfig.disposePrevious) {
+        if (observablerConfig.disposePrevious) {
             this@execute.currentDisposable?.dispose()
         }
 
         val disposable = create(args)
-            .doOnSubscribe { mayberConfig.onStart() }
+            .doOnSubscribe { observablerConfig.onStart() }
             .subscribe(
-                mayberConfig.onSuccess,
-                wrapWithGlobalOnErrorLogger(mayberConfig.onError),
-                mayberConfig.onComplete
+                observablerConfig.onNext,
+                wrapWithGlobalOnErrorLogger(observablerConfig.onError),
+                observablerConfig.onComplete
             )
 
         this@execute.currentDisposable = disposable
@@ -80,26 +80,26 @@ interface MaybeDisposablesOwner {
     }
 
     /**
-     * Executes the [Maybe] and adds its disposable to
+     * Executes the [Observable] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [MayberConfig] used to process results of internal Maybe.
-     * @return disposable of internal [Maybe]. It might be used to
+     * @param config [ObservablerConfig] used to process results of internal Observable.
+     * @return disposable of internal [Observable]. It might be used to
      * dispose interactor when you need to dispose it in advance on your own.
      */
-    fun <T : Any> Maybe<T>.executeStream(
-        config: MayberConfig.Builder<T>.() -> Unit
+    fun <T : Any> Observable<T>.executeStream(
+        config: ObservablerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val mayberConfig = MayberConfig.Builder<T>().run {
+        val observablerConfig = ObservablerConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        return doOnSubscribe { mayberConfig.onStart() }
+        return doOnSubscribe { observablerConfig.onStart() }
             .subscribe(
-                mayberConfig.onSuccess,
-                wrapWithGlobalOnErrorLogger(mayberConfig.onError),
-                mayberConfig.onComplete
+                observablerConfig.onNext,
+                wrapWithGlobalOnErrorLogger(observablerConfig.onError),
+                observablerConfig.onComplete
             ).also {
                 disposables += it
             }
@@ -108,31 +108,31 @@ interface MaybeDisposablesOwner {
 
 /**
  * Holds references to lambdas and some basic configuration
- * used to process results of Mayber interactor.
- * Use [MayberConfig.Builder] to construct this object.
+ * used to process results of Observabler interactor.
+ * Use [ObservablerConfig.Builder] to construct this object.
  */
-class MayberConfig<T> private constructor(
+class ObservablerConfig<T> private constructor(
     val onStart: () -> Unit,
-    val onSuccess: (T) -> Unit,
+    val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
 ) {
     /**
      * Constructs references to lambdas and some basic configuration
-     * used to process results of Mayber interactor.
+     * used to process results of Observabler interactor.
      */
     class Builder<T> {
         private var onStart: (() -> Unit)? = null
-        private var onSuccess: ((T) -> Unit)? = null
+        private var onNext: ((T) -> Unit)? = null
         private var onComplete: (() -> Unit)? = null
         private var onError: ((Throwable) -> Unit)? = null
         private var disposePrevious = true
 
         /**
          * Set lambda which is called right before
-         * internal Maybe is subscribed
-         * @param onStart Lambda called right before Maybe is
+         * internal Observable is subscribed
+         * @param onStart Lambda called right before Observable is
          * subscribed.
          */
         fun onStart(onStart: () -> Unit) {
@@ -140,18 +140,18 @@ class MayberConfig<T> private constructor(
         }
 
         /**
-         * Set lambda which is called when onSuccess on
-         * internal Maybe is called
-         * @param onSuccess Lambda called when onSuccess is
+         * Set lambda which is called when onNext on
+         * internal Observable is called
+         * @param onNext Lambda called when onNext is
          * emitted.
          */
-        fun onSuccess(onSuccess: (T) -> Unit) {
-            this.onSuccess = onSuccess
+        fun onNext(onNext: (T) -> Unit) {
+            this.onNext = onNext
         }
 
         /**
          * Set lambda which is called when onComplete on
-         * internal Maybe is called
+         * internal Observable is called
          * @param onComplete Lambda called when onComplete is
          * emitted.
          */
@@ -161,7 +161,7 @@ class MayberConfig<T> private constructor(
 
         /**
          * Set lambda which is called when onError on
-         * internal Maybe is called
+         * internal Observable is called
          * @param onError Lambda called when onError is
          * emitted.
          */
@@ -170,19 +170,19 @@ class MayberConfig<T> private constructor(
         }
 
         /**
-         * Set whether currently running internal Maybe
+         * Set whether currently running internal Observable
          * should be disposed when execute is called repeatedly.
          * @param disposePrevious True if currently running
-         * internal Maybe should be disposed
+         * internal Observable should be disposed
          */
         fun disposePrevious(disposePrevious: Boolean) {
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): MayberConfig<T> {
-            return MayberConfig(
+        fun build(): ObservablerConfig<T> {
+            return ObservablerConfig(
                 onStart ?: { },
-                onSuccess ?: { },
+                onNext ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },
                 disposePrevious

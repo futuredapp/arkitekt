@@ -1,14 +1,14 @@
-package com.thefuntasty.interactors.disposables
+package com.thefuntasty.mvvm.usecases.disposables
 
-import com.thefuntasty.interactors.interactors.BaseObservabler
-import com.thefuntasty.interactors.wrapWithGlobalOnErrorLogger
-import io.reactivex.Observable
+import com.thefuntasty.mvvm.usecases.base.BaseFlowabler
+import com.thefuntasty.mvvm.usecases.wrapWithGlobalOnErrorLogger
+import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [BaseObservabler] interactors
+ * This interface gives your class ability to execute [BaseFlowabler] interactors
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -17,60 +17,60 @@ import io.reactivex.rxkotlin.plusAssign
  * It is your responsibility to clear this composite disposable when all
  * running tasks should be stopped.
  */
-interface ObservableDisposablesOwner {
+interface FlowableDisposablesOwner {
 
     val disposables: CompositeDisposable
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseObservabler.execute] method has already been called
-     * on this instance of [BaseObservabler], previous one is disposed,
-     * no matter what current state of internal Observable is. This behavior
-     * can be disabled by passing false to [ObservablerConfig.disposePrevious]
+     * variant of [BaseFlowabler.execute] method has already been called
+     * on this instance of [BaseFlowabler], previous one is disposed,
+     * no matter what current state of internal Flowable is. This behavior
+     * can be disabled by passing false to [FlowablerConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial interactor initialisation.
-     * @return disposable of internal [Observable]. This disposable is disposed
+     * @return disposable of internal [Flowable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the interactor and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [BaseObservabler.execute] method has already been called
-     * on this instance of [BaseObservabler], previous one is disposed,
-     * no matter what current state of internal Observable is. This behavior
-     * can be disabled by passing false to [ObservablerConfig.disposePrevious]
+     * variant of [BaseFlowabler.execute] method has already been called
+     * on this instance of [BaseFlowabler], previous one is disposed,
+     * no matter what current state of internal Flowable is. This behavior
+     * can be disabled by passing false to [FlowablerConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial interactor initialisation.
-     * @param config [ObservablerConfig] used to process results of internal [Observable].
-     * @return disposable of internal [Observable]. This disposable is disposed
+     * @param config [FlowablerConfig] used to process results of internal [Flowable].
+     * @return disposable of internal [Flowable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(
+    fun <ARGS, T> BaseFlowabler<ARGS, T>.execute(
         args: ARGS,
-        config: ObservablerConfig.Builder<T>.() -> Unit
+        config: FlowablerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val observablerConfig = ObservablerConfig.Builder<T>().run {
+        val flowablerConfig = FlowablerConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (observablerConfig.disposePrevious) {
+        if (flowablerConfig.disposePrevious) {
             this@execute.currentDisposable?.dispose()
         }
 
         val disposable = create(args)
-            .doOnSubscribe { observablerConfig.onStart() }
+            .doOnSubscribe { flowablerConfig.onStart() }
             .subscribe(
-                observablerConfig.onNext,
-                wrapWithGlobalOnErrorLogger(observablerConfig.onError),
-                observablerConfig.onComplete
+                flowablerConfig.onNext,
+                wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
+                flowablerConfig.onComplete
             )
 
         this@execute.currentDisposable = disposable
@@ -80,26 +80,26 @@ interface ObservableDisposablesOwner {
     }
 
     /**
-     * Executes the [Observable] and adds its disposable to
+     * Executes the [Flowable] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [ObservablerConfig] used to process results of internal Observable.
-     * @return disposable of internal [Observable]. It might be used to
+     * @param config [FlowablerConfig] used to process results of internal Flowable.
+     * @return disposable of internal [Flowable]. It might be used to
      * dispose interactor when you need to dispose it in advance on your own.
      */
-    fun <T : Any> Observable<T>.executeStream(
-        config: ObservablerConfig.Builder<T>.() -> Unit
+    fun <T : Any> Flowable<T>.executeStream(
+        config: FlowablerConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val observablerConfig = ObservablerConfig.Builder<T>().run {
+        val flowablerConfig = FlowablerConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        return doOnSubscribe { observablerConfig.onStart() }
+        return doOnSubscribe { flowablerConfig.onStart() }
             .subscribe(
-                observablerConfig.onNext,
-                wrapWithGlobalOnErrorLogger(observablerConfig.onError),
-                observablerConfig.onComplete
+                flowablerConfig.onNext,
+                wrapWithGlobalOnErrorLogger(flowablerConfig.onError),
+                flowablerConfig.onComplete
             ).also {
                 disposables += it
             }
@@ -108,20 +108,16 @@ interface ObservableDisposablesOwner {
 
 /**
  * Holds references to lambdas and some basic configuration
- * used to process results of Observabler interactor.
- * Use [ObservablerConfig.Builder] to construct this object.
+ * used to process results of Flowabler interactor.
+ * Use [FlowablerConfig.Builder] to construct this object.
  */
-class ObservablerConfig<T> private constructor(
+class FlowablerConfig<T> private constructor(
     val onStart: () -> Unit,
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
     val disposePrevious: Boolean
 ) {
-    /**
-     * Constructs references to lambdas and some basic configuration
-     * used to process results of Observabler interactor.
-     */
     class Builder<T> {
         private var onStart: (() -> Unit)? = null
         private var onNext: ((T) -> Unit)? = null
@@ -131,8 +127,8 @@ class ObservablerConfig<T> private constructor(
 
         /**
          * Set lambda which is called right before
-         * internal Observable is subscribed
-         * @param onStart Lambda called right before Observable is
+         * internal Flowable is subscribed
+         * @param onStart Lambda called right before Flowable is
          * subscribed.
          */
         fun onStart(onStart: () -> Unit) {
@@ -141,7 +137,7 @@ class ObservablerConfig<T> private constructor(
 
         /**
          * Set lambda which is called when onNext on
-         * internal Observable is called
+         * internal Flowable is called
          * @param onNext Lambda called when onNext is
          * emitted.
          */
@@ -151,7 +147,7 @@ class ObservablerConfig<T> private constructor(
 
         /**
          * Set lambda which is called when onComplete on
-         * internal Observable is called
+         * internal Flowable is called
          * @param onComplete Lambda called when onComplete is
          * emitted.
          */
@@ -161,7 +157,7 @@ class ObservablerConfig<T> private constructor(
 
         /**
          * Set lambda which is called when onError on
-         * internal Observable is called
+         * internal Flowable is called
          * @param onError Lambda called when onError is
          * emitted.
          */
@@ -170,17 +166,17 @@ class ObservablerConfig<T> private constructor(
         }
 
         /**
-         * Set whether currently running internal Observable
+         * Set whether currently running internal Flowable
          * should be disposed when execute is called repeatedly.
          * @param disposePrevious True if currently running
-         * internal Observable should be disposed
+         * internal Flowable should be disposed
          */
         fun disposePrevious(disposePrevious: Boolean) {
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): ObservablerConfig<T> {
-            return ObservablerConfig(
+        fun build(): FlowablerConfig<T> {
+            return FlowablerConfig(
                 onStart ?: { },
                 onNext ?: { },
                 onComplete ?: { },

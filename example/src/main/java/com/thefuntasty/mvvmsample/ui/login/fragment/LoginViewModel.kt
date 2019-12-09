@@ -1,16 +1,16 @@
 package com.thefuntasty.mvvmsample.ui.login.fragment
 
 import android.view.View
-import com.thefuntasty.interactors.BaseRxViewModel
+import com.thefuntasty.mvvm.usecases.BaseRxViewModel
 import com.thefuntasty.mvvmsample.domain.GetUserFullNameObservabler
 import com.thefuntasty.mvvmsample.domain.LoginCompletabler
-import com.thefuntasty.mvvmsample.domain.StateInteractor
+import com.thefuntasty.mvvmsample.domain.StateUseCase
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
     private val loginCompletabler: LoginCompletabler,
     private val getUserFullNameObservabler: GetUserFullNameObservabler,
-    private val stateInteractor: StateInteractor
+    private val stateInteractor: StateUseCase
 ) : BaseRxViewModel<LoginViewState>() {
     override val viewState = LoginViewState()
 
