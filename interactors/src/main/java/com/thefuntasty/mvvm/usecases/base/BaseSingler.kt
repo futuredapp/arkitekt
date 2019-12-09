@@ -5,7 +5,7 @@ import io.reactivex.Single
 /**
  * Base interactor which wraps [Single]. Instance of this
  * interactor can be simply executed in cooperation with
- * [com.thefuntasty.usecases.disposables.SingleDisposablesOwner] interface.
+ * [com.thefuntasty.mvvm.usecases.disposables.SingleDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]

@@ -5,7 +5,7 @@ import io.reactivex.Flowable
 /**
  * Base interactor which wraps [Flowable]. Instance of this
  * interactor can be simply executed in cooperation with
- * [com.thefuntasty.usecases.disposables.FlowableDisposablesOwner] interface.
+ * [com.thefuntasty.mvvm.usecases.disposables.FlowableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]

@@ -5,7 +5,7 @@ import io.reactivex.Observable
 /**
  * Base interactor which wraps [Observable]. Instance of this
  * interactor can be simply executed in cooperation with
- * [com.thefuntasty.usecases.disposables.ObservableDisposablesOwner] interface.
+ * [com.thefuntasty.mvvm.usecases.disposables.ObservableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]
