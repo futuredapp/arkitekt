@@ -27,7 +27,7 @@ dependencies {
 # Table of contents
 
 1. [Getting started - Minimal project file hierarchy](#getting-started---minimal-project-file-hierarchy)
-2. [Use cases](#use-cases)
+2. [Use Cases](#use-cases)
 3. [UI changes flow](#ui-changes-flow)
 4. [Stores (Repositories)](#stores-repositories)
 5. [About](#about)
