@@ -5,7 +5,7 @@ import kotlinx.coroutines.Deferred
 /**
  * Base Coroutine use case meant to use in [CoroutineScopeOwner] implementations
  */
-abstract class BaseUseCase<ARGS, T> {
+abstract class UseCase<ARGS, T> {
     /**
      *  [Deferred] used to hold and cancel existing run of this use case
      */

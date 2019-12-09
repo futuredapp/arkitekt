@@ -1,9 +1,9 @@
 package com.thefuntasty.mvvm.crusecases.testinteractors.testinteractors
 
-import com.thefuntasty.mvvm.crusecases.BaseUseCase
+import com.thefuntasty.mvvm.crusecases.UseCase
 import kotlinx.coroutines.delay
 
-class TestUseCase : BaseUseCase<Int, Int>() {
+class TestUseCase : UseCase<Int, Int>() {
 
     override suspend fun build(args: Int): Int {
         println(Thread.currentThread().name)

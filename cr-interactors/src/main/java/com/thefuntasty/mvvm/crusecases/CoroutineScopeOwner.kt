@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 /**
- * This interface gives your class ability to execute [BaseUseCase] and [BaseFlowUseCase] Coroutine use cases.
+ * This interface gives your class ability to execute [UseCase] and [FlowUseCase] Coroutine use cases.
  * You may find handy to implement this interface in custom Presenters, ViewHolders etc.
  * It is your responsibility to cancel [coroutineScope] when when all running tasks should be stopped.
  */
@@ -35,7 +35,7 @@ interface CoroutineScopeOwner {
      * @param config [UseCaseConfig] used to process results of internal
      * Coroutine and to set configuration options.
      */
-    fun <T : Any?> BaseUseCase<Unit, T>.execute(config: UseCaseConfig.Builder<T>.() -> Unit) =
+    fun <T : Any?> UseCase<Unit, T>.execute(config: UseCaseConfig.Builder<T>.() -> Unit) =
         execute(Unit, config)
 
     /**
@@ -47,7 +47,7 @@ interface CoroutineScopeOwner {
      * @param config [UseCaseConfig] used to process results of internal
      * Coroutine and to set configuration options.
      */
-    fun <ARGS, T : Any?> BaseUseCase<ARGS, T>.execute(
+    fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
         args: ARGS,
         config: UseCaseConfig.Builder<T>.() -> Unit
     ) {
@@ -150,7 +150,7 @@ interface CoroutineScopeOwner {
         }
     }
 
-    fun <T : Any?> BaseFlowUseCase<Unit, T>.execute(config: FlowUseCaseConfig.Builder<T>.() -> Unit) =
+    fun <T : Any?> FlowUseCase<Unit, T>.execute(config: FlowUseCaseConfig.Builder<T>.() -> Unit) =
         execute(Unit, config)
 
     /**
@@ -163,7 +163,7 @@ interface CoroutineScopeOwner {
      * @param config [FlowUseCaseConfig] used to process results of internal
      * Flow and to set configuration options.
      **/
-    fun <ARGS, T : Any?> BaseFlowUseCase<ARGS, T>.execute(
+    fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.execute(
         args: ARGS,
         config: FlowUseCaseConfig.Builder<T>.() -> Unit
     ) {

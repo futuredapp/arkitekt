@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 /**
  * Base ViewModel class prepared for providing data to UI through [LiveData] and
  * obtaining data from Stores (Repositories) by executing Coroutine based use cases like
- * [BaseUseCase] and [BaseFlowUseCase].
+ * [UseCase] and [FlowUseCase].
  */
 abstract class BaseCrViewModel<S : ViewState> : BaseViewModel<S>(), CoroutineScopeOwner {
 
