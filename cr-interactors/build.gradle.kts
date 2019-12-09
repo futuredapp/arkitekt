@@ -39,9 +39,9 @@ dependencies {
 }
 
 project.apply {
-    extensions.add("artifact", ProjectSettings.CrInteractors.artifact)
-    extensions.add("libraryName", ProjectSettings.CrInteractors.artifact)
-    extensions.add("libraryDescription", ProjectSettings.CrInteractors.libraryDescription)
+    extensions.add("artifact", ProjectSettings.CrUseCases.artifact)
+    extensions.add("libraryName", ProjectSettings.CrUseCases.artifact)
+    extensions.add("libraryDescription", ProjectSettings.CrUseCases.libraryDescription)
 }
 
 apply("../publish.script.gradle")

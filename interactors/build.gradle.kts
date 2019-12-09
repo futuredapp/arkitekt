@@ -55,9 +55,9 @@ dependencies {
 }
 
 project.apply {
-    extensions.add("artifact", ProjectSettings.RxInteractors.artifact)
-    extensions.add("libraryName", ProjectSettings.RxInteractors.artifact)
-    extensions.add("libraryDescription", ProjectSettings.RxInteractors.libraryDescription)
+    extensions.add("artifact", ProjectSettings.RxUseCases.artifact)
+    extensions.add("libraryName", ProjectSettings.RxUseCases.artifact)
+    extensions.add("libraryDescription", ProjectSettings.RxUseCases.libraryDescription)
 }
 
 apply("../publish.script.gradle")
