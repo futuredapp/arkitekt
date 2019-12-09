@@ -167,34 +167,34 @@ interface CoroutineScopeOwner {
         args: ARGS,
         config: FlowUseCaseConfig.Builder<T>.() -> Unit
     ) {
-        val flowUsecaseConfig = FlowUseCaseConfig.Builder<T>().run {
+        val flowUseCaseConfig = FlowUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
 
-        if (flowUsecaseConfig.disposePrevious) {
+        if (flowUseCaseConfig.disposePrevious) {
             job?.cancel()
         }
 
-        flowUsecaseConfig.onStart()
+        flowUseCaseConfig.onStart()
         job = coroutineScope.launch(getWorkerDispatcher()) {
             try {
                 build(args)
                     .onEach {
                         kotlinx.coroutines.withContext(Dispatchers.Main) {
-                            flowUsecaseConfig.onNext(it)
+                            flowUseCaseConfig.onNext(it)
                         }
                     }
                     .onCompletion { error ->
                         kotlinx.coroutines.withContext(Dispatchers.Main) {
-                            error?.also { flowUsecaseConfig.onError.invoke(it) } ?: flowUsecaseConfig.onComplete()
+                            error?.also { flowUseCaseConfig.onError.invoke(it) } ?: flowUseCaseConfig.onComplete()
                         }
                     }
                     .collect()
             } catch (cancellation: CancellationException) {
                 // do nothing - this is normal way of suspend function interruption
             } catch (error: Throwable) {
-                flowUsecaseConfig.onError.invoke(error)
+                flowUseCaseConfig.onError.invoke(error)
             }
         }
     }
