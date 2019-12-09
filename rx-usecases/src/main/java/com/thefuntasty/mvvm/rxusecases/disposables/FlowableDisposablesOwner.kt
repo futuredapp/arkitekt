@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [FlowablerUseCase] interactors
+ * This interface gives your class ability to execute [FlowablerUseCase] use cases
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -22,7 +22,7 @@ interface FlowableDisposablesOwner {
     val disposables: CompositeDisposable
 
     /**
-     * Executes the interactor and adds its disposable to
+     * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
      * variant of [FlowablerUseCase.execute] method has already been called
      * on this instance of [FlowablerUseCase], previous one is disposed,
@@ -30,15 +30,15 @@ interface FlowableDisposablesOwner {
      * can be disabled by passing false to [FlowablerConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial interactor initialisation.
+     * @param args Arguments used for initial use case initialisation.
      * @return disposable of internal [Flowable]. This disposable is disposed
-     * automatically. It might be used to dispose interactor when you need
+     * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
     fun <ARGS, T> FlowablerUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
-     * Executes the interactor and adds its disposable to
+     * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
      * variant of [FlowablerUseCase.execute] method has already been called
      * on this instance of [FlowablerUseCase], previous one is disposed,
@@ -46,10 +46,10 @@ interface FlowableDisposablesOwner {
      * can be disabled by passing false to [FlowablerConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial interactor initialisation.
+     * @param args Arguments used for initial use case initialisation.
      * @param config [FlowablerConfig] used to process results of internal [Flowable].
      * @return disposable of internal [Flowable]. This disposable is disposed
-     * automatically. It might be used to dispose interactor when you need
+     * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
     fun <ARGS, T> FlowablerUseCase<ARGS, T>.execute(
@@ -85,7 +85,7 @@ interface FlowableDisposablesOwner {
      *
      * @param config [FlowablerConfig] used to process results of internal Flowable.
      * @return disposable of internal [Flowable]. It might be used to
-     * dispose interactor when you need to dispose it in advance on your own.
+     * dispose use case when you need to dispose it in advance on your own.
      */
     fun <T : Any> Flowable<T>.executeStream(
         config: FlowablerConfig.Builder<T>.() -> Unit
@@ -108,7 +108,7 @@ interface FlowableDisposablesOwner {
 
 /**
  * Holds references to lambdas and some basic configuration
- * used to process results of Flowabler interactor.
+ * used to process results of Flowabler use case.
  * Use [FlowablerConfig.Builder] to construct this object.
  */
 class FlowablerConfig<T> private constructor(

@@ -3,8 +3,8 @@ package com.thefuntasty.mvvm.rxusecases.usecases
 import io.reactivex.Completable
 
 /**
- * Base interactor which wraps [Completable]. Instance of this
- * interactor can be simply executed in cooperation with
+ * Base use case which wraps [Completable]. Instance of this
+ * use case can be simply executed in cooperation with
  * [com.thefuntasty.mvvm.rxusecases.disposables.CompletableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
@@ -23,10 +23,10 @@ abstract class CompletablerUseCase<ARGS> : BaseUseCase() {
     /**
      * Creates internal [Completable] Rx stream, applies requested work
      * & result schedulers and exposes this stream as a [Completable]. This method
-     * is handy when you want to combine streams of multiple interactors.
+     * is handy when you want to combine streams of multiple use cases.
      * For example:
      *
-     * interactor_A.create(Unit).andThen(interactor_B.stream(Unit))
+     * usecase_A.create(Unit).andThen(usecase_B.stream(Unit))
      */
     fun create(args: ARGS): Completable = prepare(args).applySchedulers()
 

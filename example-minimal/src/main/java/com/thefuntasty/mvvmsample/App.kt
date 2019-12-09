@@ -12,7 +12,7 @@ class App : DaggerApplication() {
         super.onCreate()
 
         UseCaseErrorHandler.globalOnErrorLogger = { error ->
-            Log.d("Interactor error", "$error")
+            Log.d("UseCase error", "$error")
         }
     }
 

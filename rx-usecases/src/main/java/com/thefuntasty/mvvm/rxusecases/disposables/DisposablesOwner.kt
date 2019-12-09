@@ -10,7 +10,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 /**
  * This interface gives your class ability to execute [FlowablerUseCase], [SinglerUseCase],
- * [CompletablerUseCase], [ObservablerUseCase], [MayberUseCase] interactors and automatically add
+ * [CompletablerUseCase], [ObservablerUseCase], [MayberUseCase] use cases and automatically add
  * resulting disposables to one composite disposable. You may find handy to implement
  * this interface in custom Presenters, ViewHolders etc.
  *

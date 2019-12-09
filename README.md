@@ -7,7 +7,7 @@
 MVVM Android is the framework based on Android Architecture components, which gives you set of
 base classes to implement concise, testable and solid application. It combines built-in
 support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava
-interactors (use cases). Architecture described here is used among wide variety of
+use cases. Architecture described here is used among wide variety of
 projects and it's production ready.
 
 ![MVVM architecture](extras/architecture-diagram.png)

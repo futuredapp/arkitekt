@@ -55,17 +55,17 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         val capturedData = StringBuffer()
-        var interactorFinished = false
+        var useCaseFinished = false
 
         withDisposablesOwner {
             tempObservabler.execute(Unit) {
                 onNext { capturedData.append(it) }
-                onComplete { interactorFinished = true }
+                onComplete { useCaseFinished = true }
             }
         }
 
         assertEquals("123", capturedData.toString())
-        assertTrue(interactorFinished)
+        assertTrue(useCaseFinished)
     }
 
     @Test

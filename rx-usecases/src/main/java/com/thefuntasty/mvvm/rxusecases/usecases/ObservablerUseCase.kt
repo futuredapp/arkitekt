@@ -3,8 +3,8 @@ package com.thefuntasty.mvvm.rxusecases.usecases
 import io.reactivex.Observable
 
 /**
- * Base interactor which wraps [Observable]. Instance of this
- * interactor can be simply executed in cooperation with
+ * Base use case which wraps [Observable]. Instance of this
+ * use case can be simply executed in cooperation with
  * [com.thefuntasty.mvvm.rxusecases.disposables.ObservableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
@@ -23,11 +23,11 @@ abstract class ObservablerUseCase<ARGS, T> : BaseUseCase() {
     /**
      * Creates internal [Observable] Rx stream, applies requested work
      * & result schedulers and exposes this stream as a [Observable]. This method
-     * is handy when you want to combine streams of multiple interactors.
+     * is handy when you want to combine streams of multiple use cases.
      * For example:
      *
-     * interactor_A.create(Unit).flatMap {
-     *     interactor_B.create(Unit)
+     * usecase_A.create(Unit).flatMap {
+     *     usecase_B.create(Unit)
      * }
      */
     fun create(args: ARGS): Observable<T> = prepare(args).applySchedulers()

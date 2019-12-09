@@ -3,8 +3,8 @@ package com.thefuntasty.mvvm.rxusecases.usecases
 import io.reactivex.Single
 
 /**
- * Base interactor which wraps [Single]. Instance of this
- * interactor can be simply executed in cooperation with
+ * Base use case which wraps [Single]. Instance of this
+ * use case can be simply executed in cooperation with
  * [com.thefuntasty.mvvm.rxusecases.disposables.SingleDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
@@ -23,11 +23,11 @@ abstract class SinglerUseCase<ARGS, T> : BaseUseCase() {
     /**
      * Creates internal [Single] Rx stream, applies requested work
      * & result schedulers and exposes this stream as a [Single]. This method
-     * is handy when you want to combine streams of multiple interactors.
+     * is handy when you want to combine streams of multiple use cases.
      * For example:
      *
-     * interactor_A.create().flatMap {
-     *     interactor_B.create()
+     * usecase_A.create().flatMap {
+     *     usecase_B.create()
      * }
      */
     fun create(args: ARGS): Single<T> = prepare(args).applySchedulers()

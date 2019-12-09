@@ -10,12 +10,12 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginCompletabler: LoginCompletabler,
     private val getUserFullNameObservabler: GetUserFullNameObservabler,
-    private val stateInteractor: StateUseCase
+    private val stateUseCase: StateUseCase
 ) : BaseRxViewModel<LoginViewState>() {
     override val viewState = LoginViewState()
 
     override fun onStart() {
-        stateInteractor.execute(true) {
+        stateUseCase.execute(true) {
             onSuccess { viewState.showHeader.value = View.VISIBLE }
             onError { }
         }
