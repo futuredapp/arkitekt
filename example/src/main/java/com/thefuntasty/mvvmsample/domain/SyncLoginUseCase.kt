@@ -1,15 +1,15 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletableUseCase
 import com.thefuntasty.mvvmsample.data.model.User
 import com.thefuntasty.mvvmsample.data.store.UserStore
 import io.reactivex.Completable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class LoginCompletabler @Inject constructor(
+class SyncLoginUseCase @Inject constructor(
     private val userStore: UserStore
-) : CompletablerUseCase<LoginCompletabler.LoginData>() {
+) : CompletableUseCase<SyncLoginUseCase.LoginData>() {
 
     data class LoginData(val firstName: String, val lastName: String)
 

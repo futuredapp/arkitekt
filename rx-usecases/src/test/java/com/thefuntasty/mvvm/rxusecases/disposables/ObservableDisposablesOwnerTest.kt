@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.ObservablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.ObservableUseCase
 import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -12,7 +12,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `test interface can be called properly`() {
-        val tempObservabler = object : ObservablerUseCase<String, String>() {
+        val tempObservabler = object : ObservableUseCase<String, String>() {
             override fun prepare(args: String) = Observable.just(args)
         }
 
@@ -34,7 +34,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `onNext handled properly`() {
-        val tempObservabler = object : ObservablerUseCase<String, String>() {
+        val tempObservabler = object : ObservableUseCase<String, String>() {
             override fun prepare(args: String) = Observable.just(args)
         }
         var capturedString = ""
@@ -50,7 +50,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `check onNext successfully called multiple times`() {
-        val tempObservabler = object : ObservablerUseCase<Unit, String>() {
+        val tempObservabler = object : ObservableUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Observable.just("1", "2", "3")
         }
 
@@ -71,7 +71,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
     @Test
     fun `error handled properly`() {
         val tempException = RuntimeException("test exc")
-        val tempObservabler = object : ObservablerUseCase<Unit, Unit>() {
+        val tempObservabler = object : ObservableUseCase<Unit, Unit>() {
             override fun prepare(args: Unit) = Observable.error<Unit>(tempException)
         }
         var capturedException = Throwable()
@@ -87,7 +87,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable should be disposed`() {
-        val tempObservabler = object : ObservablerUseCase<String, String>() {
+        val tempObservabler = object : ObservableUseCase<String, String>() {
             override fun prepare(args: String) = Observable.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -108,7 +108,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable not disposed when requested`() {
-        val tempObservabler = object : ObservablerUseCase<String, String>() {
+        val tempObservabler = object : ObservableUseCase<String, String>() {
             override fun prepare(args: String) = Observable.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -132,7 +132,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `onStart should be called before subscription for execute methods`() {
-        val testObservabler = object : ObservablerUseCase<Unit, String>() {
+        val testObservabler = object : ObservableUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Observable.just("first", "second")
         }
         val events = mutableListOf<String>()

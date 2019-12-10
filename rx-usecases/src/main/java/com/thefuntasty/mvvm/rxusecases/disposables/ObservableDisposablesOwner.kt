@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.ObservablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.ObservableUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [ObservablerUseCase] use cases
+ * This interface gives your class ability to execute [ObservableUseCase] use cases
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,10 +24,10 @@ interface ObservableDisposablesOwner {
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [ObservablerUseCase.execute] method has already been called
-     * on this instance of [ObservablerUseCase], previous one is disposed,
+     * variant of [ObservableUseCase.execute] method has already been called
+     * on this instance of [ObservableUseCase], previous one is disposed,
      * no matter what current state of internal Observable is. This behavior
-     * can be disabled by passing false to [ObservablerConfig.disposePrevious]
+     * can be disabled by passing false to [ObservableUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
@@ -35,28 +35,28 @@ interface ObservableDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> ObservablerUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> ObservableUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [ObservablerUseCase.execute] method has already been called
-     * on this instance of [ObservablerUseCase], previous one is disposed,
+     * variant of [ObservableUseCase.execute] method has already been called
+     * on this instance of [ObservableUseCase], previous one is disposed,
      * no matter what current state of internal Observable is. This behavior
-     * can be disabled by passing false to [ObservablerConfig.disposePrevious]
+     * can be disabled by passing false to [ObservableUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
-     * @param config [ObservablerConfig] used to process results of internal [Observable].
+     * @param config [ObservableUseCaseConfig] used to process results of internal [Observable].
      * @return disposable of internal [Observable]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> ObservablerUseCase<ARGS, T>.execute(
+    fun <ARGS, T> ObservableUseCase<ARGS, T>.execute(
         args: ARGS,
-        config: ObservablerConfig.Builder<T>.() -> Unit
+        config: ObservableUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val observablerConfig = ObservablerConfig.Builder<T>().run {
+        val observablerConfig = ObservableUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -83,14 +83,14 @@ interface ObservableDisposablesOwner {
      * Executes the [Observable] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [ObservablerConfig] used to process results of internal Observable.
+     * @param config [ObservableUseCaseConfig] used to process results of internal Observable.
      * @return disposable of internal [Observable]. It might be used to
      * dispose use case when you need to dispose it in advance on your own.
      */
     fun <T : Any> Observable<T>.executeStream(
-        config: ObservablerConfig.Builder<T>.() -> Unit
+        config: ObservableUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val observablerConfig = ObservablerConfig.Builder<T>().run {
+        val observablerConfig = ObservableUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -109,9 +109,9 @@ interface ObservableDisposablesOwner {
 /**
  * Holds references to lambdas and some basic configuration
  * used to process results of Observabler use case.
- * Use [ObservablerConfig.Builder] to construct this object.
+ * Use [ObservableUseCaseConfig.Builder] to construct this object.
  */
-class ObservablerConfig<T> private constructor(
+class ObservableUseCaseConfig<T> private constructor(
     val onStart: () -> Unit,
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
@@ -179,8 +179,8 @@ class ObservablerConfig<T> private constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): ObservablerConfig<T> {
-            return ObservablerConfig(
+        fun build(): ObservableUseCaseConfig<T> {
+            return ObservableUseCaseConfig(
                 onStart ?: { },
                 onNext ?: { },
                 onComplete ?: { },

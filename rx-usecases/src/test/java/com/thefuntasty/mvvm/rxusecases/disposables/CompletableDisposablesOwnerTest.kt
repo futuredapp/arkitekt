@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletableUseCase
 import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
@@ -12,7 +12,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `test interface can be called properly`() {
-        val tempCompletabler = object : CompletablerUseCase<Unit>() {
+        val tempCompletabler = object : CompletableUseCase<Unit>() {
             override fun prepare(args: Unit) = Completable.fromCallable { }
         }
 
@@ -34,7 +34,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `complete handled properly`() {
-        val tempCompletabler = object : CompletablerUseCase<String>() {
+        val tempCompletabler = object : CompletableUseCase<String>() {
             override fun prepare(args: String) = Completable.fromCallable { args }
         }
         var capturedString = ""
@@ -51,7 +51,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
     @Test
     fun `error handled properly`() {
         val tempException = RuntimeException("test exc")
-        val tempCompletabler = object : CompletablerUseCase<Unit>() {
+        val tempCompletabler = object : CompletableUseCase<Unit>() {
             override fun prepare(args: Unit) = Completable.error(tempException)
         }
         var capturedException = Throwable()
@@ -67,7 +67,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable should be disposed`() {
-        val tempCompletabler = object : CompletablerUseCase<String>() {
+        val tempCompletabler = object : CompletableUseCase<String>() {
             override fun prepare(args: String) = Completable.never()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -88,7 +88,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable not disposed when requested`() {
-        val tempCompletabler = object : CompletablerUseCase<String>() {
+        val tempCompletabler = object : CompletableUseCase<String>() {
             override fun prepare(args: String) = Completable.never()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -112,7 +112,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `onStart should be called before subscription for execute method`() {
-        val tempCompletabler = object : CompletablerUseCase<String>() {
+        val tempCompletabler = object : CompletableUseCase<String>() {
             override fun prepare(args: String) = Completable.fromCallable { args }
         }
         val events = mutableListOf<String>()

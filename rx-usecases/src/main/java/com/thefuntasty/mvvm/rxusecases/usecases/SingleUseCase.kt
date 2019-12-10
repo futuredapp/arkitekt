@@ -12,7 +12,7 @@ import io.reactivex.Single
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class SinglerUseCase<ARGS, T> : BaseUseCase() {
+abstract class SingleUseCase<ARGS, T> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Single] Rx stream. This method does not

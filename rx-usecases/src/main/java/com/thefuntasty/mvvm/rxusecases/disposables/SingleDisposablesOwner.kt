@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.SinglerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.SingleUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [SinglerUseCase] use cases
+ * This interface gives your class ability to execute [SingleUseCase] use cases
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,12 +24,12 @@ interface SingleDisposablesOwner {
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [SinglerUseCase.execute] method has already been called
-     * on this instance of [SinglerUseCase], previous one is disposed,
+     * variant of [SingleUseCase.execute] method has already been called
+     * on this instance of [SingleUseCase], previous one is disposed,
      * no matter what current state of internal Single is.
      * Use [Single.executeStream] if you want to run one
-     * [SinglerUseCase] multiple times simultaneously. This behavior
-     * can be disabled by passing false to [SinglerConfig.disposePrevious]
+     * [SingleUseCase] multiple times simultaneously. This behavior
+     * can be disabled by passing false to [SingleUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
@@ -37,30 +37,30 @@ interface SingleDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> SinglerUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> SingleUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [SinglerUseCase.execute] method has already been called
-     * on this instance of [SinglerUseCase], previous one is disposed,
+     * variant of [SingleUseCase.execute] method has already been called
+     * on this instance of [SingleUseCase], previous one is disposed,
      * no matter what current state of internal Single is.
      * Use [Single.executeStream] if you want to run one
-     * [SinglerUseCase] multiple times simultaneously. This behavior
-     * can be disabled by passing false to [SinglerConfig.disposePrevious]
+     * [SingleUseCase] multiple times simultaneously. This behavior
+     * can be disabled by passing false to [SingleUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialization.
-     * @param config [SinglerConfig] used to process results of internal [Single].
+     * @param config [SingleUseCaseConfig] used to process results of internal [Single].
      * @return disposable of internal [Single]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> SinglerUseCase<ARGS, T>.execute(
+    fun <ARGS, T> SingleUseCase<ARGS, T>.execute(
         args: ARGS,
-        config: SinglerConfig.Builder<T>.() -> Unit
+        config: SingleUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val singlerConfig = SinglerConfig.Builder<T>().run {
+        val singlerConfig = SingleUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -86,14 +86,14 @@ interface SingleDisposablesOwner {
      * Executes the [Single] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [SinglerConfig] used to process results of internal Single.
+     * @param config [SingleUseCaseConfig] used to process results of internal Single.
      * @return disposable of internal [Single]. It might be used to
      * dispose use case when you need to dispose it in advance on your own.
      */
     fun <T : Any> Single<T>.executeStream(
-        config: SinglerConfig.Builder<T>.() -> Unit
+        config: SingleUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val singlerConfig = SinglerConfig.Builder<T>().run {
+        val singlerConfig = SingleUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -111,9 +111,9 @@ interface SingleDisposablesOwner {
 /**
  * Holds references to lambdas and some basic configuration
  * used to process results of Singler use case.
- * Use [SinglerConfig.Builder] to construct this object.
+ * Use [SingleUseCaseConfig.Builder] to construct this object.
  */
-class SinglerConfig<T> private constructor(
+class SingleUseCaseConfig<T> private constructor(
     val onStart: () -> Unit,
     val onSuccess: (T) -> Unit,
     val onError: (Throwable) -> Unit,
@@ -169,8 +169,8 @@ class SinglerConfig<T> private constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): SinglerConfig<T> {
-            return SinglerConfig(
+        fun build(): SingleUseCaseConfig<T> {
+            return SingleUseCaseConfig(
                 onStart ?: { },
                 onSuccess ?: { },
                 onError ?: { throw it },

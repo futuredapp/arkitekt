@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletableUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [CompletablerUseCase] use cases
+ * This interface gives your class ability to execute [CompletableUseCase] use cases
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,10 +24,10 @@ interface CompletableDisposablesOwner {
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [CompletablerUseCase.execute] method has already been called
-     * on this instance of [CompletablerUseCase], previous one is disposed,
+     * variant of [CompletableUseCase.execute] method has already been called
+     * on this instance of [CompletableUseCase], previous one is disposed,
      * no matter what current state of internal Completable is. This behavior
-     * can be disabled by passing false to [CompletablerConfig.disposePrevious]
+     * can be disabled by passing false to [CompletableUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
@@ -35,28 +35,28 @@ interface CompletableDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS> CompletablerUseCase<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS> CompletableUseCase<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [CompletablerUseCase.execute] method has already been called
-     * on this instance of [CompletablerUseCase], previous one is disposed,
+     * variant of [CompletableUseCase.execute] method has already been called
+     * on this instance of [CompletableUseCase], previous one is disposed,
      * no matter what current state of internal Completable is. This behavior
-     * can be disabled by passing false to [CompletablerConfig.disposePrevious]
+     * can be disabled by passing false to [CompletableUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
-     * @param config [CompletablerConfig] used to process results of internal [Completable].
+     * @param config [CompletableUseCaseConfig] used to process results of internal [Completable].
      * @return disposable of internal [Completable]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS> CompletablerUseCase<ARGS>.execute(
+    fun <ARGS> CompletableUseCase<ARGS>.execute(
         args: ARGS,
-        config: CompletablerConfig.Builder.() -> Unit
+        config: CompletableUseCaseConfig.Builder.() -> Unit
     ): Disposable {
-        val completablerConfig = CompletablerConfig.Builder().run {
+        val completablerConfig = CompletableUseCaseConfig.Builder().run {
             config.invoke(this)
             return@run build()
         }
@@ -82,14 +82,14 @@ interface CompletableDisposablesOwner {
      * Executes the [Completable] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [CompletablerConfig] used to process results of internal Completable.
+     * @param config [CompletableUseCaseConfig] used to process results of internal Completable.
      * @return disposable of internal [Completable]. It might be used to
      * dispose use case when you need to dispose it in advance on your own.
      */
     fun Completable.executeStream(
-        config: CompletablerConfig.Builder.() -> Unit
+        config: CompletableUseCaseConfig.Builder.() -> Unit
     ): Disposable {
-        val completablerConfig = CompletablerConfig.Builder().run {
+        val completablerConfig = CompletableUseCaseConfig.Builder().run {
             config.invoke(this)
             return@run build()
         }
@@ -107,9 +107,9 @@ interface CompletableDisposablesOwner {
 /**
  * Holds references to lambdas and some basic configuration
  * used to process results of Completabler use case.
- * Use [CompletablerConfig.Builder] to construct this object.
+ * Use [CompletableUseCaseConfig.Builder] to construct this object.
  */
-class CompletablerConfig private constructor(
+class CompletableUseCaseConfig private constructor(
     val onStart: () -> Unit,
     val onComplete: () -> Unit,
     val onError: (Throwable) -> Unit,
@@ -165,8 +165,8 @@ class CompletablerConfig private constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): CompletablerConfig {
-            return CompletablerConfig(
+        fun build(): CompletableUseCaseConfig {
+            return CompletableUseCaseConfig(
                 onStart ?: { },
                 onComplete ?: { },
                 onError ?: { throw it },

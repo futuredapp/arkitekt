@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.SinglerUseCase
 import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
+import com.thefuntasty.mvvm.rxusecases.usecases.SingleUseCase
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals
@@ -12,7 +12,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `test interface can be called properly`() {
-        val tempSingler = object : SinglerUseCase<String, String>() {
+        val tempSingler = object : SingleUseCase<String, String>() {
             override fun prepare(args: String) = Single.just(args)
         }
 
@@ -34,7 +34,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `success handled properly`() {
-        val tempSingler = object : SinglerUseCase<String, String>() {
+        val tempSingler = object : SingleUseCase<String, String>() {
             override fun prepare(args: String) = Single.just(args)
         }
         var capturedString = ""
@@ -51,7 +51,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
     @Test
     fun `error handled properly`() {
         val tempException = RuntimeException("test exc")
-        val tempSingler = object : SinglerUseCase<Unit, Unit>() {
+        val tempSingler = object : SingleUseCase<Unit, Unit>() {
             override fun prepare(args: Unit) = Single.error<Unit>(tempException)
         }
         var capturedException = Throwable()
@@ -67,7 +67,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable should be disposed`() {
-        val tempSingler = object : SinglerUseCase<String, String>() {
+        val tempSingler = object : SingleUseCase<String, String>() {
             override fun prepare(args: String) = Single.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -88,7 +88,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable not disposed when requested`() {
-        val tempSingler = object : SinglerUseCase<String, String>() {
+        val tempSingler = object : SingleUseCase<String, String>() {
             override fun prepare(args: String) = Single.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -112,7 +112,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `onStart should be called before subscription for execute method`() {
-        val testSingler = object : SinglerUseCase<Unit, String>() {
+        val testSingler = object : SingleUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Single.fromCallable { "result" }
         }
         val events = mutableListOf<String>()

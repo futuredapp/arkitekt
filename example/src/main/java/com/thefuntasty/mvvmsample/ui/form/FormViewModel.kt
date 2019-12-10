@@ -2,19 +2,19 @@ package com.thefuntasty.mvvmsample.ui.form
 
 import android.util.Log
 import com.thefuntasty.mvvm.crusecases.BaseCrViewModel
-import com.thefuntasty.mvvmsample.domain.GetFormFlowUseCase
+import com.thefuntasty.mvvmsample.domain.ObserveFormUseCase
 import com.thefuntasty.mvvmsample.domain.SaveFormUseCase
 import javax.inject.Inject
 
 class FormViewModel @Inject constructor(
     private val saveFormUseCase: SaveFormUseCase,
-    private val getFormFlowUseCase: GetFormFlowUseCase
+    private val observeFormUseCase: ObserveFormUseCase
 ) : BaseCrViewModel<FormViewState>() {
 
     override val viewState = FormViewState("", "")
 
     override fun onStart() {
-        getFormFlowUseCase.execute {
+        observeFormUseCase.execute {
             onNext { viewState.storedContent.value = "${it.first} ${it.second}" }
             onError { Log.e("error", it.message, it) }
         }

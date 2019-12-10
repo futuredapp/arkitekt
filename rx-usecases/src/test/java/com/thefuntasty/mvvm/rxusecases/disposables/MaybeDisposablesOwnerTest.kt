@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.MayberUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.MaybeUseCase
 import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import io.reactivex.Maybe
 import io.reactivex.disposables.Disposable
@@ -12,7 +12,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `test interface can be called properly`() {
-        val tempMayber = object : MayberUseCase<String, String>() {
+        val tempMayber = object : MaybeUseCase<String, String>() {
             override fun prepare(args: String) = Maybe.just(args)
         }
 
@@ -35,7 +35,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `success handled properly`() {
-        val tempMayber = object : MayberUseCase<String, String>() {
+        val tempMayber = object : MaybeUseCase<String, String>() {
             override fun prepare(args: String) = Maybe.just(args)
         }
         var capturedString = ""
@@ -52,7 +52,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
     @Test
     fun `error handled properly`() {
         val tempException = RuntimeException("test exc")
-        val tempMayber = object : MayberUseCase<Unit, Unit>() {
+        val tempMayber = object : MaybeUseCase<Unit, Unit>() {
             override fun prepare(args: Unit) = Maybe.error<Unit>(tempException)
         }
         var capturedException = Throwable()
@@ -68,7 +68,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable should be disposed`() {
-        val tempMayber = object : MayberUseCase<String, String>() {
+        val tempMayber = object : MaybeUseCase<String, String>() {
             override fun prepare(args: String) = Maybe.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -89,7 +89,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `previous run disposable not disposed when requested`() {
-        val tempMayber = object : MayberUseCase<String, String>() {
+        val tempMayber = object : MaybeUseCase<String, String>() {
             override fun prepare(args: String) = Maybe.never<String>()
         }
         val disposablesList = mutableListOf<Disposable>()
@@ -113,7 +113,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `onStart should be called before subscription for execute method`() {
-        val testMayber = object : MayberUseCase<Unit, String>() {
+        val testMayber = object : MaybeUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Maybe.fromCallable { "result" }
         }
         val events = mutableListOf<String>()

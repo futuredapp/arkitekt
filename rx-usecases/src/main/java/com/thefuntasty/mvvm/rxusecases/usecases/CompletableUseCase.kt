@@ -12,7 +12,7 @@ import io.reactivex.Completable
  * by default. You may override these through [workScheduler] and
  * [resultScheduler] respectively.
  */
-abstract class CompletablerUseCase<ARGS> : BaseUseCase() {
+abstract class CompletableUseCase<ARGS> : BaseUseCase() {
 
     /**
      * Prepares whole wrapped [Completable] Rx stream. This method does not

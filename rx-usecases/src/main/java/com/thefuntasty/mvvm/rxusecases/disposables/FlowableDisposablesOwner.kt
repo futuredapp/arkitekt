@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.FlowablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.FlowableUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [FlowablerUseCase] use cases
+ * This interface gives your class ability to execute [FlowableUseCase] use cases
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,10 +24,10 @@ interface FlowableDisposablesOwner {
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [FlowablerUseCase.execute] method has already been called
-     * on this instance of [FlowablerUseCase], previous one is disposed,
+     * variant of [FlowableUseCase.execute] method has already been called
+     * on this instance of [FlowableUseCase], previous one is disposed,
      * no matter what current state of internal Flowable is. This behavior
-     * can be disabled by passing false to [FlowablerConfig.disposePrevious]
+     * can be disabled by passing false to [FlowableUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
@@ -35,28 +35,28 @@ interface FlowableDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> FlowablerUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> FlowableUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [FlowablerUseCase.execute] method has already been called
-     * on this instance of [FlowablerUseCase], previous one is disposed,
+     * variant of [FlowableUseCase.execute] method has already been called
+     * on this instance of [FlowableUseCase], previous one is disposed,
      * no matter what current state of internal Flowable is. This behavior
-     * can be disabled by passing false to [FlowablerConfig.disposePrevious]
+     * can be disabled by passing false to [FlowableUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
-     * @param config [FlowablerConfig] used to process results of internal [Flowable].
+     * @param config [FlowableUseCaseConfig] used to process results of internal [Flowable].
      * @return disposable of internal [Flowable]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> FlowablerUseCase<ARGS, T>.execute(
+    fun <ARGS, T> FlowableUseCase<ARGS, T>.execute(
         args: ARGS,
-        config: FlowablerConfig.Builder<T>.() -> Unit
+        config: FlowableUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val flowablerConfig = FlowablerConfig.Builder<T>().run {
+        val flowablerConfig = FlowableUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -83,14 +83,14 @@ interface FlowableDisposablesOwner {
      * Executes the [Flowable] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [FlowablerConfig] used to process results of internal Flowable.
+     * @param config [FlowableUseCaseConfig] used to process results of internal Flowable.
      * @return disposable of internal [Flowable]. It might be used to
      * dispose use case when you need to dispose it in advance on your own.
      */
     fun <T : Any> Flowable<T>.executeStream(
-        config: FlowablerConfig.Builder<T>.() -> Unit
+        config: FlowableUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val flowablerConfig = FlowablerConfig.Builder<T>().run {
+        val flowablerConfig = FlowableUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -109,9 +109,9 @@ interface FlowableDisposablesOwner {
 /**
  * Holds references to lambdas and some basic configuration
  * used to process results of Flowabler use case.
- * Use [FlowablerConfig.Builder] to construct this object.
+ * Use [FlowableUseCaseConfig.Builder] to construct this object.
  */
-class FlowablerConfig<T> private constructor(
+class FlowableUseCaseConfig<T> private constructor(
     val onStart: () -> Unit,
     val onNext: (T) -> Unit,
     val onComplete: () -> Unit,
@@ -175,8 +175,8 @@ class FlowablerConfig<T> private constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): FlowablerConfig<T> {
-            return FlowablerConfig(
+        fun build(): FlowableUseCaseConfig<T> {
+            return FlowableUseCaseConfig(
                 onStart ?: { },
                 onNext ?: { },
                 onComplete ?: { },

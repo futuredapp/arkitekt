@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.rxusecases
 
 import com.thefuntasty.mvvm.rxusecases.disposables.withDisposablesOwner
-import com.thefuntasty.mvvm.rxusecases.usecases.CompletablerUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.CompletableUseCase
 import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import io.reactivex.Completable
 import org.junit.Assert.assertEquals
@@ -20,7 +20,7 @@ class UseCaseHandlerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            object : CompletablerUseCase<Unit>() {
+            object : CompletableUseCase<Unit>() {
                 override fun prepare(args: Unit): Completable {
                     return Completable.error(testException)
                 }

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases.disposables
 
-import com.thefuntasty.mvvm.rxusecases.usecases.MayberUseCase
+import com.thefuntasty.mvvm.rxusecases.usecases.MaybeUseCase
 import com.thefuntasty.mvvm.rxusecases.wrapWithGlobalOnErrorLogger
 import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.plusAssign
 
 /**
- * This interface gives your class ability to execute [MayberUseCase] use cases
+ * This interface gives your class ability to execute [MaybeUseCase] use cases
  * and automatically add resulting disposables to one composite disposable. You
  * may find handy to implement this interface in custom Presenters, ViewHolders etc.
  *
@@ -24,10 +24,10 @@ interface MaybeDisposablesOwner {
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [MayberUseCase.execute] method has already been called
-     * on this instance of [MayberUseCase], previous one is disposed,
+     * variant of [MaybeUseCase.execute] method has already been called
+     * on this instance of [MaybeUseCase], previous one is disposed,
      * no matter what current state of internal Maybe is. This behavior
-     * can be disabled by passing false to [MayberConfig.disposePrevious]
+     * can be disabled by passing false to [MaybeUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
@@ -35,28 +35,28 @@ interface MaybeDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> MayberUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <ARGS, T> MaybeUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
 
     /**
      * Executes the use case and adds its disposable to
      * shared, automatically disposed, composite disposable. In case some
-     * variant of [MayberUseCase.execute] method has already been called
-     * on this instance of [MayberUseCase], previous one is disposed,
+     * variant of [MaybeUseCase.execute] method has already been called
+     * on this instance of [MaybeUseCase], previous one is disposed,
      * no matter what current state of internal Maybe is. This behavior
-     * can be disabled by passing false to [MayberConfig.disposePrevious]
+     * can be disabled by passing false to [MaybeUseCaseConfig.disposePrevious]
      * method.
      *
      * @param args Arguments used for initial use case initialisation.
-     * @param config [MayberConfig] used to process results of internal [Maybe].
+     * @param config [MaybeUseCaseConfig] used to process results of internal [Maybe].
      * @return disposable of internal [Maybe]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> MayberUseCase<ARGS, T>.execute(
+    fun <ARGS, T> MaybeUseCase<ARGS, T>.execute(
         args: ARGS,
-        config: MayberConfig.Builder<T>.() -> Unit
+        config: MaybeUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val mayberConfig = MayberConfig.Builder<T>().run {
+        val mayberConfig = MaybeUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -83,14 +83,14 @@ interface MaybeDisposablesOwner {
      * Executes the [Maybe] and adds its disposable to
      * shared, automatically disposed, composite disposable.
      *
-     * @param config [MayberConfig] used to process results of internal Maybe.
+     * @param config [MaybeUseCaseConfig] used to process results of internal Maybe.
      * @return disposable of internal [Maybe]. It might be used to
      * dispose use case when you need to dispose it in advance on your own.
      */
     fun <T : Any> Maybe<T>.executeStream(
-        config: MayberConfig.Builder<T>.() -> Unit
+        config: MaybeUseCaseConfig.Builder<T>.() -> Unit
     ): Disposable {
-        val mayberConfig = MayberConfig.Builder<T>().run {
+        val mayberConfig = MaybeUseCaseConfig.Builder<T>().run {
             config.invoke(this)
             return@run build()
         }
@@ -109,9 +109,9 @@ interface MaybeDisposablesOwner {
 /**
  * Holds references to lambdas and some basic configuration
  * used to process results of Mayber use case.
- * Use [MayberConfig.Builder] to construct this object.
+ * Use [MaybeUseCaseConfig.Builder] to construct this object.
  */
-class MayberConfig<T> private constructor(
+class MaybeUseCaseConfig<T> private constructor(
     val onStart: () -> Unit,
     val onSuccess: (T) -> Unit,
     val onComplete: () -> Unit,
@@ -179,8 +179,8 @@ class MayberConfig<T> private constructor(
             this.disposePrevious = disposePrevious
         }
 
-        fun build(): MayberConfig<T> {
-            return MayberConfig(
+        fun build(): MaybeUseCaseConfig<T> {
+            return MaybeUseCaseConfig(
                 onStart ?: { },
                 onSuccess ?: { },
                 onComplete ?: { },
