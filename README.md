@@ -225,7 +225,7 @@ types are defined.
 
 # Use Cases
 
-Modules `cr-usecases` and `rx-usecases` contains set of base classes useful to easy execution of
+Modules `cr-usecases` and `rx-usecases` contains set of base classes useful for easy execution of
 background tasks based on Coroutines or RxJava streams respectively. In terms of Coroutines
 two base types are available - `UseCase` (single result use case) and `FlowUseCase` (multi result use case).
 RxJava base use cases match base Rx "primitives": `ObservableUseCase`, `SingleUseCase`, `FlowableUseCase`, `MaybeUseCase`
