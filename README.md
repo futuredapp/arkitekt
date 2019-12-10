@@ -393,10 +393,10 @@ We strictly respect this injection hierarchy:
 
 | Application Component | Injects |
 | --------- | --------------------- |
-| Activity/Fragment | `ViewModel` |
-| ViewModel | `ViewState`, UseCase |
-| UseCase | `Store` |
-| Store | `Dao`, `Persistence`, `ApiService` |
+| `Activity/Fragment` | `ViewModel` |
+| `ViewModel` | `ViewState`, `UseCase` |
+| `UseCase` | `Store` |
+| `Store` | `Dao`, `Persistence`, `ApiService` |
 
 
 
