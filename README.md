@@ -228,15 +228,15 @@ types are defined.
 Modules `cr-usecases` and `rx-usecases` contains set of base classes useful to easy execution of
 background tasks based on Coroutines or RxJava streams respectively. In terms of Coroutines
 two base types are available - `UseCase` (single result use case) and `FlowUseCase` (multi result use case).
-RxJava base use cases match base Rx "primitives": `ObservablerUseCase`, `SinglerUseCase`, `FlowablerUseCase`, `MayberUseCase`
-and finally `CompletablerUseCase`. 
+RxJava base use cases match base Rx "primitives": `ObservableUseCase`, `SingleUseCase`, `FlowableUseCase`, `MaybeUseCase`
+and finally `CompletableUseCase`. 
 
 Following example describes how to make an API call and how to deal with 
 result of this call. 
 
-#### LoginSingler.kt
+#### LoginUseCase.kt
 ```kotlin
-class LoginSingler @Inject constructor(
+class LoginUseCase @Inject constructor(
     private val apiManager: ApiManager // Retrofit Service
 ) : SinglerUseCase<LoginData, User>() {
 
@@ -263,12 +263,12 @@ class LoginViewState : ViewState {
 #### LoginViewModel.kt
 ```kotlin
 class LoginViewModel @Inject constructor(
-    private val LoginSingler: LoginSingler // Inject UseCase
+    private val loginUseCase: LoginUseCase // Inject UseCase
 ) : BaseRxViewModel<LoginViewState>() {
     override val viewState = LoginViewState()
 
     fun logIn() = with(viewState) {
-        getLoginSingler.execute(LoginData(email.value, email.password)) {
+        loginUseCase.execute(LoginData(email.value, email.password)) {
             onStart {
                 isLoading.value = true
             }
