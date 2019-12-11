@@ -14,13 +14,17 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
     fun previousExecutionCanceled() {
         val testInteractor = TestInteractor().apply { init(1) }
         var count = 0
-        testInteractor.execute {
+        testInteractor.execute( {
             count++
-        }
+        }, {
+            Assert.fail("Exception thrown where shouldn't")
+        })
         coroutineScope.advanceTimeBy(500)
-        testInteractor.execute {
+        testInteractor.execute( {
             count++
-        }
+        }, {
+            Assert.fail("Exception thrown where shouldn't")
+        })
         coroutineScope.advanceTimeBy(1000)
         Assert.assertEquals("PreviousExecutionNotCanceled", 1, count)
     }
