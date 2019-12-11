@@ -71,6 +71,7 @@ exceptions:
     active: false
   SwallowedException:
     active: true
+    ignoredExceptionTypes: 'CancellationException'
   ThrowingExceptionFromFinally:
     active: true
   ThrowingExceptionsWithoutMessageOrCause:

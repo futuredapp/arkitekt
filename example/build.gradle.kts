@@ -29,8 +29,8 @@ android {
 dependencies {
     implementation(project(":mvvm"))
     implementation(project(":dagger"))
-    implementation(project(":interactors"))
-    implementation(project(":cr-interactors"))
+    implementation(project(":rx-usecases"))
+    implementation(project(":cr-usecases"))
     implementation(project(":bindingadapters"))
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))

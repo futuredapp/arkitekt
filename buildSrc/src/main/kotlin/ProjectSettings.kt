@@ -21,14 +21,14 @@ object ProjectSettings {
         const val libraryDescription = "Core module of MVVM-Android framework"
     }
 
-    object RxInteractors {
-        const val artifact = "interactors"
-        const val libraryDescription = "RxJava based interactors meant to be used with MVVM-Android framework"
+    object RxUseCases {
+        const val artifact = "rx-usecases"
+        const val libraryDescription = "RxJava based use cases meant to be used with MVVM-Android framework"
     }
 
-    object CrInteractors {
-        const val artifact = "cr-interactors"
-        const val libraryDescription = "Coroutine based interactors meant to be used with MVVM-Android framework"
+    object CrUseCases {
+        const val artifact = "cr-usecases"
+        const val libraryDescription = "Coroutine based use cases meant to be used with MVVM-Android framework"
     }
 
     object Dagger {
