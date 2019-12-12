@@ -5,11 +5,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 /**
@@ -175,27 +176,21 @@ interface CoroutineScopeOwner {
             job?.cancel()
         }
 
-        flowUseCaseConfig.onStart()
-        job = coroutineScope.launch(Dispatchers.Main) {
-            try {
-                build(args)
-                    .flowOn(getWorkerDispatcher())
-                    .onEach {
-                        flowUseCaseConfig.onNext(it)
+        job = build(args)
+            .flowOn(getWorkerDispatcher())
+            .onStart { flowUseCaseConfig.onStart() }
+            .onEach { flowUseCaseConfig.onNext(it) }
+            .onCompletion { error ->
+                when {
+                    error is CancellationException -> {
+                        // ignore this exception
                     }
-                    .onCompletion { error ->
-                        if (this@launch.isActive) {
-                            error?.also { flowUseCaseConfig.onError.invoke(it) }
-                                ?: flowUseCaseConfig.onComplete()
-                        }
-                    }
-                    .collect()
-            } catch (cancellation: CancellationException) {
-                // do nothing - this is normal way of suspend function interruption
-            } catch (error: Throwable) {
-                flowUseCaseConfig.onError.invoke(error)
+                    error != null -> flowUseCaseConfig.onError(error)
+                    else -> flowUseCaseConfig.onComplete()
+                }
             }
-        }
+            .catch { /* handled in onCompletion */ }
+            .launchIn(coroutineScope)
     }
 
     /**
