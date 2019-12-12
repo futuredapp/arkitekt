@@ -8,5 +8,5 @@ import javax.inject.Inject
 class ObserveFormUseCase @Inject constructor(
     private val formStore: FormStore
 ) : FlowUseCase<Unit, Pair<String, String>>() {
-    override suspend fun build(args: Unit): Flow<Pair<String, String>> = formStore.getFormFlow()
+    override fun build(args: Unit): Flow<Pair<String, String>> = formStore.getFormFlow()
 }

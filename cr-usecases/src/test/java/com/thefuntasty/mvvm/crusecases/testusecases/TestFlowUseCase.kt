@@ -13,6 +13,6 @@ class TestFlowUseCase : FlowUseCase<TestFlowUseCase.Data, Int>() {
         val delayBetweenEmits: Long
     )
 
-    override suspend fun build(args: Data): Flow<Int> =
+    override fun build(args: Data): Flow<Int> =
         args.listToEmit.asFlow().onEach { delay(args.delayBetweenEmits) }
 }

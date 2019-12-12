@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 
 class TestFailureFlowUseCase : FlowUseCase<Throwable, Unit>() {
 
-    override suspend fun build(args: Throwable): Flow<Unit> = flow {
+    override fun build(args: Throwable): Flow<Unit> = flow {
         throw args
     }
 }
