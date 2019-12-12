@@ -2,11 +2,14 @@ package com.thefuntasty.mvvm.crinteractors
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
@@ -42,25 +45,21 @@ interface CoroutineScopeOwner {
         onSuccess: (T) -> Unit,
         onError: ((Throwable) -> Unit)?
     ) {
-        try {
-            deferred?.cancel()
-            deferred = coroutineScope.async(getWorkerDispatcher()) {
-                build()
-            }.also {
-                coroutineScope.launch(Dispatchers.Main) {
-                    try {
-                        onSuccess(it.await())
-                    } catch (error: Throwable) {
-                        onError?.invoke(error) ?: throw error
-                    }
+
+        deferred?.cancel()
+        deferred = coroutineScope.async(getWorkerDispatcher(), CoroutineStart.LAZY) {
+            build()
+        }.also {
+            coroutineScope.launch(Dispatchers.Main) {
+                try {
+                    onSuccess(it.await())
+                } catch (cancellation: CancellationException) {
+                    // do nothing this is normal way of suspend function interruption
+                } catch (error: Throwable) {
+                    onError?.invoke(error) ?: throw error
                 }
             }
-        } catch (cancellation: CancellationException) {
-
-        } catch (error: Throwable) {
-            onError?.invoke(error) ?: throw error
         }
-
     }
 
     /**
@@ -74,16 +73,13 @@ interface CoroutineScopeOwner {
         onComplete: () -> Unit = {}
     ) {
         job?.cancel()
-        job = coroutineScope.launch(getWorkerDispatcher()) {
+        job = coroutineScope.launch(Dispatchers.Main) {
             try {
                 build()
-                    .onEach {
-                        kotlinx.coroutines.withContext(Dispatchers.Main) {
-                            onNext(it)
-                        }
-                    }
+                    .flowOn(getWorkerDispatcher())
+                    .onEach { onNext(it) }
                     .onCompletion { error ->
-                        kotlinx.coroutines.withContext(Dispatchers.Main) {
+                        if (this@launch.isActive) {
                             error?.also { onError?.invoke(it) ?: throw error } ?: onComplete()
                         }
                     }
