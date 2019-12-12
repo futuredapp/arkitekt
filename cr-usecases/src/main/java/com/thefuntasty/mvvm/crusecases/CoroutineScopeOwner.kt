@@ -2,11 +2,14 @@ package com.thefuntasty.mvvm.crusecases
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
@@ -55,27 +58,23 @@ interface CoroutineScopeOwner {
             config.invoke(this)
             return@run build()
         }
-        try {
-            if (useCaseConfig.disposePrevious) {
-                deferred?.cancel()
-            }
+        if (useCaseConfig.disposePrevious) {
+            deferred?.cancel()
+        }
 
-            useCaseConfig.onStart()
-            deferred = coroutineScope.async(getWorkerDispatcher()) {
-                build(args)
-            }.also {
-                coroutineScope.launch(Dispatchers.Main) {
-                    try {
-                        useCaseConfig.onSuccess(it.await())
-                    } catch (error: Throwable) {
-                        useCaseConfig.onError.invoke(error)
-                    }
+        useCaseConfig.onStart()
+        deferred = coroutineScope.async(getWorkerDispatcher(), CoroutineStart.LAZY) {
+            build(args)
+        }.also {
+            coroutineScope.launch(Dispatchers.Main) {
+                try {
+                    useCaseConfig.onSuccess(it.await())
+                } catch (cancellation: CancellationException) {
+                    // do nothing - this is normal way of suspend function interruption
+                } catch (error: Throwable) {
+                    useCaseConfig.onError.invoke(error)
                 }
             }
-        } catch (cancellation: CancellationException) {
-            // do nothing - this is normal way of suspend function interruption
-        } catch (error: Throwable) {
-            useCaseConfig.onError.invoke(error)
         }
     }
 
@@ -177,17 +176,17 @@ interface CoroutineScopeOwner {
         }
 
         flowUseCaseConfig.onStart()
-        job = coroutineScope.launch(getWorkerDispatcher()) {
+        job = coroutineScope.launch(Dispatchers.Main) {
             try {
                 build(args)
+                    .flowOn(getWorkerDispatcher())
                     .onEach {
-                        kotlinx.coroutines.withContext(Dispatchers.Main) {
-                            flowUseCaseConfig.onNext(it)
-                        }
+                        flowUseCaseConfig.onNext(it)
                     }
                     .onCompletion { error ->
-                        kotlinx.coroutines.withContext(Dispatchers.Main) {
-                            error?.also { flowUseCaseConfig.onError.invoke(it) } ?: flowUseCaseConfig.onComplete()
+                        if (this@launch.isActive) {
+                            error?.also { flowUseCaseConfig.onError.invoke(it) }
+                                ?: flowUseCaseConfig.onComplete()
                         }
                     }
                     .collect()

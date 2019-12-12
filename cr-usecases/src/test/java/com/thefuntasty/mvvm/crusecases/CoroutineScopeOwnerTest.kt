@@ -16,10 +16,16 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         var count = 0
         testUseCase.execute(1) {
             onSuccess { count++ }
+            onError {
+                Assert.fail("Exception thrown where shouldn't")
+            }
         }
         coroutineScope.advanceTimeBy(500)
         testUseCase.execute(1) {
             onSuccess { count++ }
+            onError {
+                Assert.fail("Exception thrown where shouldn't")
+            }
         }
         coroutineScope.advanceTimeBy(1000)
         Assert.assertEquals("PreviousExecutionNotCanceled", 1, count)
