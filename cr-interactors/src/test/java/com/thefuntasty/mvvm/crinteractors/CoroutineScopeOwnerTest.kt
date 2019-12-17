@@ -1,10 +1,10 @@
 package com.thefuntasty.mvvm.crinteractors
 
+import com.thefuntasty.mvvm.crinteractors.testinteractors.base.BaseCoroutineScopeOwnerTest
 import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFailureInteractor
 import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowFailureInteractor
 import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestFlowInteractor
 import com.thefuntasty.mvvm.crinteractors.testinteractors.testinteractors.TestInteractor
-import com.thefuntasty.mvvm.crinteractors.testinteractors.base.BaseCoroutineScopeOwnerTest
 import org.junit.Assert
 import org.junit.Test
 
@@ -14,13 +14,13 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
     fun previousExecutionCanceled() {
         val testInteractor = TestInteractor().apply { init(1) }
         var count = 0
-        testInteractor.execute( {
+        testInteractor.execute({
             count++
         }, {
             Assert.fail("Exception thrown where shouldn't")
         })
         coroutineScope.advanceTimeBy(500)
-        testInteractor.execute( {
+        testInteractor.execute({
             count++
         }, {
             Assert.fail("Exception thrown where shouldn't")
