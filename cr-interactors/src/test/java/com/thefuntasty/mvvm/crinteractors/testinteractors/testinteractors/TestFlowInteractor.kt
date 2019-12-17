@@ -17,5 +17,5 @@ class TestFlowInteractor : BaseFlowInteractor<Int>() {
         this.delayBetweenEmits = delayBetweenEmits
     }
 
-    override suspend fun build(): Flow<Int> = listToEmit.asFlow().onEach { delay(delayBetweenEmits) }
+    override fun build(): Flow<Int> = listToEmit.asFlow().onEach { delay(delayBetweenEmits) }
 }

@@ -16,5 +16,5 @@ abstract class BaseFlowInteractor<T> {
     /**
      * Suspend function which should contain business logic
      */
-    abstract suspend fun build(): Flow<T>
+    abstract fun build(): Flow<T>
 }

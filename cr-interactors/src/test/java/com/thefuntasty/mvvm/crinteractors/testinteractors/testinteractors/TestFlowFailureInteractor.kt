@@ -12,7 +12,7 @@ class TestFlowFailureInteractor : BaseFlowInteractor<Unit>() {
         this.error = errorToThrow
     }
 
-    override suspend fun build(): Flow<Unit> = flow {
+    override fun build(): Flow<Unit> = flow {
         throw error
     }
 }

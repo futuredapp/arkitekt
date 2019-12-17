@@ -5,11 +5,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
@@ -73,22 +73,21 @@ interface CoroutineScopeOwner {
         onComplete: () -> Unit = {}
     ) {
         job?.cancel()
-        job = coroutineScope.launch(Dispatchers.Main) {
-            try {
-                build()
-                    .flowOn(getWorkerDispatcher())
-                    .onEach { onNext(it) }
-                    .onCompletion { error ->
-                        if (this@launch.isActive) {
-                            error?.also { onError?.invoke(it) ?: throw error } ?: onComplete()
-                        }
+        job = build()
+            .flowOn(getWorkerDispatcher())
+            .onEach { onNext(it) }
+            .onCompletion { error ->
+                when {
+                    error is CancellationException -> {
+                        // ignore this exception
                     }
-                    .collect()
-            } catch (cancellation: CancellationException) {
-                // do nothing this is normal way of suspend function interruption
-            } catch (error: Throwable) {
-                onError?.invoke(error) ?: throw error
+                    error != null -> {
+                        onError?.invoke(error) ?: throw error
+                    }
+                    else -> onComplete()
+                }
             }
-        }
+            .catch { /* handled in onCompletion */ }
+            .launchIn(coroutineScope)
     }
 }
