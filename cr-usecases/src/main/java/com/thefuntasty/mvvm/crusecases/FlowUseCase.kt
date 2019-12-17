@@ -16,5 +16,5 @@ abstract class FlowUseCase<ARGS, T> {
     /**
      * Suspend function which should contain business logic
      */
-    abstract suspend fun build(args: ARGS): Flow<T>
+    abstract fun build(args: ARGS): Flow<T>
 }
