@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetFormFlowInteractor @Inject constructor(
     private val formStore: FormStore
 ) : BaseFlowInteractor<Pair<String, String>>() {
-    override suspend fun build(): Flow<Pair<String, String>> = formStore.getFormFlow()
+    override fun build(): Flow<Pair<String, String>> = formStore.getFormFlow()
 }
