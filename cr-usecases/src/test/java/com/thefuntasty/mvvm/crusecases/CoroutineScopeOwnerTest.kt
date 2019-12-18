@@ -11,27 +11,27 @@ import org.junit.Test
 class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
-    fun previousExecutionCanceled() {
+    fun `given 1s delay use case when executed two times then first execution cancelled`() {
         val testUseCase = TestUseCase()
-        var count = 0
+        var executionCount = 0
 
         testUseCase.execute(1) {
-            onSuccess { count++ }
+            onSuccess { executionCount++ }
             onError { Assert.fail("Exception thrown where shouldn't") }
         }
         coroutineScope.advanceTimeBy(500)
 
         testUseCase.execute(1) {
-            onSuccess { count++ }
+            onSuccess { executionCount++ }
             onError { Assert.fail("Exception thrown where shouldn't") }
         }
         coroutineScope.advanceTimeBy(1000)
 
-        Assert.assertEquals("Previous execution canceled", 1, count)
+        Assert.assertEquals(1, executionCount)
     }
 
     @Test
-    fun onErrorCalled() {
+    fun `given failing test use case when executed then indicates onError`() {
         val testFailureUseCase = TestFailureUseCase()
         var resultError: Throwable? = null
 
@@ -43,7 +43,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
     }
 
     @Test
-    fun flowPreviousExecutionCanceled() {
+    fun `given test flow use case when executed two times then first execution cancelled`() {
         val testFlowUseCase = TestFlowUseCase()
         val testingList = listOfNotNull(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
         val resultList = mutableListOf<Int>()
@@ -60,11 +60,11 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         }
         coroutineScope.advanceTimeBy(10000)
 
-        Assert.assertEquals("Previous execution canceled", testingList, resultList)
+        Assert.assertEquals(testingList, resultList)
     }
 
     @Test
-    fun flowOnCompleteCalled() {
+    fun `given test flow use case when executed and all items emitted then completes`() {
         val testFlowUseCase = TestFlowUseCase()
         var completed = false
         val testingList = listOfNotNull(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
@@ -75,11 +75,11 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         }
         coroutineScope.advanceTimeBy(10000)
 
-        Assert.assertEquals("Execution completed successfully", true, completed)
+        Assert.assertEquals(true, completed)
     }
 
     @Test
-    fun flowOnErrorCalled() {
+    fun `given failing flow use case when executed then indicates onError`() {
         val testFlowFailureUseCase = TestFailureFlowUseCase()
         var resultError: Throwable? = null
 
