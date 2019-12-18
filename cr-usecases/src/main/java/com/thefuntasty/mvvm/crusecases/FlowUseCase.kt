@@ -14,7 +14,8 @@ abstract class FlowUseCase<ARGS, T> {
     var job: Job? = null
 
     /**
-     * Suspend function which should contain business logic
+     * Function which builds Flow instance based on given arguments
+     * @param args initial use case arguments
      */
     abstract fun build(args: ARGS): Flow<T>
 }
