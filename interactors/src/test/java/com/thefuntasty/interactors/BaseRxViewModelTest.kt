@@ -25,7 +25,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
             fun runInteractor() {
                 object : BaseCompletabler<Unit>() {
                     override fun prepare(args: Unit) = Completable.complete()
-                }.execute(Unit)
+                }.execute { }
             }
 
             fun clear() = onCleared()
@@ -51,7 +51,7 @@ class BaseRxViewModelTest : RxMockitoJUnitRunner() {
             fun runInteractor() {
                 object : BaseCompletabler<Unit>() {
                     override fun prepare(args: Unit) = Completable.complete()
-                }.execute(Unit)
+                }.execute { }
             }
 
             fun clear() = onCleared()

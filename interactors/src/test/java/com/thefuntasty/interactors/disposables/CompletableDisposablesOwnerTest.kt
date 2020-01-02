@@ -2,7 +2,9 @@ package com.thefuntasty.interactors.disposables
 
 import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
 import com.thefuntasty.interactors.interactors.BaseCompletabler
+import com.thefuntasty.interactors.interactors.BaseFlowabler
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -17,7 +19,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempCompletabler.execute(Unit)
+            tempCompletabler.execute { }
         }
 
         withDisposablesOwner {
@@ -73,7 +75,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (CompletableDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempCompletabler.execute("Hello"))
+            disposablesList.add(tempCompletabler.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -108,5 +110,24 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(disposablesList.size == 2)
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempCompletabler = object : BaseCompletabler<Unit>() {
+            override fun prepare(args: Unit) = Completable.complete()
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempCompletabler.execute {
+                onComplete {
+                    capturedString = "Hello"
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }

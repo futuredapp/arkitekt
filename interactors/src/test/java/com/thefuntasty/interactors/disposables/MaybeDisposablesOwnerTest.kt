@@ -2,7 +2,9 @@ package com.thefuntasty.interactors.disposables
 
 import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
 import com.thefuntasty.interactors.interactors.BaseMayber
+import com.thefuntasty.interactors.interactors.BaseObservabler
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -17,7 +19,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempMayber.execute("Hello")
+            tempMayber.execute("Hello") { }
         }
 
         withDisposablesOwner {
@@ -74,7 +76,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (MaybeDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempMayber.execute("Hello"))
+            disposablesList.add(tempMayber.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -109,5 +111,24 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(disposablesList.size == 2)
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempMayber = object : BaseMayber<Unit, String>() {
+            override fun prepare(args: Unit) = Maybe.just("Hello")
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempMayber.execute {
+                onSuccess {
+                    capturedString = it
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }

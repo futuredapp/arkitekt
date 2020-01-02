@@ -30,12 +30,13 @@ interface CompletableDisposablesOwner {
      * can be disabled by passing false to [CompletablerConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial interactor initialisation.
+     * @param config [CompletablerConfig] used to process results of internal [Completable].
      * @return disposable of internal [Completable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS> BaseCompletabler<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
+    fun BaseCompletabler<Unit>.execute(config: CompletablerConfig.Builder.() -> Unit): Disposable =
+        execute(Unit, config)
 
     /**
      * Executes the interactor and adds its disposable to

@@ -30,12 +30,13 @@ interface ObservableDisposablesOwner {
      * can be disabled by passing false to [ObservablerConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial interactor initialisation.
+     * @param config [ObservablerConfig] used to process results of internal [Observable].
      * @return disposable of internal [Observable]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> BaseObservabler<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <T> BaseObservabler<Unit, T>.execute(config: ObservablerConfig.Builder<T>.() -> Unit): Disposable =
+        execute(Unit, config)
 
     /**
      * Executes the interactor and adds its disposable to

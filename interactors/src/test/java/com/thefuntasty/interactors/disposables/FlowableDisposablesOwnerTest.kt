@@ -2,7 +2,9 @@ package com.thefuntasty.interactors.disposables
 
 import com.thefuntasty.interactors.base.RxMockitoJUnitRunner
 import com.thefuntasty.interactors.interactors.BaseFlowabler
+import com.thefuntasty.interactors.interactors.BaseMayber
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.disposables.Disposable
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -17,7 +19,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempFlowabler.execute("Hello")
+            tempFlowabler.execute("Hello") { }
         }
 
         withDisposablesOwner {
@@ -74,7 +76,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (FlowableDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempFlowabler.execute("Hello"))
+            disposablesList.add(tempFlowabler.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -109,5 +111,24 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertTrue(disposablesList.size == 2)
         assertTrue(!disposablesList[0].isDisposed)
         assertTrue(!disposablesList[1].isDisposed)
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempFlowabler = object : BaseFlowabler<Unit, String>() {
+            override fun prepare(args: Unit) = Flowable.just("Hello")
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempFlowabler.execute {
+                onNext {
+                    capturedString = it
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }

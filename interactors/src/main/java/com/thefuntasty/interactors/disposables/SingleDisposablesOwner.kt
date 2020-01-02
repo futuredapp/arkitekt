@@ -31,18 +31,13 @@ interface SingleDisposablesOwner {
      * [BaseSingler] multiple times simultaneously. This behavior
      * can be disabled by passing false to [SinglerConfig.disposePrevious]
      * method.
-     *
+     * @param config [SinglerConfig] used to process results of internal [Single].
      * @return disposable of internal [Single]. This disposable is disposed
      * automatically. It might be used to dispose interactor when you need
      * to dispose it in advance on your own.
      */
-    // variant A of execute without params
-    fun <T> BaseSingler<Unit, T>.execute(result: SinglerConfig.Builder<T>.() -> Unit): Disposable =
-        execute(Unit, result)
-
-    // variant B of execute without params
-    fun <T> BaseSingler<Unit, T>.executeNoArgs(result: SinglerConfig.Builder<T>.() -> Unit): Disposable =
-        execute(Unit, result)
+    fun <T> BaseSingler<Unit, T>.execute(config: SinglerConfig.Builder<T>.() -> Unit): Disposable =
+        execute(Unit, config)
 
     /**
      * Executes the interactor and adds its disposable to
