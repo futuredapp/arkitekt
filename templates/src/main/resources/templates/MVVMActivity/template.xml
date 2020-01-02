@@ -18,10 +18,8 @@
         id="className"
         type="string"/>
 
-    <parameter
-        name="Interactor type"
-        default="coroutines"
-        id="interactorType"
+    <parameter name="UseCase type"
+        default="coroutines" id="useCaseType"
         type="enum">
         <option id="coroutines">Coroutines</option>
         <option id="rx">RxJava</option>

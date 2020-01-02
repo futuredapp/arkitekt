@@ -7,7 +7,7 @@
 MVVM Android is the framework based on Android Architecture components, which gives you set of
 base classes to implement concise, testable and solid application. It combines built-in
 support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava
-interactors (use cases). Architecture described here is used among wide variety of
+use cases. Architecture described here is used among wide variety of
 projects and it's production ready.
 
 ![MVVM architecture](extras/architecture-diagram.png)
@@ -19,15 +19,15 @@ dependencies {
     implementation("com.thefuntasty.mvvm:mvvm:LatestVersion")
     implementation("com.thefuntasty.mvvm:bindingadapters:LatestVersion")
     implementation("com.thefuntasty.mvvm:dagger:LatestVersion")
-    implementation("com.thefuntasty.mvvm:cr-interactors:LatestVersion")
-    implementation("com.thefuntasty.mvvm:interactors:LatestVersion")
+    implementation("com.thefuntasty.mvvm:cr-usecases:LatestVersion")
+    implementation("com.thefuntasty.mvvm:rx-usecases:LatestVersion")
 }    
 ```
 
 # Table of contents
 
 1. [Getting started - Minimal project file hierarchy](#getting-started---minimal-project-file-hierarchy)
-2. [Interactors (use-cases)](#interactors-use-cases)
+2. [Use Cases](#use-cases)
 3. [UI changes flow](#ui-changes-flow)
 4. [Stores (Repositories)](#stores-repositories)
 5. [About](#about)
@@ -223,21 +223,22 @@ types are defined.
 </layout>
 ```
 
-# Interactors (use-cases)
+# Use Cases
 
-Module `interactors` contains set of base classes useful to easy execution of
-background tasks through RxJava streams. There are five basic types of 
-interactors: `BaseObservabler`, `BaseSingler`, `BaseFlowabler`, `BaseMayber`
-and finally `BaseCompletabler`. 
+Modules `cr-usecases` and `rx-usecases` contains set of base classes useful for easy execution of
+background tasks based on Coroutines or RxJava streams respectively. In terms of Coroutines
+two base types are available - `UseCase` (single result use case) and `FlowUseCase` (multi result use case).
+RxJava base use cases match base Rx "primitives": `ObservableUseCase`, `SingleUseCase`, `FlowableUseCase`, `MaybeUseCase`
+and finally `CompletableUseCase`. 
 
 Following example describes how to make an API call and how to deal with 
 result of this call. 
 
-#### LoginSingler.kt
+#### LoginUseCase.kt
 ```kotlin
-class LoginSingler @Inject constructor(
+class LoginUseCase @Inject constructor(
     private val apiManager: ApiManager // Retrofit Service
-) : BaseSingler<LoginData, User>() {
+) : SinglerUseCase<LoginData, User>() {
 
     override fun prepare(args: LoginData): Single<User> {
         return apiManager.getUser(args)
@@ -255,22 +256,28 @@ class LoginViewState : ViewState {
 
     // OUT - Values observed by UI
     val fullName = MutableLiveData<String>()
+    val isLoading = MutableLiveData<Boolean>()
 }
 ```
 
 #### LoginViewModel.kt
 ```kotlin
 class LoginViewModel @Inject constructor(
-    private val LoginSingler: LoginSingler // Inject interactor
+    private val loginUseCase: LoginUseCase // Inject UseCase
 ) : BaseRxViewModel<LoginViewState>() {
     override val viewState = LoginViewState()
 
     fun logIn() = with(viewState) {
-        getLoginSingler.execute(LoginData(email.value, email.password)) {
+        loginUseCase.execute(LoginData(email.value, email.password)) {
+            onStart {
+                isLoading.value = true
+            }
             onSuccess {
+                isLoading.value = false
                 fullName.value = user.fullName // handle success & manipulate state
             }
             onError {
+                isLoading.value = false
                 // handle error
             }
         }
@@ -367,13 +374,13 @@ class UserStore @Inject constructor() {
 
 With this approach only one class is responsible for `User` related data access. Besides 
 custom classes, Room library `Dao`s or for example Retrofit API interfaces might be 
-perceived on the same domain level as stores. Thanks to interactors we can easily access, 
+perceived on the same domain level as stores. Thanks to use cases we can easily access, 
 manipulate and combine this kind of data on background threads. 
 
 ```kotlin
 class GetUserFullNameObservabler @Inject constructor(
     private val userStore: UserStore
-) : BaseObservabler<String>() {
+) : ObservablerUseCase<String>() {
 
     override fun prepare(): Observable<String> {
         return userStore.getUser()
@@ -386,10 +393,10 @@ We strictly respect this injection hierarchy:
 
 | Application Component | Injects |
 | --------- | --------------------- |
-| Activity/Fragment | `ViewModel` |
-| ViewModel | `ViewState`, Interactor |
-| Interactor | `Store` |
-| Store | `Dao`, `Persistence`, `ApiService` |
+| `Activity/Fragment` | `ViewModel` |
+| `ViewModel` | `ViewState`, `UseCase` |
+| `UseCase` | `Store` |
+| `Store` | `Dao`, `Persistence`, `ApiService` |
 
 
 

@@ -6,9 +6,9 @@ include(
     ":dagger",
     ":example",
     ":example-minimal",
-    ":interactors",
+    ":rx-usecases",
+    ":cr-usecases",
     ":bindingadapters",
-    ":cr-interactors",
     ":templates",
     ":mvvm-lint"
 )

@@ -67,8 +67,9 @@ detekt {
         "example/src/main/java",
         "mvvm/src/main/java",
         "dagger/src/main/java",
+        "rx-usecases/src/main/java",
+        "cr-usecases/src/main/java",
         "bindingadapters/src/main/java",
-        "interactors/src/main/java",
         "mvvm-lint/src/main/java"
     )
     filters = ".*/resources/.*,.*/build/.*"
