@@ -21,7 +21,7 @@ abstract class BaseCoroutineScopeOwnerTest : CoroutineScopeOwner {
     }
 
     @After
-    fun cleanupCorouintes() {
+    fun cleanupCoroutines() {
         coroutineScope.cleanupTestCoroutines()
     }
 }
