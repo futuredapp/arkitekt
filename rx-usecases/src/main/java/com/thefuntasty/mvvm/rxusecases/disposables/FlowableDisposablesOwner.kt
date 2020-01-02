@@ -35,7 +35,7 @@ interface FlowableDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <T> FlowableUseCase<Unit, T>.execute(config: FlowablerConfig.Builder<T>.() -> Unit): Disposable =
+    fun <T> FlowableUseCase<Unit, T>.execute(config: FlowableUseCaseConfig.Builder<T>.() -> Unit): Disposable =
         execute(Unit, config)
 
     /**

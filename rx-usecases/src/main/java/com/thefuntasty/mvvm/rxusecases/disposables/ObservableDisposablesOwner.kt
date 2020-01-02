@@ -35,7 +35,7 @@ interface ObservableDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <T> ObservableUseCase<Unit, T>.execute(config: ObservablerConfig.Builder<T>.() -> Unit): Disposable =
+    fun <T> ObservableUseCase<Unit, T>.execute(config: ObservableUseCaseConfig.Builder<T>.() -> Unit): Disposable =
         execute(Unit, config)
 
     /**

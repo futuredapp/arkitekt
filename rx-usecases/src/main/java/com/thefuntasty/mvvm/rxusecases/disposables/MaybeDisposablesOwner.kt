@@ -35,7 +35,7 @@ interface MaybeDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <T> MaybeUseCase<Unit, T>.execute(config: MayberConfig.Builder<T>.() -> Unit): Disposable =
+    fun <T> MaybeUseCase<Unit, T>.execute(config: MaybeUseCaseConfig.Builder<T>.() -> Unit): Disposable =
         execute(Unit, config)
 
     /**

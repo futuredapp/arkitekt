@@ -148,7 +148,7 @@ class SingleDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `run execute without params`() {
-        val tempSingler = object : BaseSingler<Unit, String>() {
+        val tempSingler = object : SingleUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Single.just("Hello")
         }
 

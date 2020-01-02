@@ -148,7 +148,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `run execute without params`() {
-        val tempCompletabler = object : BaseCompletabler<Unit>() {
+        val tempCompletabler = object : CompletableUseCase<Unit>() {
             override fun prepare(args: Unit) = Completable.complete()
         }
 

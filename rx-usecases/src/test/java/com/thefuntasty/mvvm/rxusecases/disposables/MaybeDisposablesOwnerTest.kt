@@ -149,7 +149,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `run execute without params`() {
-        val tempMayber = object : BaseMayber<Unit, String>() {
+        val tempMayber = object : MaybeUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Maybe.just("Hello")
         }
 

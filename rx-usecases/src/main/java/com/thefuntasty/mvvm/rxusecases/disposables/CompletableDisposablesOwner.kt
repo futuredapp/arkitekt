@@ -35,7 +35,7 @@ interface CompletableDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun CompletableUseCase<Unit>.execute(config: CompletablerConfig.Builder.() -> Unit): Disposable =
+    fun CompletableUseCase<Unit>.execute(config: CompletableUseCaseConfig.Builder.() -> Unit): Disposable =
         execute(Unit, config)
 
     /**

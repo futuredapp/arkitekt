@@ -174,7 +174,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
 
     @Test
     fun `run execute without params`() {
-        val tempObservabler = object : BaseObservabler<Unit, String>() {
+        val tempObservabler = object : ObservableUseCase<Unit, String>() {
             override fun prepare(args: Unit) = Observable.just("Hello")
         }
 

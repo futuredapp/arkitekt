@@ -37,7 +37,7 @@ interface SingleDisposablesOwner {
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <T> SingleUseCase<Unit, T>.execute(config: SinglerConfig.Builder<T>.() -> Unit): Disposable =
+    fun <T> SingleUseCase<Unit, T>.execute(config: SingleUseCaseConfig.Builder<T>.() -> Unit): Disposable =
         execute(Unit, config)
 
     /**
