@@ -8,10 +8,9 @@ import javax.inject.Inject
 
 class FormViewModel @Inject constructor(
     private val saveFormUseCase: SaveFormUseCase,
-    private val observeFormUseCase: ObserveFormUseCase
+    private val observeFormUseCase: ObserveFormUseCase,
+    override val viewState: FormViewState
 ) : BaseCrViewModel<FormViewState>() {
-
-    override val viewState = FormViewState("", "")
 
     override fun onStart() {
         observeFormUseCase.execute {

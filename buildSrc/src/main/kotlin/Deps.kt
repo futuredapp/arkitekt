@@ -55,9 +55,11 @@ object Deps {
     }
 
     object Test {
+        const val mockk = "io.mockk:mockk:${Versions.mockk}"
         const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
         const val androidXTestRunnner = "androidx.test:runner:${Versions.androidxTestRunner}"
         const val androidXTestCore = "androidx.test:core:${Versions.androidxTestCore}"
+        const val androidXCoreTesting = "android.arch.core:core-testing:${Versions.androidxTestCore}"
         const val rxSchedulerRule = "com.github.Plastix.RxSchedulerRule:rx2:${Versions.rxSchedulerRule}"
         const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
         const val assertJ = "org.assertj:assertj-core:${Versions.assertJ}"

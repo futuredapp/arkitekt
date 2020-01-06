@@ -35,6 +35,7 @@ object Versions {
     const val androidTools = "26.5.1"
 
     // test
+    const val mockk = "1.9.3"
     const val mockitoCore = "2.28.2"
     const val androidxTestRunner = "1.1.0"
     const val javaX = "1"

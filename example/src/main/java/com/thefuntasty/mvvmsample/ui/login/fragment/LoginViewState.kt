@@ -4,8 +4,9 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
+import javax.inject.Inject
 
-class LoginViewState : ViewState {
+class LoginViewState @Inject constructor() : ViewState {
     val name = DefaultValueLiveData("")
     val surname = DefaultValueLiveData("")
 
