@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.Flow
 abstract class BaseFlowInteractor<T> {
 
     /**
-     *  [Job] used to hold and cancel existing run of this interactor
+     * [Job] used to hold and cancel existing run of this interactor
      */
     var job: Job? = null
 
     /**
-     * Suspend function which should contain business logic
+     * Function which should contain business logic
      */
     abstract fun build(): Flow<T>
 }
