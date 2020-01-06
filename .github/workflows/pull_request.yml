@@ -6,7 +6,6 @@ jobs:
     name: PR check
     runs-on: [ubuntu-latest]
     env:
-      SLACK_CHANNEL: mvvm-android
       DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
     steps:
       - uses: actions/checkout@v1
