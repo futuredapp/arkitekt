@@ -32,12 +32,13 @@ interface SingleDisposablesOwner {
      * can be disabled by passing false to [SingleUseCaseConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial use case initialisation.
+     * @param config [SinglerConfig] used to process results of internal [Single].
      * @return disposable of internal [Single]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> SingleUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <T> SingleUseCase<Unit, T>.execute(config: SingleUseCaseConfig.Builder<T>.() -> Unit): Disposable =
+        execute(Unit, config)
 
     /**
      * Executes the use case and adds its disposable to

@@ -17,7 +17,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempFlowabler.execute("Hello")
+            tempFlowabler.execute("Hello") { }
         }
 
         withDisposablesOwner {
@@ -74,7 +74,7 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (FlowableDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempFlowabler.execute("Hello"))
+            disposablesList.add(tempFlowabler.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -151,5 +151,24 @@ class FlowableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertEquals("first", events[1])
         assertEquals("second", events[2])
         assertEquals("complete", events[3])
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempFlowabler = object : FlowableUseCase<Unit, String>() {
+            override fun prepare(args: Unit) = Flowable.just("Hello")
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempFlowabler.execute {
+                onNext {
+                    capturedString = it
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }
