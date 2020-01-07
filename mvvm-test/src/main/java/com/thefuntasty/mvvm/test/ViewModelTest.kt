@@ -2,6 +2,7 @@ package com.thefuntasty.mvvm.test
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.github.plastix.rxschedulerrule.RxSchedulerRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 
 /**
@@ -46,4 +47,11 @@ abstract class ViewModelTest {
      * It allows to work with the live data.
      */
     @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    /**
+     * Swap coroutine dispatcher with the one that is executed immediately.
+     * It allows to work with the coroutines.
+     */
+    @ExperimentalCoroutinesApi
+    @get:Rule var coroutineScopeRule = CoroutineScopeRule()
 }

@@ -1,9 +1,15 @@
 package com.thefuntasty.mvvmsample.ui.form
 
+import com.thefuntasty.mvvm.crusecases.test.everyExecute
 import com.thefuntasty.mvvm.test.ViewModelTest
 import com.thefuntasty.mvvmsample.domain.ObserveFormUseCase
 import com.thefuntasty.mvvmsample.domain.SaveFormUseCase
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -18,11 +24,43 @@ class FormViewModelTest : ViewModelTest() {
     @Before
     fun setUp() {
         viewState = FormViewState()
-        viewModel = FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState)
+        viewModel = spyk(FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState), recordPrivateCalls = true)
     }
 
     @Test
-    fun `when onStart is called then form is observed and set to the most actual value`() {
-        // TODO(create a sample for use cr-usecases)
+    fun `when onSubmit is called then form is saved and ShowToastEvent is send`() {
+        // GIVEN
+        val inputArgs = SaveFormUseCase.Data(viewState.login.value to viewState.password.value)
+        mockSaveFormUseCase.everyExecute(inputArgs) { "A" to "B" }
+
+        // WHEN
+        viewModel.onSubmit()
+
+        // THEN
+        verify { viewModel.sendEvent(ShowToastEvent("A B")) }
+    }
+
+    @Test
+    fun `when onStart is called then form is observed and most actual value is set to storedContent`() {
+        // GIVEN
+        mockObserveFormUseCase.everyExecute(Unit) { flowOf("A" to "B", "B" to "C") }
+
+        // WHEN
+        viewModel.onStart()
+
+        // THEN
+        assertEquals("B C", viewState.storedContent.value)
+    }
+
+    @Test
+    fun `when onStart is called then form is observed and when error occurs then ShowToastEvent is send`() {
+        // GIVEN
+        mockObserveFormUseCase.everyExecute(Unit) { flow { throw IllegalStateException() }  }
+
+        // WHEN
+        viewModel.onStart()
+
+        // THEN
+        verify { viewModel.sendEvent(ShowToastEvent("Error :-(")) }
     }
 }

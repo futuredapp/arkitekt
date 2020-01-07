@@ -12,7 +12,8 @@ include(
     ":templates",
     ":mvvm-lint",
     ":mvvm-test",
-    ":rx-usecases-test"
+    ":rx-usecases-test",
+    ":cr-usecases-test"
 )
 
 pluginManagement {

@@ -25,6 +25,7 @@ dependencies {
     // Testing
     testImplementation("com.thefuntasty.mvvm:mvvm-test:LatestVersion")
     testImplementation("com.thefuntasty.mvvm:rx-usecases-test:LatestVersion")
+    testImplementation("com.thefuntasty.mvvm:cr-usecases-test:LatestVersion")
 }    
 ```
 
@@ -420,8 +421,8 @@ See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.c
 
 The [spy](https://github.com/mockk/mockk#spy) object should be used for an easy way of testing that expected events were sent to the view.
 
-```
-viewModel = spyk(SampleViewModel(mockViewState ...), recordPrivateCalls = true)
+```kotlin
+viewModel = spyk(SampleViewModel(mockViewState, ...), recordPrivateCalls = true)
 ...
 verify { viewModel.sendEvent(ExpectedEvent) }
 ```
@@ -430,13 +431,13 @@ verify { viewModel.sendEvent(ExpectedEvent) }
 When you are using `observeWithoutOwner` extensions then `everyObserveWithoutOwner` will be helpful for mocking of these methods.
 
 So if a method in the view model looks somehow like this:
-```
+```kotlin
 viewState.counter.observeWithoutOwner { value ->
     viewState.counterText.value = value.toString() 
 }
 ```
 then it can be mocked with the following method:
-```
+```kotlin
 val counterLambda = viewModel.everyObserveWithoutOwner { 
     viewState.counter
 }
@@ -448,12 +449,12 @@ invoke(...) call will invoke a lambda argument passed to the `observeWithoutOwne
 
 ### Mocking of Use Cases
 
-[rx-usecase-test](#Download) dependency contains utilities to help you with mocking use cases in a view model.
+Add [rx-usecase-test](#Download) or [cr-usecase-test](#Download) dependencies containing utilities to help you with mocking use cases in a view model.
 
 Since all 'execute' methods for [use cases](#use-cases) are implemented as extension functions, we created testing methods that will help you to easily mock them.
 
 So if a method in the view model looks somehow like this:
-```
+```kotlin
 fun onLoginClicked(name: String, password: String) {
     loginUseCase.execture(LoginData(name, password)) {
         onSuccess = { ... }
@@ -461,16 +462,17 @@ fun onLoginClicked(name: String, password: String) {
 }
 ```
 then it can be mocked with the following method:
-```
-mockLoginUseCase.everyExecute(args = ...) { Single.just(user) }
+```kotlin
+mockLoginUseCase.everyExecute(args = ...) { Single.just(user) } // For RxJava Use Cases 
+or
+mockLoginUseCase.everyExecute(args = ...) { user } // For Coroutines Use Cases
 ```
 In case that use case is using nullable arguments:
+```kotlin
+mockLoginUseCase.everyExecuteNullable(args = ...) { Single.just(user) } // For RxJava Use Cases
+or
+mockLoginUseCase.everyExecuteNullable(args = ...) { user } // For Coroutines Use Cases
 ```
-mockLoginUseCase.everyExecuteNullable(args = ...) { Single.just(user) }
-```
-
-
-
 
 # About
 Created with &#x2764; at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
