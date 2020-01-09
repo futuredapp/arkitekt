@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.detail
 
 import com.thefuntasty.mvvm.test.ViewModelTest
-import com.thefuntasty.mvvm.test.everyObserveWithoutOwnerDefaultValue
+import com.thefuntasty.mvvm.test.mockObserveWithoutOwnerDefaultValue
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
@@ -45,7 +45,7 @@ class DetailViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called then number value is observed and string number is updated`() {
         // GIVEN
-        val observeNumberLambda = viewModel.everyObserveWithoutOwnerDefaultValue { viewState.number }
+        val observeNumberLambda = viewModel.mockObserveWithoutOwnerDefaultValue { viewState.number }
 
         // WHEN
         viewModel.onStart()

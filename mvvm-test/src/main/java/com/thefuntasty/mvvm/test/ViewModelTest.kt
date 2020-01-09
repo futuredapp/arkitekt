@@ -7,8 +7,34 @@ import org.junit.Rule
 
 /**
  * Base class for ViewModel testing.
+ *
+ * Sample test:
+ * 
+ * class SampleViewModelTest : ViewModelTest() {
+ *
+ *     val mockViewState: SampleViewState = mockk()
+ *
+ *     lateinit var viewModel: SampleViewModel
+ *
+ *     @Before
+ *     fun setUp() {
+ *         viewModel = spyk(SampleViewModel(mockViewState), recordPrivateCalls = true)
+ *     }
+ *
+ *     @Test
+ *     fun `when ... then ...`() {
+ *         // GIVEN
+ *         ...
+ *
+ *         // WHEN
+ *         ...
+ *
+ *         // THEN
+ *         ...
+ *     }
+ * }
  */
-abstract class ViewModelTest {
+open class ViewModelTest {
 
     /*
     class SampleViewModelTest : ViewModelTest() {

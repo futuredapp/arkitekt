@@ -16,18 +16,18 @@ import io.mockk.invoke
  * Usage:
  *
  * // GIVEN
- * val capturedObserveLambda = viewModel.everyObserveWithoutOwner { viewState.number }
+ * val capturedObserveLambda = viewModel.mockObserveWithoutOwner { viewState.number }
  *
  * // WHEN
  * capturedObserveLambda.invoke(...)
  *
  */
-fun <VALUE> BaseViewModel<*>.everyObserveWithoutOwner(liveData: () -> LiveData<VALUE>): (VALUE) -> Unit {
+fun <VALUE> BaseViewModel<*>.mockObserveWithoutOwner(liveData: () -> LiveData<VALUE>): (VALUE) -> Unit {
     var invokable: (CapturingSlot<(VALUE) -> Unit>)? = null
     every { liveData().observeWithoutOwner(captureLambda()) } answers {
         invokable = lambda()
     }
-    return { value -> invokable?.invoke(value) ?: error("Lambda wasn't captured yet") }
+    return { value -> invokable?.invoke(value) ?: lambdaNotCapturedError() }
 }
 
 /**
@@ -38,18 +38,18 @@ fun <VALUE> BaseViewModel<*>.everyObserveWithoutOwner(liveData: () -> LiveData<V
  * Usage:
  *
  * // GIVEN
- * val capturedObserveLambda = viewModel.everyObserveWithoutOwner { viewState.number }
+ * val capturedObserveLambda = viewModel.mockObserveWithoutOwner { viewState.number }
  *
  * // WHEN
  * capturedObserveLambda.invoke(...)
  *
  */
-fun <VALUE : Any> BaseViewModel<*>.everyObserveWithoutOwnerDefaultValue(liveData: () -> DefaultValueLiveData<VALUE>): (VALUE) -> Unit {
+fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValue(liveData: () -> DefaultValueLiveData<VALUE>): (VALUE) -> Unit {
     var invokable: (CapturingSlot<(VALUE) -> Unit>)? = null
     every { liveData().observeWithoutOwner(captureLambda()) } answers {
         invokable = lambda()
     }
-    return { value -> invokable?.invoke(value) ?: error("Lambda wasn't captured yet") }
+    return { value -> invokable?.invoke(value) ?: lambdaNotCapturedError() }
 }
 
 /**
@@ -60,16 +60,18 @@ fun <VALUE : Any> BaseViewModel<*>.everyObserveWithoutOwnerDefaultValue(liveData
  * Usage:
  *
  * // GIVEN
- * val capturedObserveLambda = viewModel.everyObserveWithoutOwner { viewState.number }
+ * val capturedObserveLambda = viewModel.mockObserveWithoutOwner { viewState.number }
  *
  * // WHEN
  * capturedObserveLambda.invoke(...)
  *
  */
-fun <VALUE : Any> BaseViewModel<*>.everyObserveWithoutOwnerDefaultValueMediator(liveData: () -> DefaultValueMediatorLiveData<VALUE>): (VALUE) -> Unit {
+fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValueMediator(liveData: () -> DefaultValueMediatorLiveData<VALUE>): (VALUE) -> Unit {
     var invokable: (CapturingSlot<(VALUE) -> Unit>)? = null
     every { liveData().observeWithoutOwner(captureLambda()) } answers {
         invokable = lambda()
     }
-    return { value -> invokable?.invoke(value) ?: error("Lambda wasn't captured yet") }
+    return { value -> invokable?.invoke(value) ?: lambdaNotCapturedError() }
 }
+
+private fun lambdaNotCapturedError(): Nothing = error("Lambda wasn't captured yet")
