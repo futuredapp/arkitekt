@@ -5,6 +5,10 @@ import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
 import com.thefuntasty.mvvm.livedata.DefaultValueMediatorLiveData
+import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
+import com.thefuntasty.mvvm.test.viewmodel.everyObserveWithoutOwner
+import com.thefuntasty.mvvm.test.viewmodel.everyObserveWithoutOwnerDefaultValue
+import com.thefuntasty.mvvm.test.viewmodel.everyObserveWithoutOwnerDefaultValueMediator
 import io.mockk.mockk
 import io.mockk.spyk
 import org.junit.Assert.assertEquals

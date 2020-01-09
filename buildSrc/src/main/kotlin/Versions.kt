@@ -21,7 +21,7 @@ object Versions {
     const val vectorDrawable = "1.1.0"
     const val lifeCycle = "2.2.0-beta01"
     const val dagger = "2.24"
-    const val espresso = "3.1.0"
+    const val androidXEspresso = "3.1.0"
     const val rxIdler = "0.9.0"
 
     // rx
@@ -41,6 +41,10 @@ object Versions {
     const val javaX = "1"
     const val jUnit = "1.0.0"
     const val androidxTestCore = "1.0.0"
+    const val androidxTestCoreKtx = "1.2.0"
+    const val androidXJUnit = "1.0.0"
+    const val androidXJUnitKtx = "1.1.1"
+    const val androidXFragmentTesting = "1.1.0"
     const val rxSchedulerRule = "1.0.2"
     const val assertJ = "3.8.0"
     const val mockitoKotlin = "1.6.0"

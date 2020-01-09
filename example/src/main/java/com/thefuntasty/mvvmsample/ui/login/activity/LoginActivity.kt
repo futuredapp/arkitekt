@@ -3,9 +3,9 @@ package com.thefuntasty.mvvmsample.ui.login.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.thefuntasty.mvvmsample.R
 import com.thefuntasty.mvvmsample.databinding.ActivityLoginBinding
+import com.thefuntasty.mvvmsample.tools.ToastCreator
 import com.thefuntasty.mvvmsample.ui.base.BaseActivity
 import com.thefuntasty.mvvmsample.ui.login.fragment.LoginFragment
 import javax.inject.Inject
@@ -13,6 +13,7 @@ import javax.inject.Inject
 class LoginActivity : BaseActivity<LoginViewModel, LoginViewState, ActivityLoginBinding>(), LoginView {
 
     @Inject override lateinit var viewModelFactory: LoginViewModelFactory
+    @Inject lateinit var toastCreator: ToastCreator
 
     override val layoutResId = R.layout.activity_login
 
@@ -30,7 +31,7 @@ class LoginActivity : BaseActivity<LoginViewModel, LoginViewState, ActivityLogin
         }
 
         observeEvent(ShowToastEvent::class) {
-            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            toastCreator.showToast(this, it.message)
         }
     }
 }

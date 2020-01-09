@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.main
 
-import com.thefuntasty.mvvm.test.ViewModelTest
+import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
 import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Before

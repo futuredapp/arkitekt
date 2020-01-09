@@ -36,17 +36,20 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/form_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={viewState.login}"/>
 
             <EditText
+                android:id="@+id/form_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:text="@={viewState.password}"/>
 
             <Button
+                android:id="@+id/form_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="@{viewState.submitEnabled}"
@@ -54,6 +57,7 @@
                 android:text="submit"/>
 
             <TextView
+                android:id="@+id/form_storedContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewState.storedContent}"/>

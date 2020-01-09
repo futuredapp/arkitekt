@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.test
+package com.thefuntasty.mvvm.test.viewmodel
 
 import androidx.lifecycle.LiveData
 import com.thefuntasty.mvvm.BaseViewModel
