@@ -35,7 +35,7 @@ class BaseViewModelExtensionsMockTest : ViewModelTest() {
     @Test
     fun `everyObserveWithoutOwner should call captured lambda`() = with(viewModel) {
         // GIVEN
-        val capturedLambda = viewModel.everyObserveWithoutOwner { viewModel.viewState.mutableLiveData }
+        val capturedLambda = viewModel.mockObserveWithoutOwner { viewModel.viewState.mutableLiveData }
 
         // WHEN
         var result = 0
@@ -50,7 +50,7 @@ class BaseViewModelExtensionsMockTest : ViewModelTest() {
     @Test
     fun `everyObserveWithoutOwnerDefaultValue should call captured lambda`() = with(viewModel) {
         // GIVEN
-        val capturedLambda = everyObserveWithoutOwnerDefaultValue { viewModel.viewState.defaultValueLiveData }
+        val capturedLambda = mockObserveWithoutOwnerDefaultValue { viewModel.viewState.defaultValueLiveData }
 
         // WHEN
         var result = 0
@@ -65,7 +65,7 @@ class BaseViewModelExtensionsMockTest : ViewModelTest() {
     @Test
     fun `everyObserveWithoutOwnerDefaultValueMediator should call captured lambda`() = with(viewModel) {
         // GIVEN
-        val capturedLambda = everyObserveWithoutOwnerDefaultValueMediator { viewModel.viewState.defaultValueMediatorLiveData }
+        val capturedLambda = mockObserveWithoutOwnerDefaultValueMediator { viewModel.viewState.defaultValueMediatorLiveData }
 
         // WHEN
         var result = 0
