@@ -29,8 +29,6 @@ jobs:
         shell: bash
         run: ./gradlew --continue testRelease
       - name: Upload to Bintray
-        env:
         run: ./gradlew build publish bintrayUpload
       - name: Publish plugins
-        env:
         run: ./gradlew publishPlugins
