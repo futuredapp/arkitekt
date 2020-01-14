@@ -16,11 +16,11 @@ import io.reactivex.disposables.Disposable
  * So when `Single.just` will be passed then `onSuccess` will be called etc.
  *
  * Usage:
- * mockSingleUseCase.everyExecute(args = ...) { Single.just(...) }
+ * mockSingleUseCase.mockExecute(args = ...) { Single.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Single<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, resultBlock: () -> Single<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(args) } returns resultBlock()
+    every { this@mockExecute.create(args) } returns resultBlock()
 }
 
 /**
@@ -31,11 +31,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS, RET
  * So when `Single.just` will be passed then `onSuccess` will be called etc.
  *
  * Usage:
- * mockSingleUseCase.everyExecute { Single.just(...) }
+ * mockSingleUseCase.mockExecute { Single.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(resultBlock: () -> Single<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(resultBlock: () -> Single<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(any()) } returns resultBlock()
+    every { this@mockExecute.create(any()) } returns resultBlock()
 }
 
 /**
@@ -46,11 +46,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS, RET
  * So when `Single.just` will be passed then `onSuccess` will be called etc.
  *
  * Usage:
- * mockSingleUseCase.everyExecute { Single.just(...) }
+ * mockSingleUseCase.mockExecuteNullable { Single.just(...) }
  */
-inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Single<RETURN_VALUE>) {
+inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS, resultBlock: () -> Single<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(args) } returns resultBlock()
+    every { this@mockExecuteNullable.create(args) } returns resultBlock()
 }
 
 /**
@@ -62,11 +62,11 @@ inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS?, R
  * So when `Single.just` will be passed then `onSuccess` will be called etc.
  *
  * Usage:
- * mockSingleUseCase.everyExecute { Single.just(...) }
+ * mockSingleUseCase.mockExecuteNullable { Single.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(resultBlock: () -> Single<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : SingleUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(resultBlock: () -> Single<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(any()) } returns resultBlock()
+    every { this@mockExecuteNullable.create(any()) } returns resultBlock()
 }
 
 @PublishedApi
