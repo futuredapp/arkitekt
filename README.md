@@ -21,6 +21,10 @@ dependencies {
     implementation("com.thefuntasty.mvvm:dagger:LatestVersion")
     implementation("com.thefuntasty.mvvm:cr-usecases:LatestVersion")
     implementation("com.thefuntasty.mvvm:rx-usecases:LatestVersion")
+    
+    // Testing
+    testImplementation("com.thefuntasty.mvvm:mvvm-test:LatestVersion")
+    testImplementation("com.thefuntasty.mvvm:rx-usecases-test:LatestVersion")
 }    
 ```
 
@@ -397,6 +401,74 @@ We strictly respect this injection hierarchy:
 | `ViewModel` | `ViewState`, `UseCase` |
 | `UseCase` | `Store` |
 | `Store` | `Dao`, `Persistence`, `ApiService` |
+
+# Testing
+
+In order to create successful applications, it is highly encouraged to write tests for your application. But testing can be tricky sometimes so here are our best practices and utilities that will help you to achieve this goal with this library. 
+
+See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.com/thefuntasty/mvvm-android/tree/3.x/example/src/)) in `example` module for more detailed sample.
+
+## ViewModel testing
+
+[mvvm-test](#Download) dependency contains utilities to help you with ViewModel testing.
+
+`ViewModelTest` that should be used as a base class for view model tests since it contains JUnit rules for dealing with a live data and with RxJava in tests.
+
+See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.com/thefuntasty/mvvm-android/tree/3.x/example/src/test/java/com/thefuntasty/mvvmsample/ui/)) in `example` module for more detailed sample of view model testing.
+
+### Events testing
+
+The [spy](https://github.com/mockk/mockk#spy) object should be used for an easy way of testing that expected events were sent to the view.
+
+```
+viewModel = spyk(SampleViewModel(mockViewState ...), recordPrivateCalls = true)
+...
+verify { viewModel.sendEvent(ExpectedEvent) }
+```
+### Mocking of observeWithoutOwner 
+
+When you are using `observeWithoutOwner` extensions then `everyObserveWithoutOwner` will be helpful for mocking of these methods.
+
+So if a method in the view model looks somehow like this:
+```
+viewState.counter.observeWithoutOwner { value ->
+    viewState.counterText.value = value.toString() 
+}
+```
+then it can be mocked with the following method:
+```
+val counterLambda = viewModel.everyObserveWithoutOwner { 
+    viewState.counter
+}
+...
+counterLambda.invoke(1) 
+```
+invoke(...) call will invoke a lambda argument passed to the `observeWithoutOwner` method in the tested method.
+
+
+### Mocking of Use Cases
+
+[rx-usecase-test](#Download) dependency contains utilities to help you with mocking use cases in a view model.
+
+Since all 'execute' methods for [use cases](#use-cases) are implemented as extension functions, we created testing methods that will help you to easily mock them.
+
+So if a method in the view model looks somehow like this:
+```
+fun onLoginClicked(name: String, password: String) {
+    loginUseCase.execture(LoginData(name, password)) {
+        onSuccess = { ... }
+    }
+}
+```
+then it can be mocked with the following method:
+```
+mockLoginUseCase.everyExecute(args = ...) { Single.just(user) }
+```
+In case that use case is using nullable arguments:
+```
+mockLoginUseCase.everyExecuteNullable(args = ...) { Single.just(user) }
+```
+
 
 
 

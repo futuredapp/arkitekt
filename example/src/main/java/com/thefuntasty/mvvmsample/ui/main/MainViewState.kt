@@ -1,5 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.main
 
 import com.thefuntasty.mvvm.ViewState
+import javax.inject.Inject
 
-object MainViewState : ViewState
+class MainViewState @Inject constructor() : ViewState

@@ -21,9 +21,19 @@ object ProjectSettings {
         const val libraryDescription = "Core module of MVVM-Android framework"
     }
 
+    object MvvmTest {
+        const val artifact = "mvvm-test"
+        const val libraryDescription = "Test utilities for mvvm module"
+    }
+
     object RxUseCases {
         const val artifact = "rx-usecases"
         const val libraryDescription = "RxJava based use cases meant to be used with MVVM-Android framework"
+    }
+
+    object RxUseCasesTest {
+        const val artifact = "rx-usecases-test"
+        const val libraryDescription = "Test utilities for rx-usecases module"
     }
 
     object CrUseCases {

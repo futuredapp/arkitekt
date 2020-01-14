@@ -54,4 +54,12 @@ dependencies {
     implementation(Deps.DI.daggerSupport)
     kapt(Deps.DI.daggerProcessor)
     kapt(Deps.DI.daggerCompiler)
+
+    testImplementation(project(":mvvm-test"))
+    testImplementation(project(":rx-usecases-test"))
+    testImplementation(Deps.Test.mockk)
+    testImplementation(Deps.Test.androidXTestRunnner)
+    testImplementation(Deps.Test.androidXTestCore)
+    testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.rxSchedulerRule)
 }

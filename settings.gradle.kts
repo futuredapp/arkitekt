@@ -10,7 +10,9 @@ include(
     ":cr-usecases",
     ":bindingadapters",
     ":templates",
-    ":mvvm-lint"
+    ":mvvm-lint",
+    ":mvvm-test",
+    ":rx-usecases-test"
 )
 
 pluginManagement {

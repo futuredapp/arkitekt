@@ -1,5 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.login.activity
 
 import com.thefuntasty.mvvm.ViewState
+import javax.inject.Inject
 
-object LoginViewState : ViewState
+class LoginViewState @Inject constructor() : ViewState
