@@ -87,9 +87,7 @@ interface CoroutineScopeOwner {
      *
      * @return [Result] that encapsulates either a successful result with [Success] or a failed result with [Error]
      */
-    suspend fun <T : Any?> UseCase<Unit, T>.execute(cancelPrevious: Boolean = true): Result<T> {
-        return execute(Unit, cancelPrevious)
-    }
+    suspend fun <T : Any?> UseCase<Unit, T>.execute(cancelPrevious: Boolean = true) = execute(Unit, cancelPrevious)
 
     /**
      * Synchronously executes use case and saves it's Deferred. By default all previous

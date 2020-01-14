@@ -15,13 +15,9 @@ sealed class Result<out VALUE : Any?> {
         }
     }
 
-    operator fun component1(): VALUE? {
-        return if (this is Success) value else null
-    }
+    operator fun component1(): VALUE? = if (this is Success) value else null
 
-    operator fun component2(): Throwable? {
-        return if (this is Error) error else null
-    }
+    operator fun component2(): Throwable? = if (this is Error) error else null
 }
 
 /**
