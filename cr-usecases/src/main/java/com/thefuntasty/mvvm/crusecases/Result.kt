@@ -29,14 +29,9 @@ class Success<VALUE : Any?>(val value: VALUE) : Result<VALUE>() {
         if (this === other) {
             return true
         }
-        if (other == null || this::class != other::class) {
+        if (other == null || other !is Success<*>) {
             return false
         }
-
-        if (other !is Success<*>) {
-            return false
-        }
-
         if (value != other.value) {
             return false
         }
@@ -56,14 +51,9 @@ class Error(val error: Throwable) : Result<Nothing>() {
         if (this === other) {
             return true
         }
-        if (other == null || this::class != other::class) {
+        if (other == null || other !is Error) {
             return false
         }
-
-        if (other !is Error) {
-            return false
-        }
-
         if (error != other.error) {
             return false
         }
