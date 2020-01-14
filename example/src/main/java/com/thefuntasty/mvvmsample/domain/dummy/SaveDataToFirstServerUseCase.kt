@@ -6,6 +6,8 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class SaveDataToFirstServerUseCase @Inject constructor() : UseCase<String, String>() {
+
+    @Suppress("MagicNumber")
     override suspend fun build(args: String): String {
         delay(1000)
         randomError()

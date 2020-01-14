@@ -33,7 +33,9 @@ class Success<VALUE : Any?>(val value: VALUE) : Result<VALUE>() {
             return false
         }
 
-        other as Success<*>
+        if (other !is Success<*>) {
+            return false
+        }
 
         if (value != other.value) {
             return false
@@ -58,7 +60,9 @@ class Error(val error: Throwable) : Result<Nothing>() {
             return false
         }
 
-        other as Error
+        if (other !is Error) {
+            return false
+        }
 
         if (error != other.error) {
             return false
@@ -79,10 +83,9 @@ class Error(val error: Throwable) : Result<Nothing>() {
 inline fun <VALUE> tryCatch(block: () -> VALUE): Result<VALUE> {
     return try {
         Success(block())
+    } catch (error: CancellationException) {
+        throw error
     } catch (error: Throwable) {
-        if (error is CancellationException) {
-            throw error
-        }
         Error(error)
     }
 }

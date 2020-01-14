@@ -21,6 +21,10 @@ class CoroutinesResultViewModel @Inject constructor(
     override val viewState: CoroutinesResultViewState
 ) : BaseCrViewModel<CoroutinesResultViewState>() {
 
+    private companion object {
+        const val RESULT_DELAY = 500L
+    }
+
     fun onStartLoadingClicked() = launchWithHandler {
         showLoading()
 
@@ -40,7 +44,7 @@ class CoroutinesResultViewModel @Inject constructor(
         val (result, _) = confirmDataSavedSuccessfullyUseCase.execute(firstSave to secondSave)
 
         setLoadingState(step = "4")
-        delay(500)
+        delay(RESULT_DELAY)
 
         if (result != null) {
             showResult(result)

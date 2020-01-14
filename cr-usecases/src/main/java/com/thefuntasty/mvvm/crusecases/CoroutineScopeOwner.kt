@@ -106,10 +106,9 @@ interface CoroutineScopeOwner {
                 build(args)
             }.also { deferred = it }
             Success(newDeferred.await())
+        } catch (exception: CancellationException) {
+            throw exception
         } catch (exception: Throwable) {
-            if (exception is CancellationException) {
-                throw exception
-            }
             Error(exception)
         }
     }
@@ -239,16 +238,14 @@ interface CoroutineScopeOwner {
         coroutineScope.launch {
             try {
                 block()
-            } catch (exception: Throwable) {
-                if (exception is CancellationException) {
-                    val rootCause = exception.rootCause
-                    if (rootCause != null && rootCause !is CancellationException) {
-                        logUnhandledException(exception)
-                    }
-                } else {
+            } catch (exception: CancellationException) {
+                val rootCause = exception.rootCause
+                if (rootCause != null && rootCause !is CancellationException) {
                     logUnhandledException(exception)
-                    defaultErrorHandler(exception)
                 }
+            } catch (exception: Throwable) {
+                logUnhandledException(exception)
+                defaultErrorHandler(exception)
             }
         }
     }
