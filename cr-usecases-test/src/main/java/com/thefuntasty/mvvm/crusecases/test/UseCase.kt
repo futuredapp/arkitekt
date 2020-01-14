@@ -14,11 +14,11 @@ import io.mockk.mockk
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute(args = ...) { ... }
+ * mockUseCase.mockExecute(args = ...) { ... }
  */
-fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, returnBlock: () -> RETURN_VALUE) {
+fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, returnBlock: () -> RETURN_VALUE) {
     mockDeferred()
-    coEvery { this@everyExecute.build(args) } answers { returnBlock() }
+    coEvery { this@mockExecute.build(args) } answers { returnBlock() }
 }
 
 /**
@@ -28,11 +28,11 @@ fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.everyE
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute { ... }
+ * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(crossinline returnBlock: () -> RETURN_VALUE) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(crossinline returnBlock: () -> RETURN_VALUE) {
     mockDeferred()
-    coEvery { this@everyExecute.build(any()) } answers { returnBlock() }
+    coEvery { this@mockExecute.build(any()) } answers { returnBlock() }
 }
 
 /**
@@ -42,11 +42,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VA
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute(args = ...) { ... }
+ * mockUseCase.mockExecute(args = ...) { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS?, crossinline returnBlock: () -> RETURN_VALUE) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS?, crossinline returnBlock: () -> RETURN_VALUE) {
     mockDeferred()
-    coEvery { this@everyExecuteNullable.build(args) } answers { returnBlock() }
+    coEvery { this@mockExecuteNullable.build(args) } answers { returnBlock() }
 }
 
 /**
@@ -57,11 +57,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_V
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute { ... }
+ * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(crossinline returnBlock: () -> RETURN_VALUE) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(crossinline returnBlock: () -> RETURN_VALUE) {
     mockDeferred()
-    coEvery { this@everyExecuteNullable.build(any()) } answers { returnBlock() }
+    coEvery { this@mockExecuteNullable.build(any()) } answers { returnBlock() }
 }
 
 @PublishedApi

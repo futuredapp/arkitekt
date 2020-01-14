@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecute(args = ...) { Completable.complete() }
  */
 inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Completable) {
     mockCurrentDisposable()
@@ -31,7 +31,7 @@ inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.ev
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecute(args = ...) { Completable.complete() }
  */
 inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.everyExecute(resultBlock: () -> Completable) {
     mockCurrentDisposable()
@@ -46,7 +46,7 @@ inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.ev
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecute(args = ...) { Completable.complete() }
  */
 inline fun <reified ARGS : Any?, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Completable) {
     mockCurrentDisposable()
@@ -62,7 +62,7 @@ inline fun <reified ARGS : Any?, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecute(args = ...) { Completable.complete() }
  */
 inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.everyExecuteNullable(resultBlock: () -> Completable) {
     mockCurrentDisposable()

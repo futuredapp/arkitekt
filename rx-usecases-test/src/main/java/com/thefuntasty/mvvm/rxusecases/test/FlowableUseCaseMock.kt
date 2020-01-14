@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable
  * So when `Flowable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockFlowableUseCase.everyExecute(args = ...) { Flowable.just(...) }
+ * mockFlowableUseCase.mockExecute(args = ...) { Flowable.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowableUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Flowable<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -31,7 +31,7 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowableUseCase<ARGS, R
  * So when `Flowable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockFlowableUseCase.everyExecute(args = ...) { Flowable.just(...) }
+ * mockFlowableUseCase.mockExecute(args = ...) { Flowable.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowableUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(resultBlock: () -> Flowable<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -46,7 +46,7 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowableUseCase<ARGS, R
  * So when `Flowable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockFlowableUseCase.everyExecute(args = ...) { Flowable.just(...) }
+ * mockFlowableUseCase.mockExecute(args = ...) { Flowable.just(...) }
  */
 inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : FlowableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Flowable<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -62,7 +62,7 @@ inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : FlowableUseCase<ARGS?,
  * So when `Flowable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockFlowableUseCase.everyExecute(args = ...) { Flowable.just(...) }
+ * mockFlowableUseCase.mockExecute(args = ...) { Flowable.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(resultBlock: () -> Flowable<RETURN_VALUE>) {
     mockCurrentDisposable()

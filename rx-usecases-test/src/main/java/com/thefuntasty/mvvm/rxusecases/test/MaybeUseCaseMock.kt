@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable
  * So when `Maybe.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockMaybeUseCase.everyExecute(args = ...) { Maybe.just(...) }
+ * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -31,7 +31,7 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETU
  * So when `Maybe.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockMaybeUseCase.everyExecute(args = ...) { Maybe.just(...) }
+ * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -46,7 +46,7 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETU
  * So when `Maybe.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockMaybeUseCase.everyExecute(args = ...) { Maybe.just(...) }
+ * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
  */
 inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -62,7 +62,7 @@ inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RE
  * So when `Maybe.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockMaybeUseCase.everyExecute(args = ...) { Maybe.just(...) }
+ * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()

@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecute(args = ...) { Observable.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -31,7 +31,7 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS,
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecute(args = ...) { Observable.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -46,7 +46,7 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS,
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecute(args = ...) { Observable.just(...) }
  */
 inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()
@@ -62,7 +62,7 @@ inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecute(args = ...) { Observable.just(...) }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()

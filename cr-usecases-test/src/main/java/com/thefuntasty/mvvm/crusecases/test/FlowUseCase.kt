@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.Flow
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute(args = ...) { ... }
+ * mockUseCase.mockExecute(args = ...) { ... }
  */
-fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, returnBlock: () -> Flow<RETURN_VALUE>) {
+fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, returnBlock: () -> Flow<RETURN_VALUE>) {
     mockJob()
-    coEvery { this@everyExecute.build(args) } returns returnBlock()
+    coEvery { this@mockExecute.build(args) } returns returnBlock()
 }
 
 /**
@@ -29,11 +29,11 @@ fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.ev
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute { ... }
+ * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(returnBlock: () -> Flow<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(returnBlock: () -> Flow<RETURN_VALUE>) {
     mockJob()
-    coEvery { this@everyExecute.build(any()) } returns returnBlock()
+    coEvery { this@mockExecute.build(any()) } returns returnBlock()
 }
 
 /**
@@ -43,11 +43,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETUR
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute(args = ...) { ... }
+ * mockUseCase.mockExecute(args = ...) { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS?, returnBlock: () -> Flow<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS?, returnBlock: () -> Flow<RETURN_VALUE>) {
     mockJob()
-    coEvery { this@everyExecuteNullable.build(args) } returns returnBlock()
+    coEvery { this@mockExecuteNullable.build(args) } returns returnBlock()
 }
 
 /**
@@ -58,11 +58,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETU
  * and corresponding methods for the given use case will be called.
  *
  * Usage:
- * mockUseCase.everyExecute { ... }
+ * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(returnBlock: () -> Flow<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(returnBlock: () -> Flow<RETURN_VALUE>) {
     mockJob()
-    coEvery { this@everyExecuteNullable.build(any()) } returns returnBlock()
+    coEvery { this@mockExecuteNullable.build(any()) } returns returnBlock()
 }
 
 @PublishedApi
