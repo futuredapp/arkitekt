@@ -1,5 +1,6 @@
 package com.thefuntasty.mvvm.crusecases
 
+import com.thefuntasty.mvvm.crusecases.utils.rootCause
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -76,6 +77,42 @@ interface CoroutineScopeOwner {
                     useCaseConfig.onError.invoke(error)
                 }
             }
+        }
+    }
+
+    /**
+     * Synchronously executes use case and saves it's Deferred. By default all previous
+     * pending executions are canceled, this can be changed by the [cancelPrevious].
+     * This version is used for use cases without initial arguments.
+     *
+     * @return [Result] that encapsulates either a successful result with [Success] or a failed result with [Error]
+     */
+    suspend fun <T : Any?> UseCase<Unit, T>.execute(cancelPrevious: Boolean = true): Result<T> {
+        return execute(Unit, cancelPrevious)
+    }
+
+    /**
+     * Synchronously executes use case and saves it's Deferred. By default all previous
+     * pending executions are canceled, this can be changed by the [cancelPrevious].
+     * This version gets initial arguments by [args].
+     *
+     * @param args Arguments used for initial use case initialization.
+     * @return [Result] that encapsulates either a successful result with [Success] or a failed result with [Error]
+     */
+    suspend fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(args: ARGS, cancelPrevious: Boolean = true): Result<T> {
+        if (cancelPrevious) {
+            deferred?.cancel()
+        }
+        return try {
+            val newDeferred = coroutineScope.async(getWorkerDispatcher(), CoroutineStart.LAZY) {
+                build(args)
+            }.also { deferred = it }
+            Success(newDeferred.await())
+        } catch (exception: Throwable) {
+            if (exception is CancellationException) {
+                throw exception
+            }
+            Error(exception)
         }
     }
 
@@ -191,6 +228,47 @@ interface CoroutineScopeOwner {
             }
             .catch { /* handled in onCompletion */ }
             .launchIn(coroutineScope)
+    }
+
+    /**
+     * Launch suspend [block] in [coroutineScope]. Encapsulates this call with try catch block and when an exception is thrown
+     * then it is logged in [logUnhandledException] and handled by [defaultErrorHandler].
+     *
+     * If exception is [CancellationException] then [defaultErrorHandler] is not called and [logUnhandledException] is called
+     * only if the root cause of this exception is not [CancellationException] (e.g. when [Result.getOrCancel] is used).
+     */
+    fun launchWithHandler(block: suspend CoroutineScope.() -> Unit) {
+        coroutineScope.launch {
+            try {
+                block()
+            } catch (exception: Throwable) {
+                if (exception is CancellationException) {
+                    val rootCause = exception.rootCause
+                    if (rootCause != null && rootCause !is CancellationException) {
+                        logUnhandledException(exception)
+                    }
+                } else {
+                    logUnhandledException(exception)
+                    defaultErrorHandler(exception)
+                }
+            }
+        }
+    }
+
+    /**
+     * This method is called when coroutine launched with [launchWithHandler] throws an exception and this exception is either
+     * not [CancellationException] or root cause is not [CancellationException]
+     */
+    fun logUnhandledException(exception: Throwable) {
+        // NoOp
+    }
+
+    /**
+     * This method is called when coroutine launched with [launchWithHandler] throws an exception and
+     * this exception isn't [CancellationException]. By default, it rethrows this exception.
+     */
+    fun defaultErrorHandler(exception: Throwable) {
+        throw exception
     }
 
     /**

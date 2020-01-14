@@ -11,3 +11,5 @@ object ShowFormEvent : MainEvent()
 object ShowLoginEvent : MainEvent()
 
 object ShowBottomSheetEvent : MainEvent()
+
+object ShowLoadEvent : MainEvent()
