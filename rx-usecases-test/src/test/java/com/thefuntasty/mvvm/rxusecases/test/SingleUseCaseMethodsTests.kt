@@ -33,7 +33,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { Single.just(expectedResult) }
+        mockUseCase.mockExecute(args) { Single.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -45,7 +45,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute { Single.just(expectedResult) }
+        mockUseCase.mockExecute { Single.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -57,7 +57,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(argsNullable) { Single.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Single.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -69,7 +69,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable { Single.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable { Single.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -81,7 +81,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with null value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(null) { Single.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(null) { Single.just(expectedResult) }
 
         // WHEN
         val result = executeNullAndReturnResult()

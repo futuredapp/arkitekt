@@ -33,7 +33,7 @@ class ObservableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { Observable.just(expectedResult) }
+        mockUseCase.mockExecute(args) { Observable.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -45,7 +45,7 @@ class ObservableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute { Observable.just(expectedResult) }
+        mockUseCase.mockExecute { Observable.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -57,7 +57,7 @@ class ObservableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(argsNullable) { Observable.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Observable.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -69,7 +69,7 @@ class ObservableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable { Observable.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable { Observable.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -81,7 +81,7 @@ class ObservableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with null value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(null) { Observable.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(null) { Observable.just(expectedResult) }
 
         // WHEN
         val result = executeNullAndReturnResult()

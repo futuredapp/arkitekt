@@ -33,7 +33,7 @@ class CompletableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { Completable.complete() }
+        mockUseCase.mockExecute(args) { Completable.complete() }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -45,7 +45,7 @@ class CompletableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute { Completable.complete() }
+        mockUseCase.mockExecute { Completable.complete() }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -57,7 +57,7 @@ class CompletableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(argsNullable) { Completable.complete() }
+        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Completable.complete() }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -69,7 +69,7 @@ class CompletableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable { Completable.complete() }
+        mockUseCaseNullable.mockExecuteNullable { Completable.complete() }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -81,7 +81,7 @@ class CompletableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with null value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(null) { Completable.complete() }
+        mockUseCaseNullable.mockExecuteNullable(null) { Completable.complete() }
 
         // WHEN
         val result = executeNullAndReturnResult()

@@ -16,11 +16,11 @@ import io.reactivex.disposables.Disposable
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecute(args = ...) { Completable.complete() }
  */
-inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Completable) {
+inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.mockExecute(args: ARGS, resultBlock: () -> Completable) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(args) } returns resultBlock()
+    every { this@mockExecute.create(args) } returns resultBlock()
 }
 
 /**
@@ -31,11 +31,11 @@ inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.ev
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecute(args = ...) { Completable.complete() }
  */
-inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.everyExecute(resultBlock: () -> Completable) {
+inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.mockExecute(resultBlock: () -> Completable) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(any()) } returns resultBlock()
+    every { this@mockExecute.create(any()) } returns resultBlock()
 }
 
 /**
@@ -46,11 +46,11 @@ inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS>> USE_CASE.ev
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecuteNullable(args = ...) { Completable.complete() }
  */
-inline fun <reified ARGS : Any?, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Completable) {
+inline fun <reified ARGS : Any?, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.mockExecuteNullable(args: ARGS, resultBlock: () -> Completable) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(args) } returns resultBlock()
+    every { this@mockExecuteNullable.create(args) } returns resultBlock()
 }
 
 /**
@@ -62,11 +62,11 @@ inline fun <reified ARGS : Any?, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.
  * So when `Completable.complete` will be passed then `onComplete` will be called etc.
  *
  * Usage:
- * mockCompletableUseCase.everyExecute(args = ...) { Completable.complete() }
+ * mockCompletableUseCase.mockExecuteNullable(args = ...) { Completable.complete() }
  */
-inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.everyExecuteNullable(resultBlock: () -> Completable) {
+inline fun <reified ARGS : Any, USE_CASE : CompletableUseCase<ARGS?>> USE_CASE.mockExecuteNullable(resultBlock: () -> Completable) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(any()) } returns resultBlock()
+    every { this@mockExecuteNullable.create(any()) } returns resultBlock()
 }
 
 @PublishedApi

@@ -16,11 +16,11 @@ import io.reactivex.disposables.Disposable
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecute(args = ...) { Observable.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Observable<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(args) } returns resultBlock()
+    every { this@mockExecute.create(args) } returns resultBlock()
 }
 
 /**
@@ -31,11 +31,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS,
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecute(args = ...) { Observable.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(resultBlock: () -> Observable<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(any()) } returns resultBlock()
+    every { this@mockExecute.create(any()) } returns resultBlock()
 }
 
 /**
@@ -46,11 +46,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS,
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecuteNullable(args = ...) { Observable.just(...) }
  */
-inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Observable<RETURN_VALUE>) {
+inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS, resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(args) } returns resultBlock()
+    every { this@mockExecuteNullable.create(args) } returns resultBlock()
 }
 
 /**
@@ -62,11 +62,11 @@ inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS
  * So when `Observable.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockObservableUseCase.everyExecute(args = ...) { Observable.just(...) }
+ * mockObservableUseCase.mockExecuteNullable(args = ...) { Observable.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(resultBlock: () -> Observable<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : ObservableUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(resultBlock: () -> Observable<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(any()) } returns resultBlock()
+    every { this@mockExecuteNullable.create(any()) } returns resultBlock()
 }
 
 @PublishedApi
