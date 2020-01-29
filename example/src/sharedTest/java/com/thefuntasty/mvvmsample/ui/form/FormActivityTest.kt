@@ -9,7 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.thefuntasty.mvvm.crusecases.test.everyExecute
+import com.thefuntasty.mvvm.crusecases.test.mockExecute
 import com.thefuntasty.mvvm.test.view.asProvider
 import com.thefuntasty.mvvm.test.view.doAfterActivityInjection
 import com.thefuntasty.mvvmsample.R
@@ -40,14 +40,14 @@ class FormActivityTest {
         }
 
         // Mock methods that are called during initialization with no-op responses
-        mockObserveFormUseCase.everyExecute { flowOf() }
+        mockObserveFormUseCase.mockExecute { flowOf() }
     }
 
     @Test
     fun whenNameAndPasswordIsSubmitted_andSaveUseCaseIsSuccessful_thenToastIsShown() {
         // GIVEN
         val args = SaveFormUseCase.Data("name" to "password")
-        mockSaveFormUseCase.everyExecute(args) { "name" to "password" }
+        mockSaveFormUseCase.mockExecute(args) { "name" to "password" }
 
         // WHEN
         launchActivity<FormActivity>()
@@ -62,7 +62,7 @@ class FormActivityTest {
     @Test
     fun whenActivityIsStarted_thenFormIsObservedAndSavedToStoredContent() {
         // GIVEN
-        mockObserveFormUseCase.everyExecute { flowOf("new" to "value") }
+        mockObserveFormUseCase.mockExecute { flowOf("new" to "value") }
 
         // WHEN
         launchActivity<FormActivity>()

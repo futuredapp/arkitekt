@@ -11,7 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.thefuntasty.mvvm.rxusecases.test.everyExecute
+import com.thefuntasty.mvvm.rxusecases.test.mockExecute
 import com.thefuntasty.mvvm.test.view.asProvider
 import com.thefuntasty.mvvm.test.view.doAfterActivityInjection
 import com.thefuntasty.mvvm.test.view.doAfterFragmentInjection
@@ -69,14 +69,14 @@ class LoginTest {
         }
 
         // Mock methods that are called during initialization with no-op responses
-        mockGetStateUseCase.everyExecute { Maybe.never() }
-        mockObserveUserFullNameUseCase.everyExecute { Observable.never() }
+        mockGetStateUseCase.mockExecute { Maybe.never() }
+        mockObserveUserFullNameUseCase.mockExecute { Observable.never() }
     }
 
     @Test
     fun whenGetStateUseCaseReceivesAnyValue_thenShowHeaderIsSetToVisible() {
         // GIVEN
-        mockGetStateUseCase.everyExecute(true) { Maybe.just(true) }
+        mockGetStateUseCase.mockExecute(true) { Maybe.just(true) }
 
         // WHEN
         launchActivity<LoginActivity>()
@@ -88,7 +88,7 @@ class LoginTest {
     @Test
     fun whenGetStateUseCaseReceivesNoValue_thenShowHeaderIsSetToGone() {
         // GIVEN
-        mockGetStateUseCase.everyExecute(true) { Maybe.empty() }
+        mockGetStateUseCase.mockExecute(true) { Maybe.empty() }
 
         // WHEN
         launchActivity<LoginActivity>()
@@ -100,7 +100,7 @@ class LoginTest {
     @Test
     fun whenObserveUserFullNameReceivesValue_thenItIsSetToLoggedAsTest() {
         // GIVEN
-        mockObserveUserFullNameUseCase.everyExecute { Observable.just("A B") }
+        mockObserveUserFullNameUseCase.mockExecute { Observable.just("A B") }
 
         // WHEN
         launchActivity<LoginActivity>()
@@ -113,7 +113,7 @@ class LoginTest {
     fun whenNameAndSurnameAreFilledAndSubmitIsClicked_andUsecaseIsSuccessful_thenToastWithSuccessfulMessageIsShown() {
         // GIVEN
         val args = SyncLoginUseCase.LoginData("name", "surname")
-        mockLoginCompletabler.everyExecute(args) { Completable.complete() }
+        mockLoginCompletabler.mockExecute(args) { Completable.complete() }
 
         // WHEN
         launchActivity<LoginActivity>()
@@ -129,7 +129,7 @@ class LoginTest {
     fun whenNameAndSurnameAreFilledAndSubmitIsClicked_andUsecaseIsNotSuccessful_thenToastErrorMessageIsShown() {
         // GIVEN
         val args = SyncLoginUseCase.LoginData("name", "surname")
-        mockLoginCompletabler.everyExecute(args) { Completable.error(IllegalStateException("TEST")) }
+        mockLoginCompletabler.mockExecute(args) { Completable.error(IllegalStateException("TEST")) }
 
         // WHEN
         launchActivity<LoginActivity>()
