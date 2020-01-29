@@ -6,9 +6,9 @@ import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
 import com.thefuntasty.mvvm.livedata.DefaultValueMediatorLiveData
 import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
-import com.thefuntasty.mvvm.test.viewmodel.everyObserveWithoutOwner
-import com.thefuntasty.mvvm.test.viewmodel.everyObserveWithoutOwnerDefaultValue
-import com.thefuntasty.mvvm.test.viewmodel.everyObserveWithoutOwnerDefaultValueMediator
+import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwner
+import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwnerDefaultValue
+import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwnerDefaultValueMediator
 import io.mockk.mockk
 import io.mockk.spyk
 import org.junit.Assert.assertEquals
@@ -35,7 +35,7 @@ class BaseViewModelExtensionsMockTest : ViewModelTest() {
     @Test
     fun `everyObserveWithoutOwner should call captured lambda`() = with(viewModel) {
         // GIVEN
-        val capturedLambda = viewModel.mockObserveWithoutOwner { viewModel.viewState.mutableLiveData }
+        val capturedLambda = mockObserveWithoutOwner { viewModel.viewState.mutableLiveData }
 
         // WHEN
         var result = 0
