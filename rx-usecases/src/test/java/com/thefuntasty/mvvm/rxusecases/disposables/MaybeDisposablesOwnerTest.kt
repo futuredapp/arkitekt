@@ -17,7 +17,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempMayber.execute("Hello")
+            tempMayber.execute("Hello") { }
         }
 
         withDisposablesOwner {
@@ -74,7 +74,7 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (MaybeDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempMayber.execute("Hello"))
+            disposablesList.add(tempMayber.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -145,5 +145,24 @@ class MaybeDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertEquals(2, events.size)
         assertEquals("start", events[0])
         assertEquals("result", events[1])
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempMayber = object : MaybeUseCase<Unit, String>() {
+            override fun prepare(args: Unit) = Maybe.just("Hello")
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempMayber.execute {
+                onSuccess {
+                    capturedString = it
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }

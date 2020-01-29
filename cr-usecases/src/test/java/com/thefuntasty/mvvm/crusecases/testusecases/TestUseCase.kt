@@ -6,7 +6,6 @@ import kotlinx.coroutines.delay
 class TestUseCase : UseCase<Int, Int>() {
 
     override suspend fun build(args: Int): Int {
-        println(Thread.currentThread().name)
         delay(1000)
         return args
     }

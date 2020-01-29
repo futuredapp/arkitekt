@@ -17,7 +17,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempObservabler.execute("Hello")
+            tempObservabler.execute("Hello") { }
         }
 
         withDisposablesOwner {
@@ -93,7 +93,7 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (ObservableDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempObservabler.execute("Hello"))
+            disposablesList.add(tempObservabler.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -170,5 +170,24 @@ class ObservableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertEquals("first", events[1])
         assertEquals("second", events[2])
         assertEquals("complete", events[3])
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempObservabler = object : ObservableUseCase<Unit, String>() {
+            override fun prepare(args: Unit) = Observable.just("Hello")
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempObservabler.execute {
+                onNext {
+                    capturedString = it
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }

@@ -30,12 +30,13 @@ interface CompletableDisposablesOwner {
      * can be disabled by passing false to [CompletableUseCaseConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial use case initialisation.
+     * @param config [CompletablerConfig] used to process results of internal [Completable].
      * @return disposable of internal [Completable]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS> CompletableUseCase<ARGS>.execute(args: ARGS): Disposable = execute(args, { })
+    fun CompletableUseCase<Unit>.execute(config: CompletableUseCaseConfig.Builder.() -> Unit): Disposable =
+        execute(Unit, config)
 
     /**
      * Executes the use case and adds its disposable to

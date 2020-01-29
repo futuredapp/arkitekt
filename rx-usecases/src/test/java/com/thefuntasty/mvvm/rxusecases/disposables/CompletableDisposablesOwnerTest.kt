@@ -17,7 +17,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         }
 
         withDisposablesOwner {
-            tempCompletabler.execute(Unit)
+            tempCompletabler.execute { }
         }
 
         withDisposablesOwner {
@@ -73,7 +73,7 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         val disposablesList = mutableListOf<Disposable>()
 
         val runExecute: (CompletableDisposablesOwner.() -> Unit) = {
-            disposablesList.add(tempCompletabler.execute("Hello"))
+            disposablesList.add(tempCompletabler.execute("Hello") {})
         }
 
         withDisposablesOwner {
@@ -144,5 +144,24 @@ class CompletableDisposablesOwnerTest : RxMockitoJUnitRunner() {
         assertEquals(2, events.size)
         assertEquals("start", events[0])
         assertEquals("complete", events[1])
+    }
+
+    @Test
+    fun `run execute without params`() {
+        val tempCompletabler = object : CompletableUseCase<Unit>() {
+            override fun prepare(args: Unit) = Completable.complete()
+        }
+
+        var capturedString = ""
+
+        withDisposablesOwner {
+            tempCompletabler.execute {
+                onComplete {
+                    capturedString = "Hello"
+                }
+            }
+        }
+
+        assertEquals(capturedString, "Hello")
     }
 }
