@@ -30,12 +30,13 @@ interface ObservableDisposablesOwner {
      * can be disabled by passing false to [ObservableUseCaseConfig.disposePrevious]
      * method.
      *
-     * @param args Arguments used for initial use case initialisation.
+     * @param config [ObservablerConfig] used to process results of internal [Observable].
      * @return disposable of internal [Observable]. This disposable is disposed
      * automatically. It might be used to dispose use case when you need
      * to dispose it in advance on your own.
      */
-    fun <ARGS, T> ObservableUseCase<ARGS, T>.execute(args: ARGS): Disposable = execute(args, { })
+    fun <T> ObservableUseCase<Unit, T>.execute(config: ObservableUseCaseConfig.Builder<T>.() -> Unit): Disposable =
+        execute(Unit, config)
 
     /**
      * Executes the use case and adds its disposable to

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.form
 
-import com.thefuntasty.mvvm.crusecases.test.everyExecute
+import com.thefuntasty.mvvm.crusecases.test.mockExecute
 import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
 import com.thefuntasty.mvvmsample.domain.ObserveFormUseCase
 import com.thefuntasty.mvvmsample.domain.SaveFormUseCase
@@ -31,7 +31,7 @@ class FormViewModelTest : ViewModelTest() {
     fun `when onSubmit is called then form is saved and ShowToastEvent is send`() {
         // GIVEN
         val inputArgs = SaveFormUseCase.Data(viewState.login.value to viewState.password.value)
-        mockSaveFormUseCase.everyExecute(inputArgs) { "A" to "B" }
+        mockSaveFormUseCase.mockExecute(inputArgs) { "A" to "B" }
 
         // WHEN
         viewModel.onSubmit()
@@ -43,7 +43,7 @@ class FormViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called then form is observed and most actual value is set to storedContent`() {
         // GIVEN
-        mockObserveFormUseCase.everyExecute(Unit) { flowOf("A" to "B", "B" to "C") }
+        mockObserveFormUseCase.mockExecute(Unit) { flowOf("A" to "B", "B" to "C") }
 
         // WHEN
         viewModel.onStart()
@@ -55,7 +55,7 @@ class FormViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called then form is observed and when error occurs then ShowToastEvent is send`() {
         // GIVEN
-        mockObserveFormUseCase.everyExecute(Unit) { flow { throw IllegalStateException() }  }
+        mockObserveFormUseCase.mockExecute(Unit) { flow { throw IllegalStateException() }  }
 
         // WHEN
         viewModel.onStart()

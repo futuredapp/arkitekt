@@ -10,7 +10,7 @@ import org.junit.Rule
  * Base class for ViewModel testing.
  *
  * Sample test:
- * 
+ *
  * class SampleViewModelTest : ViewModelTest() {
  *
  *     val mockViewState: SampleViewState = mockk()

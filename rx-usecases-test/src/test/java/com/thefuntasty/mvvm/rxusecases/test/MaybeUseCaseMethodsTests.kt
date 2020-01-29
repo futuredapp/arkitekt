@@ -33,7 +33,7 @@ class MaybeUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { Maybe.just(expectedResult) }
+        mockUseCase.mockExecute(args) { Maybe.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -45,7 +45,7 @@ class MaybeUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute { Maybe.just(expectedResult) }
+        mockUseCase.mockExecute { Maybe.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -57,7 +57,7 @@ class MaybeUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(argsNullable) { Maybe.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Maybe.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -69,7 +69,7 @@ class MaybeUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable { Maybe.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable { Maybe.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -81,7 +81,7 @@ class MaybeUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with null value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(null) { Maybe.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(null) { Maybe.just(expectedResult) }
 
         // WHEN
         val result = executeNullAndReturnResult()

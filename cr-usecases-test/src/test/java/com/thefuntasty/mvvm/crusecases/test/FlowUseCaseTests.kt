@@ -36,7 +36,7 @@ class FlowUseCaseTests {
     @Test
     fun `when use case is mocked then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { flowOf(expectedResult) }
+        mockUseCase.mockExecute(args) { flowOf(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -48,7 +48,7 @@ class FlowUseCaseTests {
     @Test
     fun `when use case is mocked and without argument then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute { flowOf(expectedResult) }
+        mockUseCase.mockExecute { flowOf(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -60,7 +60,7 @@ class FlowUseCaseTests {
     @Test
     fun `when nullable use case is mocked then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(args) { flowOf(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(args) { flowOf(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -72,7 +72,7 @@ class FlowUseCaseTests {
     @Test
     fun `when nullable use case is mocked and with null argument then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(null) { flowOf(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(null) { flowOf(expectedResult) }
 
         // WHEN
         val result = executeNullAndReturnResult()
@@ -84,7 +84,7 @@ class FlowUseCaseTests {
     @Test
     fun `when nullable use case is mocked and without argument then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable { flowOf(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable { flowOf(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -96,7 +96,7 @@ class FlowUseCaseTests {
     @Test
     fun `when use case is mocked with error then error value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { flow { throw IllegalStateException() } }
+        mockUseCase.mockExecute(args) { flow { throw IllegalStateException() } }
 
         // WHEN
         val result = executeAndReturnResult()

@@ -52,7 +52,7 @@ class UseCaseTests {
     @Test
     fun `when use case is mocked then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { expectedResult }
+        mockUseCase.mockExecute(args) { expectedResult }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -64,7 +64,7 @@ class UseCaseTests {
     @Test
     fun `when use case is mocked and without argument then expected value should be returned`() {
         // GIVEN
-        mockUseCase.everyExecute { expectedResult }
+        mockUseCase.mockExecute { expectedResult }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -76,7 +76,7 @@ class UseCaseTests {
     @Test
     fun `when nullable use case is mocked then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(args) { expectedResult }
+        mockUseCaseNullable.mockExecuteNullable(args) { expectedResult }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -88,7 +88,7 @@ class UseCaseTests {
     @Test
     fun `when nullable use case is mocked and with null argument then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable(null) { expectedResult }
+        mockUseCaseNullable.mockExecuteNullable(null) { expectedResult }
 
         // WHEN
         val result = executeNullAndReturnResult()
@@ -100,7 +100,7 @@ class UseCaseTests {
     @Test
     fun `when nullable use case is mocked and without argument then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.everyExecuteNullable { expectedResult }
+        mockUseCaseNullable.mockExecuteNullable { expectedResult }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -112,7 +112,7 @@ class UseCaseTests {
     @Test
     fun `when use case is mocked with error then expected value should be set to error`() {
         // GIVEN
-        mockUseCase.everyExecute(args) { throw IllegalStateException() }
+        mockUseCase.mockExecute(args) { throw IllegalStateException() }
 
         // WHEN
         val result = executeAndReturnResult()

@@ -1,10 +1,10 @@
 package com.thefuntasty.mvvmsample.ui.base
 
 import androidx.databinding.ViewDataBinding
-import com.thefuntasty.mvvm.BR
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewState
 import com.thefuntasty.mvvm.dagger.fragment.BaseDaggerBindingFragment
+import com.thefuntasty.mvvmsample.BR
 
 abstract class BaseFragment<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
     BaseDaggerBindingFragment<VM, VS, B>() {
