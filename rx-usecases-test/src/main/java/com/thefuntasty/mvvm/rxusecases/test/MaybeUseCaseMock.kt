@@ -18,9 +18,9 @@ import io.reactivex.disposables.Disposable
  * Usage:
  * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(args: ARGS, resultBlock: () -> Maybe<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(args) } returns resultBlock()
+    every { this@mockExecute.create(args) } returns resultBlock()
 }
 
 /**
@@ -33,9 +33,9 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETU
  * Usage:
  * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETURN_VALUE>> USE_CASE.everyExecute(resultBlock: () -> Maybe<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecute.create(any()) } returns resultBlock()
+    every { this@mockExecute.create(any()) } returns resultBlock()
 }
 
 /**
@@ -46,11 +46,11 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS, RETU
  * So when `Maybe.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
+ * mockMaybeUseCase.mockExecuteNullable(args = ...) { Maybe.just(...) }
  */
-inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(args: ARGS, resultBlock: () -> Maybe<RETURN_VALUE>) {
+inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS, resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(args) } returns resultBlock()
+    every { this@mockExecuteNullable.create(args) } returns resultBlock()
 }
 
 /**
@@ -62,11 +62,11 @@ inline fun <reified ARGS : Any?, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RE
  * So when `Maybe.just` will be passed then `onNext` will be called etc.
  *
  * Usage:
- * mockMaybeUseCase.mockExecute(args = ...) { Maybe.just(...) }
+ * mockMaybeUseCase.mockExecuteNullable(args = ...) { Maybe.just(...) }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RETURN_VALUE>> USE_CASE.everyExecuteNullable(resultBlock: () -> Maybe<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : MaybeUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(resultBlock: () -> Maybe<RETURN_VALUE>) {
     mockCurrentDisposable()
-    every { this@everyExecuteNullable.create(any()) } returns resultBlock()
+    every { this@mockExecuteNullable.create(any()) } returns resultBlock()
 }
 
 @PublishedApi

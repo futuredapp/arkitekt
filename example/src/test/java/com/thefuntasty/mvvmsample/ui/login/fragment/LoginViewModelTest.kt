@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.login.fragment
 
 import android.view.View
-import com.thefuntasty.mvvm.rxusecases.test.everyExecute
+import com.thefuntasty.mvvm.rxusecases.test.mockExecute
 import com.thefuntasty.mvvm.test.ViewModelTest
 import com.thefuntasty.mvvmsample.domain.GetStateUseCase
 import com.thefuntasty.mvvmsample.domain.ObserveUserFullNameUseCase
@@ -37,8 +37,8 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called and get state is successful then header is visible`() {
         // GIVEN
-        mockObserveUserFullNameUseCase.everyExecute { Observable.never() }
-        mockGetStateUseCase.everyExecute(true) { Maybe.just(false) }
+        mockObserveUserFullNameUseCase.mockExecute { Observable.never() }
+        mockGetStateUseCase.mockExecute(true) { Maybe.just(false) }
 
         // WHEN
         viewModel.onStart()
@@ -50,8 +50,8 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called and get state is not successful then header is not visible`() {
         // GIVEN
-        mockObserveUserFullNameUseCase.everyExecute { Observable.never() }
-        mockGetStateUseCase.everyExecute(true) { Maybe.empty() }
+        mockObserveUserFullNameUseCase.mockExecute { Observable.never() }
+        mockGetStateUseCase.mockExecute(true) { Maybe.empty() }
 
         // WHEN
         viewModel.onStart()
@@ -63,8 +63,8 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called then full name is set to last observed value`() {
         // GIVEN
-        mockGetStateUseCase.everyExecute(true) { Maybe.never() }
-        mockObserveUserFullNameUseCase.everyExecute { Observable.just("first", "second") }
+        mockGetStateUseCase.mockExecute(true) { Maybe.never() }
+        mockObserveUserFullNameUseCase.mockExecute { Observable.just("first", "second") }
 
         // WHEN
         viewModel.onStart()
@@ -76,10 +76,10 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when login is called then name and surname is send to interactor`() {
         // GIVEN
-        mockGetStateUseCase.everyExecute(true) { Maybe.never() }
+        mockGetStateUseCase.mockExecute(true) { Maybe.never() }
         viewState.name.value = "name"
         viewState.surname.value = "surname"
-        mockLoginCompletabler.everyExecute { Completable.never() }
+        mockLoginCompletabler.mockExecute { Completable.never() }
 
         // WHEN
         viewModel.logIn()
@@ -91,7 +91,7 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when login is called and use case is successful then event is send`() {
         // GIVEN
-        mockLoginCompletabler.everyExecute { Completable.complete() }
+        mockLoginCompletabler.mockExecute { Completable.complete() }
 
         // WHEN
         viewModel.logIn()
@@ -103,7 +103,7 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when login is called and use case is not successful then event is send`() {
         // GIVEN
-        mockLoginCompletabler.everyExecute { Completable.error(IllegalStateException()) }
+        mockLoginCompletabler.mockExecute { Completable.error(IllegalStateException()) }
 
         // WHEN
         viewModel.logIn()
