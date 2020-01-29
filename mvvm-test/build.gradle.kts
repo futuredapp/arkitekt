@@ -28,6 +28,7 @@ android {
 
 dependencies {
     implementation(project(":mvvm"))
+    implementation(project(":cr-usecases"))
 
     implementation(Deps.Test.mockk)
     implementation(Deps.Test.rxSchedulerRule)
@@ -38,6 +39,7 @@ dependencies {
 
     implementation(Deps.AndroidX.lifecycleExtensions)
     implementation(Deps.AndroidX.livedataExtensions)
+    implementation(Deps.Test.testCoroutines)
 
     // RxJava
     implementation(Deps.Rx.rxKotlin)

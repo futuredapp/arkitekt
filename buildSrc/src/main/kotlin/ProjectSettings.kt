@@ -41,6 +41,11 @@ object ProjectSettings {
         const val libraryDescription = "Coroutine based use cases meant to be used with MVVM-Android framework"
     }
 
+    object CrUseCasesTest {
+        const val artifact = "cr-usecases-test"
+        const val libraryDescription = "Test utilities for cr-usecases module"
+    }
+
     object Dagger {
         const val artifact = "dagger"
         const val libraryDescription = "Dagger ready base classes meant to be used with MVVM-Android framework"

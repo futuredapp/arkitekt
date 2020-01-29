@@ -71,6 +71,7 @@ detekt {
         "rx-usecases/src/main/java",
         "rx-usecases-test/src/main/java",
         "cr-usecases/src/main/java",
+        "cr-usecases-test/src/main/java",
         "bindingadapters/src/main/java",
         "mvvm-lint/src/main/java"
     )

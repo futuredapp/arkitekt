@@ -1,23 +1,23 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
 }
+
+group = ProjectSettings.group
+version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
 
     defaultConfig {
-        applicationId = ProjectSettings.applicationId
         minSdkVersion(ProjectSettings.minSdk)
         targetSdkVersion(ProjectSettings.targetSdk)
-    }
 
-    dataBinding {
-        isEnabled = true
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
 
     compileOptions {
@@ -27,41 +27,31 @@ android {
 }
 
 dependencies {
-    implementation(project(":mvvm"))
-    implementation(project(":dagger"))
-    implementation(project(":rx-usecases"))
     implementation(project(":cr-usecases"))
-    implementation(project(":bindingadapters"))
+
+    implementation(Deps.Test.mockk)
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.Kotlin.coroutines)
 
-    implementation(Deps.AndroidX.appcompat)
-    compileOnly(Deps.AndroidX.material)
-    implementation(Deps.AndroidX.annnotation)
-    implementation(Deps.AndroidX.vectordrawable)
-
+    // RxJava
     implementation(Deps.Rx.rxKotlin)
     implementation(Deps.Rx.rxAndroid)
     implementation(Deps.Rx.rxJava)
-    implementation(Deps.Rx.rxRelay)
-    implementation(Deps.Rx.rxDebug)
 
-    implementation(Deps.AndroidX.lifecycleExtensions)
-    kapt(Deps.AndroidX.lifecycleCompiler)
-
-    implementation(Deps.DI.daggerSupport)
-    kapt(Deps.DI.daggerProcessor)
-    kapt(Deps.DI.daggerCompiler)
-
+    // Test
     testImplementation(Deps.Test.testCoroutines)
-    testImplementation(project(":mvvm-test"))
-    testImplementation(project(":rx-usecases-test"))
-    testImplementation(project(":cr-usecases-test"))
-    testImplementation(Deps.Test.mockk)
     testImplementation(Deps.Test.androidXTestRunnner)
     testImplementation(Deps.Test.androidXTestCore)
     testImplementation(Deps.Test.jUnit)
     testImplementation(Deps.Test.rxSchedulerRule)
 }
+
+project.apply {
+    extensions.add("artifact", ProjectSettings.CrUseCasesTest.artifact)
+    extensions.add("libraryName", ProjectSettings.CrUseCasesTest.artifact)
+    extensions.add("libraryDescription", ProjectSettings.CrUseCasesTest.libraryDescription)
+}
+
+apply("../publish.script.gradle")
