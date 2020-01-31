@@ -482,7 +482,7 @@ If you want to test Activities or Fragments then you have few possibilities. You
 
 Since Fragments and Activities from the dagger module are using AndroidInjection, we created utilities to deal with this.
 
-In your tests, you can use `doAfterActivityInjection` and `doAfterFragmentInjection` to overwrite injected dependencies. These methods are called right after `AndrodInjection` and that allows overwriting of needed dependencies. In the following example, we are replacing the view model with the implementation that is using a view model with mocked dependencies and some random class with mocked implementation.  
+In your tests, you can use `doAfterActivityInjection` and `doAfterFragmentInjection` to overwrite injected dependencies. These methods are called right after `AndroidInjection` and that allows overwriting of needed dependencies. In the following example, we are replacing the view model with the implementation that is using a view model with mocked dependencies and some random class with mocked implementation.  
 
 ```kotlin
 doAfterActivityInjection<SampleActivity> { activity ->  
