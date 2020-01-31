@@ -5,12 +5,25 @@ import com.thefuntasty.mvvm.crusecases.testusecases.TestFailureFlowUseCase
 import com.thefuntasty.mvvm.crusecases.testusecases.TestFailureUseCase
 import com.thefuntasty.mvvm.crusecases.testusecases.TestFlowUseCase
 import com.thefuntasty.mvvm.crusecases.testusecases.TestUseCase
+import com.thefuntasty.mvvm.error.UseCaseErrorHandler
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import org.junit.After
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 
 class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
+
+    @Before
+    fun setUp() {
+        UseCaseErrorHandler.globalOnErrorLogger = {}
+    }
+
+    @After
+    fun tearDown() {
+        UseCaseErrorHandler.globalOnErrorLogger = {}
+    }
 
     @Test
     fun `given 1s delay use case when executed two times then first execution cancelled`() {
@@ -171,76 +184,64 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
     @Test
     fun `when launchWithHandler throws an exception then this exception is send to logUnhandledException and defaultErrorHandler`() {
+        var logException: Throwable? = null
+        var handlerException: Throwable? = null
         val testOwner = object : BaseCoroutineScopeOwnerTest() {
-
-            var logException: Throwable? = null
-
-            var handlerException: Throwable? = null
-
-            override fun logUnhandledException(exception: Throwable) {
-                logException = exception
-            }
-
             override fun defaultErrorHandler(exception: Throwable) {
                 handlerException = exception
             }
+        }
+        UseCaseErrorHandler.globalOnErrorLogger = { exception ->
+            logException = exception
         }
 
         val exception = IllegalStateException()
         testOwner.launchWithHandler { throw exception }
         testOwner.coroutineScope.advanceTimeBy(10000)
 
-        Assert.assertEquals(exception, testOwner.logException)
-        Assert.assertEquals(exception, testOwner.handlerException)
+        Assert.assertEquals(exception, logException)
+        Assert.assertEquals(exception, handlerException)
     }
 
     @Test
     fun `when launchWithHandler throws an CancellationException then this exception is not send to logUnhandledException and defaultErrorHandler`() {
+        var logException: Throwable? = null
+        var handlerException: Throwable? = null
         val testOwner = object : BaseCoroutineScopeOwnerTest() {
-
-            var logException: Throwable? = null
-
-            var handlerException: Throwable? = null
-
-            override fun logUnhandledException(exception: Throwable) {
-                logException = exception
-            }
-
             override fun defaultErrorHandler(exception: Throwable) {
                 handlerException = exception
             }
+        }
+        UseCaseErrorHandler.globalOnErrorLogger = { exception ->
+            logException = exception
         }
 
         val exception = CancellationException()
         testOwner.launchWithHandler { throw exception }
         testOwner.coroutineScope.advanceTimeBy(10000)
 
-        Assert.assertEquals(null, testOwner.logException)
-        Assert.assertEquals(null, testOwner.handlerException)
+        Assert.assertEquals(null, logException)
+        Assert.assertEquals(null, handlerException)
     }
 
     @Test
     fun `when launchWithHandler throws an CancellationException with non cancellation cause then this exception is send to logUnhandledException only`() {
+        var logException: Throwable? = null
+        var handlerException: Throwable? = null
         val testOwner = object : BaseCoroutineScopeOwnerTest() {
-
-            var logException: Throwable? = null
-
-            var handlerException: Throwable? = null
-
-            override fun logUnhandledException(exception: Throwable) {
-                logException = exception
-            }
-
             override fun defaultErrorHandler(exception: Throwable) {
                 handlerException = exception
             }
+        }
+        UseCaseErrorHandler.globalOnErrorLogger = { exception ->
+            logException = exception
         }
 
         val exception = CancellationException("Message", cause = CancellationException("Message", cause = IllegalStateException()))
         testOwner.launchWithHandler { throw exception }
         testOwner.coroutineScope.advanceTimeBy(10000)
 
-        Assert.assertEquals(exception, testOwner.logException)
-        Assert.assertEquals(null, testOwner.handlerException)
+        Assert.assertEquals(exception, logException)
+        Assert.assertEquals(null, handlerException)
     }
 }

@@ -1,6 +1,7 @@
 package com.thefuntasty.mvvm.crusecases
 
 import com.thefuntasty.mvvm.crusecases.utils.rootCause
+import com.thefuntasty.mvvm.error.UseCaseErrorHandler
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -229,10 +230,11 @@ interface CoroutineScopeOwner {
 
     /**
      * Launch suspend [block] in [coroutineScope]. Encapsulates this call with try catch block and when an exception is thrown
-     * then it is logged in [logUnhandledException] and handled by [defaultErrorHandler].
+     * then it is logged in [UseCaseErrorHandler.globalOnErrorLogger] and handled by [defaultErrorHandler].
      *
-     * If exception is [CancellationException] then [defaultErrorHandler] is not called and [logUnhandledException] is called
-     * only if the root cause of this exception is not [CancellationException] (e.g. when [Result.getOrCancel] is used).
+     * If exception is [CancellationException] then [defaultErrorHandler] is not called and
+     * [UseCaseErrorHandler.globalOnErrorLogger] is called only if the root cause of this exception is not
+     * [CancellationException] (e.g. when [Result.getOrCancel] is used).
      */
     fun launchWithHandler(block: suspend CoroutineScope.() -> Unit) {
         coroutineScope.launch {
@@ -241,21 +243,13 @@ interface CoroutineScopeOwner {
             } catch (exception: CancellationException) {
                 val rootCause = exception.rootCause
                 if (rootCause != null && rootCause !is CancellationException) {
-                    logUnhandledException(exception)
+                    UseCaseErrorHandler.globalOnErrorLogger(exception)
                 }
             } catch (exception: Throwable) {
-                logUnhandledException(exception)
+                UseCaseErrorHandler.globalOnErrorLogger(exception)
                 defaultErrorHandler(exception)
             }
         }
-    }
-
-    /**
-     * This method is called when coroutine launched with [launchWithHandler] throws an exception and this exception is either
-     * not [CancellationException] or root cause is not [CancellationException]
-     */
-    fun logUnhandledException(exception: Throwable) {
-        // NoOp
     }
 
     /**
