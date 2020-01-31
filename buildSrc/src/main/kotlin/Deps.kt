@@ -35,7 +35,6 @@ object Deps {
         const val viewmodelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
-        const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     }
 
     object Rx {
@@ -56,10 +55,16 @@ object Deps {
 
     object Test {
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
+        const val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
         const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
         const val androidXTestRunnner = "androidx.test:runner:${Versions.androidxTestRunner}"
         const val androidXTestCore = "androidx.test:core:${Versions.androidxTestCore}"
+        const val androidXTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTestCoreKtx}"
         const val androidXCoreTesting = "android.arch.core:core-testing:${Versions.androidxTestCore}"
+        const val androidXEspresso = "androidx.test.espresso:espresso-core:${Versions.androidXEspresso}"
+        const val androidXJUnit = "androidx.test.ext:junit:${Versions.androidXJUnit}"
+        const val androidXJUnitKtx = "androidx.test.ext:junit-ktx:${Versions.androidXJUnitKtx}"
+        const val androidXFragmentTesting = "androidx.fragment:fragment-testing:${Versions.androidXFragmentTesting}"
         const val rxSchedulerRule = "com.github.Plastix.RxSchedulerRule:rx2:${Versions.rxSchedulerRule}"
         const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
         const val assertJ = "org.assertj:assertj-core:${Versions.assertJ}"

@@ -28,11 +28,14 @@ android {
 
 dependencies {
     implementation(project(":mvvm"))
+    implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
 
     implementation(Deps.Test.mockk)
     implementation(Deps.Test.rxSchedulerRule)
     implementation(Deps.Test.androidXCoreTesting)
+
+    implementation(Deps.DI.daggerSupport)
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))

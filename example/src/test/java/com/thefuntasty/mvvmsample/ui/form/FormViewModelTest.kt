@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.form
 
 import com.thefuntasty.mvvm.crusecases.test.mockExecute
-import com.thefuntasty.mvvm.test.ViewModelTest
+import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
 import com.thefuntasty.mvvmsample.domain.ObserveFormUseCase
 import com.thefuntasty.mvvmsample.domain.SaveFormUseCase
 import io.mockk.mockk

@@ -474,5 +474,24 @@ or
 mockLoginUseCase.everyExecuteNullable(args = ...) { user } // For Coroutines Use Cases
 ```
 
+## Activity and Fragment tests
+
+[mvvm-test](#Download) dependency contains utilities to help you with espresso testing.
+
+If you want to test Activities or Fragments then you have few possibilities. You can test them with the mocked implementation of a view model and view state, or you can test them with the real implementation of a view model and view state and with mocked use cases.
+
+Since Fragments and Activities from the dagger module are using AndroidInjection, we created utilities to deal with this.
+
+In your tests, you can use `doAfterActivityInjection` and `doAfterFragmentInjection` to overwrite injected dependencies. These methods are called right after `AndroidInjection` and that allows overwriting of needed dependencies. In the following example, we are replacing the view model with the implementation that is using a view model with mocked dependencies and some random class with mocked implementation.  
+
+```kotlin
+doAfterActivityInjection<SampleActivity> { activity ->  
+    val provider = SampleViewModel(mockk(), SampleViewState()).asProvider()  
+    activity.viewModelFactory = SampleViewModelFactory(viewModelProvider)  
+    activity.someInjectedClass = mockk()  
+}	
+```
+See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.com/thefuntasty/mvvm-android/tree/3.x/example/src/sharedTest/java/com/thefuntasty/mvvmsample/ui)) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
+
 # About
 Created with &#x2764; at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.

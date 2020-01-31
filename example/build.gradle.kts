@@ -1,3 +1,4 @@
+
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
@@ -14,6 +15,7 @@ android {
         applicationId = ProjectSettings.applicationId
         minSdkVersion(ProjectSettings.minSdk)
         targetSdkVersion(ProjectSettings.targetSdk)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     dataBinding {
@@ -23,6 +25,27 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        getByName("test").java.srcDirs("src/sharedTest/java")
+        getByName("androidTest").java.srcDirs("src/sharedTest/java")
+    }
+
+    testOptions {
+        unitTests.apply {
+            isIncludeAndroidResources = true
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force("org.objenesis:objenesis:2.6")
+        }
     }
 }
 
@@ -55,6 +78,11 @@ dependencies {
     kapt(Deps.DI.daggerProcessor)
     kapt(Deps.DI.daggerCompiler)
 
+    // Unit tests
+    testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.rxSchedulerRule)
+
+    // Shared tests - local
     testImplementation(Deps.Test.testCoroutines)
     testImplementation(project(":mvvm-test"))
     testImplementation(project(":rx-usecases-test"))
@@ -62,6 +90,25 @@ dependencies {
     testImplementation(Deps.Test.mockk)
     testImplementation(Deps.Test.androidXTestRunnner)
     testImplementation(Deps.Test.androidXTestCore)
-    testImplementation(Deps.Test.jUnit)
-    testImplementation(Deps.Test.rxSchedulerRule)
+    testImplementation(Deps.Test.androidXTestCoreKtx)
+    testImplementation(Deps.Test.androidXCoreTesting)
+    testImplementation(Deps.Test.androidXEspresso)
+    testImplementation(Deps.Test.androidXJUnit)
+    testImplementation(Deps.Test.androidXJUnitKtx)
+    testImplementation(Deps.Test.androidXFragmentTesting)
+    testImplementation(Deps.Test.robolectric)
+
+    // Shared tests - connected
+    androidTestImplementation(project(":mvvm-test"))
+    androidTestImplementation(project(":rx-usecases-test"))
+    androidTestImplementation(project(":cr-usecases-test"))
+    androidTestImplementation(Deps.Test.mockkAndroid)
+    androidTestImplementation(Deps.Test.androidXTestRunnner)
+    androidTestImplementation(Deps.Test.androidXTestCore)
+    androidTestImplementation(Deps.Test.androidXTestCoreKtx)
+    androidTestImplementation(Deps.Test.androidXCoreTesting)
+    androidTestImplementation(Deps.Test.androidXEspresso)
+    androidTestImplementation(Deps.Test.androidXJUnit)
+    androidTestImplementation(Deps.Test.androidXJUnitKtx)
+    androidTestImplementation(Deps.Test.androidXFragmentTesting)
 }
