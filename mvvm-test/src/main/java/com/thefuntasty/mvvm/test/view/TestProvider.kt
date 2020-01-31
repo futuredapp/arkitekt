@@ -7,6 +7,4 @@ class TestProvider<VIEW_MODEL : BaseViewModel<*>>(private val viewModel: VIEW_MO
     override fun get() = viewModel
 }
 
-fun <VIEW_MODEL : BaseViewModel<*>> VIEW_MODEL.asProvider(): Provider<VIEW_MODEL> {
-    return TestProvider(this)
-}
+fun <VIEW_MODEL : BaseViewModel<*>> VIEW_MODEL.asProvider(): Provider<VIEW_MODEL> = TestProvider(this)
