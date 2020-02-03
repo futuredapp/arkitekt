@@ -1,13 +1,26 @@
 package com.thefuntasty.mvvm.rxusecases
 
+import com.thefuntasty.mvvm.error.UseCaseErrorHandler
 import com.thefuntasty.mvvm.rxusecases.disposables.withDisposablesOwner
 import com.thefuntasty.mvvm.rxusecases.usecases.CompletableUseCase
 import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner
 import io.reactivex.Completable
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class UseCaseHandlerTest : RxMockitoJUnitRunner() {
+
+    @Before
+    fun setUp() {
+        UseCaseErrorHandler.globalOnErrorLogger = {}
+    }
+
+    @After
+    fun tearDown() {
+        UseCaseErrorHandler.globalOnErrorLogger = {}
+    }
 
     @Test
     fun `use case handler called when exception is thrown`() {

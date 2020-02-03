@@ -290,6 +290,20 @@ class LoginViewModel @Inject constructor(
 }
 ```
 
+## Synchronous execution of cr-usecase
+
+Module `cr-usecases` allows you to execute use cases synchronously. 
+```kotlin
+fun onButtonClicked() = launchWithHandler {  
+    ...
+    val data = useCase.execute().getOrDefault("Default")  
+    ...
+}
+```
+`execute` method returns a `Result` that can be either successful `Success` or failed `Error`.
+
+`launchWithHandler` launches a new coroutine encapsulated with a try-catch block. By default exception thrown in `launchWithHandler` is rethrown but it is possible to override this behavior with `defaultErrorHandler` or just log these exceptions in `logUnhandledException`.
+
 # UI changes flow
 There are two main ways how to reflect data changes in UI. Through `ViewState` observation
 or one-shot `Events`. 

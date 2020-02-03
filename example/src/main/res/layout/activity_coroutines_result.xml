@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultView"/>
+
+        <variable
+            name="viewModel"
+            type="com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultViewModel"/>
+
+        <variable
+            name="viewState"
+            type="com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultViewState"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconClick="@{() -> viewModel.onBack()}"
+            app:title="@string/app_name"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Start Loading"
+                android:visibility="@{viewState.contentState.idle}"
+                android:onClick="@{() -> viewModel.onStartLoadingClicked()}"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{viewState.contentState.loading}">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:textSize="18sp"
+                    android:text="@{viewState.contentStateDescription}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{viewState.contentState.error}">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Retry"
+                    android:onClick="@{() -> viewModel.onStartLoadingClicked()}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:textSize="18sp"
+                    android:text="@{viewState.contentStateDescription}" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@{viewState.contentStateDescription}"
+                android:visibility="@{viewState.contentState.result}"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

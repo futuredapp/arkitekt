@@ -7,6 +7,7 @@ import com.thefuntasty.mvvmsample.ui.base.BaseActivity
 import com.thefuntasty.mvvmsample.ui.bottomsheet.ExampleBottomSheetFragment
 import com.thefuntasty.mvvmsample.ui.detail.DetailActivity
 import com.thefuntasty.mvvmsample.ui.form.FormActivity
+import com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultActivity
 import com.thefuntasty.mvvmsample.ui.login.activity.LoginActivity
 import javax.inject.Inject
 
@@ -26,5 +27,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
         observeEvent(ShowLoginEvent::class) { startActivity(LoginActivity.getStartIntent(this)) }
 
         observeEvent(ShowBottomSheetEvent::class) { ExampleBottomSheetFragment.newInstance().show(supportFragmentManager) }
+
+        observeEvent(ShowLoadEvent::class) { startActivity(CoroutinesResultActivity.getStartIntent(this)) }
     }
 }

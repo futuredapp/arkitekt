@@ -4,6 +4,8 @@ import com.thefuntasty.mvvmsample.ui.detail.DetailActivity
 import com.thefuntasty.mvvmsample.ui.detail.DetailActivityModule
 import com.thefuntasty.mvvmsample.ui.form.FormActivity
 import com.thefuntasty.mvvmsample.ui.form.FormActivityModule
+import com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultActivity
+import com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultActivityModule
 import com.thefuntasty.mvvmsample.ui.login.activity.LoginActivity
 import com.thefuntasty.mvvmsample.ui.login.activity.LoginActivityModule
 import com.thefuntasty.mvvmsample.ui.main.MainActivity
@@ -25,4 +27,7 @@ abstract class ActivityBuilderModule {
 
     @ContributesAndroidInjector(modules = [LoginActivityModule::class])
     abstract fun loginActivity(): LoginActivity
+
+    @ContributesAndroidInjector(modules = [CoroutinesResultActivityModule::class])
+    abstract fun coroutinesResultActivity(): CoroutinesResultActivity
 }

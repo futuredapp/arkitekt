@@ -22,4 +22,8 @@ class MainViewModel @Inject constructor(
     fun onBottomSheet() {
         sendEvent(ShowBottomSheetEvent)
     }
+
+    fun onLoad() {
+        sendEvent(ShowLoadEvent)
+    }
 }

@@ -60,6 +60,12 @@
                 android:onClick="@{() -> viewModel.onBottomSheet()}"
                 android:text="bottom sheet"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.onLoad()}"
+                android:text="Coroutines Result"/>
+
         </LinearLayout>
 
     </LinearLayout>
