@@ -29,23 +29,18 @@ android {
 dependencies {
     implementation(project(":cr-usecases"))
 
-    implementation(Deps.Test.mockk)
+    implementation(Deps.Test.mockk) {
+        exclude("net.bytebuddy", "byte-buddy-agent")
+        exclude("io.mockk", "mockk-agent-jvm")
+    }
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.Kotlin.coroutines)
 
-    // RxJava
-    implementation(Deps.Rx.rxKotlin)
-    implementation(Deps.Rx.rxAndroid)
-    implementation(Deps.Rx.rxJava)
-
     // Test
     testImplementation(Deps.Test.testCoroutines)
-    testImplementation(Deps.Test.androidXTestRunnner)
-    testImplementation(Deps.Test.androidXTestCore)
     testImplementation(Deps.Test.jUnit)
-    testImplementation(Deps.Test.rxSchedulerRule)
 }
 
 project.apply {

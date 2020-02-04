@@ -29,7 +29,10 @@ android {
 dependencies {
     implementation(project(":rx-usecases"))
 
-    implementation(Deps.Test.mockk)
+    implementation(Deps.Test.mockk) {
+        exclude("net.bytebuddy", "byte-buddy-agent")
+        exclude("io.mockk", "mockk-agent-jvm")
+    }
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))

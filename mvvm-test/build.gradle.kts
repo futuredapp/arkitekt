@@ -31,7 +31,11 @@ dependencies {
     implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
 
-    implementation(Deps.Test.mockk)
+    implementation(Deps.Test.mockk) {
+        exclude("net.bytebuddy", "byte-buddy-agent")
+        exclude("io.mockk", "mockk-agent-jvm")
+    }
+
     implementation(Deps.Test.rxSchedulerRule)
     implementation(Deps.Test.androidXCoreTesting)
 
