@@ -1,6 +1,5 @@
 [ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
-[![Build Status](https://app.bitrise.io/app/7bcc28f1329d6773/status.svg?token=RvtAnWzfOq-0n7TIW5By8g&branch=master)](https://app.bitrise.io/app/7bcc28f1329d6773)
-
+[![Build Status](https://github.com/futuredapp/mvvm-android/workflows/Check%203.x/badge.svg)](https://github.com/futuredapp/mvvm-android/actions)
 # MVVM Android
 
 
