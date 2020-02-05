@@ -2,7 +2,7 @@ package com.thefuntasty.mvvm.viewmodel
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.thefuntasty.mvvm.viewmodel.testactivity.EmptyEvent
@@ -25,7 +25,7 @@ class BaseViewModelTest {
     fun initActivity() {
         activityScenario = ActivityScenario.launch(TestActivity::class.java).onActivity {
             activity = it
-            testViewModel = ViewModelProviders.of(it).get(TestViewModel::class.java)
+            testViewModel = ViewModelProvider(it).get(TestViewModel::class.java)
         }
     }
 
@@ -37,7 +37,7 @@ class BaseViewModelTest {
     @Test
     fun onStartCalled() {
         activityScenario.onActivity {
-            Assert.assertEquals(1, ViewModelProviders.of(it).get(TestViewModel::class.java).viewState.onStartCallCount)
+            Assert.assertEquals(1, ViewModelProvider(it).get(TestViewModel::class.java).viewState.onStartCallCount)
         }
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
     }

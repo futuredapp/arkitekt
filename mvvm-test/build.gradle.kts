@@ -46,7 +46,7 @@ dependencies {
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
 
     implementation(Deps.AndroidX.lifecycleExtensions)
-    implementation(Deps.AndroidX.livedataExtensions)
+    implementation(Deps.AndroidX.liveDataExtensions)
     implementation(Deps.Test.testCoroutines)
 
     // RxJava
@@ -55,7 +55,7 @@ dependencies {
     implementation(Deps.Rx.rxJava)
 
     // Test
-    testImplementation(Deps.Test.androidXTestRunnner)
+    testImplementation(Deps.Test.androidXTestRunner)
     testImplementation(Deps.Test.androidXTestCore)
     testImplementation(Deps.Test.jUnit)
 }

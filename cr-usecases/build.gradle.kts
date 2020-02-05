@@ -21,8 +21,8 @@ android {
     }
 
     compileOptions {
-        setSourceCompatibility(JavaVersion.VERSION_1_8)
-        setTargetCompatibility(JavaVersion.VERSION_1_8)
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -30,7 +30,7 @@ dependencies {
     implementation(project(":mvvm"))
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
-    implementation(Deps.AndroidX.viewmodelExtensions)
+    implementation(Deps.AndroidX.viewModelExtensions)
     implementation(Deps.Kotlin.coroutines)
 
     testImplementation(Deps.Test.jUnit)

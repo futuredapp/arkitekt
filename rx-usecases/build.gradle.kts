@@ -21,8 +21,8 @@ android {
     }
 
     compileOptions {
-        setSourceCompatibility(JavaVersion.VERSION_1_8)
-        setTargetCompatibility(JavaVersion.VERSION_1_8)
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
@@ -47,7 +47,7 @@ dependencies {
     implementation(Deps.Rx.rxDebug)
 
     testImplementation(Deps.Test.mockitoCore)
-    testImplementation(Deps.Test.androidXTestRunnner)
+    testImplementation(Deps.Test.androidXTestRunner)
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.Test.jUnit)
     testImplementation(Deps.Test.androidXTestCore)
