@@ -24,6 +24,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        warning("InvalidPackage")
+    }
 }
 
 dependencies {
@@ -35,17 +39,9 @@ dependencies {
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.Kotlin.coroutines)
 
-    // RxJava
-    implementation(Deps.Rx.rxKotlin)
-    implementation(Deps.Rx.rxAndroid)
-    implementation(Deps.Rx.rxJava)
-
     // Test
     testImplementation(Deps.Test.testCoroutines)
-    testImplementation(Deps.Test.androidXTestRunnner)
-    testImplementation(Deps.Test.androidXTestCore)
     testImplementation(Deps.Test.jUnit)
-    testImplementation(Deps.Test.rxSchedulerRule)
 }
 
 project.apply {
