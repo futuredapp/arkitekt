@@ -24,15 +24,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        warning("InvalidPackage")
+    }
 }
 
 dependencies {
     implementation(project(":cr-usecases"))
 
-    implementation(Deps.Test.mockk) {
-        exclude("net.bytebuddy", "byte-buddy-agent")
-        exclude("io.mockk", "mockk-agent-jvm")
-    }
+    implementation(Deps.Test.mockk)
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
