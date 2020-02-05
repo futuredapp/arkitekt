@@ -5,7 +5,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { setUrl("https://jitpack.io") }
         flatDir {
             dirs("templates/build/libs")
         }
