@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.thefuntasty.mvvm.BaseViewModel
 import com.thefuntasty.mvvm.ViewModelCreator
@@ -45,13 +45,13 @@ abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : V
 
     fun show(fragmentManager: FragmentManager) = show(fragmentManager, fragmentTag)
 
-    private fun getVM(): VM = ViewModelProviders.of(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
+    private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     /**
      * Get reference to Activity ViewModel. Make sure correct VM class is specified.
      */
     inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
-        ViewModelProviders.of(requireActivity()).get(AVM::class.java)
+        ViewModelProvider(requireActivity()).get(AVM::class.java)
 
     /**
      * Observe event defined by event class and run observer lambda whenever event is

@@ -2,7 +2,7 @@ package com.thefuntasty.mvvm.viewmodel.testactivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 
 class TestActivity : AppCompatActivity() {
 
@@ -11,7 +11,7 @@ class TestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, vmFactory).get(TestViewModel::class.java)
+        viewModel = ViewModelProvider(this, vmFactory).get(TestViewModel::class.java)
         lifecycle.addObserver(viewModel)
     }
 }
