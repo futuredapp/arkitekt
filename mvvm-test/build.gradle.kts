@@ -24,6 +24,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        warning("InvalidPackage")
+    }
 }
 
 dependencies {
@@ -32,6 +36,7 @@ dependencies {
     implementation(project(":cr-usecases"))
 
     implementation(Deps.Test.mockk)
+
     implementation(Deps.Test.rxSchedulerRule)
     implementation(Deps.Test.androidXCoreTesting)
 
