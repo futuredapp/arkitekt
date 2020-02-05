@@ -30,7 +30,7 @@ dependencies {
     implementation(project(":mvvm"))
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
-    implementation(Deps.AndroidX.viewmodelExtensions)
+    implementation(Deps.AndroidX.viewModelExtensions)
     implementation(Deps.Kotlin.coroutines)
 
     testImplementation(Deps.Test.jUnit)

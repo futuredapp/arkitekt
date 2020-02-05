@@ -47,7 +47,7 @@ dependencies {
     implementation(Deps.Rx.rxDebug)
 
     testImplementation(Deps.Test.mockitoCore)
-    testImplementation(Deps.Test.androidXTestRunnner)
+    testImplementation(Deps.Test.androidXTestRunner)
     testImplementation(Deps.Test.mockitoKotlin)
     testImplementation(Deps.Test.jUnit)
     testImplementation(Deps.Test.androidXTestCore)

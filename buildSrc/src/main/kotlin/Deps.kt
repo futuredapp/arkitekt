@@ -27,12 +27,12 @@ object Deps {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
         const val annnotation = "androidx.annotation:annotation:${Versions.androidx}"
         const val material = "com.google.android.material:material:${Versions.material}"
-        const val vectordrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
+        const val vectorDrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
 
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifeCycle}"
         const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
-        const val livedataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
-        const val viewmodelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
+        const val liveDataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
+        const val viewModelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
     }
@@ -43,7 +43,6 @@ object Deps {
         const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
         const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:${Versions.rxRelay}"
         const val rxDebug = "com.sumera.rxdebug:rxdebug:${Versions.rxDebug}"
-        const val rxIdler = "com.squareup.rx.idler:rx2-idler:${Versions.rxIdler}"
     }
 
     object Lint {
@@ -57,7 +56,7 @@ object Deps {
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
         const val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
         const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
-        const val androidXTestRunnner = "androidx.test:runner:${Versions.androidxTestRunner}"
+        const val androidXTestRunner = "androidx.test:runner:${Versions.androidxTestRunner}"
         const val androidXTestCore = "androidx.test:core:${Versions.androidxTestCore}"
         const val androidXTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTestCoreKtx}"
         const val androidXCoreTesting = "android.arch.core:core-testing:${Versions.androidxTestCore}"

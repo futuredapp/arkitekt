@@ -41,7 +41,7 @@ dependencies {
     implementation(Deps.AndroidX.material)
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.lifecycleExtensions)
-    implementation(Deps.AndroidX.livedataExtensions)
+    implementation(Deps.AndroidX.liveDataExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
     testImplementation(Deps.Test.jUnit)
