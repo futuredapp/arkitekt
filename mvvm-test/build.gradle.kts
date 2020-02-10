@@ -61,9 +61,9 @@ dependencies {
 }
 
 project.apply {
-    extensions.add("artifact", ProjectSettings.RxUseCasesTest.artifact)
-    extensions.add("libraryName", ProjectSettings.RxUseCasesTest.artifact)
-    extensions.add("libraryDescription", ProjectSettings.RxUseCasesTest.libraryDescription)
+    extensions.add("artifact", ProjectSettings.MvvmTest.artifact)
+    extensions.add("libraryName", ProjectSettings.MvvmTest.artifact)
+    extensions.add("libraryDescription", ProjectSettings.MvvmTest.libraryDescription)
 }
 
 apply("../publish.script.gradle")
