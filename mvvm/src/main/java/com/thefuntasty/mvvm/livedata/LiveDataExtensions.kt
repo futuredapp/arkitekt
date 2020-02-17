@@ -11,3 +11,8 @@ fun <T> LiveData<T>.observe(lifecycleOwner: LifecycleOwner, callback: (T?) -> Un
 fun <T> LiveData<T>.observeNonNull(lifecycleOwner: LifecycleOwner, callback: (T) -> Unit) {
     observe(lifecycleOwner, Observer { it?.let(callback) })
 }
+
+fun <T : Any> LiveData<T?>.toNonNull(initValue: T): NonNullLiveData<T> {
+    val mediator  = UiDataMediator(initValue)
+    return NonNullLiveData(initValue, mediator, this) // todo NonNullMediator.addSource(this)
+}
