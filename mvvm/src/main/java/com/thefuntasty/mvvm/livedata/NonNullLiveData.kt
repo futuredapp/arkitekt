@@ -2,27 +2,14 @@ package com.thefuntasty.mvvm.livedata
 
 import androidx.lifecycle.LiveData
 
-class NonNullLiveData<T : Any>(
-    initValue: T,
-    private val mediator: UiDataMediator<T>? = null,
-    private val source: LiveData<T?>? = null
-) : LiveData<T>() {
+/**
+ * Immutable live data abstraction capable of mapping
+ * and preserving the non null value
+ */
+class NonNullLiveData<T : Any>(initValue: T) : LiveData<T>() {
 
     init {
         value = initValue
-    }
-
-    override fun onActive() {
-        super.onActive()
-        mediator?.let { uiMediator ->
-            source?.let {source ->
-                uiMediator.addSource(source) {
-                    it?.let {
-                        value = it
-                    }
-                }
-            }
-        }
     }
 
     override fun getValue(): T = super.getValue() ?: throw NullPointerException("Value is null")

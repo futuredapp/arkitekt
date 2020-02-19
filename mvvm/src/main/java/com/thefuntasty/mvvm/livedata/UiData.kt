@@ -1,8 +1,21 @@
 package com.thefuntasty.mvvm.livedata
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 
+/**
+ *  Mutable live data abstraction with non nullable value type.
+ *  You need to initialize it with non null value. You can use
+ *  one of the init functions or extension function
+ *  @see [uiData("data")] [uiData]
+ *  @see [uiData { "data" }] [uiData]
+ *  @see ["data".toUiData()] [toUiData]
+ *
+ *  @param T non null value type
+ *  @property initValue first value emitted by UiData
+ *
+ *  map function returns NonNullLiveData<R>
+ *  @see NonNullLiveData
+ */
 class UiData<T : Any>(initValue: T) : MutableLiveData<T>() {
     init {
         value = initValue
@@ -10,7 +23,7 @@ class UiData<T : Any>(initValue: T) : MutableLiveData<T>() {
 
     override fun getValue(): T = super.getValue() ?: throw NullPointerException("Value is null")
 
-    fun <B : Any> map(mapper: (T) -> B): NonNullLiveData<B> {
+    fun <R : Any> map(mapper: (T) -> R): NonNullLiveData<R> {
         val nonNullLiveData = NonNullLiveData(mapper(this.value))
         val mediator = UiDataMediator(mapper(this.value))
         mediator.addSource(this) {
@@ -21,25 +34,3 @@ class UiData<T : Any>(initValue: T) : MutableLiveData<T>() {
         return nonNullLiveData
     }
 }
-
-val uiData = "bball".toUiData()
-val ui = uiData(23)
-val lbj = uiData { "LeBron James" }
-val def = DefaultValueLiveData("game")
-
-fun test() {
-    uiData.value = "purple"
-    val immutData = uiData.map { it.length }.map { 2 }
-    immutData.value = 23
-    val nonNull: Int = immutData.value
-}
-
-fun test2() {
-    def.value = "gold"
-    val immutDef = def.map { it.length }
-    immutDef.value = 123
-    val nonNull: Int = immutDef.value
-
-}
-
-
