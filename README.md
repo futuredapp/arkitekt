@@ -34,7 +34,8 @@ dependencies {
 2. [Use Cases](#use-cases)
 3. [UI changes flow](#ui-changes-flow)
 4. [Stores (Repositories)](#stores-repositories)
-5. [About](#about)
+5. [Templates](#templates)
+6. [About](#about)
 
 # Getting started - Minimal project file hierarchy
 Minimal working project must contain files as presented in `example-minimal`
@@ -505,6 +506,39 @@ doAfterActivityInjection<SampleActivity> { activity ->
 }	
 ```
 See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.com/thefuntasty/mvvm-android/tree/3.x/example/src/sharedTest/java/com/thefuntasty/mvvmsample/ui)) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
+
+# Templates  
+
+Our MVVM framework requires several files to be created with each new Activity or Fragment. To make the process of screen creation smooth, our framework is shipped with a template module. It contains templates for creating "MVVM Activity" and "MVVM Fragment" via Android Studio GUI.
+
+To import templates into Android Studio  follow these steps:
+
+**On Mac/Linux**
+
+ 1. Add plugin into your project Gradle file
+```
+plugins {
+    id "com.thefuntasty.mvvm.android-templates" version "LatestVersion"
+}
+```
+ 2.  Sync Gradle dependencies
+ 3. Run  from your Android Studio terminal 
+```
+./gradlew copyTemplates
+```
+ 4. Restart Android Studio
+
+Note:  You can also  run this task from Gradle sidebar in Android Studio, you can find it under
+**Tasks -> thefuntasty -> copyTemplates**
+
+**On Windows**
+
+ 1. Copy folders MVVMActivity and MVVMFragment from *mvvm-android\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
+    
+ 2. Restart/Start Android Studio
+
+When the templates are in place you can use them directly from GUI
+![AS Example](extras/mvvm_template_example.png)
 
 # About
 Created with &#x2764; at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
