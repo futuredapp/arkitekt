@@ -476,15 +476,15 @@ fun onLoginClicked(name: String, password: String) {
 ```
 then it can be mocked with the following method:
 ```kotlin
-mockLoginUseCase.everyExecute(args = ...) { Single.just(user) } // For RxJava Use Cases 
+mockLoginUseCase.mockExecute(args = ...) { Single.just(user) } // For RxJava Use Cases 
 or
-mockLoginUseCase.everyExecute(args = ...) { user } // For Coroutines Use Cases
+mockLoginUseCase.mockExecute(args = ...) { user } // For Coroutines Use Cases
 ```
 In case that use case is using nullable arguments:
 ```kotlin
-mockLoginUseCase.everyExecuteNullable(args = ...) { Single.just(user) } // For RxJava Use Cases
+mockLoginUseCase.mockExecuteNullable(args = ...) { Single.just(user) } // For RxJava Use Cases
 or
-mockLoginUseCase.everyExecuteNullable(args = ...) { user } // For Coroutines Use Cases
+mockLoginUseCase.mockExecuteNullable(args = ...) { user } // For Coroutines Use Cases
 ```
 
 ## Activity and Fragment tests
