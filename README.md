@@ -528,7 +528,7 @@ plugins {
 ```
  4. Restart Android Studio
 
-Note:  You can also  run this task from Gradle sidebar in Android Studio, you can find it under
+Note: You can also run this task from Gradle sidebar in Android Studio, you can find it under
 **Tasks -> thefuntasty -> copyTemplates**
 
 **On Windows**
