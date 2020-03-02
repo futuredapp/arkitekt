@@ -522,7 +522,7 @@ plugins {
 }
 ```
  2. Sync Gradle dependencies
- 3. Run  from your Android Studio terminal 
+ 3. Run from your Android Studio terminal 
 ```
 ./gradlew copyTemplates
 ```
