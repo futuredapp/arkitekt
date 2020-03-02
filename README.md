@@ -521,7 +521,7 @@ plugins {
     id "com.thefuntasty.mvvm.android-templates" version "LatestVersion"
 }
 ```
- 2.  Sync Gradle dependencies
+ 2. Sync Gradle dependencies
  3. Run  from your Android Studio terminal 
 ```
 ./gradlew copyTemplates
