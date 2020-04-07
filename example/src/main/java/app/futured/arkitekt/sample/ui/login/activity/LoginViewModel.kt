@@ -1,6 +1,6 @@
 package app.futured.arkitekt.sample.ui.login.activity
 
-import com.thefuntasty.mvvm.rxusecases.BaseRxViewModel
+import app.futured.arkitekt.rxusecases.BaseRxViewModel
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(

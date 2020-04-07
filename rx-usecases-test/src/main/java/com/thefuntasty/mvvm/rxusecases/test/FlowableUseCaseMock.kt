@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.rxusecases.test
 
-import com.thefuntasty.mvvm.rxusecases.disposables.FlowableDisposablesOwner
-import com.thefuntasty.mvvm.rxusecases.usecases.FlowableUseCase
+import app.futured.arkitekt.rxusecases.disposables.FlowableDisposablesOwner
+import app.futured.arkitekt.rxusecases.usecases.FlowableUseCase
 import io.mockk.every
 import io.mockk.just
 import io.mockk.runs

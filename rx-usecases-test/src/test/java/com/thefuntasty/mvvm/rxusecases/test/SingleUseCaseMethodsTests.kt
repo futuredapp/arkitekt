@@ -2,7 +2,7 @@ package com.thefuntasty.mvvm.rxusecases.test
 
 import com.thefuntasty.mvvm.rxusecases.test.testutils.BaseTest
 import com.thefuntasty.mvvm.rxusecases.test.testutils.TestDisposablesOwner
-import com.thefuntasty.mvvm.rxusecases.usecases.SingleUseCase
+import app.futured.arkitekt.rxusecases.usecases.SingleUseCase
 import io.mockk.mockk
 import io.reactivex.Single
 import org.junit.Assert.assertEquals

@@ -2,7 +2,7 @@ package ${packageName}
 <#if useCaseType=="coroutines">
 import app.futured.arkitekt.crusecases.BaseCrViewModel
 <#else>
-import com.thefuntasty.mvvm.rxusecases.BaseRxViewModel
+import app.futured.arkitekt.rxusecases.BaseRxViewModel
 </#if>
 import javax.inject.Inject
 

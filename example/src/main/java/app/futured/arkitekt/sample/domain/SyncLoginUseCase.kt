@@ -1,6 +1,6 @@
 package app.futured.arkitekt.sample.domain
 
-import com.thefuntasty.mvvm.rxusecases.usecases.CompletableUseCase
+import app.futured.arkitekt.rxusecases.usecases.CompletableUseCase
 import app.futured.arkitekt.sample.data.model.User
 import app.futured.arkitekt.sample.data.store.UserStore
 import io.reactivex.Completable

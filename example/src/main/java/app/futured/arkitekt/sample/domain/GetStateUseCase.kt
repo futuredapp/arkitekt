@@ -1,6 +1,6 @@
 package app.futured.arkitekt.sample.domain
 
-import com.thefuntasty.mvvm.rxusecases.usecases.MaybeUseCase
+import app.futured.arkitekt.rxusecases.usecases.MaybeUseCase
 import io.reactivex.Maybe
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
