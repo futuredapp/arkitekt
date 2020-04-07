@@ -3,7 +3,7 @@ object ProjectSettings {
     const val compileSdk = 28
     const val targetSdk = 28
     const val minSdk = 18
-    const val group = "com.thefuntasty.mvvm"
+    const val group = "app.futured.arkitekt"
 
     /**
      * this version will be used only for local builds, jitpack will automatically provide TAG version
@@ -17,12 +17,12 @@ object ProjectSettings {
         const val implementationClass = "com.thefuntasty.mvvm.templates.Templates"
     }
     object Mvvm {
-        const val artifact = "mvvm"
+        const val artifact = "core"
         const val libraryDescription = "Core module of MVVM-Android framework"
     }
 
     object MvvmTest {
-        const val artifact = "mvvm-test"
+        const val artifact = "core-test"
         const val libraryDescription = "Test utilities for mvvm module"
     }
 
