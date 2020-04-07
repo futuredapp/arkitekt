@@ -6,15 +6,15 @@
 
         <variable
             name="view"
-            type="com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultView"/>
+            type="app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultView"/>
 
         <variable
             name="viewModel"
-            type="com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultViewModel"/>
+            type="app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultViewModel"/>
 
         <variable
             name="viewState"
-            type="com.thefuntasty.mvvmsample.ui.coroutinesresult.CoroutinesResultViewState"/>
+            type="app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultViewState"/>
     </data>
 
     <LinearLayout

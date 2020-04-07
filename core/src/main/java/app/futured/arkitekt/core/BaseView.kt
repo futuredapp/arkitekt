@@ -10,7 +10,7 @@ package app.futured.arkitekt.core
  *   <data>
  *       <variable
  *           name="view"
- *           type="com.thefuntasty.mvvmsample.ui.SomeActivityView"/>
+ *           type="app.futured.arkitekt.sample.ui.SomeActivityView"/>
  *   </data>
  *   ...
  *   <View

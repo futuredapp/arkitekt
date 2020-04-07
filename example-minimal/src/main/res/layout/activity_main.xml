@@ -2,21 +2,21 @@
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.main.MainActivity">
+        tools:context="app.futured.arkitekt.sample.ui.main.MainActivity">
 
     <data>
 
         <variable
                 name="view"
-                type="com.thefuntasty.mvvmsample.ui.main.MainView"/>
+                type="app.futured.arkitekt.sample.ui.main.MainView"/>
 
         <variable
                 name="viewModel"
-                type="com.thefuntasty.mvvmsample.ui.main.MainViewModel"/>
+                type="app.futured.arkitekt.sample.ui.main.MainViewModel"/>
 
         <variable
                 name="viewState"
-                type="com.thefuntasty.mvvmsample.ui.main.MainViewState"/>
+                type="app.futured.arkitekt.sample.ui.main.MainViewState"/>
     </data>
 
     <LinearLayout
