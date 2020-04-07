@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template
     name="Screen"
-    description="Creates a new MVVM Fragment, ViewModel, ViewModelFactory and Layout"
+    description="Creates a new Arkitekt Fragment, ViewModel, ViewModelFactory and Layout"
     format="4"
     minApi="19"
     minBuildApi="19"
     revision="1">
 
-    <category value="Funtasty MVVM Fragment"/>
+    <category value="Arkitekt Fragment"/>
     <formfactor value="Mobile"/>
 
     <parameter

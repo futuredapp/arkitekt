@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.templates;
+package app.futured.arkitekt.templates;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -13,7 +13,7 @@ import java.util.List;
 public class Templates implements Plugin<Project> {
 
     private static final String TASK_NAME = "copyTemplates";
-    private static final String TASK_GROUP = "thefuntasty";
+    private static final String TASK_GROUP = "arkitekt";
     private static final String TEMPLATES = "templates";
     private static final String AS_REGEX = "/[A-Za-z/]*/[Aa]ndroid[ -][Ss]tudio[ 0-9A-Za-z.()]*\\(/Contents\\)\\?";
     private static final String AS_TEMPLATES = "/plugins/android/lib/templates/other";

@@ -11,10 +11,10 @@ object ProjectSettings {
     val version = System.getenv("BITRISE_GIT_TAG")?:"0.0.1-TEST"
 
     object Templates {
-        const val module = "android-templates"
+        const val module = "templates"
         const val id = "$group.$module"
         const val name = "copyTemplates"
-        const val implementationClass = "com.thefuntasty.mvvm.templates.Templates"
+        const val implementationClass = "app.futured.arkitekt.templates.Templates"
     }
     object Core {
         const val artifact = "core"
