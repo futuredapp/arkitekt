@@ -1,11 +1,12 @@
-package com.thefuntasty.mvvm.crusecases.test
+package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.CoroutineScopeOwner
-import app.futured.arkitekt.crusecases.UseCase
+import app.futured.arkitekt.crusecases.FlowUseCase
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.just
 import io.mockk.mockk
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Mock [CoroutineScopeOwner.execute] method.
@@ -16,9 +17,9 @@ import io.mockk.mockk
  * Usage:
  * mockUseCase.mockExecute(args = ...) { ... }
  */
-fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, returnBlock: () -> RETURN_VALUE) {
-    mockDeferred()
-    coEvery { this@mockExecute.build(args) } answers { returnBlock() }
+fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, returnBlock: () -> Flow<RETURN_VALUE>) {
+    mockJob()
+    coEvery { this@mockExecute.build(args) } returns returnBlock()
 }
 
 /**
@@ -30,9 +31,9 @@ fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockEx
  * Usage:
  * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(crossinline returnBlock: () -> RETURN_VALUE) {
-    mockDeferred()
-    coEvery { this@mockExecute.build(any()) } answers { returnBlock() }
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(returnBlock: () -> Flow<RETURN_VALUE>) {
+    mockJob()
+    coEvery { this@mockExecute.build(any()) } returns returnBlock()
 }
 
 /**
@@ -44,9 +45,9 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VA
  * Usage:
  * mockUseCase.mockExecute(args = ...) { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS?, crossinline returnBlock: () -> RETURN_VALUE) {
-    mockDeferred()
-    coEvery { this@mockExecuteNullable.build(args) } answers { returnBlock() }
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS?, returnBlock: () -> Flow<RETURN_VALUE>) {
+    mockJob()
+    coEvery { this@mockExecuteNullable.build(args) } returns returnBlock()
 }
 
 /**
@@ -59,13 +60,13 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_V
  * Usage:
  * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(crossinline returnBlock: () -> RETURN_VALUE) {
-    mockDeferred()
-    coEvery { this@mockExecuteNullable.build(any()) } answers { returnBlock() }
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(returnBlock: () -> Flow<RETURN_VALUE>) {
+    mockJob()
+    coEvery { this@mockExecuteNullable.build(any()) } returns returnBlock()
 }
 
 @PublishedApi
-internal fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockDeferred() {
-    coEvery { this@mockDeferred.deferred = any() } just Runs
-    coEvery { this@mockDeferred.deferred } returns mockk(relaxUnitFun = true)
+internal fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockJob() {
+    coEvery { this@mockJob.job = any() } just Runs
+    coEvery { this@mockJob.job } returns mockk(relaxUnitFun = true)
 }

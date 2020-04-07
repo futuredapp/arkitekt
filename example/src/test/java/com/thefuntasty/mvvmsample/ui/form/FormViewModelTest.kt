@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.form
 
-import com.thefuntasty.mvvm.crusecases.test.mockExecute
+import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import com.thefuntasty.mvvmsample.domain.ObserveFormUseCase
 import com.thefuntasty.mvvmsample.domain.SaveFormUseCase
