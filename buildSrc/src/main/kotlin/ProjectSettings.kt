@@ -58,13 +58,13 @@ object ProjectSettings {
 
     object Publish {
         const val bintrayRepo = "mvvm-android"
-        const val siteUrl = "https://github.com/thefuntasty/mvvm-android"
-        const val gitUrl = "https://github.com/thefuntasty/mvvm-android.git"
-        const val developerId = "TheFuntasty"
-        const val developerName = "TheFuntasty"
-        const val developerEmail = "ops@thefuntasty.com"
+        const val siteUrl = "https://github.com/futuredapp/arkitekt"
+        const val gitUrl = "https://github.com/futuredapp/arkitekt.git"
+        const val developerId = "FuturedApp"
+        const val developerName = "FuturedApp"
+        const val developerEmail = "ops@futured.app"
         const val licenseName = "MIT Licence"
-        const val licenseUrl = "https://github.com/thefuntasty/mvvm-android/blob/master/LICENCE"
+        const val licenseUrl = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
         val allLicenses = listOf("MIT")
     }
 }
