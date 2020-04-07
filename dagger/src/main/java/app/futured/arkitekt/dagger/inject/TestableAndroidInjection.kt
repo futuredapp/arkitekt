@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.dagger.inject
+package app.futured.arkitekt.dagger.inject
 
 import android.app.Activity
 import androidx.fragment.app.Fragment

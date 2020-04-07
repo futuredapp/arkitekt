@@ -1,9 +1,9 @@
-package com.thefuntasty.mvvm.dagger.fragment
+package app.futured.arkitekt.dagger.fragment
 
 import android.content.Context
 import app.futured.arkitekt.core.BaseViewModel
 import app.futured.arkitekt.core.ViewState
-import com.thefuntasty.mvvm.dagger.inject.TestableAndroidInjection
+import app.futured.arkitekt.dagger.inject.TestableAndroidInjection
 import app.futured.arkitekt.core.fragment.ViewModelFragment
 
 abstract class BaseDaggerFragment<VM : BaseViewModel<VS>, VS : ViewState> :

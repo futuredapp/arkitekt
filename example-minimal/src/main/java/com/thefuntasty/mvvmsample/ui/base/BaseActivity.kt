@@ -3,7 +3,7 @@ package com.thefuntasty.mvvmsample.ui.base
 import androidx.databinding.ViewDataBinding
 import app.futured.arkitekt.core.BaseViewModel
 import app.futured.arkitekt.core.ViewState
-import com.thefuntasty.mvvm.dagger.activity.BaseDaggerBindingActivity
+import app.futured.arkitekt.dagger.activity.BaseDaggerBindingActivity
 import com.thefuntasty.mvvmsample.BR
 
 abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :

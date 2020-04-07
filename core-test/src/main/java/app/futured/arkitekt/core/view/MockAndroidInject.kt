@@ -3,7 +3,7 @@ package app.futured.arkitekt.core.view
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import app.futured.arkitekt.core.ViewState
-import com.thefuntasty.mvvm.dagger.inject.TestableAndroidInjection
+import app.futured.arkitekt.dagger.inject.TestableAndroidInjection
 import dagger.android.AndroidInjection
 
 /**
