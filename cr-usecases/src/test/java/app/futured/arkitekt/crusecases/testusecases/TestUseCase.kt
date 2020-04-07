@@ -1,6 +1,6 @@
-package com.thefuntasty.mvvm.crusecases.testusecases
+package app.futured.arkitekt.crusecases.testusecases
 
-import com.thefuntasty.mvvm.crusecases.UseCase
+import app.futured.arkitekt.crusecases.UseCase
 import kotlinx.coroutines.delay
 
 class TestUseCase : UseCase<Int, Int>() {

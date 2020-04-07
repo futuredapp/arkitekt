@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.crusecases.utils
+package app.futured.arkitekt.crusecases.utils
 
 /**
  * Returns a root cause of this exception or null if there is no

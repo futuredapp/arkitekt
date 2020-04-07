@@ -1,6 +1,6 @@
 package app.futured.arkitekt.core.test.internal
 
-import com.thefuntasty.mvvm.crusecases.CoroutineScopeOwner
+import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

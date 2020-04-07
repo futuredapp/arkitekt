@@ -1,5 +1,19 @@
-package com.thefuntasty.mvvm.crusecases
+package app.futured.arkitekt.crusecases
 
+import app.futured.arkitekt.crusecases.Error
+import app.futured.arkitekt.crusecases.Result
+import app.futured.arkitekt.crusecases.Success
+import app.futured.arkitekt.crusecases.fold
+import app.futured.arkitekt.crusecases.getOrCancel
+import app.futured.arkitekt.crusecases.getOrDefault
+import app.futured.arkitekt.crusecases.getOrElse
+import app.futured.arkitekt.crusecases.getOrNull
+import app.futured.arkitekt.crusecases.getOrThrow
+import app.futured.arkitekt.crusecases.map
+import app.futured.arkitekt.crusecases.mapCatching
+import app.futured.arkitekt.crusecases.recover
+import app.futured.arkitekt.crusecases.recoverCatching
+import app.futured.arkitekt.crusecases.tryCatch
 import kotlinx.coroutines.CancellationException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

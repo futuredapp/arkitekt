@@ -1,6 +1,6 @@
 package ${packageName}
 <#if useCaseType=="coroutines">
-import com.thefuntasty.mvvm.crusecases.BaseCrViewModel
+import app.futured.arkitekt.crusecases.BaseCrViewModel
 <#else>
 import com.thefuntasty.mvvm.rxusecases.BaseRxViewModel
 </#if>

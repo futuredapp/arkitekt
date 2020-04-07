@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.crusecases
+package app.futured.arkitekt.crusecases
 
 import kotlinx.coroutines.CancellationException
 

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.crusecases.test
 
-import com.thefuntasty.mvvm.crusecases.CoroutineScopeOwner
+import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

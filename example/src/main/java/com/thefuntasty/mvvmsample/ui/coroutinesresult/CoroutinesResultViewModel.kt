@@ -1,11 +1,11 @@
 package com.thefuntasty.mvvmsample.ui.coroutinesresult
 
-import com.thefuntasty.mvvm.crusecases.BaseCrViewModel
-import com.thefuntasty.mvvm.crusecases.getOrCancel
-import com.thefuntasty.mvvm.crusecases.getOrElse
-import com.thefuntasty.mvvm.crusecases.getOrThrow
-import com.thefuntasty.mvvm.crusecases.map
-import com.thefuntasty.mvvm.crusecases.recover
+import app.futured.arkitekt.crusecases.BaseCrViewModel
+import app.futured.arkitekt.crusecases.getOrCancel
+import app.futured.arkitekt.crusecases.getOrElse
+import app.futured.arkitekt.crusecases.getOrThrow
+import app.futured.arkitekt.crusecases.map
+import app.futured.arkitekt.crusecases.recover
 import com.thefuntasty.mvvmsample.domain.dummy.ConfirmDataSavedSuccessfullyUseCase
 import com.thefuntasty.mvvmsample.domain.dummy.GetDataFromDeviceUseCase
 import com.thefuntasty.mvvmsample.domain.dummy.SaveDataToFirstServerUseCase

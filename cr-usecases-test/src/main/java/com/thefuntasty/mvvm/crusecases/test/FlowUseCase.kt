@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvm.crusecases.test
 
-import com.thefuntasty.mvvm.crusecases.CoroutineScopeOwner
-import com.thefuntasty.mvvm.crusecases.FlowUseCase
+import app.futured.arkitekt.crusecases.CoroutineScopeOwner
+import app.futured.arkitekt.crusecases.FlowUseCase
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.just

@@ -1,6 +1,6 @@
-package com.thefuntasty.mvvm.crusecases
+package app.futured.arkitekt.crusecases
 
-import com.thefuntasty.mvvm.crusecases.utils.rootCause
+import app.futured.arkitekt.crusecases.utils.rootCause
 import app.futured.arkitekt.core.error.UseCaseErrorHandler
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope

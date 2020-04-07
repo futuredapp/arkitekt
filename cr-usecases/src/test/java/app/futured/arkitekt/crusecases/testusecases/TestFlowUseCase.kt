@@ -1,6 +1,6 @@
-package com.thefuntasty.mvvm.crusecases.testusecases
+package app.futured.arkitekt.crusecases.testusecases
 
-import com.thefuntasty.mvvm.crusecases.FlowUseCase
+import app.futured.arkitekt.crusecases.FlowUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow

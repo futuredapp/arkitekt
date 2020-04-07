@@ -1,5 +1,6 @@
-package com.thefuntasty.mvvm.crusecases.utils
+package app.futured.arkitekt.crusecases.utils
 
+import app.futured.arkitekt.crusecases.utils.rootCause
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

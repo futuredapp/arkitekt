@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.form
 
-import com.thefuntasty.mvvm.crusecases.BaseCrViewModel
+import app.futured.arkitekt.crusecases.BaseCrViewModel
 import com.thefuntasty.mvvmsample.domain.ObserveFormUseCase
 import com.thefuntasty.mvvmsample.domain.SaveFormUseCase
 import javax.inject.Inject

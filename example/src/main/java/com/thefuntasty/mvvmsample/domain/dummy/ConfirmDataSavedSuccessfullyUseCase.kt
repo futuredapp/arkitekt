@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain.dummy
 
-import com.thefuntasty.mvvm.crusecases.UseCase
+import app.futured.arkitekt.crusecases.UseCase
 import com.thefuntasty.mvvmsample.tools.randomError
 import kotlinx.coroutines.delay
 import javax.inject.Inject

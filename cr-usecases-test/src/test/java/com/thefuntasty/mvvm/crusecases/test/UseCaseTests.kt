@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.crusecases.test
 
-import com.thefuntasty.mvvm.crusecases.UseCase
+import app.futured.arkitekt.crusecases.UseCase
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

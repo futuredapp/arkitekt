@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.domain
 
-import com.thefuntasty.mvvm.crusecases.UseCase
+import app.futured.arkitekt.crusecases.UseCase
 import com.thefuntasty.mvvmsample.data.store.FormStore
 import javax.inject.Inject
 

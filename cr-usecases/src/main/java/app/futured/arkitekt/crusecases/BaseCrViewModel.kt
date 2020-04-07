@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.crusecases
+package app.futured.arkitekt.crusecases
 
 import androidx.lifecycle.viewModelScope
 import app.futured.arkitekt.core.BaseViewModel
