@@ -1,4 +1,4 @@
-package com.thefuntasty.extensions
+package app.futured.arkitekt.extensions
 
 import android.view.View
 

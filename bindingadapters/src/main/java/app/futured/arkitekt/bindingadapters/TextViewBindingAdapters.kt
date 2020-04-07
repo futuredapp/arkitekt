@@ -1,4 +1,4 @@
-package com.thefuntasty.bindingadapters
+package app.futured.arkitekt.bindingadapters
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter

@@ -1,4 +1,4 @@
-package com.thefuntasty.bindingadapters
+package app.futured.arkitekt.bindingadapters
 
 import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
@@ -12,9 +12,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.BindingConversion
-import com.thefuntasty.extensions.animateGone
-import com.thefuntasty.extensions.animateInvisible
-import com.thefuntasty.extensions.animateShow
+import app.futured.arkitekt.extensions.animateGone
+import app.futured.arkitekt.extensions.animateInvisible
+import app.futured.arkitekt.extensions.animateShow
 import kotlin.math.absoluteValue
 
 /**

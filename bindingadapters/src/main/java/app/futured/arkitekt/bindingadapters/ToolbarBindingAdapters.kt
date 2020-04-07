@@ -1,4 +1,4 @@
-package com.thefuntasty.bindingadapters
+package app.futured.arkitekt.bindingadapters
 
 import android.view.View
 import androidx.appcompat.widget.Toolbar
