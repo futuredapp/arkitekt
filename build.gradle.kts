@@ -64,8 +64,8 @@ detekt {
     version = Versions.detekt
     input = files(
         "example/src/main/java",
-        "mvvm/src/main/java",
-        "mvvm-test/src/main/java",
+        "core/src/main/java",
+        "core-test/src/main/java",
         "dagger/src/main/java",
         "rx-usecases/src/main/java",
         "rx-usecases-test/src/main/java",

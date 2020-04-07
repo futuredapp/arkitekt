@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":mvvm"))
+    implementation(project(":core"))
     implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
 
@@ -61,9 +61,9 @@ dependencies {
 }
 
 project.apply {
-    extensions.add("artifact", ProjectSettings.MvvmTest.artifact)
-    extensions.add("libraryName", ProjectSettings.MvvmTest.artifact)
-    extensions.add("libraryDescription", ProjectSettings.MvvmTest.libraryDescription)
+    extensions.add("artifact", ProjectSettings.CoreTest.artifact)
+    extensions.add("libraryName", ProjectSettings.CoreTest.artifact)
+    extensions.add("libraryDescription", ProjectSettings.CoreTest.libraryDescription)
 }
 
 apply("../publish.script.gradle")

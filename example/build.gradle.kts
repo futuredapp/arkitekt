@@ -50,7 +50,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":mvvm"))
+    implementation(project(":core"))
     implementation(project(":dagger"))
     implementation(project(":rx-usecases"))
     implementation(project(":cr-usecases"))
@@ -84,7 +84,7 @@ dependencies {
 
     // Shared tests - local
     testImplementation(Deps.Test.testCoroutines)
-    testImplementation(project(":mvvm-test"))
+    testImplementation(project(":core-test"))
     testImplementation(project(":rx-usecases-test"))
     testImplementation(project(":cr-usecases-test"))
     testImplementation(Deps.Test.mockk)
@@ -99,7 +99,7 @@ dependencies {
     testImplementation(Deps.Test.robolectric)
 
     // Shared tests - connected
-    androidTestImplementation(project(":mvvm-test"))
+    androidTestImplementation(project(":core-test"))
     androidTestImplementation(project(":rx-usecases-test"))
     androidTestImplementation(project(":cr-usecases-test"))
     androidTestImplementation(Deps.Test.mockkAndroid)

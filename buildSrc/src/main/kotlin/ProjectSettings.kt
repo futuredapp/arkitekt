@@ -16,12 +16,12 @@ object ProjectSettings {
         const val name = "copyTemplates"
         const val implementationClass = "com.thefuntasty.mvvm.templates.Templates"
     }
-    object Mvvm {
+    object Core {
         const val artifact = "core"
         const val libraryDescription = "Core module of MVVM-Android framework"
     }
 
-    object MvvmTest {
+    object CoreTest {
         const val artifact = "core-test"
         const val libraryDescription = "Test utilities for mvvm module"
     }

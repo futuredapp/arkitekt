@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":mvvm"))
+    implementation(project(":core"))
     implementation(project(":dagger"))
     implementation(project(":rx-usecases"))
 

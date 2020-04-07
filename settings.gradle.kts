@@ -2,7 +2,7 @@ rootProject.name = "arkitekt"
 rootProject.buildFileName = "build.gradle.kts"
 
 include(
-    ":mvvm",
+    ":core",
     ":dagger",
     ":example",
     ":example-minimal",
@@ -11,7 +11,7 @@ include(
     ":bindingadapters",
     ":templates",
     ":mvvm-lint",
-    ":mvvm-test",
+    ":core-test",
     ":rx-usecases-test",
     ":cr-usecases-test"
 )

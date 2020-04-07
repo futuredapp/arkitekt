@@ -55,9 +55,9 @@ dependencies {
 }
 
 project.apply {
-    extensions.add("artifact", ProjectSettings.Mvvm.artifact)
-    extensions.add("libraryName", ProjectSettings.Mvvm.artifact)
-    extensions.add("libraryDescription", ProjectSettings.Mvvm.libraryDescription)
+    extensions.add("artifact", ProjectSettings.Core.artifact)
+    extensions.add("libraryName", ProjectSettings.Core.artifact)
+    extensions.add("libraryDescription", ProjectSettings.Core.libraryDescription)
 }
 
 apply("../publish.script.gradle")
