@@ -2,7 +2,7 @@ object ProjectSettings {
     const val applicationId = "app.futured.arkitekt.sample"
     const val compileSdk = 28
     const val targetSdk = 28
-    const val minSdk = 18
+    const val minSdk = 19
     const val group = "app.futured.arkitekt"
 
     /**

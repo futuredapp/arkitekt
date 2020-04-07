@@ -1,30 +1,30 @@
-[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
-[![Build Status](https://github.com/futuredapp/mvvm-android/workflows/Check%203.x/badge.svg)](https://github.com/futuredapp/mvvm-android/actions)
-# MVVM Android
+[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
+[![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%204.x/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
+# Arkitekt
 
 
-MVVM Android is the framework based on Android Architecture components, which gives you set of
+Arkitekt is a framework based on Android Architecture components, which gives you set of
 base classes to implement concise, testable and solid application. It combines built-in
-support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava
+support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava or Coroutines
 use cases. Architecture described here is used among wide variety of
 projects and it's production ready.
 
 ![MVVM architecture](extras/architecture-diagram.png)
 
 # Download
-[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/mvvm-android/mvvm/images/download.svg?)](https://bintray.com/thefuntastyops/mvvm-android)
+[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
 ```groovy
 dependencies {
-    implementation("com.thefuntasty.mvvm:mvvm:LatestVersion")
-    implementation("com.thefuntasty.mvvm:bindingadapters:LatestVersion")
-    implementation("com.thefuntasty.mvvm:dagger:LatestVersion")
-    implementation("com.thefuntasty.mvvm:cr-usecases:LatestVersion")
-    implementation("com.thefuntasty.mvvm:rx-usecases:LatestVersion")
+    implementation("app.futured.arkitekt:core:LatestVersion")
+    implementation("app.futured.arkitekt:bindingadapters:LatestVersion")
+    implementation("app.futured.arkitekt:dagger:LatestVersion")
+    implementation("app.futured.arkitekt:cr-usecases:LatestVersion")
+    implementation("app.futured.arkitekt:rx-usecases:LatestVersion")
     
     // Testing
-    testImplementation("com.thefuntasty.mvvm:mvvm-test:LatestVersion")
-    testImplementation("com.thefuntasty.mvvm:rx-usecases-test:LatestVersion")
-    testImplementation("com.thefuntasty.mvvm:cr-usecases-test:LatestVersion")
+    testImplementation("app.futured.arkitekt:core-test:LatestVersion")
+    testImplementation("app.futured.arkitekt:rx-usecases-test:LatestVersion")
+    testImplementation("app.futured.arkitekt:cr-usecases-test:LatestVersion")
 }    
 ```
 
@@ -421,15 +421,15 @@ We strictly respect this injection hierarchy:
 
 In order to create successful applications, it is highly encouraged to write tests for your application. But testing can be tricky sometimes so here are our best practices and utilities that will help you to achieve this goal with this library. 
 
-See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.com/thefuntasty/mvvm-android/tree/3.x/example/src/)) in `example` module for more detailed sample.
+See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/)) in `example` module for more detailed sample.
 
 ## ViewModel testing
 
-[mvvm-test](#Download) dependency contains utilities to help you with ViewModel testing.
+[core-test](#Download) dependency contains utilities to help you with ViewModel testing.
 
 `ViewModelTest` that should be used as a base class for view model tests since it contains JUnit rules for dealing with a live data and with RxJava in tests.
 
-See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.com/thefuntasty/mvvm-android/tree/3.x/example/src/test/java/com/thefuntasty/mvvmsample/ui/)) in `example` module for more detailed sample of view model testing.
+See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/test/java/app/futured/arkitekt/sample/ui/)) in `example` module for more detailed sample of view model testing.
 
 ### Events testing
 
@@ -470,7 +470,7 @@ Since all 'execute' methods for [use cases](#use-cases) are implemented as exten
 So if a method in the view model looks somehow like this:
 ```kotlin
 fun onLoginClicked(name: String, password: String) {
-    loginUseCase.execture(LoginData(name, password)) {
+    loginUseCase.execute(LoginData(name, password)) {
         onSuccess = { ... }
     }
 }
@@ -490,7 +490,7 @@ mockLoginUseCase.mockExecuteNullable(args = ...) { user } // For Coroutines Use 
 
 ## Activity and Fragment tests
 
-[mvvm-test](#Download) dependency contains utilities to help you with espresso testing.
+[core-test](#Download) dependency contains utilities to help you with espresso testing.
 
 If you want to test Activities or Fragments then you have few possibilities. You can test them with the mocked implementation of a view model and view state, or you can test them with the real implementation of a view model and view state and with mocked use cases.
 
@@ -505,20 +505,20 @@ doAfterActivityInjection<SampleActivity> { activity ->
     activity.someInjectedClass = mockk()  
 }	
 ```
-See [these tests]([https://github.com/thefuntasty/mvvm-android](https://github.com/thefuntasty/mvvm-android/tree/3.x/example/src/sharedTest/java/com/thefuntasty/mvvmsample/ui)) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
+See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/sharedTest/java/app/futured/sample/ui)) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
 
 # Templates  
 
-Our MVVM framework requires several files to be created with each new Activity or Fragment. To make the process of screen creation smooth, our framework is shipped with a template module. It contains templates for creating "MVVM Activity" and "MVVM Fragment" via Android Studio GUI.
+Arkitekt framework requires several files to be created with each new Activity or Fragment. To make the process of screen creation smooth, our framework is shipped with a template module. It contains templates for creating "Arkitekt Activity" and "Arkitekt Fragment" via Android Studio GUI.
 
-To import templates into Android Studio  follow these steps:
+To import templates into Android Studio follow these steps:
 
 **On Mac/Linux**
 
  1. Add plugin into your project Gradle file
 ```
 plugins {
-    id "com.thefuntasty.mvvm.android-templates" version "LatestVersion"
+    id "app.futured.arkitekt.templates" version "LatestVersion"
 }
 ```
  2. Sync Gradle dependencies
@@ -529,16 +529,16 @@ plugins {
  4. Restart Android Studio
 
 Note: You can also run this task from Gradle sidebar in Android Studio, you can find it under
-**Tasks -> thefuntasty -> copyTemplates**
+**Tasks -> arkitekt -> copyTemplates**
 
 **On Windows**
 
- 1. Copy folders MVVMActivity and MVVMFragment from *mvvm-android\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
+ 1. Copy folders ArkitektActivity and ArkitektFragment from *arkitekt\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
     
  2. Restart/Start Android Studio
 
 When the templates are in place you can use them directly from GUI
-![AS Example](extras/mvvm_template_example.png)
+![AS Example](extras/arkitekt_template_example.png)
 
 # About
-Created with &#x2764; at The Funtasty. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
+Created with &#x2764; at Futured. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
