@@ -5,18 +5,18 @@ package com.thefuntasty.mvvm.livedata
  *  Usage:
  *  val myData: UiData<Int> = uiData(1)
  */
-fun <T : Any> uiData(initValue: T) = UiData(initValue)
+inline fun <reified T : Any> uiData(initValue: T) = UiData(initValue)
 
 /**
  *  Initialization function for UiData
  *  Usage:
  *  val myData: UiData<Int> = uiData { 1 }
  */
-fun <T : Any> uiData(initBlock: () -> T) = uiData(initBlock())
+inline fun <reified T : Any> uiData(initBlock: () -> T) = uiData(initBlock())
 
 /**
  *  Initialization extension function for UiData
  *  Usage:
  *  val myData: UiData<Int> = 1.toUiData()
  */
-fun <T : Any> T.toUiData() = uiData(this)
+inline fun <reified T : Any> T.toUiData() = uiData(this)
