@@ -72,7 +72,7 @@ detekt {
         "cr-usecases/src/main/java",
         "cr-usecases-test/src/main/java",
         "bindingadapters/src/main/java",
-        "mvvm-lint/src/main/java"
+        "arkitekt-lint/src/main/java"
     )
     filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt.yml")

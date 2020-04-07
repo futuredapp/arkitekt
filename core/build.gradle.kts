@@ -51,7 +51,7 @@ dependencies {
     testImplementation(Deps.Test.robolectric)
     testImplementation(Deps.Test.androidXTestCore)
 
-    lintPublish(project(":mvvm-lint"))
+    lintPublish(project(":arkitekt-lint"))
 }
 
 project.apply {

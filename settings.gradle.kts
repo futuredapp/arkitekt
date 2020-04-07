@@ -10,7 +10,7 @@ include(
     ":cr-usecases",
     ":bindingadapters",
     ":templates",
-    ":mvvm-lint",
+    ":arkitekt-lint",
     ":core-test",
     ":rx-usecases-test",
     ":cr-usecases-test"
