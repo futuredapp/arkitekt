@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.detail
 
-import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
-import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwnerDefaultValue
+import app.futured.arkitekt.core.viewmodel.ViewModelTest
+import app.futured.arkitekt.core.viewmodel.mockObserveWithoutOwnerDefaultValue
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk

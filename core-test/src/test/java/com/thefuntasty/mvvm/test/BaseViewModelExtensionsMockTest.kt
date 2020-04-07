@@ -5,10 +5,10 @@ import app.futured.arkitekt.core.BaseViewModel
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.livedata.DefaultValueLiveData
 import app.futured.arkitekt.core.livedata.DefaultValueMediatorLiveData
-import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
-import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwner
-import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwnerDefaultValue
-import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwnerDefaultValueMediator
+import app.futured.arkitekt.core.viewmodel.ViewModelTest
+import app.futured.arkitekt.core.viewmodel.mockObserveWithoutOwner
+import app.futured.arkitekt.core.viewmodel.mockObserveWithoutOwnerDefaultValue
+import app.futured.arkitekt.core.viewmodel.mockObserveWithoutOwnerDefaultValueMediator
 import io.mockk.mockk
 import io.mockk.spyk
 import org.junit.Assert.assertEquals

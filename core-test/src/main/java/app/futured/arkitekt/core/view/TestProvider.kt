@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.test.view
+package app.futured.arkitekt.core.view
 
 import app.futured.arkitekt.core.BaseViewModel
 import javax.inject.Provider

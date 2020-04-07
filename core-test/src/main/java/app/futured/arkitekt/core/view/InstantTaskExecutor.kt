@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.test.view
+package app.futured.arkitekt.core.view
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor

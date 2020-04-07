@@ -1,7 +1,7 @@
-package com.thefuntasty.mvvm.test.viewmodel
+package app.futured.arkitekt.core.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.thefuntasty.mvvm.test.internal.CoroutineScopeRule
+import app.futured.arkitekt.core.test.internal.CoroutineScopeRule
 import io.github.plastix.rxschedulerrule.RxSchedulerRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule

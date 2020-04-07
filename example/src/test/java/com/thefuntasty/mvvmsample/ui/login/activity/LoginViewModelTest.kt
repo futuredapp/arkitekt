@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.login.activity
 
-import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
+import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Before

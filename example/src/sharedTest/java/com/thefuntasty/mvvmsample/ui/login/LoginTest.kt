@@ -12,9 +12,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.thefuntasty.mvvm.rxusecases.test.mockExecute
-import com.thefuntasty.mvvm.test.view.asProvider
-import com.thefuntasty.mvvm.test.view.doAfterActivityInjection
-import com.thefuntasty.mvvm.test.view.doAfterFragmentInjection
+import app.futured.arkitekt.core.view.asProvider
+import app.futured.arkitekt.core.view.doAfterActivityInjection
+import app.futured.arkitekt.core.view.doAfterFragmentInjection
 import com.thefuntasty.mvvmsample.R
 import com.thefuntasty.mvvmsample.domain.GetStateUseCase
 import com.thefuntasty.mvvmsample.domain.ObserveUserFullNameUseCase

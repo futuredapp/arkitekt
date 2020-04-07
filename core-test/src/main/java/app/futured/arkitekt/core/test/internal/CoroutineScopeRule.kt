@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.test.internal
+package app.futured.arkitekt.core.test.internal
 
 import com.thefuntasty.mvvm.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher

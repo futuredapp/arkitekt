@@ -2,7 +2,7 @@ package com.thefuntasty.mvvmsample.ui.login.fragment
 
 import android.view.View
 import com.thefuntasty.mvvm.rxusecases.test.mockExecute
-import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
+import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import com.thefuntasty.mvvmsample.domain.GetStateUseCase
 import com.thefuntasty.mvvmsample.domain.ObserveUserFullNameUseCase
 import com.thefuntasty.mvvmsample.domain.SyncLoginUseCase

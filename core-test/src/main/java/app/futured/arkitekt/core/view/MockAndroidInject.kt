@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.test.view
+package app.futured.arkitekt.core.view
 
 import android.app.Activity
 import androidx.fragment.app.Fragment

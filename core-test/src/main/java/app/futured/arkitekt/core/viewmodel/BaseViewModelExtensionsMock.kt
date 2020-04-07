@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.test.viewmodel
+package app.futured.arkitekt.core.viewmodel
 
 import androidx.lifecycle.LiveData
 import app.futured.arkitekt.core.BaseViewModel
