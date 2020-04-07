@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.rxusecases.test
+package app.futured.arkitekt.rxusecases.test
 
 import app.futured.arkitekt.rxusecases.disposables.FlowableDisposablesOwner
 import app.futured.arkitekt.rxusecases.usecases.FlowableUseCase

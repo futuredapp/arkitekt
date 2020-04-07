@@ -1,23 +1,25 @@
-package com.thefuntasty.mvvm.rxusecases.test
+package app.futured.arkitekt.rxusecases.test
 
-import com.thefuntasty.mvvm.rxusecases.test.testutils.BaseTest
-import com.thefuntasty.mvvm.rxusecases.test.testutils.TestDisposablesOwner
-import app.futured.arkitekt.rxusecases.usecases.FlowableUseCase
+import app.futured.arkitekt.rxusecases.test.mockExecute
+import app.futured.arkitekt.rxusecases.test.mockExecuteNullable
+import app.futured.arkitekt.rxusecases.test.testutils.BaseTest
+import app.futured.arkitekt.rxusecases.test.testutils.TestDisposablesOwner
+import app.futured.arkitekt.rxusecases.usecases.SingleUseCase
 import io.mockk.mockk
-import io.reactivex.Flowable
+import io.reactivex.Single
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class FlowableUseCaseMethodsTests : BaseTest() {
+class SingleUseCaseMethodsTests : BaseTest() {
 
-    class TestUseCase : FlowableUseCase<String, String>() {
-        override fun prepare(args: String): Flowable<String> {
+    class TestUseCase : SingleUseCase<String, String>() {
+        override fun prepare(args: String): Single<String> {
             throw IllegalStateException("THIS SHOULD NOT BE CALLED")
         }
     }
 
-    class TestUseCaseNullable : FlowableUseCase<String?, String>() {
-        override fun prepare(args: String?): Flowable<String> {
+    class TestUseCaseNullable : SingleUseCase<String?, String>() {
+        override fun prepare(args: String?): Single<String> {
             throw IllegalStateException("THIS SHOULD NOT BE CALLED")
         }
     }
@@ -33,7 +35,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCase.mockExecute(args) { Flowable.just(expectedResult) }
+        mockUseCase.mockExecute(args) { Single.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -45,7 +47,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCase.mockExecute { Flowable.just(expectedResult) }
+        mockUseCase.mockExecute { Single.just(expectedResult) }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -57,7 +59,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Flowable.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Single.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -69,7 +71,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.mockExecuteNullable { Flowable.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable { Single.just(expectedResult) }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -81,7 +83,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with null value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.mockExecuteNullable(null) { Flowable.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(null) { Single.just(expectedResult) }
 
         // WHEN
         val result = executeNullAndReturnResult()
@@ -94,7 +96,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
         var result: String? = initialValue
         with(TestDisposablesOwner()) {
             mockUseCase.execute(args) {
-                onNext { result = it }
+                onSuccess { result = it }
                 onError { result = it.localizedMessage }
             }
         }
@@ -105,7 +107,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
         var result: String? = initialValue
         with(TestDisposablesOwner()) {
             mockUseCaseNullable.execute(argsNullable) {
-                onNext { result = it }
+                onSuccess { result = it }
                 onError { result = it.localizedMessage }
             }
         }
@@ -116,7 +118,7 @@ class FlowableUseCaseMethodsTests : BaseTest() {
         var result: String? = initialValue
         with(TestDisposablesOwner()) {
             mockUseCaseNullable.execute(null) {
-                onNext { result = it }
+                onSuccess { result = it }
                 onError { result = it.localizedMessage }
             }
         }

@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.ui.login.fragment
 
 import android.view.View
-import com.thefuntasty.mvvm.rxusecases.test.mockExecute
+import app.futured.arkitekt.rxusecases.test.mockExecute
 import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase

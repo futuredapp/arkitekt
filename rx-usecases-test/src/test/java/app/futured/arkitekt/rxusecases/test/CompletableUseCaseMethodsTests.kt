@@ -1,23 +1,25 @@
-package com.thefuntasty.mvvm.rxusecases.test
+package app.futured.arkitekt.rxusecases.test
 
-import com.thefuntasty.mvvm.rxusecases.test.testutils.BaseTest
-import com.thefuntasty.mvvm.rxusecases.test.testutils.TestDisposablesOwner
-import app.futured.arkitekt.rxusecases.usecases.SingleUseCase
+import app.futured.arkitekt.rxusecases.test.mockExecute
+import app.futured.arkitekt.rxusecases.test.mockExecuteNullable
+import app.futured.arkitekt.rxusecases.test.testutils.BaseTest
+import app.futured.arkitekt.rxusecases.test.testutils.TestDisposablesOwner
+import app.futured.arkitekt.rxusecases.usecases.CompletableUseCase
 import io.mockk.mockk
-import io.reactivex.Single
+import io.reactivex.Completable
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class SingleUseCaseMethodsTests : BaseTest() {
+class CompletableUseCaseMethodsTests : BaseTest() {
 
-    class TestUseCase : SingleUseCase<String, String>() {
-        override fun prepare(args: String): Single<String> {
+    class TestUseCase : CompletableUseCase<String>() {
+        override fun prepare(args: String): Completable {
             throw IllegalStateException("THIS SHOULD NOT BE CALLED")
         }
     }
 
-    class TestUseCaseNullable : SingleUseCase<String?, String>() {
-        override fun prepare(args: String?): Single<String> {
+    class TestUseCaseNullable : CompletableUseCase<String?>() {
+        override fun prepare(args: String?): Completable {
             throw IllegalStateException("THIS SHOULD NOT BE CALLED")
         }
     }
@@ -33,7 +35,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCase.mockExecute(args) { Single.just(expectedResult) }
+        mockUseCase.mockExecute(args) { Completable.complete() }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -45,7 +47,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCase.mockExecute { Single.just(expectedResult) }
+        mockUseCase.mockExecute { Completable.complete() }
 
         // WHEN
         val result = executeAndReturnResult()
@@ -57,7 +59,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Single.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(argsNullable) { Completable.complete() }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -69,7 +71,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with just value and without args then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.mockExecuteNullable { Single.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable { Completable.complete() }
 
         // WHEN
         val result = executeNullableAndReturnResult()
@@ -81,7 +83,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
     @Test
     fun `when nullable use case is mocked with null value then expected value should be returned`() {
         // GIVEN
-        mockUseCaseNullable.mockExecuteNullable(null) { Single.just(expectedResult) }
+        mockUseCaseNullable.mockExecuteNullable(null) { Completable.complete() }
 
         // WHEN
         val result = executeNullAndReturnResult()
@@ -94,7 +96,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
         var result: String? = initialValue
         with(TestDisposablesOwner()) {
             mockUseCase.execute(args) {
-                onSuccess { result = it }
+                onComplete { result = expectedResult }
                 onError { result = it.localizedMessage }
             }
         }
@@ -105,7 +107,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
         var result: String? = initialValue
         with(TestDisposablesOwner()) {
             mockUseCaseNullable.execute(argsNullable) {
-                onSuccess { result = it }
+                onComplete { result = expectedResult }
                 onError { result = it.localizedMessage }
             }
         }
@@ -116,7 +118,7 @@ class SingleUseCaseMethodsTests : BaseTest() {
         var result: String? = initialValue
         with(TestDisposablesOwner()) {
             mockUseCaseNullable.execute(null) {
-                onSuccess { result = it }
+                onComplete { result = expectedResult }
                 onError { result = it.localizedMessage }
             }
         }

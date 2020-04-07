@@ -11,7 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.thefuntasty.mvvm.rxusecases.test.mockExecute
+import app.futured.arkitekt.rxusecases.test.mockExecute
 import app.futured.arkitekt.core.view.asProvider
 import app.futured.arkitekt.core.view.doAfterActivityInjection
 import app.futured.arkitekt.core.view.doAfterFragmentInjection

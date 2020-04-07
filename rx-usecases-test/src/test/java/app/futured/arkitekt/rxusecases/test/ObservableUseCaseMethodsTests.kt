@@ -1,7 +1,9 @@
-package com.thefuntasty.mvvm.rxusecases.test
+package app.futured.arkitekt.rxusecases.test
 
-import com.thefuntasty.mvvm.rxusecases.test.testutils.BaseTest
-import com.thefuntasty.mvvm.rxusecases.test.testutils.TestDisposablesOwner
+import app.futured.arkitekt.rxusecases.test.mockExecute
+import app.futured.arkitekt.rxusecases.test.mockExecuteNullable
+import app.futured.arkitekt.rxusecases.test.testutils.BaseTest
+import app.futured.arkitekt.rxusecases.test.testutils.TestDisposablesOwner
 import app.futured.arkitekt.rxusecases.usecases.ObservableUseCase
 import io.mockk.mockk
 import io.reactivex.Observable
