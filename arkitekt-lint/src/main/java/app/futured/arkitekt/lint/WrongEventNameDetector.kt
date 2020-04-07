@@ -1,4 +1,4 @@
-package com.thefuntasty.lint
+package app.futured.arkitekt.lint
 
 import com.android.tools.lint.detector.api.Category
 import com.android.tools.lint.detector.api.Detector

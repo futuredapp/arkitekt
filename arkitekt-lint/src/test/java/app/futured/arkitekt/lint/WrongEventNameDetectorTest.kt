@@ -1,8 +1,9 @@
-package com.thefuntasty.lint
+package app.futured.arkitekt.lint
 
 import com.android.tools.lint.checks.infrastructure.LintDetectorTest
 import com.android.tools.lint.detector.api.Detector
 import com.android.tools.lint.detector.api.Issue
+import app.futured.arkitekt.lint.WrongEventNameDetector
 import org.junit.Test
 
 class WrongEventNameDetectorTest : LintDetectorTest() {

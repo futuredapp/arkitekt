@@ -12,6 +12,6 @@ dependencies {
 
 val jar by tasks.getting(Jar::class) {
     manifest {
-        attributes["Lint-Registry-v2"] = "com.thefuntasty.lint.MvvmIssueRegistry"
+        attributes["Lint-Registry-v2"] = "app.futured.arkitekt.lint.MvvmIssueRegistry"
     }
 }
