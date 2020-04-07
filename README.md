@@ -213,9 +213,9 @@ types are defined.
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="view" type="com.thefuntasty.mvvmsample.ui.main.MainView"/>
-        <variable name="viewModel" type="com.thefuntasty.mvvmsample.ui.main.MainViewModel"/>
-        <variable name="viewState" type="com.thefuntasty.mvvmsample.ui.main.MainViewState"/>
+        <variable name="view" type="app.futured.arkitekt.sample.ui.main.MainView"/>
+        <variable name="viewModel" type="app.futured.arkitekt.sample.ui.main.MainViewModel"/>
+        <variable name="viewState" type="app.futured.arkitekt.sample.ui.main.MainViewState"/>
     </data>
 
     <LinearLayout
@@ -317,9 +317,9 @@ observation directly in xml layout:
  <layout xmlns:android="http://schemas.android.com/apk/res/android">
  
      <data>
-         <variable name="view" type="com.thefuntasty.mvvmsample.ui.detail.DetailView"/>
-         <variable name="viewModel" type="com.thefuntasty.mvvmsample.ui.detail.DetailViewModel"/>
-         <variable name="viewState" type="com.thefuntasty.mvvmsample.ui.detail.DetailViewState"/>
+         <variable name="view" type="app.futured.arkitekt.sample.ui.detail.DetailView"/>
+         <variable name="viewModel" type="app.futured.arkitekt.sample.ui.detail.DetailViewModel"/>
+         <variable name="viewState" type="app.futured.arkitekt.sample.ui.detail.DetailViewState"/>
      </data>
      
      <TextView
