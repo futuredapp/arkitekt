@@ -1,7 +1,7 @@
 package com.thefuntasty.mvvmsample.ui.coroutinesresult
 
-import com.thefuntasty.mvvm.ViewState
-import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
+import app.futured.arkitekt.core.ViewState
+import app.futured.arkitekt.core.livedata.DefaultValueLiveData
 import javax.inject.Inject
 
 class CoroutinesResultViewState @Inject constructor() : ViewState {

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases
 
-import com.thefuntasty.mvvm.error.UseCaseErrorHandler
+import app.futured.arkitekt.core.error.UseCaseErrorHandler
 import com.thefuntasty.mvvm.rxusecases.disposables.withDisposablesOwner
 import com.thefuntasty.mvvm.rxusecases.usecases.CompletableUseCase
 import com.thefuntasty.mvvm.rxusecases.usecases.RxMockitoJUnitRunner

@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.rxusecases
 
-import com.thefuntasty.mvvm.error.UseCaseErrorHandler
+import app.futured.arkitekt.core.error.UseCaseErrorHandler
 
 internal fun wrapWithGlobalOnErrorLogger(onError: (Throwable) -> Unit): (Throwable) -> Unit {
     return { error ->

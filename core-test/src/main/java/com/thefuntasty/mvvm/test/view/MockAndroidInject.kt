@@ -2,7 +2,7 @@ package com.thefuntasty.mvvm.test.view
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import com.thefuntasty.mvvm.ViewState
+import app.futured.arkitekt.core.ViewState
 import com.thefuntasty.mvvm.dagger.inject.TestableAndroidInjection
 import dagger.android.AndroidInjection
 

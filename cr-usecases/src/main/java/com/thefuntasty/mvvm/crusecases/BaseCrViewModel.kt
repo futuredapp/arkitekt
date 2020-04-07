@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm.crusecases
 
 import androidx.lifecycle.viewModelScope
-import com.thefuntasty.mvvm.BaseViewModel
-import com.thefuntasty.mvvm.ViewState
+import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.ViewState
 import kotlinx.coroutines.CoroutineScope
 
 /**

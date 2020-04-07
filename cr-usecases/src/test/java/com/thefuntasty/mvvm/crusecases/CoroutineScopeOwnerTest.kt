@@ -5,7 +5,7 @@ import com.thefuntasty.mvvm.crusecases.testusecases.TestFailureFlowUseCase
 import com.thefuntasty.mvvm.crusecases.testusecases.TestFailureUseCase
 import com.thefuntasty.mvvm.crusecases.testusecases.TestFlowUseCase
 import com.thefuntasty.mvvm.crusecases.testusecases.TestUseCase
-import com.thefuntasty.mvvm.error.UseCaseErrorHandler
+import app.futured.arkitekt.core.error.UseCaseErrorHandler
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import org.junit.After

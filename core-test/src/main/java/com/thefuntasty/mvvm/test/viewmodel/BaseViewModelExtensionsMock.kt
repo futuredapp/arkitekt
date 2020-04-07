@@ -1,9 +1,9 @@
 package com.thefuntasty.mvvm.test.viewmodel
 
 import androidx.lifecycle.LiveData
-import com.thefuntasty.mvvm.BaseViewModel
-import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
-import com.thefuntasty.mvvm.livedata.DefaultValueMediatorLiveData
+import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.livedata.DefaultValueLiveData
+import app.futured.arkitekt.core.livedata.DefaultValueMediatorLiveData
 import io.mockk.CapturingSlot
 import io.mockk.every
 import io.mockk.invoke

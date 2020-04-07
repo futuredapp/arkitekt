@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvmsample.ui.base
 
 import androidx.databinding.ViewDataBinding
-import com.thefuntasty.mvvm.BaseViewModel
-import com.thefuntasty.mvvm.ViewState
+import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.ViewState
 import com.thefuntasty.mvvm.dagger.fragment.BaseDaggerBindingFragment
 import com.thefuntasty.mvvmsample.BR
 

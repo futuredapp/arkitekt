@@ -1,5 +1,5 @@
 package ${packageName}
 
-import com.thefuntasty.mvvm.BaseView
+import app.futured.arkitekt.core.BaseView
 
 interface ${className}View : BaseView

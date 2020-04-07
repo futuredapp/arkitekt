@@ -2,7 +2,7 @@ package com.thefuntasty.mvvm.dagger.inject
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import com.thefuntasty.mvvm.ViewModelCreator
+import app.futured.arkitekt.core.ViewModelCreator
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 

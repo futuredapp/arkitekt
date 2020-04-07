@@ -1,8 +1,8 @@
 package com.thefuntasty.mvvm.rxusecases
 
 import androidx.lifecycle.LiveData
-import com.thefuntasty.mvvm.BaseViewModel
-import com.thefuntasty.mvvm.ViewState
+import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.ViewState
 import com.thefuntasty.mvvm.rxusecases.disposables.DisposablesOwner
 import com.thefuntasty.mvvm.rxusecases.usecases.ObservableUseCase
 import io.reactivex.disposables.CompositeDisposable

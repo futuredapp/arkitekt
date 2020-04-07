@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.main
 
-import com.thefuntasty.mvvm.factory.BaseViewModelFactory
+import app.futured.arkitekt.core.factory.BaseViewModelFactory
 import javax.inject.Inject
 import javax.inject.Provider
 

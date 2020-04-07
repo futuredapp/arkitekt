@@ -16,7 +16,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
     }
 
     private val eventStub = kotlin("""
-        package com.thefuntasty.mvvm.event
+        package app.futured.arkitekt.core.event
         
         abstract class Event<T : ViewState>
         """).indented()
@@ -27,7 +27,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
             .files(
                 eventStub,
                 kotlin("""
-                import com.thefuntasty.mvvm.event.Event
+                import app.futured.arkitekt.core.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
                 
@@ -51,7 +51,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
             .files(
                 eventStub,
                 kotlin("""
-                import com.thefuntasty.mvvm.event.Event
+                import app.futured.arkitekt.core.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
                 
@@ -77,7 +77,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
             .files(
                 eventStub,
                 kotlin("""
-                import com.thefuntasty.mvvm.event.Event
+                import app.futured.arkitekt.core.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
                 

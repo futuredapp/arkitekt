@@ -1,10 +1,10 @@
 package com.thefuntasty.mvvm.test
 
 import androidx.lifecycle.MutableLiveData
-import com.thefuntasty.mvvm.BaseViewModel
-import com.thefuntasty.mvvm.ViewState
-import com.thefuntasty.mvvm.livedata.DefaultValueLiveData
-import com.thefuntasty.mvvm.livedata.DefaultValueMediatorLiveData
+import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.ViewState
+import app.futured.arkitekt.core.livedata.DefaultValueLiveData
+import app.futured.arkitekt.core.livedata.DefaultValueMediatorLiveData
 import com.thefuntasty.mvvm.test.viewmodel.ViewModelTest
 import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwner
 import com.thefuntasty.mvvm.test.viewmodel.mockObserveWithoutOwnerDefaultValue

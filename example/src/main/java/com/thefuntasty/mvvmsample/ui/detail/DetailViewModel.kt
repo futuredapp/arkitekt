@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.detail
 
-import com.thefuntasty.mvvm.BaseViewModel
+import app.futured.arkitekt.core.BaseViewModel
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(

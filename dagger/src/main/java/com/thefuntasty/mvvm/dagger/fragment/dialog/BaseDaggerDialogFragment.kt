@@ -3,10 +3,10 @@ package com.thefuntasty.mvvm.dagger.fragment.dialog
 import android.content.Context
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.thefuntasty.mvvm.BaseViewModel
-import com.thefuntasty.mvvm.ViewState
+import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.ViewState
 import com.thefuntasty.mvvm.dagger.inject.TestableAndroidInjection
-import com.thefuntasty.mvvm.fragment.dialog.ViewModelDialogFragment
+import app.futured.arkitekt.core.fragment.dialog.ViewModelDialogFragment
 import dagger.android.DispatchingAndroidInjector
 import javax.inject.Inject
 

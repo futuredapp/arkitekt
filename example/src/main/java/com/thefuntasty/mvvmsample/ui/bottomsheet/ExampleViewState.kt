@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.bottomsheet
 
-import com.thefuntasty.mvvm.ViewState
+import app.futured.arkitekt.core.ViewState
 import javax.inject.Inject
 
 class ExampleViewState @Inject constructor() : ViewState

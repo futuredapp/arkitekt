@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvm.test.view
 
-import com.thefuntasty.mvvm.BaseViewModel
+import app.futured.arkitekt.core.BaseViewModel
 import javax.inject.Provider
 
 class TestProvider<VIEW_MODEL : BaseViewModel<*>>(private val viewModel: VIEW_MODEL) : Provider<VIEW_MODEL> {

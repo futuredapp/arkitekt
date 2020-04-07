@@ -1,6 +1,6 @@
 package com.thefuntasty.mvvmsample.ui.form
 
-import com.thefuntasty.mvvm.event.Event
+import app.futured.arkitekt.core.event.Event
 
 sealed class FormEvent : Event<FormViewState>()
 

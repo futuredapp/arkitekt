@@ -1,5 +1,5 @@
 package com.thefuntasty.mvvmsample.ui.main
 
-import com.thefuntasty.mvvm.BaseView
+import app.futured.arkitekt.core.BaseView
 
 interface MainView : BaseView

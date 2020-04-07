@@ -41,7 +41,7 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
             )
         )
 
-        private const val MVVM_EVENT_QUALIFIED_NAME = "com.thefuntasty.mvvm.event.Event"
+        private const val MVVM_EVENT_QUALIFIED_NAME = "app.futured.arkitekt.core.event.Event"
         private val PATTERN_MISSPELL = Pattern.compile("Event[a-z]+")
         private val PATTERN_SUFFIX = Pattern.compile("(.+Event)")
     }

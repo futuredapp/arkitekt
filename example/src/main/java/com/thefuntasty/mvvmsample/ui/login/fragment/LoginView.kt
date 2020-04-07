@@ -1,5 +1,5 @@
 package com.thefuntasty.mvvmsample.ui.login.fragment
 
-import com.thefuntasty.mvvm.BaseView
+import app.futured.arkitekt.core.BaseView
 
 interface LoginView : BaseView
