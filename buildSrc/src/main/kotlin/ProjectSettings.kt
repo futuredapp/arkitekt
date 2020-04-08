@@ -57,7 +57,7 @@ object ProjectSettings {
     }
 
     object Publish {
-        const val bintrayRepo = "mvvm-android"
+        const val bintrayRepo = "arkitekt"
         const val siteUrl = "https://github.com/futuredapp/arkitekt"
         const val gitUrl = "https://github.com/futuredapp/arkitekt.git"
         const val developerId = "FuturedApp"
