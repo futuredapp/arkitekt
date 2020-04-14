@@ -1,17 +1,15 @@
-[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
-[![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%204.x/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
+![Title](extras/MMVM_Android.svg)
+
 # Arkitekt
 
+[![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
+[![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%204.x/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
 
 Arkitekt is a framework based on Android Architecture components, which gives you set of
-base classes to implement concise, testable and solid application. It combines built-in
-support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava or Coroutines
-use cases. Architecture described here is used among wide variety of
-projects and it's production ready.
+base classes to implement concise, testable and solid application. 
 
-![MVVM architecture](extras/architecture-diagram.png)
+# Installation
 
-# Download
 [ ![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
 ```groovy
 dependencies {
@@ -27,17 +25,25 @@ dependencies {
     testImplementation("app.futured.arkitekt:cr-usecases-test:LatestVersion")
 }    
 ```
+# Features
 
-# Table of contents
+Arkitekt framework combines built-in support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava or Coroutines
+use cases. Architecture described here is used among wide variety of
+projects and it's production ready.
+
+![MVVM architecture](extras/architecture-diagram.png)
+
+# Usage
+
+## Table of contents
 
 1. [Getting started - Minimal project file hierarchy](#getting-started---minimal-project-file-hierarchy)
 2. [Use Cases](#use-cases)
 3. [UI changes flow](#ui-changes-flow)
 4. [Stores (Repositories)](#stores-repositories)
 5. [Templates](#templates)
-6. [About](#about)
 
-# Getting started - Minimal project file hierarchy
+## Getting started - Minimal project file hierarchy
 Minimal working project must contain files as presented in `example-minimal`
 module. File hierarchy might looks like this:
 ```
@@ -64,7 +70,7 @@ example-minimal
 Keep in mind this description focuses on architecture `.kt` files. Android related files like an 
 `AndroidManifest.xml` are omitted. Let's describe individual files one by one:
 
-#### `ActivityBuilderModule.kt` 
+##### `ActivityBuilderModule.kt` 
 File contains Dagger module class that takes responsibility of proper injection
 into Activities. This is the place where every Activity and its `ActivityModule` 
 in project must be specified to make correct ViewModel injection work.
@@ -78,7 +84,7 @@ abstract class ActivityBuilderModule {
 }
 ``` 
 
-#### `ApplicationComponent.kt`
+##### `ApplicationComponent.kt`
 
 ApplicationComponent interface combines your singleton Dagger modules and defines
 how `DaggerApplicationComponent` should be generated.
@@ -105,7 +111,7 @@ interface ApplicationComponent : AndroidInjector<App> {
 }
 ```
 
-#### `ApplicationModule.kt`
+##### `ApplicationModule.kt`
 
 Application module definition. Your singleton scoped objects might
 be specified here and injected wherever needed. Example implementation:
@@ -119,7 +125,7 @@ class ApplicationModule {
 }
 ```
 
-#### `BaseActivity.kt`
+##### `BaseActivity.kt`
 
 All of Activities in the project should inherit from this class to make DataBinding work properly.
 Be aware of fact BR class used in this class is generated when there is at least one layout file 
@@ -134,7 +140,7 @@ abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewData
 }
 ```
 
-#### `MainActivity.kt`
+##### `MainActivity.kt`
 
 Example Activity implementation. `viewModelFactory` and `layoutResId` must be overridden in every
 Activity in order to make ViewModel injection and DataBinding work. `ActivityMainBinding` used
@@ -150,7 +156,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 }
 ```
 
-#### `MainActivityModule.kt`
+##### `MainActivityModule.kt`
 
 `MainActivity` scoped module. It becomes useful when you want to provide specific
 activity related configuration e.g.:
@@ -165,7 +171,7 @@ abstract class MainActivityModule {
 }
 ```
 
-#### `MainView.kt`
+##### `MainView.kt`
 
 Interface representing actions executable on your Activity/Fragment. These actions
 might be invoked directly from xml layout thanks to `view` data variable.  
@@ -173,7 +179,7 @@ might be invoked directly from xml layout thanks to `view` data variable.
 interface MainView : BaseView
 ```
 
-#### `MainViewModel.kt`
+##### `MainViewModel.kt`
 
 Activity/Fragment specific ViewModel implementation. You can choose between extending
 `BaseViewModel` or `BaseRxViewModel` with build-in support for RxJava based use cases.
@@ -184,7 +190,7 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
 }
 ```
 
-#### `MainViewModelFactory.kt`
+##### `MainViewModelFactory.kt`
 
 Factory responsible for `ViewModel` creation. It is injected in Activity/Fragment. 
 ```kotlin
@@ -195,7 +201,7 @@ class MainViewModelFactory @Inject constructor(
 }
 ```
 
-#### `MainViewState.kt`
+##### `MainViewState.kt`
 
 State representation of an screen. Should contain set of `LiveData` fields observed
 by Activity/Fragment. State is stored in `ViewModel` thus survives screen rotation. 
@@ -205,7 +211,7 @@ object MainViewState : ViewState {
 }
 ```
 
-#### `activity_main.xml`
+##### `activity_main.xml`
 
 Layout file containing proper DataBinding variables initialization. Make sure correct
 types are defined.
@@ -228,7 +234,7 @@ types are defined.
 </layout>
 ```
 
-# Use Cases
+## Use Cases
 
 Modules `cr-usecases` and `rx-usecases` contains set of base classes useful for easy execution of
 background tasks based on Coroutines or RxJava streams respectively. In terms of Coroutines
@@ -239,7 +245,7 @@ and finally `CompletableUseCase`.
 Following example describes how to make an API call and how to deal with 
 result of this call. 
 
-#### LoginUseCase.kt
+##### LoginUseCase.kt
 ```kotlin
 class LoginUseCase @Inject constructor(
     private val apiManager: ApiManager // Retrofit Service
@@ -252,7 +258,7 @@ class LoginUseCase @Inject constructor(
 
 data class LoginData(val email: String, val password: String)
 ```
-#### LoginViewState.kt
+##### LoginViewState.kt
 ```kotlin
 class LoginViewState : ViewState {
     // IN - values provided by UI
@@ -265,7 +271,7 @@ class LoginViewState : ViewState {
 }
 ```
 
-#### LoginViewModel.kt
+##### LoginViewModel.kt
 ```kotlin
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase // Inject UseCase
@@ -290,7 +296,7 @@ class LoginViewModel @Inject constructor(
 }
 ```
 
-## Synchronous execution of cr-usecase
+### Synchronous execution of cr-usecase
 
 Module `cr-usecases` allows you to execute use cases synchronously. 
 ```kotlin
@@ -304,11 +310,11 @@ fun onButtonClicked() = launchWithHandler {
 
 `launchWithHandler` launches a new coroutine encapsulated with a try-catch block. By default exception thrown in `launchWithHandler` is rethrown but it is possible to override this behavior with `defaultErrorHandler` or just log these exceptions in `logUnhandledException`.
 
-# UI changes flow
+## UI changes flow
 There are two main ways how to reflect data changes in UI. Through `ViewState` observation
 or one-shot `Events`. 
 
-## ViewState observation
+### ViewState observation
 
 You can observe state changes and reflect these changes in UI via DataBinding 
 observation directly in xml layout:
@@ -329,19 +335,19 @@ observation directly in xml layout:
  </layout>
 ```
 
-## Events
+### Events
 Events are one-shot messages sent from `ViewModel` to an Activity/Fragment. They
 are based on `LiveData` bus. Events are guaranteed to be delivered only once even when
 there is screen rotation in progress. Basic event communication might look like this:
 
-#### `MainEvents.kt`
+##### `MainEvents.kt`
 ```kotlin
 sealed class MainEvent : Event<MainViewState>()
 
 object ShowDetailEvent : MainEvent()
 ```
 
-#### `MainViewModel.kt`
+##### `MainViewModel.kt`
 ```kotlin
 class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
 
@@ -353,7 +359,7 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
 }
 ```
 
-#### `MainActivity.kt`
+##### `MainActivity.kt`
 ```kotlin
 class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
 
@@ -369,7 +375,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBind
 }
 ```
 
-# Stores (Repositories)
+## Stores (Repositories)
 All our applications respect broadly known repository pattern. The main message this
 pattern tells: Define `Store` (Repository) classes with single entity related business logic 
 eg. `UserStore`, `OrderStore`, `DeviceStore` etc. Let's see this principle on `UserStore` class
@@ -417,13 +423,13 @@ We strictly respect this injection hierarchy:
 | `UseCase` | `Store` |
 | `Store` | `Dao`, `Persistence`, `ApiService` |
 
-# Testing
+## Testing
 
 In order to create successful applications, it is highly encouraged to write tests for your application. But testing can be tricky sometimes so here are our best practices and utilities that will help you to achieve this goal with this library. 
 
 See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/)) in `example` module for more detailed sample.
 
-## ViewModel testing
+### ViewModel testing
 
 [core-test](#Download) dependency contains utilities to help you with ViewModel testing.
 
@@ -488,7 +494,7 @@ or
 mockLoginUseCase.mockExecuteNullable(args = ...) { user } // For Coroutines Use Cases
 ```
 
-## Activity and Fragment tests
+### Activity and Fragment tests
 
 [core-test](#Download) dependency contains utilities to help you with espresso testing.
 
@@ -507,7 +513,7 @@ doAfterActivityInjection<SampleActivity> { activity ->
 ```
 See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/sharedTest/java/app/futured/sample/ui)) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
 
-# Templates  
+## Templates  
 
 Arkitekt framework requires several files to be created with each new Activity or Fragment. To make the process of screen creation smooth, our framework is shipped with a template module. It contains templates for creating "Arkitekt Activity" and "Arkitekt Fragment" via Android Studio GUI.
 
@@ -540,5 +546,7 @@ Note: You can also run this task from Gradle sidebar in Android Studio, you can 
 When the templates are in place you can use them directly from GUI
 ![AS Example](extras/arkitekt_template_example.png)
 
-# About
-Created with &#x2764; at Futured. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz). Licence MIT.
+# License
+Arkitekt is available under the MIT license. See the [LICENSE file](LICENCE) for more information.
+
+Created with &#x2764; at Futured. Inspired by [Alfonz library](https://github.com/petrnohejl/Alfonz).
