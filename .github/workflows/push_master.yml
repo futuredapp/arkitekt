@@ -2,11 +2,11 @@ name: Check 3.x
 on:
   push:
     branches:
-      - 3.x
+      - 4.x
 
 jobs:
   master:
-    name: 3.x check
+    name: 4.x check
     runs-on: [ubuntu-latest]
     env:
       SLACK_CHANNEL: android
@@ -27,7 +27,7 @@ jobs:
         uses: homoluctus/slatify@master
         with:
           type: "failure"
-          job_name: '*3.x Check*'
+          job_name: '*4.x Check*'
           username: GitHub
           channel: ${{env.SLACK_CHANNEL}}
           url: ${{ secrets.SLACK_WEB_HOOK }}

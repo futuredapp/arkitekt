@@ -64,15 +64,15 @@ detekt {
     version = Versions.detekt
     input = files(
         "example/src/main/java",
-        "mvvm/src/main/java",
-        "mvvm-test/src/main/java",
+        "core/src/main/java",
+        "core-test/src/main/java",
         "dagger/src/main/java",
         "rx-usecases/src/main/java",
         "rx-usecases-test/src/main/java",
         "cr-usecases/src/main/java",
         "cr-usecases-test/src/main/java",
         "bindingadapters/src/main/java",
-        "mvvm-lint/src/main/java"
+        "arkitekt-lint/src/main/java"
     )
     filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt.yml")

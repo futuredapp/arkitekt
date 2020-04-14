@@ -1,9 +1,9 @@
 object ProjectSettings {
-    const val applicationId = "com.thefuntasty.mvvmsample"
+    const val applicationId = "app.futured.arkitekt.sample"
     const val compileSdk = 28
     const val targetSdk = 28
-    const val minSdk = 18
-    const val group = "com.thefuntasty.mvvm"
+    const val minSdk = 19
+    const val group = "app.futured.arkitekt"
 
     /**
      * this version will be used only for local builds, jitpack will automatically provide TAG version
@@ -11,18 +11,18 @@ object ProjectSettings {
     val version = System.getenv("BITRISE_GIT_TAG")?:"0.0.1-TEST"
 
     object Templates {
-        const val module = "android-templates"
+        const val module = "templates"
         const val id = "$group.$module"
         const val name = "copyTemplates"
-        const val implementationClass = "com.thefuntasty.mvvm.templates.Templates"
+        const val implementationClass = "app.futured.arkitekt.templates.Templates"
     }
-    object Mvvm {
-        const val artifact = "mvvm"
+    object Core {
+        const val artifact = "core"
         const val libraryDescription = "Core module of MVVM-Android framework"
     }
 
-    object MvvmTest {
-        const val artifact = "mvvm-test"
+    object CoreTest {
+        const val artifact = "core-test"
         const val libraryDescription = "Test utilities for mvvm module"
     }
 
@@ -57,14 +57,14 @@ object ProjectSettings {
     }
 
     object Publish {
-        const val bintrayRepo = "mvvm-android"
-        const val siteUrl = "https://github.com/thefuntasty/mvvm-android"
-        const val gitUrl = "https://github.com/thefuntasty/mvvm-android.git"
-        const val developerId = "TheFuntasty"
-        const val developerName = "TheFuntasty"
-        const val developerEmail = "ops@thefuntasty.com"
+        const val bintrayRepo = "arkitekt"
+        const val siteUrl = "https://github.com/futuredapp/arkitekt"
+        const val gitUrl = "https://github.com/futuredapp/arkitekt.git"
+        const val developerId = "FuturedApp"
+        const val developerName = "FuturedApp"
+        const val developerEmail = "ops@futured.app"
         const val licenseName = "MIT Licence"
-        const val licenseUrl = "https://github.com/thefuntasty/mvvm-android/blob/master/LICENCE"
+        const val licenseUrl = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
         val allLicenses = listOf("MIT")
     }
 }
