@@ -5,7 +5,7 @@ import io.reactivex.Flowable
 /**
  * Base use case which wraps [Flowable]. Instance of this
  * use case can be simply executed in cooperation with
- * [com.thefuntasty.mvvm.rxusecases.disposables.FlowableDisposablesOwner] interface.
+ * [app.futured.arkitekt.rxusecases.disposables.FlowableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]

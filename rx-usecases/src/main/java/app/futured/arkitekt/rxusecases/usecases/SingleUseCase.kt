@@ -5,7 +5,7 @@ import io.reactivex.Single
 /**
  * Base use case which wraps [Single]. Instance of this
  * use case can be simply executed in cooperation with
- * [com.thefuntasty.mvvm.rxusecases.disposables.SingleDisposablesOwner] interface.
+ * [app.futured.arkitekt.rxusecases.disposables.SingleDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]

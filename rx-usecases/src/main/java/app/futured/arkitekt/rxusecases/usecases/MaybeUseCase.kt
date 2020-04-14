@@ -5,7 +5,7 @@ import io.reactivex.Maybe
 /**
  * Base use case which wraps [Maybe]. Instance of this
  * use case can be simply executed in cooperation with
- * [com.thefuntasty.mvvm.rxusecases.disposables.MaybeDisposablesOwner] interface.
+ * [app.futured.arkitekt.rxusecases.disposables.MaybeDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]

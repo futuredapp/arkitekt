@@ -5,7 +5,7 @@ import io.reactivex.Completable
 /**
  * Base use case which wraps [Completable]. Instance of this
  * use case can be simply executed in cooperation with
- * [com.thefuntasty.mvvm.rxusecases.disposables.CompletableDisposablesOwner] interface.
+ * [app.futured.arkitekt.rxusecases.disposables.CompletableDisposablesOwner] interface.
  *
  * Wrapped stream is subscribed on [io.reactivex.schedulers.Schedulers.io] and
  * observed on [io.reactivex.android.schedulers.AndroidSchedulers.mainThread]
