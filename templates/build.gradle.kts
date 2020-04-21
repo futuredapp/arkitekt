@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
     id("maven-publish")
-    id("com.gradle.plugin-publish") version "0.10.0"
+    id("com.gradle.plugin-publish") version "0.11.0"
 }
 
 project.setProperty("archivesBaseName", ProjectSettings.Templates.module)
