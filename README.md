@@ -547,7 +547,7 @@ plugins {
 
 **On Windows**
 
- 1. Copy folders `ArkitektActivity` and `ArkitektFragment` from *arkitekt\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
+ 1. Copy folders */ArkitektActivity* and */ArkitektFragment* from *arkitekt\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
     
  2. Restart/Start Android Studio
 
