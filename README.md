@@ -1,4 +1,4 @@
-![Title](extras/MMVM_Android.svg)
+<img align="right" src="extras/MMVM_Android.svg">
 
 # Arkitekt
 
@@ -10,21 +10,19 @@ base classes to implement concise, testable and solid application.
 
 # Installation
 
-[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
 ```groovy
 android {
-    ...
-    
+    // AGP < 4.0.0
     dataBinding {
         enabled = true
     }
     
-    OR  
-    
+    // AGP >= 4.0.0
     buildFeatures {
         dataBinding = true
     }
 }
+
 dependencies {
     implementation("app.futured.arkitekt:core:LatestVersion")
     implementation("app.futured.arkitekt:bindingadapters:LatestVersion")
@@ -52,7 +50,7 @@ projects and it's production ready.
 
 1. [Getting started - Minimal project file hierarchy](#getting-started---minimal-project-file-hierarchy)
 2. [Use Cases](#use-cases)
-3. [UI changes flow](#ui-changes-flow)
+3. [Propagating data model changes into UI](#propagating-data-model-changes-into-ui)
 4. [Stores (Repositories)](#stores-repositories)
 5. [Templates](#templates)
 
@@ -314,17 +312,17 @@ class LoginViewModel @Inject constructor(
 Module `cr-usecases` allows you to execute use cases synchronously. 
 ```kotlin
 fun onButtonClicked() = launchWithHandler {  
-    ...
+    // ...
     val data = useCase.execute().getOrDefault("Default")  
-    ...
+    // ...
 }
 ```
 `execute` method returns a `Result` that can be either successful `Success` or failed `Error`.
 
 `launchWithHandler` launches a new coroutine encapsulated with a try-catch block. By default exception thrown in `launchWithHandler` is rethrown but it is possible to override this behavior with `defaultErrorHandler` or just log these exceptions in `logUnhandledException`.
 
-## UI changes flow
-There are two main ways how to reflect data changes in UI. Through `ViewState` observation
+## Propagating data model changes into UI
+There are two main ways how to reflect data model changes in UI. Through `ViewState` observation
 or one-shot `Events`. 
 
 ### ViewState observation
@@ -375,8 +373,6 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
 ##### `MainActivity.kt`
 ```kotlin
 class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
-
-    // ...
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -547,12 +543,11 @@ plugins {
 ```
  4. Restart Android Studio
 
-Note: You can also run this task from Gradle sidebar in Android Studio, you can find it under
-**Tasks -> arkitekt -> copyTemplates**
+> Note: You can also run this task from Gradle sidebar in Android Studio. You can find it under **Tasks -> arkitekt -> copyTemplates**
 
 **On Windows**
 
- 1. Copy folders ArkitektActivity and ArkitektFragment from *arkitekt\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
+ 1. Copy folders */ArkitektActivity* and */ArkitektFragment* from *arkitekt\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
     
  2. Restart/Start Android Studio
 
