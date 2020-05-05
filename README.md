@@ -50,7 +50,7 @@ projects and it's production ready.
 
 1. [Getting started - Minimal project file hierarchy](#getting-started---minimal-project-file-hierarchy)
 2. [Use Cases](#use-cases)
-3. [UI changes flow](#ui-changes-flow)
+3. [Propagating data model changes into UI](#propagating-data-model-changes-into-ui)
 4. [Stores (Repositories)](#stores-repositories)
 5. [Templates](#templates)
 
@@ -321,8 +321,8 @@ fun onButtonClicked() = launchWithHandler {
 
 `launchWithHandler` launches a new coroutine encapsulated with a try-catch block. By default exception thrown in `launchWithHandler` is rethrown but it is possible to override this behavior with `defaultErrorHandler` or just log these exceptions in `logUnhandledException`.
 
-## UI changes flow
-There are two main ways how to reflect data changes in UI. Through `ViewState` observation
+## Propagating data model changes into UI
+There are two main ways how to reflect data model changes in UI. Through `ViewState` observation
 or one-shot `Events`. 
 
 ### ViewState observation
