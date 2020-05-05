@@ -1,5 +1,4 @@
-![Title](extras/MMVM_Android.svg)
-
+<img align="right"src="extras/MMVM_Android.svg">
 # Arkitekt
 
 [![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
@@ -13,18 +12,17 @@ base classes to implement concise, testable and solid application.
 [ ![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
 ```groovy
 android {
-    ...
-    
+    // AGP < 4.0.0
     dataBinding {
         enabled = true
     }
     
-    OR  
-    
+    // AGP >= 4.0.0
     buildFeatures {
         dataBinding = true
     }
 }
+
 dependencies {
     implementation("app.futured.arkitekt:core:LatestVersion")
     implementation("app.futured.arkitekt:bindingadapters:LatestVersion")
@@ -314,9 +312,9 @@ class LoginViewModel @Inject constructor(
 Module `cr-usecases` allows you to execute use cases synchronously. 
 ```kotlin
 fun onButtonClicked() = launchWithHandler {  
-    ...
+    // ...
     val data = useCase.execute().getOrDefault("Default")  
-    ...
+    // ...
 }
 ```
 `execute` method returns a `Result` that can be either successful `Success` or failed `Error`.
@@ -375,8 +373,6 @@ class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
 ##### `MainActivity.kt`
 ```kotlin
 class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
-
-    // ...
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
