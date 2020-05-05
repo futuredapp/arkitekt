@@ -543,12 +543,11 @@ plugins {
 ```
  4. Restart Android Studio
 
-Note: You can also run this task from Gradle sidebar in Android Studio, you can find it under
-**Tasks -> arkitekt -> copyTemplates**
+> Note: You can also run this task from Gradle sidebar in Android Studio. You can find it under **Tasks -> arkitekt -> copyTemplates**
 
 **On Windows**
 
- 1. Copy folders ArkitektActivity and ArkitektFragment from *arkitekt\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
+ 1. Copy folders `ArkitektActivity` and `ArkitektFragment` from *arkitekt\templates\src\main\resources\templates* in to  *C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other*
     
  2. Restart/Start Android Studio
 
