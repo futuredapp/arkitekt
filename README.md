@@ -1,5 +1,5 @@
-<img align="right"src="extras/MMVM_Android.svg">
 # Arkitekt
+<img align="right" src="extras/MMVM_Android.svg">
 
 [![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
 [![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%204.x/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
