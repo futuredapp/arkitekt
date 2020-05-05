@@ -10,7 +10,6 @@ base classes to implement concise, testable and solid application.
 
 # Installation
 
-[ ![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
 ```groovy
 android {
     // AGP < 4.0.0
