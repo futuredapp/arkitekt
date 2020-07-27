@@ -19,7 +19,7 @@ class UiDataTest {
         val initVal = "1"
 
         val uiData = uiData(initVal)
-        val uiData2 = uiData { initVal}
+        val uiData2 = uiData { initVal }
         val uiData3 = UiData(initVal)
         val uiData4 = initVal.toUiData()
 
