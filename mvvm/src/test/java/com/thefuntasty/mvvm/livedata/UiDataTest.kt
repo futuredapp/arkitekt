@@ -2,7 +2,6 @@ package com.thefuntasty.mvvm.livedata
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,10 +18,10 @@ class UiDataTest {
     fun testUiDataInitFunctions() { // test per scenario
         val initVal = "1"
 
-        val uiData = uiData("1")
-        val uiData2 = uiData {"1"}
-        val uiData3 = UiData("1")
-        val uiData4= "1".toUiData()
+        val uiData = uiData(initVal)
+        val uiData2 = uiData { initVal}
+        val uiData3 = UiData(initVal)
+        val uiData4 = initVal.toUiData()
 
         assert(initVal == uiData.value)
         assert(initVal == uiData2.value)
@@ -45,7 +44,5 @@ class UiDataTest {
     fun testUiDataNonNull() {
         val uiData = uiData("1")
         assert(uiData.value != null)
-
-
     }
 }

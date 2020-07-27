@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 /**
  * Extended [LiveData] class with default value. Default value can't be null.
  */
-@Deprecated("use UiData", ReplaceWith("com.thefuntasty.mvvm.livedata.uiData {defaultValue}" ))
+@Deprecated("use UiData", ReplaceWith("com.thefuntasty.mvvm.livedata.uiData {defaultValue}"))
 class DefaultValueLiveData<T : Any>(defaultValue: T) : MutableLiveData<T>() {
 
     init {
