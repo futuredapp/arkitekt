@@ -1,6 +1,8 @@
 package app.futured.arkitekt.sample
 
+import android.content.Context
 import android.util.Log
+import androidx.multidex.MultiDex
 import app.futured.arkitekt.core.error.UseCaseErrorHandler
 import app.futured.arkitekt.sample.injection.DaggerApplicationComponent
 import dagger.android.AndroidInjector
@@ -20,5 +22,10 @@ class App : DaggerApplication() {
         val component = DaggerApplicationComponent.builder().application(this).build()
         component.inject(this)
         return component
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 }

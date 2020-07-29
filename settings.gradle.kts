@@ -6,6 +6,7 @@ include(
     ":dagger",
     ":example",
     ":example-minimal",
+    ":example-hilt",
     ":rx-usecases",
     ":cr-usecases",
     ":bindingadapters",
