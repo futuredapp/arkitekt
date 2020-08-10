@@ -2,8 +2,6 @@ package com.thefuntasty.mvvm.livedata
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.nhaarman.mockito_kotlin.verify
-import junit.framework.Assert.assertSame
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
