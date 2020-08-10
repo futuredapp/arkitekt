@@ -29,6 +29,12 @@ class UiData<T : Any>(initValue: T) : MutableLiveData<T>() {
     @Suppress("RedundantOverride")
     override fun setValue(value: T) { super.setValue(value) }
 
+    /**
+     * Inform user about non-nullability from Java call site
+     * */
+    @Suppress("RedundantOverride")
+    override fun postValue(value: T) { super.postValue(value) }
+
     fun <R : Any> map(mapper: (T) -> R): NonNullLiveData<R> {
         val nonNullLiveData = NonNullLiveData(mapper(this.value))
         val mediator = UiDataMediator(mapper(this.value))
