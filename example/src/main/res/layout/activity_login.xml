@@ -5,15 +5,15 @@
 
         <variable
                 name="view"
-                type="com.thefuntasty.mvvmsample.ui.login.activity.LoginView"/>
+                type="app.futured.arkitekt.sample.ui.login.activity.LoginView"/>
 
         <variable
                 name="viewModel"
-                type="com.thefuntasty.mvvmsample.ui.login.activity.LoginViewModel"/>
+                type="app.futured.arkitekt.sample.ui.login.activity.LoginViewModel"/>
 
         <variable
                 name="viewState"
-                type="com.thefuntasty.mvvmsample.ui.login.activity.LoginViewState"/>
+                type="app.futured.arkitekt.sample.ui.login.activity.LoginViewState"/>
 
     </data>
 

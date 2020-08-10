@@ -1,8 +1,8 @@
-rootProject.name = "mvvm-android"
+rootProject.name = "arkitekt"
 rootProject.buildFileName = "build.gradle.kts"
 
 include(
-    ":mvvm",
+    ":core",
     ":dagger",
     ":example",
     ":example-minimal",
@@ -10,8 +10,8 @@ include(
     ":cr-usecases",
     ":bindingadapters",
     ":templates",
-    ":mvvm-lint",
-    ":mvvm-test",
+    ":arkitekt-lint",
+    ":core-test",
     ":rx-usecases-test",
     ":cr-usecases-test"
 )

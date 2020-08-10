@@ -2,21 +2,21 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.bottomsheet.ExampleBottomSheetFragment">
+    tools:context="app.futured.arkitekt.sample.ui.bottomsheet.ExampleBottomSheetFragment">
 
     <data>
 
         <variable
             name="view"
-            type="com.thefuntasty.mvvmsample.ui.bottomsheet.ExampleView"/>
+            type="app.futured.arkitekt.sample.ui.bottomsheet.ExampleView"/>
 
         <variable
             name="viewModel"
-            type="com.thefuntasty.mvvmsample.ui.bottomsheet.ExampleViewModel"/>
+            type="app.futured.arkitekt.sample.ui.bottomsheet.ExampleViewModel"/>
 
         <variable
             name="viewState"
-            type="com.thefuntasty.mvvmsample.ui.bottomsheet.ExampleViewState"/>
+            type="app.futured.arkitekt.sample.ui.bottomsheet.ExampleViewState"/>
 
     </data>
 

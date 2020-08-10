@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":mvvm"))
+    implementation(project(":core"))
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))

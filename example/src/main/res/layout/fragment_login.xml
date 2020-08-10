@@ -7,15 +7,15 @@
 
         <variable
             name="view"
-            type="com.thefuntasty.mvvmsample.ui.login.fragment.LoginView"/>
+            type="app.futured.arkitekt.sample.ui.login.fragment.LoginView"/>
 
         <variable
             name="viewModel"
-            type="com.thefuntasty.mvvmsample.ui.login.fragment.LoginViewModel"/>
+            type="app.futured.arkitekt.sample.ui.login.fragment.LoginViewModel"/>
 
         <variable
             name="viewState"
-            type="com.thefuntasty.mvvmsample.ui.login.fragment.LoginViewState"/>
+            type="app.futured.arkitekt.sample.ui.login.fragment.LoginViewState"/>
 
     </data>
 
