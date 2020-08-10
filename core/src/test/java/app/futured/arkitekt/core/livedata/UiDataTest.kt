@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.livedata
+package app.futured.arkitekt.core.livedata
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
