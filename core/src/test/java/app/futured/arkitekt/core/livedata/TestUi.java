@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.livedata;
+package app.futured.arkitekt.core.livedata;
 
 public class TestUi {
     private UiData<String> data = new UiData<String>("asda");

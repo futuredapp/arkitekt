@@ -1,4 +1,4 @@
-package com.thefuntasty.mvvm.livedata
+package app.futured.arkitekt.core.livedata
 
 import androidx.lifecycle.LiveData
 
