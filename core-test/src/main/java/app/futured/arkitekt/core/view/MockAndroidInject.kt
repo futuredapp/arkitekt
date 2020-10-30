@@ -52,7 +52,7 @@ inline fun <reified ACTIVITY> doAfterActivityInjection(crossinline mockBlock: (A
  * @param mockBlock lambda that will be executed right after [Fragment] will be injected.
  */
 inline fun <reified FRAGMENT> doAfterFragmentInjection(crossinline mockBlock: (FRAGMENT) -> Unit)
-where FRAGMENT : Fragment {
+    where FRAGMENT : Fragment {
     TestableAndroidInjection.onFragmentInject = { fragment ->
         fragment as? FRAGMENT ?: error("doAfterFragmentInjection expects ${FRAGMENT::class} but ${fragment::class} was received")
         InstantTaskExecutor().performNow {

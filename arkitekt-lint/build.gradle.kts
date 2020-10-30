@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
+
+    compileOnly(kotlin(Deps.Kotlin.stdlib, org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
     compileOnly(Deps.Lint.api)
     compileOnly(Deps.Lint.checks)
 

@@ -1,5 +1,6 @@
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.net.URI
+import app.futured.arkitekt.DependencyUpdates
 
 buildscript {
     repositories {
@@ -37,6 +38,10 @@ plugins {
     id(Deps.Plugins.ktlint) version Versions.ktlint
 //    uncomment this line for local testing purposes during template module development
 //    id(ProjectSettings.Templates.id) version ProjectSettings.Templates.version
+}
+
+tasks {
+    register<DependencyUpdates>("dependencyUpdates")
 }
 
 allprojects {

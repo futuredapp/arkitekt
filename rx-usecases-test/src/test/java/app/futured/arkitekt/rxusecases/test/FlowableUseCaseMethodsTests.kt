@@ -1,7 +1,5 @@
 package app.futured.arkitekt.rxusecases.test
 
-import app.futured.arkitekt.rxusecases.test.mockExecute
-import app.futured.arkitekt.rxusecases.test.mockExecuteNullable
 import app.futured.arkitekt.rxusecases.test.testutils.BaseTest
 import app.futured.arkitekt.rxusecases.test.testutils.TestDisposablesOwner
 import app.futured.arkitekt.rxusecases.usecases.FlowableUseCase

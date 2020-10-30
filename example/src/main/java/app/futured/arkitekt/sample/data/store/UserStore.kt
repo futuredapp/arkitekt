@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.data.store
 
-import com.jakewharton.rxrelay2.BehaviorRelay
 import app.futured.arkitekt.sample.data.model.User
+import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton

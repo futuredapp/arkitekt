@@ -1,5 +1,6 @@
 package app.futured.arkitekt.core.view
 
+import android.annotation.SuppressLint
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 
@@ -10,7 +11,8 @@ import androidx.arch.core.executor.TaskExecutor
  * This class can be used for tests that use Architecture Components.
  */
 @PublishedApi
-internal class InstantTaskExecutor  {
+@SuppressLint("RestrictedApi")
+internal class InstantTaskExecutor {
 
     /**
      * Wrap invocation of [block] with immediate task execution

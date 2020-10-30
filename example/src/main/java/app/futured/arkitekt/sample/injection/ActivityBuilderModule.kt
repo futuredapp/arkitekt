@@ -1,11 +1,11 @@
 package app.futured.arkitekt.sample.injection
 
+import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultActivity
+import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultActivityModule
 import app.futured.arkitekt.sample.ui.detail.DetailActivity
 import app.futured.arkitekt.sample.ui.detail.DetailActivityModule
 import app.futured.arkitekt.sample.ui.form.FormActivity
 import app.futured.arkitekt.sample.ui.form.FormActivityModule
-import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultActivity
-import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultActivityModule
 import app.futured.arkitekt.sample.ui.login.activity.LoginActivity
 import app.futured.arkitekt.sample.ui.login.activity.LoginActivityModule
 import app.futured.arkitekt.sample.ui.main.MainActivity

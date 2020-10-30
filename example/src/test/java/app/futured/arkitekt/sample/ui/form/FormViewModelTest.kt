@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.ui.form
 
-import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.core.viewmodel.ViewModelTest
+import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
 import io.mockk.mockk
@@ -55,7 +55,7 @@ class FormViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called then form is observed and when error occurs then ShowToastEvent is send`() {
         // GIVEN
-        mockObserveFormUseCase.mockExecute(Unit) { flow { throw IllegalStateException() }  }
+        mockObserveFormUseCase.mockExecute(Unit) { flow { throw IllegalStateException() } }
 
         // WHEN
         viewModel.onStart()

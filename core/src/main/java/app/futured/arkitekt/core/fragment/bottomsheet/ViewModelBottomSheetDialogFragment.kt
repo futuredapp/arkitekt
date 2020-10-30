@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import app.futured.arkitekt.core.BaseViewModel
 import app.futured.arkitekt.core.ViewModelCreator
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.reflect.KClass
 
 /**
