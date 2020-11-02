@@ -13,11 +13,14 @@ internal class LiveEvent<T> : MutableLiveData<T>() {
     @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         // observe the internal MutableLiveData
-        super.observe(owner, Observer { value ->
-            if (pending.compareAndSet(true, false)) {
-                observer.onChanged(value)
+        super.observe(
+            owner,
+            Observer { value ->
+                if (pending.compareAndSet(true, false)) {
+                    observer.onChanged(value)
+                }
             }
-        })
+        )
     }
 
     @MainThread

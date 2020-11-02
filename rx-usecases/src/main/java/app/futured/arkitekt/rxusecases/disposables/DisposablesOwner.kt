@@ -17,8 +17,12 @@ import io.reactivex.disposables.CompositeDisposable
  * It is your responsibility to clear this composite disposable when all
  * running tasks should be stopped.
  */
-interface DisposablesOwner : SingleDisposablesOwner, CompletableDisposablesOwner,
-    ObservableDisposablesOwner, FlowableDisposablesOwner, MaybeDisposablesOwner
+interface DisposablesOwner :
+    SingleDisposablesOwner,
+    CompletableDisposablesOwner,
+    ObservableDisposablesOwner,
+    FlowableDisposablesOwner,
+    MaybeDisposablesOwner
 
 @VisibleForTesting
 internal fun withDisposablesOwner(lambda: DisposablesOwner.() -> Unit): DisposablesOwner {

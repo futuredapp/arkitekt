@@ -16,7 +16,8 @@ import kotlin.reflect.KClass
 /**
  * Base BottomSheetDialogFragment class with built-in ViewModel support
  */
-abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> : BottomSheetDialogFragment(),
+abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
+    BottomSheetDialogFragment(),
     ViewModelCreator<VM> {
 
     /**
