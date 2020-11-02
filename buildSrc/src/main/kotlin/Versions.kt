@@ -1,11 +1,11 @@
 object Versions {
     // android gradle plugin
-    const val gradlePlugin = "3.6.2"
+    const val gradlePlugin = "4.0.1"
 
     // plugins
-    const val detekt = "1.0.0-RC14"
-    const val ktlint = "7.1.0"
-    const val ktlintExtension = "0.31.0"
+    const val detekt = "1.14.2"
+    const val ktlint = "9.4.1"
+    const val ktlintExtension = "0.39.0"
     const val androidMaven = "1.4.1"
     const val bintray = "1.8.4"
     const val dokka = "0.9.18"
