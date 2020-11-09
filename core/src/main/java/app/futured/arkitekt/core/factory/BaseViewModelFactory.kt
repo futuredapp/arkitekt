@@ -1,7 +1,6 @@
 package app.futured.arkitekt.core.factory
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import app.futured.arkitekt.core.BaseViewModel
 import javax.inject.Provider
 import kotlin.reflect.KClass
@@ -17,7 +16,7 @@ import kotlin.reflect.KClass
  *     override val viewModelClass = FormViewModel::class
  *  }
  */
-abstract class BaseViewModelFactory<T : BaseViewModel<*>> : ViewModelProvider.Factory {
+abstract class BaseViewModelFactory<T : BaseViewModel<*>>: ViewModelFactory<T> {
 
     /**
      * ViewModel provider definition. Provider<VM> is automatically
@@ -30,7 +29,7 @@ abstract class BaseViewModelFactory<T : BaseViewModel<*>> : ViewModelProvider.Fa
      *
      *     override val viewModelClass = FormViewModel::class
      */
-    abstract val viewModelClass: KClass<T>
+    abstract override val viewModelClass: KClass<T>
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")

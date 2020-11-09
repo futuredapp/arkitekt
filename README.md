@@ -423,6 +423,25 @@ We strictly respect this injection hierarchy:
 | `UseCase` | `Store` |
 | `Store` | `Dao`, `Persistence`, `ApiService` |
 
+## SavedStateHandle
+
+Arkitekt also supports `SavedStateHandle` in `ViewModel`. To have access to `SavedStateHandle` instance you have to use `BaseSavedStateViewModelFactory` base class instead of `BaseViewModelFactory` in your ViewModelFactory implementation and provide `SavedStateRepositoryOwner` in your Activity/Fragment module if using Dagger.
+`SavedStateHandle` instance is part of `BaseViewModel` class so you can access it via `savedStateHandle` field. Beware that this field may be null if you don't use `BaseSavedStateViewModelFactory` as base class for your `ViewModelFactory` implementation.
+
+```kotlin
+@Provides
+fun savedStateRegistryOwner(activity: MainActivity): SavedStateRegistryOwner = activity
+```
+
+```kotlin
+class MainViewModelFactory @Inject constructor(
+    savedStateRegistryOwner: SavedStateRegistryOwner,
+    override val viewModelProvider: Provider<MainViewModel>
+) : BaseSavedStateViewModelFactory<MainViewModel>(savedStateRegistryOwner) {
+    override val viewModelClass = MainViewModel::class
+}
+
+```
 ## Testing
 
 In order to create successful applications, it is highly encouraged to write tests for your application. But testing can be tricky sometimes so here are our best practices and utilities that will help you to achieve this goal with this library. 

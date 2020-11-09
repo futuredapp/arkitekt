@@ -1,6 +1,6 @@
 object Versions {
     // android gradle plugin
-    const val gradlePlugin = "4.0.1"
+    const val gradlePlugin = "4.0.2"
 
     // plugins
     const val detekt = "1.14.2"
