@@ -1,6 +1,6 @@
 package app.futured.arkitekt.core
 
-import app.futured.arkitekt.core.factory.BaseViewModelFactory
+import app.futured.arkitekt.core.factory.ViewModelFactory
 
 /**
  * Holds reference to BaseViewModelFactory associated with particular ViewModel.
@@ -8,5 +8,5 @@ import app.futured.arkitekt.core.factory.BaseViewModelFactory
  */
 interface ViewModelCreator<VM : BaseViewModel<*>> {
 
-    val viewModelFactory: BaseViewModelFactory<VM>
+    val viewModelFactory: ViewModelFactory<VM>
 }
