@@ -16,7 +16,8 @@ import kotlin.reflect.KClass
 /**
  * Base DialogFragment class with built-in ViewModel support
  */
-abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> : DialogFragment(),
+abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
+    DialogFragment(),
     ViewModelCreator<VM> {
 
     /**

@@ -111,4 +111,5 @@ dependencies {
     androidTestImplementation(Deps.Test.androidXJUnit)
     androidTestImplementation(Deps.Test.androidXJUnitKtx)
     androidTestImplementation(Deps.Test.androidXFragmentTesting)
+    androidTestImplementation(Deps.Test.robolectric)
 }

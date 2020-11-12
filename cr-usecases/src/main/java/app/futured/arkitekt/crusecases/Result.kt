@@ -11,7 +11,7 @@ sealed class Result<out VALUE : Any?> {
     override fun toString(): String {
         return when (this) {
             is Success -> "Success($value)"
-            is Error -> "Error(${error})"
+            is Error -> "Error($error)"
         }
     }
 

@@ -1,3 +1,4 @@
+import app.futured.arkitekt.DependencyUpdates
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.net.URI
 
@@ -18,16 +19,16 @@ buildscript {
     }
 
     extra.apply {
-        set ("bintrayRepo", ProjectSettings.Publish.bintrayRepo)
-        set ("publishedGroupId", ProjectSettings.group)
-        set ("siteUrl", ProjectSettings.Publish.siteUrl)
-        set ("gitUrl",  ProjectSettings.Publish.gitUrl)
-        set ("developerId", ProjectSettings.Publish.developerId)
-        set ("developerName", ProjectSettings.Publish.developerName)
-        set ("developerEmail", ProjectSettings.Publish.developerEmail)
-        set ("licenseName", ProjectSettings.Publish.licenseName)
-        set ("licenseUrl", ProjectSettings.Publish.licenseUrl)
-        set ("allLicenses", ProjectSettings.Publish.allLicenses)
+        set("bintrayRepo", ProjectSettings.Publish.bintrayRepo)
+        set("publishedGroupId", ProjectSettings.group)
+        set("siteUrl", ProjectSettings.Publish.siteUrl)
+        set("gitUrl", ProjectSettings.Publish.gitUrl)
+        set("developerId", ProjectSettings.Publish.developerId)
+        set("developerName", ProjectSettings.Publish.developerName)
+        set("developerEmail", ProjectSettings.Publish.developerEmail)
+        set("licenseName", ProjectSettings.Publish.licenseName)
+        set("licenseUrl", ProjectSettings.Publish.licenseUrl)
+        set("allLicenses", ProjectSettings.Publish.allLicenses)
     }
 }
 
@@ -37,6 +38,10 @@ plugins {
     id(Deps.Plugins.ktlint) version Versions.ktlint
 //    uncomment this line for local testing purposes during template module development
 //    id(ProjectSettings.Templates.id) version ProjectSettings.Templates.version
+}
+
+tasks {
+    register<DependencyUpdates>("dependencyUpdates")
 }
 
 allprojects {
@@ -56,11 +61,15 @@ subprojects {
         ignoreFailures.set(true)
         android.set(true)
         outputToConsole.set(true)
-        reporters.set(setOf(ReporterType.PLAIN, ReporterType.CHECKSTYLE))
+        reporters {
+            reporter(ReporterType.PLAIN)
+            reporter(ReporterType.CHECKSTYLE)
+        }
     }
 }
 
 detekt {
+    autoCorrect = false
     version = Versions.detekt
     input = files(
         "example/src/main/java",
@@ -74,6 +83,6 @@ detekt {
         "bindingadapters/src/main/java",
         "arkitekt-lint/src/main/java"
     )
-    filters = ".*/resources/.*,.*/build/.*"
+//    filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt.yml")
 }
