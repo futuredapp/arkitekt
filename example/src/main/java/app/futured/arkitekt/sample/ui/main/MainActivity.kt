@@ -5,9 +5,9 @@ import app.futured.arkitekt.sample.R
 import app.futured.arkitekt.sample.databinding.ActivityMainBinding
 import app.futured.arkitekt.sample.ui.base.BaseActivity
 import app.futured.arkitekt.sample.ui.bottomsheet.ExampleBottomSheetFragment
+import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultActivity
 import app.futured.arkitekt.sample.ui.detail.DetailActivity
 import app.futured.arkitekt.sample.ui.form.FormActivity
-import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultActivity
 import app.futured.arkitekt.sample.ui.login.activity.LoginActivity
 import javax.inject.Inject
 

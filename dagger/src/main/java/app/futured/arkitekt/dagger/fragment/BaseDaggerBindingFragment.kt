@@ -5,8 +5,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import app.futured.arkitekt.core.BaseViewModel
 import app.futured.arkitekt.core.ViewState
-import app.futured.arkitekt.dagger.inject.TestableAndroidInjection
 import app.futured.arkitekt.core.fragment.BindingViewModelFragment
+import app.futured.arkitekt.dagger.inject.TestableAndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import javax.inject.Inject
 

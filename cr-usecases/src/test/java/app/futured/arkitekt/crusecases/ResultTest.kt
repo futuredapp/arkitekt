@@ -1,19 +1,5 @@
 package app.futured.arkitekt.crusecases
 
-import app.futured.arkitekt.crusecases.Error
-import app.futured.arkitekt.crusecases.Result
-import app.futured.arkitekt.crusecases.Success
-import app.futured.arkitekt.crusecases.fold
-import app.futured.arkitekt.crusecases.getOrCancel
-import app.futured.arkitekt.crusecases.getOrDefault
-import app.futured.arkitekt.crusecases.getOrElse
-import app.futured.arkitekt.crusecases.getOrNull
-import app.futured.arkitekt.crusecases.getOrThrow
-import app.futured.arkitekt.crusecases.map
-import app.futured.arkitekt.crusecases.mapCatching
-import app.futured.arkitekt.crusecases.recover
-import app.futured.arkitekt.crusecases.recoverCatching
-import app.futured.arkitekt.crusecases.tryCatch
 import kotlinx.coroutines.CancellationException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -321,7 +307,7 @@ class ResultTest {
     fun `when fold is called for Success then result of onSuccess should be returned`() {
         val result = Success(1)
 
-        val value = result.fold(onSuccess = { "OK" }, onError = { "NOT OK"} )
+        val value = result.fold(onSuccess = { "OK" }, onError = { "NOT OK" })
 
         assertEquals("OK", value)
     }
@@ -330,7 +316,7 @@ class ResultTest {
     fun `when fold is called for Error then result of onError should be returned`() {
         val result = Error(IllegalStateException())
 
-        val value = result.fold(onSuccess = { "OK" }, onError = { "NOT OK"} )
+        val value = result.fold(onSuccess = { "OK" }, onError = { "NOT OK" })
 
         assertEquals("NOT OK", value)
     }
@@ -340,7 +326,7 @@ class ResultTest {
         val exception = CancellationException()
         val result = Error(exception)
 
-        assertCancellationException { result.fold(onSuccess = { "OK" }, onError = { "NOT OK"} ) }
+        assertCancellationException { result.fold(onSuccess = { "OK" }, onError = { "NOT OK" }) }
     }
 
     private fun assertCancellationException(block: () -> Unit) {

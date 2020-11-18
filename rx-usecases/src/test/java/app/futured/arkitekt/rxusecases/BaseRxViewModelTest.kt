@@ -1,11 +1,11 @@
 package app.futured.arkitekt.rxusecases
 
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.rxusecases.usecases.CompletableUseCase
 import app.futured.arkitekt.rxusecases.usecases.RxMockitoJUnitRunner
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.verifyNoMoreInteractions
 import io.reactivex.Completable
 import org.junit.Test
 
