@@ -29,7 +29,9 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), LifecycleObserver {
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
-    val savedStateHandle: SavedStateHandle? get() = internalSavedStateHandle
+    val requireSavedStateHandle: SavedStateHandle get() = internalSavedStateHandle ?: throw NullPointerException(
+        "savedStateHandle not found, please check our documentation for correct savedStateHandle implementation. https://github.com/futuredapp/arkitekt/blob/4.x/README.md "
+    )
 
     internal var internalSavedStateHandle: SavedStateHandle? = null
         set(value) {
