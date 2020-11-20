@@ -8,7 +8,7 @@ object ProjectSettings {
     /**
      * this version will be used only for local builds, jitpack will automatically provide TAG version
      */
-    val version = System.getenv("BITRISE_GIT_TAG") ?: "0.0.1-TEST"
+    val version = System.getenv("VERSION_NAME") ?: "0.0.1-SNAPSHOT"
 
     object Templates {
         const val module = "templates"

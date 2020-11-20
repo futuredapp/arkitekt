@@ -10,7 +10,7 @@ jobs:
     runs-on: [ubuntu-latest]
     env:
       EXCLUDE_APK_FILTER: .*unaligned.apk\|.*Test.*.apk
-      BITRISE_GIT_TAG: ${{github.event.release.name}}
+      VERSION_NAME: ${{github.event.release.name}}
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
