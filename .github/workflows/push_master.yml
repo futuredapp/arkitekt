@@ -27,6 +27,8 @@ jobs:
       - name: Publish snapshot
         shell: bash
         run: ./gradlew build publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Slack Notification
         if: failure()
         uses: homoluctus/slatify@master
