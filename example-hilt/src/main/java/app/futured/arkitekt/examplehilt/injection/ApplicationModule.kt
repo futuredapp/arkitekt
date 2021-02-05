@@ -2,11 +2,8 @@ package app.futured.arkitekt.examplehilt.injection
 
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(ApplicationComponent::class)
-object ApplicationModule {
-
-
-}
+@InstallIn(SingletonComponent::class)
+object ApplicationModule

@@ -2,7 +2,6 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.net.URI
 
 buildscript {
-    val kotlin_version by extra("1.3.72")
     repositories {
         google()
         jcenter()
@@ -16,8 +15,7 @@ buildscript {
         classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
         classpath(Deps.Plugins.bintray)
         classpath(Deps.Plugins.dokka)
-        "classpath"("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.28-alpha")
+        classpath(Deps.DI.hiltPlugin)
     }
 
     extra.apply {

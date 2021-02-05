@@ -1,14 +1,12 @@
 package app.futured.arkitekt.examplehilt.domain
 
-import android.util.Log
+import app.futured.arkitekt.crusecases.UseCase
 import app.futured.arkitekt.examplehilt.data.store.SampleStore
 import javax.inject.Inject
 
 class SampleUseCase @Inject constructor(
     private val sampleStore: SampleStore
-) {
+) : UseCase<Unit, Int>() {
 
-    fun doSomething() {
-        Log.i("SampleClass", "Do something " + sampleStore.getValue())
-    }
+    override suspend fun build(args: Unit) = sampleStore.getValue()
 }

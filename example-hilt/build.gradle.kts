@@ -36,6 +36,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
+    implementation(project(":bindingadapters"))
 
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
@@ -46,8 +47,6 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.fragment:fragment-ktx:1.2.5")
-    implementation("androidx.activity:activity-ktx:1.1.0")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     implementation(Deps.Rx.rxKotlin)
     implementation(Deps.Rx.rxAndroid)
@@ -58,10 +57,8 @@ dependencies {
     implementation(Deps.AndroidX.lifecycleExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
-    implementation("com.google.dagger:hilt-android:2.28.3-alpha")
-    kapt("com.google.dagger:hilt-android-compiler:2.28-alpha")
-
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02")
-    kapt("androidx.hilt:hilt-compiler:1.0.0-alpha02")
-    annotationProcessor("androidx.hilt:hilt-compiler:1.0.0-alpha02")
+    implementation(Deps.DI.hilt)
+    kapt(Deps.DI.hiltCompiler)
+    implementation(Deps.DI.hiltViewModel)
+    kapt(Deps.DI.hiltAndroidxCompiler)
 }

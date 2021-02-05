@@ -21,6 +21,8 @@ object Versions {
     const val vectorDrawable = "1.1.0"
     const val lifeCycle = "2.2.0-beta01"
     const val dagger = "2.24"
+    const val hilt = "2.30.1-alpha"
+    const val hiltAndroidx = "1.0.0-alpha03"
     const val androidXEspresso = "3.1.0"
     const val rxIdler = "0.9.0"
 

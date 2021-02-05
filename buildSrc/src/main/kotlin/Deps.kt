@@ -21,6 +21,11 @@ object Deps {
         const val daggerSupport = "com.google.dagger:dagger-android-support:${Versions.dagger}"
         const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+        const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
+        const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+        const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltAndroidx}"
+        const val hiltAndroidxCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltAndroidx}"
     }
 
     object AndroidX {
