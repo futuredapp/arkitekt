@@ -30,5 +30,11 @@
             android:layout_gravity="center"
             android:text="@string/app_name"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{viewState.number}"/>
+
     </LinearLayout>
 </layout>

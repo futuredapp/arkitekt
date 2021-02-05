@@ -1,18 +1,26 @@
 package app.futured.arkitekt.examplehilt.ui
 
-import app.futured.arkitekt.examplehilt.domain.SampleUseCase
-import app.futured.arkitekt.examplehilt.ui.base.BaseActivity
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
+import app.futured.arkitekt.core.livedata.observeNonNull
+import app.futured.arkitekt.examplehilt.ui.base.BaseHiltActivity
 import app.futured.arkitekt.sample.hilt.R
 import app.futured.arkitekt.sample.hilt.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
-
-    @Inject lateinit var sampleUseCase: SampleUseCase
+class MainActivity : BaseHiltActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
 
     override val layoutResId = R.layout.activity_main
 
-    override lateinit var viewModelFactory: MainViewModelFactory
+    override val viewModel: MainViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.viewState.number.observeNonNull(this) {
+            Log.d("## MainActivity", "viewState.number = $it")
+        }
+    }
 }

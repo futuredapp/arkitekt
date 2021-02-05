@@ -34,7 +34,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
     implementation(project(":bindingadapters"))
 
@@ -60,5 +59,5 @@ dependencies {
     implementation(Deps.DI.hilt)
     kapt(Deps.DI.hiltCompiler)
     implementation(Deps.DI.hiltViewModel)
-    kapt(Deps.DI.hiltAndroidxCompiler)
+    kapt(Deps.DI.hiltJetpackCompiler)
 }
