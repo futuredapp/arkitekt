@@ -1,14 +1,14 @@
 object ProjectSettings {
     const val applicationId = "app.futured.arkitekt.sample"
-    const val compileSdk = 28
-    const val targetSdk = 28
-    const val minSdk = 19
+    const val compileSdk = 29
+    const val targetSdk = 29
+    const val minSdk = 21
     const val group = "app.futured.arkitekt"
 
     /**
      * this version will be used only for local builds, jitpack will automatically provide TAG version
      */
-    val version = System.getenv("BITRISE_GIT_TAG")?:"0.0.1-TEST"
+    val version = System.getenv("VERSION_NAME") ?: "0.0.1-SNAPSHOT"
 
     object Templates {
         const val module = "templates"
@@ -16,19 +16,20 @@ object ProjectSettings {
         const val name = "copyTemplates"
         const val implementationClass = "app.futured.arkitekt.templates.Templates"
     }
+
     object Core {
         const val artifact = "core"
-        const val libraryDescription = "Core module of MVVM-Android framework"
+        const val libraryDescription = "Core module of Arkitekt framework"
     }
 
     object CoreTest {
         const val artifact = "core-test"
-        const val libraryDescription = "Test utilities for mvvm module"
+        const val libraryDescription = "Test utilities for core module"
     }
 
     object RxUseCases {
         const val artifact = "rx-usecases"
-        const val libraryDescription = "RxJava based use cases meant to be used with MVVM-Android framework"
+        const val libraryDescription = "RxJava based use cases meant to be used with Arkitekt framework"
     }
 
     object RxUseCasesTest {
@@ -38,7 +39,7 @@ object ProjectSettings {
 
     object CrUseCases {
         const val artifact = "cr-usecases"
-        const val libraryDescription = "Coroutine based use cases meant to be used with MVVM-Android framework"
+        const val libraryDescription = "Coroutine based use cases meant to be used with Arkitekt framework"
     }
 
     object CrUseCasesTest {
@@ -48,12 +49,12 @@ object ProjectSettings {
 
     object Dagger {
         const val artifact = "dagger"
-        const val libraryDescription = "Dagger ready base classes meant to be used with MVVM-Android framework"
+        const val libraryDescription = "Dagger ready base classes meant to be used with Arkitekt framework"
     }
 
-    object  BindingAdapters {
+    object BindingAdapters {
         const val artifact = "bindingadapters"
-        const val libraryDescription = "Collection of handy extensions and binding adapters usable even without rest of MVVM-Android framework"
+        const val libraryDescription = "Collection of handy extensions and binding adapters usable even without rest of Arkitekt framework"
     }
 
     object Publish {

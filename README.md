@@ -36,6 +36,27 @@ dependencies {
     testImplementation("app.futured.arkitekt:cr-usecases-test:LatestVersion")
 }    
 ```
+
+## Snapshot installation
+Create access token in your GitHub Account settings
+**Settings** -> **Developer settings** -> **Personal access tokens** -> **Generate new token**
+
+Check **read:packages**
+
+add new maven repo to your top level gradle file
+
+```
+maven { 
+    url = URI("https://maven.pkg.github.com/futuredapp/arkitekt")
+    credentials {
+        username = your_github_user_name
+        password = access_token_you_generated
+    } 
+}
+```
+
+More information about personal access tokens can be found in [GitHub documentation](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+
 # Features
 
 Arkitekt framework combines built-in support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava or Coroutines
@@ -432,6 +453,28 @@ We strictly respect this injection hierarchy:
 | `UseCase` | `Store` |
 | `Store` | `Dao`, `Persistence`, `ApiService` |
 
+## SavedStateHandle
+
+Arkitekt also supports `SavedStateHandle` in `ViewModel`. To have access to `SavedStateHandle` instance you have to use `BaseSavedStateViewModelFactory` base class instead of `BaseViewModelFactory` in your ViewModelFactory implementation and provide `SavedStateRepositoryOwner` in your Activity/Fragment module if using Dagger.
+`SavedStateHandle` instance is part of `BaseViewModel` class so you can access it via `savedStateHandle` field. Beware that this field may be null if you don't use `BaseSavedStateViewModelFactory` as base class for your `ViewModelFactory` implementation.
+
+```kotlin
+@Module
+class MainActivityModule {
+
+    @Provides
+    fun savedStateRegistryOwner(activity: MainActivity): SavedStateRegistryOwner = activity
+}
+```
+
+```kotlin
+class MainViewModelFactory @Inject constructor(
+    savedStateRegistryOwner: SavedStateRegistryOwner,
+    override val viewModelProvider: Provider<MainViewModel>
+) : BaseSavedStateViewModelFactory<MainViewModel>(savedStateRegistryOwner) {
+    override val viewModelClass = MainViewModel::class
+}
+```
 ## Testing
 
 In order to create successful applications, it is highly encouraged to write tests for your application. But testing can be tricky sometimes so here are our best practices and utilities that will help you to achieve this goal with this library. 

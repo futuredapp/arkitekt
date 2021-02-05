@@ -11,10 +11,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.futured.arkitekt.rxusecases.test.mockExecute
 import app.futured.arkitekt.core.view.asProvider
 import app.futured.arkitekt.core.view.doAfterActivityInjection
 import app.futured.arkitekt.core.view.doAfterFragmentInjection
+import app.futured.arkitekt.rxusecases.test.mockExecute
 import app.futured.arkitekt.sample.R
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase
@@ -34,11 +34,13 @@ import org.hamcrest.Matchers.containsString
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import app.futured.arkitekt.sample.ui.login.activity.LoginViewModel as ActivityLoginViewModel
 import app.futured.arkitekt.sample.ui.login.activity.LoginViewModelFactory as ActivityLoginViewModelFactory
 import app.futured.arkitekt.sample.ui.login.activity.LoginViewState as ActivityLoginViewState
 
 @RunWith(AndroidJUnit4::class)
+@Config(maxSdk = 28)
 class LoginTest {
 
     private val mockLoginCompletabler: SyncLoginUseCase = mockk()

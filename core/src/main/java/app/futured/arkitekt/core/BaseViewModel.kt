@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import app.futured.arkitekt.core.event.Event
 import app.futured.arkitekt.core.event.LiveEventBus
@@ -21,13 +22,23 @@ import kotlin.reflect.KClass
  * send from ViewModel to Activity/Fragment.
  */
 abstract class BaseViewModel<VS : ViewState> : ViewModel(), LifecycleObserver {
-
     abstract val viewState: VS
 
     private var onStartCalled = false
     private val liveEventBus = LiveEventBus<VS>()
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
+
+    val requireSavedStateHandle: SavedStateHandle get() = internalSavedStateHandle ?: throw NullPointerException(
+        "savedStateHandle not found, please check our documentation for correct savedStateHandle implementation. https://github.com/futuredapp/arkitekt/blob/4.x/README.md "
+    )
+
+    internal var internalSavedStateHandle: SavedStateHandle? = null
+        set(value) {
+            if (field == null) {
+                field = value
+            }
+        }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     internal fun onLifeCycleStart() {

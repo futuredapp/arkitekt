@@ -15,18 +15,21 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
         return mutableListOf(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
     }
 
-    private val eventStub = kotlin("""
+    private val eventStub = kotlin(
+        """
         package app.futured.arkitekt.core.event
         
         abstract class Event<T : ViewState>
-        """).indented()
+        """
+    ).indented()
 
     @Test
     fun testMissingSuffixWarning() {
         lint()
             .files(
                 eventStub,
-                kotlin("""
+                kotlin(
+                    """
                 import app.futured.arkitekt.core.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
@@ -38,7 +41,8 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowFormEvent : MainEvent()
                 
                 object ShowForm : MainEvent()
-            """).indented()
+            """
+                ).indented()
             )
             .issues(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX)
             .run()
@@ -50,7 +54,8 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
         lint()
             .files(
                 eventStub,
-                kotlin("""
+                kotlin(
+                    """
                 import app.futured.arkitekt.core.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
@@ -64,7 +69,8 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowFormEvents : MainEvent()
                 
                 object ShowEventDataFormEvents : MainEvent()
-            """).indented()
+            """
+                ).indented()
             )
             .issues(WrongEventNameDetector.ISSUE_MISSPELL)
             .run()
@@ -76,7 +82,8 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
         lint()
             .files(
                 eventStub,
-                kotlin("""
+                kotlin(
+                    """
                 import app.futured.arkitekt.core.event.Event
                 
                 sealed class MainEvent : Event<MainViewState>()
@@ -86,7 +93,8 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowFormEvent : MainEvent()
                 
                 object SendEventDataEvent : MainEvent()
-            """).indented()
+            """
+                ).indented()
             )
             .issues(
                 WrongEventNameDetector.ISSUE_MUSSING_SUFFIX,

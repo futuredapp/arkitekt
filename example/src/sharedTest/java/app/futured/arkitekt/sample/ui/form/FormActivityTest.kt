@@ -9,9 +9,9 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.core.view.asProvider
 import app.futured.arkitekt.core.view.doAfterActivityInjection
+import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.R
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
@@ -23,8 +23,10 @@ import org.hamcrest.Matchers.containsString
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
+@Config(maxSdk = 28)
 class FormActivityTest {
 
     private val mockSaveFormUseCase: SaveFormUseCase = mockk()

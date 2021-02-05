@@ -7,7 +7,8 @@ import app.futured.arkitekt.sample.databinding.FragmentExampleBinding
 import app.futured.arkitekt.sample.ui.base.BaseBottomSheetDialogFragment
 import javax.inject.Inject
 
-class ExampleBottomSheetFragment : BaseBottomSheetDialogFragment<ExampleViewModel, ExampleViewState, FragmentExampleBinding>(),
+class ExampleBottomSheetFragment :
+    BaseBottomSheetDialogFragment<ExampleViewModel, ExampleViewState, FragmentExampleBinding>(),
     ExampleView {
 
     companion object {
