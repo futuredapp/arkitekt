@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Hilt example</string>
+    <string name="one">Fragment 1</string>
+    <string name="two">Fragment 2</string>
+    <string name="next_btn">Next</string>
 </resources>

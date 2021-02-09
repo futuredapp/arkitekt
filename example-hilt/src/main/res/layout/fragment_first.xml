@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="view"
+            type="app.futured.arkitekt.examplehilt.ui.first.FirstView"/>
+
+        <variable
+            name="viewModel"
+            type="app.futured.arkitekt.examplehilt.ui.first.FirstViewModel"/>
+
+        <variable
+            name="viewState"
+            type="app.futured.arkitekt.examplehilt.ui.first.FirstViewState"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="@color/background1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:text="@string/one"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{viewState.displayText}"
+            tools:text="number"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/materialButtonOutlinedStyle"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> viewModel.onNext()}"
+            android:text="@string/next_btn"/>
+
+    </LinearLayout>
+
+</layout>

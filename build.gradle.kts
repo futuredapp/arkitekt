@@ -17,6 +17,7 @@ buildscript {
         classpath(Deps.Plugins.bintray)
         classpath(Deps.Plugins.dokka)
         classpath(Deps.DI.hiltPlugin)
+        classpath(Deps.AndroidX.safeArgsPlugin)
     }
 
     extra.apply {

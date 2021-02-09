@@ -2,11 +2,12 @@ package app.futured.arkitekt.examplehilt.data.store
 
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.random.Random
 
 @Singleton
 class SampleStore @Inject constructor() {
 
-    fun getValue(): Int {
-        return 5
+    val randomValue: Int by lazy {
+        Random.nextInt(0, 100)
     }
 }

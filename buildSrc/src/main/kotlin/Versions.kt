@@ -21,11 +21,13 @@ object Versions {
     const val material = "1.2.1"
     const val test = "2.1.0"
     const val vectorDrawable = "1.1.0"
+    const val constraintLayout = "2.0.3"
     const val lifeCycle = "2.2.0"
-    const val dagger = "2.29.1"
-    const val hilt = "2.30-alpha"
-    const val hiltJetpack = "1.0.0-alpha02"
+    const val dagger = "2.32"
+    const val hilt = "2.30.1-alpha"
+    const val hiltJetpack = "1.0.0-alpha03"
     const val androidXEspresso = "3.3.0"
+    const val navigation = "2.3.3"
 
     // rx
     const val rxKotlin = "2.4.0"
