@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import app.futured.arkitekt.core.BaseView
 import app.futured.arkitekt.core.ViewState
@@ -14,8 +13,8 @@ import app.futured.arkitekt.sample.hilt.R
 import dagger.Module
 import javax.inject.Inject
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.lifecycle.SavedStateHandle
-import app.futured.arkitekt.core.livedata.UiData
+import androidx.lifecycle.map
+import app.futured.arkitekt.core.livedata.DefaultValueMediatorLiveData
 import app.futured.arkitekt.examplehilt.domain.GetRandomNumberUseCase
 import app.futured.arkitekt.examplehilt.tools.navigateTo
 import app.futured.arkitekt.examplehilt.ui.base.BaseHiltFragment
@@ -60,7 +59,6 @@ interface FirstView : BaseView
 //@HiltViewModel
 class FirstViewModel @ViewModelInject constructor(
     private val getRandomNumberUseCase: GetRandomNumberUseCase,
-    @Assisted val savedStateHandle: SavedStateHandle,
     override val viewState: FirstViewState,
 ) : BaseCrViewModel<FirstViewState>() {
 
@@ -82,6 +80,6 @@ class FirstViewModel @ViewModelInject constructor(
 }
 
 class FirstViewState @Inject constructor() : ViewState {
-    val randomNumber = UiData(3)
-    val displayText = randomNumber.map { it.toString() }
+    val randomNumber = DefaultValueMediatorLiveData(3)
+    val displayText = randomNumber.map { "Random number: $it" }
 }
