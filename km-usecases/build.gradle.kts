@@ -4,33 +4,11 @@ plugins {
     `maven-publish`
 }
 
-group = "app.futured.arkitekt"
-version = "1.0.9-SNAPSHOT"
+group = ProjectSettings.group
+version = ProjectSettings.version
 
 publishing {
     publications {
-//        create<MavenPublication>("mavenJava") {
-//            artifactId = "km-usecases"
-//            description = "My test lib"
-//            pom {
-//                licenses {
-//                    license {
-//                        name.set("The Apache License, Version 2.0")
-//                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id.set("RudolfHladik")
-//                        name.set("Rudolf Hladík")
-//                        email.set("hladik.rudolf@gmail.com")
-//                    }
-//                }
-//                scm {
-//                    url.set("https://github.com/futuredapp/arkitekt")
-//                }
-//            }
-//        }
         publications.withType<MavenPublication> {
             pom {
                 licenses {
