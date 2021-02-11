@@ -3,4 +3,9 @@
     <string name="one">Fragment 1</string>
     <string name="two">Fragment 2</string>
     <string name="next_btn">Next</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="received_by_handle">Received by SavedStateHandle: %d</string>
+    <string name="user_name">User name is %s</string>
+    <string name="name_stored_message">Your name is stored in ViewModel scoped to navigation graph.</string>
+    <string name="random_number">Random number: %d</string>
 </resources>

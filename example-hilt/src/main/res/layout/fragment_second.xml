@@ -16,12 +16,17 @@
             name="viewState"
             type="app.futured.arkitekt.examplehilt.ui.second.SecondViewState"/>
 
+        <variable
+            name="navViewModel"
+            type="app.futured.arkitekt.examplehilt.ui.NavigationViewModel" />
+
     </data>
 
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:gravity="center"
+        android:paddingHorizontal="16dp"
         android:background="@color/background2"
         android:orientation="vertical">
 
@@ -37,6 +42,21 @@
             android:layout_gravity="center"
             android:text="@{viewState.displayText}"
             tools:text="number"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_name"
+            android:inputType="text"
+            android:text="@={navViewModel.graphVariable}"
+            android:layout_marginTop="32dp"
+            tools:ignore="Autofill" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/name_stored_message" />
 
     </LinearLayout>
 

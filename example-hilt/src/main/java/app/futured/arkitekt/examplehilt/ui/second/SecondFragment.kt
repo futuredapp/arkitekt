@@ -1,6 +1,7 @@
 package app.futured.arkitekt.examplehilt.ui.second
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -20,8 +21,7 @@ class SecondFragment : BaseHiltFragment<SecondViewModel, SecondViewState, Fragme
     override val layoutResId = R.layout.fragment_second
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        observeEvents()
+        binding.navViewModel = navViewModel
+        navViewModel.outputMessage.observe(viewLifecycleOwner) { Log.d("SecondFragment", it) }
     }
-
-    private fun observeEvents() {}
 }
