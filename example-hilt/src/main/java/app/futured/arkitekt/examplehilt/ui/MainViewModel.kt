@@ -1,11 +1,10 @@
 package app.futured.arkitekt.examplehilt.ui
 
-import androidx.hilt.lifecycle.ViewModelInject
 import app.futured.arkitekt.crusecases.BaseCrViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-//@HiltViewModel // TODO: not working annotation in hilt jetpack 1.0.0-alpha03
-class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     override val viewState: MainViewState
-) : BaseCrViewModel<MainViewState>() {
-
-}
+) : BaseCrViewModel<MainViewState>()
