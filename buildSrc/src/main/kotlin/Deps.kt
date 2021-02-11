@@ -15,6 +15,7 @@ object Deps {
         const val stdlib = "stdlib-jdk7"
         const val reflect = "reflect"
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+        const val coroutinesMt = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesMt}"
     }
 
     object DI {
@@ -29,7 +30,7 @@ object Deps {
         const val material = "com.google.android.material:material:${Versions.material}"
         const val vectorDrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
 
-        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifeCycle}"
+        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
         const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
         const val liveDataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
         const val viewModelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
