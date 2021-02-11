@@ -1,0 +1,31 @@
+CREATE TABLE DevicesTable (
+id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+os TEXT NOT NULL,
+sdk_version INTEGER NOT NULL DEFAULT 1
+);
+
+selectAll:
+SELECT * FROM DevicesTable;
+
+insertItem:
+INSERT OR REPLACE INTO DevicesTable(id, name, os)VALUES(?,?,?);
+
+deleteAll:
+DELETE FROM DevicesTable;
+
+CREATE TABLE LaunchesTable (
+launchid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+id TEXT NOT NULL,
+site TEXT NOT NULL,
+missionname TEXT NOT NULL
+);
+
+selectAllLaunches:
+SELECT * FROM LaunchesTable;
+
+insertLaunchItem:
+INSERT OR REPLACE INTO LaunchesTable(id, site, missionname)VALUES(?,?,?);
+
+deleteAllLaunches:
+DELETE FROM LaunchesTable;

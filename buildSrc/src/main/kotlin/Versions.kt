@@ -9,6 +9,8 @@ object Versions {
     const val androidMaven = "1.4.1"
     const val bintray = "1.8.4"
     const val dokka = "0.9.18"
+    const val sqlDelight = "1.4.3"
+    const val apollo = "2.4.5"
 
     // kotlin
     const val kotlin = "1.4.30"

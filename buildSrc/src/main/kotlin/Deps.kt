@@ -8,6 +8,9 @@ object Deps {
         const val androidMaven = "com.github.dcendents:android-maven-gradle-plugin:${Versions.androidMaven}"
         const val bintray = "com.jfrog.bintray.gradle:gradle-bintray-plugin:${Versions.bintray}"
         const val dokka = "org.jetbrains.dokka:dokka-android-gradle-plugin:${Versions.dokka}"
+
+        const val sqlDelight = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
+        const val apollo = "com.apollographql.apollo:apollo-api:${Versions.apollo}"
     }
 
     object Kotlin {

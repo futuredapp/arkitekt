@@ -1,0 +1,12 @@
+{
+	"name": "Cloud GraphQL Schema",
+	"schemaPath": "schema.json",
+	"extensions": {
+		"endpoints": {
+			"Default GraphQL Endpoint": {
+				"url": "https://apollo-fullstack-tutorial.herokuapp.com/graphql",
+				"introspect": false
+			}
+		}
+	}
+}
