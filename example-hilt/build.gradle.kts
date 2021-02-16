@@ -44,9 +44,9 @@ dependencies {
 
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.annnotation)
-    implementation("androidx.multidex:multidex:2.0.1")
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.fragment:fragment-ktx:1.2.5")
+    implementation(Deps.AndroidX.multidex)
+    implementation(Deps.AndroidX.core)
+    implementation(Deps.AndroidX.fragment)
     implementation(Deps.AndroidX.navigationFragment)
     implementation(Deps.AndroidX.navigationUi)
     implementation(Deps.AndroidX.constraintLayout)
@@ -64,7 +64,7 @@ dependencies {
     implementation(Deps.DI.hilt)
     kapt(Deps.DI.hiltCompiler)
     implementation(Deps.DI.hiltViewModel)
+    implementation(Deps.DI.hiltNavigationFrag)
     implementation(Deps.DI.hiltNavigation)
-    implementation("androidx.hilt:hilt-navigation:1.0.0-alpha03")
     kapt(Deps.DI.hiltJetpackCompiler)
 }

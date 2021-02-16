@@ -65,7 +65,7 @@ dependencies {
     compileOnly(Deps.AndroidX.material)
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.vectorDrawable)
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation(Deps.AndroidX.multidex)
 
     implementation(Deps.Rx.rxKotlin)
     implementation(Deps.Rx.rxAndroid)

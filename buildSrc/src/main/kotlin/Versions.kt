@@ -17,6 +17,8 @@ object Versions {
     // core
     const val androidx = "1.2.0"
     const val androidxAnnotation = "1.1.0"
+    const val multidex = "2.0.1"
+    const val core = "1.3.2"
     const val androidxFragment = "1.2.5"
     const val material = "1.2.1"
     const val test = "2.1.0"
