@@ -17,8 +17,8 @@ android {
         targetSdkVersion(ProjectSettings.targetSdk)
     }
 
-    dataBinding {
-        isEnabled = true
+    buildFeatures {
+        dataBinding = true
     }
 
     testOptions {
@@ -29,6 +29,10 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        named("test") { java.srcDirs("src/testFixtures/java") }
     }
 }
 
