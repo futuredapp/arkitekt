@@ -16,6 +16,7 @@ android {
         minSdkVersion(ProjectSettings.minSdk)
         targetSdkVersion(ProjectSettings.targetSdk)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
 
     dataBinding {
@@ -64,6 +65,7 @@ dependencies {
     compileOnly(Deps.AndroidX.material)
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.vectorDrawable)
+    implementation(Deps.AndroidX.multidex)
 
     implementation(Deps.Rx.rxKotlin)
     implementation(Deps.Rx.rxAndroid)

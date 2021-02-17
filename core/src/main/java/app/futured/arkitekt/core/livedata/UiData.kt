@@ -39,14 +39,13 @@ class UiData<T : Any>(initValue: T) : MutableLiveData<T>() {
         super.postValue(value)
     }
 
-    fun <R : Any> map(mapper: (T) -> R): NonNullLiveData<R> {
-        val nonNullLiveData = NonNullLiveData(mapper(this.value))
+    fun <R : Any> map(mapper: (T) -> R): UiDataMediator<R> {
         val mediator = UiDataMediator(mapper(this.value))
         mediator.addSource(this) {
             it?.let {
-                nonNullLiveData.value = mapper(it)
+                mediator.value = mapper(it)
             }
         }
-        return nonNullLiveData
+        return mediator
     }
 }

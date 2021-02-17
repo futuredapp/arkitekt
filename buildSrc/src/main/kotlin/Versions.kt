@@ -17,13 +17,19 @@ object Versions {
     // core
     const val androidx = "1.2.0"
     const val androidxAnnotation = "1.1.0"
+    const val multidex = "2.0.1"
+    const val core = "1.3.2"
     const val androidxFragment = "1.2.5"
     const val material = "1.2.1"
     const val test = "2.1.0"
     const val vectorDrawable = "1.1.0"
+    const val constraintLayout = "2.0.3"
     const val lifeCycle = "2.2.0"
-    const val dagger = "2.29.1"
+    const val dagger = "2.32"
+    const val hilt = "2.31.1-alpha"
+    const val hiltJetpack = "1.0.0-alpha03"
     const val androidXEspresso = "3.3.0"
+    const val navigation = "2.3.3"
 
     // rx
     const val rxKotlin = "2.4.0"
