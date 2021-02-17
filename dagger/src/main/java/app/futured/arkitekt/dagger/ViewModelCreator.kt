@@ -1,6 +1,7 @@
-package app.futured.arkitekt.core
+package app.futured.arkitekt.dagger
 
-import app.futured.arkitekt.core.factory.ViewModelFactory
+import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.dagger.factory.ViewModelFactory
 
 /**
  * Holds reference to BaseViewModelFactory associated with particular ViewModel.

@@ -6,13 +6,13 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import app.futured.arkitekt.examplehilt.ui.NavigationViewModel
-import app.futured.arkitekt.examplehilt.ui.base.BaseHiltFragment
+import app.futured.arkitekt.examplehilt.ui.base.BaseFragment
 import app.futured.arkitekt.sample.hilt.R
 import app.futured.arkitekt.sample.hilt.databinding.FragmentSecondBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SecondFragment : BaseHiltFragment<SecondViewModel, SecondViewState, FragmentSecondBinding>(), SecondView {
+class SecondFragment : BaseFragment<SecondViewModel, SecondViewState, FragmentSecondBinding>(), SecondView {
 
     override val viewModel: SecondViewModel by viewModels()
 

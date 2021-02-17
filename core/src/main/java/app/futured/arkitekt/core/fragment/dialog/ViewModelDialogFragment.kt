@@ -8,7 +8,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.futured.arkitekt.core.BaseViewModel
-import app.futured.arkitekt.core.ViewModelCreator
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import kotlin.reflect.KClass
@@ -17,8 +16,7 @@ import kotlin.reflect.KClass
  * Base DialogFragment class with built-in ViewModel support
  */
 abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
-    DialogFragment(),
-    ViewModelCreator<VM> {
+    DialogFragment() {
 
     /**
      * Property which holds reference to layout identifier eg. R.layout.fragment_custom_bottomsheet.
@@ -35,18 +33,12 @@ abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
     /**
      * Reference to Fragment ViewModel
      */
-    val viewModel: VM by lazy {
-        getVM().apply {
-            lifecycle.addObserver(this)
-        }
-    }
+    abstract val viewModel: VM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutResId, container, false)
 
     fun show(fragmentManager: FragmentManager) = show(fragmentManager, fragmentTag)
-
-    private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     /**
      * Get reference to Activity ViewModel. Make sure correct VM class is specified.

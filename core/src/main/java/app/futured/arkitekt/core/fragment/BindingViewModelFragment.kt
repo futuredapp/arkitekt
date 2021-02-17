@@ -40,6 +40,7 @@ abstract class BindingViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState, 
     private var _binding: B? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        lifecycle.addObserver(viewModel)
         return setupBindingView(inflater, container, layoutResId) {
             it.setVariable(brViewVariableId, this)
             it.setVariable(brViewModelVariableId, viewModel)

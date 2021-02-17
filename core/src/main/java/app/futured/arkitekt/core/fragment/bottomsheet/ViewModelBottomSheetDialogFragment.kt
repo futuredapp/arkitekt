@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.futured.arkitekt.core.BaseViewModel
-import app.futured.arkitekt.core.ViewModelCreator
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -17,8 +16,7 @@ import kotlin.reflect.KClass
  * Base BottomSheetDialogFragment class with built-in ViewModel support
  */
 abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
-    BottomSheetDialogFragment(),
-    ViewModelCreator<VM> {
+    BottomSheetDialogFragment() {
 
     /**
      * Property which holds reference to layout identifier eg. R.layout.fragment_custom_bottomsheet.
@@ -35,18 +33,14 @@ abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : V
     /**
      * Reference to Fragment ViewModel
      */
-    val viewModel: VM by lazy {
-        getVM().apply {
-            lifecycle.addObserver(this)
-        }
+    abstract val viewModel: VM
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        lifecycle.addObserver(viewModel)
+        return inflater.inflate(layoutResId, container, false)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(layoutResId, container, false)
-
     fun show(fragmentManager: FragmentManager) = show(fragmentManager, fragmentTag)
-
-    private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
 
     /**
      * Get reference to Activity ViewModel. Make sure correct VM class is specified.
