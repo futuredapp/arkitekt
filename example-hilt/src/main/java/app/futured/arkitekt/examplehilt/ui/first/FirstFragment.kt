@@ -31,5 +31,8 @@ class FirstFragment : BaseFragment<FirstViewModel, FirstViewState, FragmentFirst
         observeEvent(NavigateToSecondFragmentEvent::class) {
             navigateTo(FirstFragmentDirections.navigateToSecondFragment(it.number))
         }
+        observeEvent(NavigateToBottomSheetEvent::class) {
+            navigateTo(FirstFragmentDirections.navigateToSomeBottomSheetFragment(it.number))
+        }
     }
 }
