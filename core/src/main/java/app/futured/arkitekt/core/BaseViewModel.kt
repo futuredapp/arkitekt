@@ -33,7 +33,7 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), LifecycleObserver {
         "savedStateHandle not found, please check our documentation for correct savedStateHandle implementation. https://github.com/futuredapp/arkitekt/blob/4.x/README.md "
     )
 
-    internal var internalSavedStateHandle: SavedStateHandle? = null
+    var internalSavedStateHandle: SavedStateHandle? = null
         set(value) {
             if (field == null) {
                 field = value

@@ -1,4 +1,4 @@
-package app.futured.arkitekt.core.factory
+package app.futured.arkitekt.dagger.factory
 
 import androidx.lifecycle.ViewModel
 import app.futured.arkitekt.core.BaseViewModel

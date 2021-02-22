@@ -39,7 +39,6 @@ abstract class BindingViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         _binding = setupBindingView(this, layoutResId) {
             it.setVariable(brViewVariableId, this)
             it.setVariable(brViewModelVariableId, viewModel)

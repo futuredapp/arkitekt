@@ -22,4 +22,8 @@ class FirstViewModel @Inject constructor(
     fun onNext() {
         sendEvent(NavigateToSecondFragmentEvent(viewState.randomNumber.value))
     }
+
+    fun onBottomSheet() {
+        sendEvent(NavigateToBottomSheetEvent(viewState.randomNumber.value))
+    }
 }
