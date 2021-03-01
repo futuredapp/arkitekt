@@ -7,7 +7,5 @@ import kotlin.random.Random
 @Singleton
 class SampleStore @Inject constructor() {
 
-    val randomValue: Int by lazy {
-        Random.nextInt(0, 100)
-    }
+    val randomValue: Int = Random.nextInt(0, 100)
 }

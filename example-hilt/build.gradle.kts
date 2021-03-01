@@ -41,6 +41,10 @@ android {
         getByName("test").java.srcDirs("src/sharedTest/java")
         getByName("androidTest").java.srcDirs("src/sharedTest/java")
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {

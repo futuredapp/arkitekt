@@ -42,11 +42,11 @@
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
-            android:id="@+id/random_number"
+            android:id="@+id/random_number_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@{viewState.displayText}"
+            android:text="@{String.valueOf(viewState.randomNumber)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toTopOf="@id/name_input_til"
             app:layout_constraintTop_toBottomOf="@id/title"
