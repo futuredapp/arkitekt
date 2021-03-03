@@ -4,10 +4,8 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.vanniktech.maven.publish")
 }
-
-group = ProjectSettings.group
-version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -37,11 +35,3 @@ dependencies {
     testImplementation(Deps.Test.assertJ)
     testImplementation(Deps.Test.testCoroutines)
 }
-
-project.apply {
-    extensions.add("artifact", ProjectSettings.CrUseCases.artifact)
-    extensions.add("libraryName", ProjectSettings.CrUseCases.artifact)
-    extensions.add("libraryDescription", ProjectSettings.CrUseCases.libraryDescription)
-}
-
-apply("../publish.script.gradle")

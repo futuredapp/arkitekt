@@ -4,10 +4,8 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.vanniktech.maven.publish")
 }
-
-group = ProjectSettings.group
-version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -29,10 +27,3 @@ dependencies {
     implementation(Deps.AndroidX.appcompat)
 }
 
-project.apply {
-    extensions.add("artifact", ProjectSettings.BindingAdapters.artifact)
-    extensions.add("libraryName", ProjectSettings.BindingAdapters.artifact)
-    extensions.add("libraryDescription", ProjectSettings.BindingAdapters.libraryDescription)
-}
-
-apply("../publish.script.gradle")

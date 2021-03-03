@@ -4,10 +4,8 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.vanniktech.maven.publish")
 }
-
-group = ProjectSettings.group
-version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -32,11 +30,3 @@ dependencies {
 
     implementation(Deps.DI.daggerSupport)
 }
-
-project.apply {
-    extensions.add("artifact", ProjectSettings.Dagger.artifact)
-    extensions.add("libraryName", ProjectSettings.Dagger.artifact)
-    extensions.add("libraryDescription", ProjectSettings.Dagger.libraryDescription)
-}
-
-apply("../publish.script.gradle")

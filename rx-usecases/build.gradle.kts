@@ -4,10 +4,8 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.vanniktech.maven.publish")
 }
-
-group = ProjectSettings.group
-version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -53,11 +51,3 @@ dependencies {
     testImplementation(Deps.Test.androidXTestCore)
     testImplementation(Deps.Test.rxSchedulerRule)
 }
-
-project.apply {
-    extensions.add("artifact", ProjectSettings.RxUseCases.artifact)
-    extensions.add("libraryName", ProjectSettings.RxUseCases.artifact)
-    extensions.add("libraryDescription", ProjectSettings.RxUseCases.libraryDescription)
-}
-
-apply("../publish.script.gradle")
