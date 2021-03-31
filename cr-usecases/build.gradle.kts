@@ -24,6 +24,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    sourceSets {
+        named("test") { java.srcDirs("src/testFixtures/java") }
+    }
 }
 
 dependencies {
