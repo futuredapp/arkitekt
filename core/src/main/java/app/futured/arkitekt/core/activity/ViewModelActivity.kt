@@ -1,9 +1,8 @@
 package app.futured.arkitekt.core.activity
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import app.futured.arkitekt.core.BaseViewModel
-import app.futured.arkitekt.core.ViewModelCreator
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import kotlin.reflect.KClass
@@ -11,7 +10,7 @@ import kotlin.reflect.KClass
 /**
  * Base Activity class with built-in ViewModel support
  */
-abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity(), ViewModelCreator<VM> {
+abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity() {
 
     /**
      * Property which holds reference to layout identifier eg. R.layout.main_activity.
@@ -22,11 +21,7 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
     /**
      * Reference to Activity ViewModel
      */
-    val viewModel: VM by lazy {
-        getVM().apply {
-            lifecycle.addObserver(this)
-        }
-    }
+    abstract val viewModel: VM
 
     /**
      * Reference to Activity ViewState
@@ -36,7 +31,10 @@ abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCo
             return viewModel.viewState
         }
 
-    private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycle.addObserver(viewModel)
+    }
 
     /**
      * Observe event defined by event class and run observer lambda whenever event is

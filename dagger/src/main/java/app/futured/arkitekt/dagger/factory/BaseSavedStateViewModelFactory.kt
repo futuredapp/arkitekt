@@ -1,4 +1,4 @@
-package app.futured.arkitekt.core.factory
+package app.futured.arkitekt.dagger.factory
 
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
@@ -28,8 +28,8 @@ abstract class BaseSavedStateViewModelFactory <T : BaseViewModel<*>>(
         key: String,
         modelClass: Class<T>,
         handle: SavedStateHandle): T {
-        return viewModelProvider?.get().apply {
+        return viewModelProvider.get().apply {
             this.internalSavedStateHandle = handle
-        } as T ?: throw IllegalStateException("Unknown ViewModel class")
+        } as? T ?: throw IllegalStateException("Unknown ViewModel class")
     }
 }

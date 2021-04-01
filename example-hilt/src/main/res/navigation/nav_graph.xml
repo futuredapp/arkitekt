@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+<navigation android:id="@+id/nav_graph"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/firstFragment">
 
-    <fragment
-        android:id="@+id/firstFragment"
-        android:name="app.futured.arkitekt.examplehilt.ui.first.FirstFragment"
-        android:label="FirstFragment" >
-        <action
-            android:id="@+id/navigate_to_secondFragment"
-            app:destination="@id/secondFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/secondFragment"
-        android:name="app.futured.arkitekt.examplehilt.ui.second.SecondFragment"
-        android:label="SecondFragment" >
+    <dialog
+        android:id="@+id/someBottomSheetFragment"
+        android:name="app.futured.arkitekt.examplehilt.ui.bottomsheet.SomeBottomSheetFragment"
+        android:label="fragment_some_bottom_sheet"
+        tools:layout="@layout/fragment_some_bottom_sheet">
         <argument
             android:name="number"
             app:argType="integer" />
+    </dialog>
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="app.futured.arkitekt.examplehilt.ui.second.SecondFragment"
+        android:label="SecondFragment"
+        tools:layout="@layout/fragment_second">
+        <argument
+            android:name="number"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="app.futured.arkitekt.examplehilt.ui.first.FirstFragment"
+        android:label="FirstFragment"
+        tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/navigate_to_secondFragment"
+            app:destination="@id/secondFragment" />
+        <action
+            android:id="@+id/navigate_to_someBottomSheetFragment"
+            app:destination="@id/someBottomSheetFragment" />
     </fragment>
 </navigation>

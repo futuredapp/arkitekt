@@ -17,10 +17,15 @@ android {
         minSdkVersion(ProjectSettings.minSdk)
         targetSdkVersion(ProjectSettings.targetSdk)
         multiDexEnabled = true
+        testInstrumentationRunner = "app.futured.arkitekt.examplehilt.tools.CustomTestRunner"
     }
 
-    dataBinding {
-        isEnabled = true
+    buildFeatures {
+        dataBinding = true
+    }
+
+    hilt {
+        enableTransformForLocalTests = true
     }
 
     compileOptions {
@@ -30,6 +35,15 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        getByName("test").java.srcDirs("src/sharedTest/java")
+        getByName("androidTest").java.srcDirs("src/sharedTest/java")
+    }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
     }
 }
 
@@ -65,6 +79,42 @@ dependencies {
     kapt(Deps.DI.hiltCompiler)
     implementation(Deps.DI.hiltViewModel)
     implementation(Deps.DI.hiltNavigationFrag)
-    implementation(Deps.DI.hiltNavigation)
     kapt(Deps.DI.hiltJetpackCompiler)
+
+    // Unit tests
+    testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.rxSchedulerRule)
+
+    // Shared tests - local
+    testImplementation(Deps.Test.testCoroutines)
+    testImplementation(project(":core-test"))
+    testImplementation(project(":cr-usecases-test"))
+    testImplementation(Deps.Test.mockk)
+    testImplementation(Deps.Test.androidXTestRunner)
+    testImplementation(Deps.Test.androidXTestCore)
+    testImplementation(Deps.Test.androidXTestCoreKtx)
+    testImplementation(Deps.Test.androidXCoreTesting)
+    testImplementation(Deps.Test.androidXEspresso)
+    testImplementation(Deps.Test.androidXJUnit)
+    testImplementation(Deps.Test.androidXJUnitKtx)
+    testImplementation(Deps.Test.androidXFragmentTesting)
+    testImplementation(Deps.Test.robolectric)
+
+    // Shared tests - connected (instrumented)
+    androidTestImplementation(project(":core-test"))
+    androidTestImplementation(project(":cr-usecases-test"))
+    androidTestImplementation(Deps.Test.mockkAndroid)
+    androidTestImplementation(Deps.Test.androidXTestRunner)
+    androidTestImplementation(Deps.Test.androidXTestCore)
+    androidTestImplementation(Deps.Test.androidXTestCoreKtx)
+    androidTestImplementation(Deps.Test.androidXCoreTesting)
+    androidTestImplementation(Deps.Test.androidXEspresso)
+    androidTestImplementation(Deps.Test.androidXJUnit)
+    androidTestImplementation(Deps.Test.androidXJUnitKtx)
+    androidTestImplementation(Deps.Test.androidXFragmentTesting)
+    //androidTestImplementation(Deps.Test.robolectric)
+
+    androidTestImplementation(Deps.DI.hiltTesting)
+    kaptAndroidTest(Deps.DI.hiltCompiler)
+    kaptAndroidTest(Deps.DI.hiltJetpackCompiler)
 }

@@ -7,13 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import app.futured.arkitekt.examplehilt.tools.navigateTo
 import app.futured.arkitekt.examplehilt.ui.NavigationViewModel
-import app.futured.arkitekt.examplehilt.ui.base.BaseHiltFragment
+import app.futured.arkitekt.examplehilt.ui.base.BaseFragment
 import app.futured.arkitekt.sample.hilt.R
 import app.futured.arkitekt.sample.hilt.databinding.FragmentFirstBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FirstFragment : BaseHiltFragment<FirstViewModel, FirstViewState, FragmentFirstBinding>(), FirstView {
+class FirstFragment : BaseFragment<FirstViewModel, FirstViewState, FragmentFirstBinding>(), FirstView {
 
     override val viewModel: FirstViewModel by viewModels()
 
@@ -30,6 +30,9 @@ class FirstFragment : BaseHiltFragment<FirstViewModel, FirstViewState, FragmentF
     private fun observeEvents() {
         observeEvent(NavigateToSecondFragmentEvent::class) {
             navigateTo(FirstFragmentDirections.navigateToSecondFragment(it.number))
+        }
+        observeEvent(NavigateToBottomSheetEvent::class) {
+            navigateTo(FirstFragmentDirections.navigateToSomeBottomSheetFragment(it.number))
         }
     }
 }

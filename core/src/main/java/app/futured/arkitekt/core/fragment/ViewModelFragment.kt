@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import app.futured.arkitekt.core.BaseViewModel
-import app.futured.arkitekt.core.ViewModelCreator
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import kotlin.reflect.KClass
@@ -15,7 +14,7 @@ import kotlin.reflect.KClass
 /**
  * Base Fragment class with built-in ViewModel support
  */
-abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment(), ViewModelCreator<VM> {
+abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment() {
 
     /**
      * Property which holds reference to layout identifier eg. R.layout.main_fragment.
@@ -26,11 +25,7 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
     /**
      * Reference to Fragment ViewModel
      */
-    val viewModel: VM by lazy {
-        getVM().apply {
-            lifecycle.addObserver(this)
-        }
-    }
+    abstract val viewModel: VM
 
     /**
      * Reference to Fragment ViewState
@@ -40,10 +35,10 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
             return viewModel.viewState
         }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(layoutResId, container, false)
-
-    private fun getVM(): VM = ViewModelProvider(this, viewModelFactory).get(viewModelFactory.viewModelClass.java)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        lifecycle.addObserver(viewModel)
+        return inflater.inflate(layoutResId, container, false)
+    }
 
     /**
      * Get reference to Activity ViewModel. Make sure correct VM class is

@@ -2,7 +2,6 @@ package app.futured.arkitekt.dagger.inject
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import app.futured.arkitekt.core.ViewModelCreator
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 
