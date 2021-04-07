@@ -38,30 +38,24 @@ dependencies {
 ```
 
 ## Snapshot installation
-Create access token in your GitHub Account settings
-**Settings** -> **Developer settings** -> **Personal access tokens** -> **Generate new token**
 
-Check **read:packages**
-
-add new maven repo to your top level gradle file
+Add new maven repo to your top level gradle file.
 
 ```
-maven { 
-    url = URI("https://maven.pkg.github.com/futuredapp/arkitekt")
-    credentials {
-        username = your_github_user_name
-        password = access_token_you_generated
-    } 
-}
+maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 ```
 
-More information about personal access tokens can be found in [GitHub documentation](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)
+Snapshots are grouped based on major version, so for version 5.x use:
+
+```groovy
+implementation "app.futured.arkitekt:arkitekt:5.X.X-SNAPSHOT"
+```
 
 # Features
 
-Arkitekt framework combines built-in support for Dagger 2 dependency injection, View DataBinding, ViewModel and RxJava or Coroutines
-use cases. Architecture described here is used among wide variety of
-projects and it's production ready.
+Arkitekt framework combines built-in support for Dagger 2 dependency injection, View DataBinding,
+ViewModel and RxJava or Coroutines use cases. Architecture described here is used among wide variety
+of projects and it's production ready.
 
 ![MVVM architecture](extras/architecture-diagram.png)
 

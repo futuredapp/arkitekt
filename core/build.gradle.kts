@@ -4,10 +4,8 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("com.vanniktech.maven.publish")
 }
-
-group = ProjectSettings.group
-version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.compileSdk)
@@ -54,11 +52,3 @@ dependencies {
 
     lintPublish(project(":arkitekt-lint"))
 }
-
-project.apply {
-    extensions.add("artifact", ProjectSettings.Core.artifact)
-    extensions.add("libraryName", ProjectSettings.Core.artifact)
-    extensions.add("libraryDescription", ProjectSettings.Core.libraryDescription)
-}
-
-apply("../publish.script.gradle")
