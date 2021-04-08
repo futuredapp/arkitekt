@@ -1,6 +1,6 @@
 package app.futured.arkitekt.kmmsample.domain
 
-import app.futured.arkitekt.kmusecases.FlowUseCase
+import app.futured.arkitekt.kmusecases.usecase.FlowUseCase
 import app.futured.arkitekt.kmmsample.data.model.Device
 import app.futured.arkitekt.kmmsample.data.repository.PersistenceRepository
 import app.futured.arkitekt.kmmsample.di.CommonGraph

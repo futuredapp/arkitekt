@@ -1,5 +1,9 @@
-package app.futured.arkitekt.kmusecases
+package app.futured.arkitekt.kmusecases.usecase
 
+import app.futured.arkitekt.kmusecases.atomics.AtomicRef
+import app.futured.arkitekt.kmusecases.freeze
+import app.futured.arkitekt.kmusecases.scope.Scope
+import app.futured.arkitekt.kmusecases.workerDispatcher
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -11,8 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
 abstract class FlowUseCase<Arg, ReturnType> {
-    var job: Job? = null
-
+    var job: AtomicRef<Job?> = AtomicRef(null)
     abstract fun build(arg: Arg): Flow<ReturnType>
 
     // because of iOS, not accessible from Android
@@ -27,9 +30,9 @@ abstract class FlowUseCase<Arg, ReturnType> {
         }
 
         if (flowUseCaseConfig.disposePrevious) {
-            job?.cancel()
+            job.get()?.cancel()
         }
-        job = build(args)
+        job.set(build(args)
             .flowOn(workerDispatcher)
             .onStart { flowUseCaseConfig.onStart() }
             .onEach { flowUseCaseConfig.onNext(it) }
@@ -43,7 +46,7 @@ abstract class FlowUseCase<Arg, ReturnType> {
                 }
             }
             .catch { /* handled in onCompletion */ }
-            .launchIn(coroutineScope)
+            .launchIn(coroutineScope))
     }
 
     /**

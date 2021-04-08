@@ -1,5 +1,6 @@
 package app.futured.arkitekt.kmusecases
 
+import app.futured.arkitekt.kmusecases.scope.Scope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

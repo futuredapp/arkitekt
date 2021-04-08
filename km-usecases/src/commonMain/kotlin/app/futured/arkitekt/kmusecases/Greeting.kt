@@ -1,7 +1,7 @@
 package app.futured.arkitekt.kmusecases
 
-class Greeting {
-    fun greeting(): String {
+public class Greeting {
+    public fun greeting(): String {
         return "Hello, ${Platform().platform}!"
     }
 }

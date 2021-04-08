@@ -23,14 +23,15 @@ class LaunchesViewModel : BaseViewModel , ObservableObject {
     private func observeLaunches() {
         observeLaunchesUc.execute(self, args: nil) { builder in
             builder.onNext { wrapper in
-                guard let list = wrapper?.list else {
-                    return
-                }
+                guard let list = wrapper?.list else { return }
                 self.launches = list
             }
             builder.onError { error in
                 print(error)
             }
         }
+    }
+    deinit {
+        onDestroy()
     }
 }

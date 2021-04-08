@@ -33,15 +33,15 @@ kotlin {
         // By default, it is the name of the Gradle project.
         frameworkName = "shared"
     }
-
+    ios()
     android()
-    val sdkName: String? = System.getenv("SDK_NAME")
-    val isiOSDevice = sdkName.orEmpty().startsWith("iphoneos")
-    if (isiOSDevice) {
-        iosArm64("ios")
-    } else {
-        iosX64("ios")
-    }
+//    val sdkName: String? = System.getenv("SDK_NAME")
+//    val isiOSDevice = sdkName.orEmpty().startsWith("iphoneos")
+//    if (isiOSDevice) {
+//        iosArm64("ios")
+//    } else {
+//        iosX64("ios")
+//    }
 
     sourceSets {
         val commonMain by getting {
@@ -62,7 +62,7 @@ kotlin {
                 implementation(Dependencies.SQLDelight.coroutineExtensions)
 
                 // Arkitekt usecases
-                api("app.futured.arkitekt:km-usecases:0.0.1-SNAPSHOT")
+                api("app.futured.arkitekt:km-usecases:0.1.4-SNAPSHOT")
             }
         }
         val commonTest by getting {
@@ -123,10 +123,13 @@ tasks {
 val packForXcode by tasks.creating(Sync::class) {
     group = "build"
     val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>("ios").binaries.getFramework(mode)
+    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
+    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
+    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
     inputs.property("mode", mode)
     dependsOn(framework.linkTask)
     val targetDir = File(buildDir, "xcode-frameworks")
     from({ framework.outputDirectory })
     into(targetDir)
 }
+tasks.getByName("build").dependsOn(packForXcode)

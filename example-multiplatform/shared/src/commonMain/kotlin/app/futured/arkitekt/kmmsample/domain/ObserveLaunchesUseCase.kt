@@ -4,7 +4,7 @@ import app.futured.arkitekt.kmmsample.data.model.LaunchUi
 import app.futured.arkitekt.kmmsample.data.repository.LaunchRepository
 import app.futured.arkitekt.kmmsample.data.repository.PersistenceRepository
 import app.futured.arkitekt.kmmsample.di.CommonGraph
-import app.futured.arkitekt.kmusecases.FlowUseCase
+import app.futured.arkitekt.kmusecases.usecase.FlowUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -29,8 +29,11 @@ class ObserveLaunchesUseCase : FlowUseCase<Unit, ListWrapper<LaunchUi>>(),
 
     private fun fetchLaunches(): Flow<List<LaunchUi>> = flow {
         val launches = getLaunches()
-        insertLaunches(launches)
         emit(launches)
+        while (true) {
+         kotlinx.coroutines.delay(1000)
+         insertLaunches(launches)
+        }
     }
 
     private fun observePersistedLaunches(): Flow<List<LaunchUi>> = observeLaunches()

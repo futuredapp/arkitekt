@@ -1,12 +1,19 @@
-package app.futured.arkitekt.kmusecases
+package app.futured.arkitekt.kmusecases.usecase
 
+import app.futured.arkitekt.kmusecases.atomics.AtomicRef
+import app.futured.arkitekt.kmusecases.scope.Scope
+import app.futured.arkitekt.kmusecases.freeze
+import app.futured.arkitekt.kmusecases.workerDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 abstract class UseCase<Arg, ReturnType> {
-    var job: Job? = null
+    var job: AtomicRef<Job?> = AtomicRef(null)
+    init {
+        freeze()
+    }
 
     abstract suspend fun build(arg: Arg): ReturnType
 
@@ -21,10 +28,10 @@ abstract class UseCase<Arg, ReturnType> {
             return@run build()
         }
         if (useCaseConfig.disposePrevious) {
-            job?.cancel()
+            job.get()?.cancel()
         }
         useCaseConfig.onStart()
-        job = getJob(arg, useCaseConfig.onSuccess, useCaseConfig.onError)
+        job.set(getJob(arg, useCaseConfig.onSuccess, useCaseConfig.onError))
     }
 
     private fun Scope.getJob(
@@ -32,7 +39,7 @@ abstract class UseCase<Arg, ReturnType> {
         onSuccess: (ReturnType) -> Unit,
         onError: (Throwable) -> Unit
     ): Job {
-
+        arg.freeze()
         onSuccess.freeze()
         onError.freeze()
         return coroutineScope.async { buildOnBg(arg) }
@@ -119,5 +126,3 @@ abstract class UseCase<Arg, ReturnType> {
         }
     }
 }
-
-

@@ -1,4 +1,4 @@
-package app.futured.arkitekt.kmusecases
+package app.futured.arkitekt.kmusecases.scope
 
 import kotlinx.coroutines.CoroutineScope
 

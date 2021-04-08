@@ -1,6 +1,6 @@
 package app.futured.arkitekt.kmusecases.testusecases
 
-import app.futured.arkitekt.kmusecases.UseCase
+import app.futured.arkitekt.kmusecases.usecase.UseCase
 import app.futured.arkitekt.kmusecases.data.SomeParam
 import kotlinx.coroutines.delay
 

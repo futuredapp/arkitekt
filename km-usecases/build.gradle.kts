@@ -62,6 +62,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(Deps.Kotlin.coroutinesMt)
             }
         }
         val androidMain by getting {
@@ -81,10 +82,10 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdkVersion(24)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
     }
 }

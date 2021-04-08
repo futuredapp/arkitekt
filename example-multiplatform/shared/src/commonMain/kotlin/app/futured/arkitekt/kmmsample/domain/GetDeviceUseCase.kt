@@ -4,7 +4,7 @@ import app.futured.arkitekt.kmmsample.data.model.Device
 import app.futured.arkitekt.kmmsample.data.repository.DeviceRepository
 import app.futured.arkitekt.kmmsample.data.repository.PersistenceRepository
 import app.futured.arkitekt.kmmsample.di.CommonGraph
-import app.futured.arkitekt.kmusecases.UseCase
+import app.futured.arkitekt.kmusecases.usecase.UseCase
 
 class GetDeviceUseCase : UseCase<Unit, Device>(), DeviceRepository by CommonGraph,
     PersistenceRepository by CommonGraph {

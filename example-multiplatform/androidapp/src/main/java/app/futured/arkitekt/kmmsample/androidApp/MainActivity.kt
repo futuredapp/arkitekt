@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import app.futured.arkitekt.kmmsample.Greeting
 import app.futured.arkitekt.kmmsample.domain.ObserveLaunchesUseCase
-import app.futured.arkitekt.kmusecases.Scope
+import app.futured.arkitekt.kmusecases.scope.Scope
 import kotlinx.coroutines.CoroutineScope
 
 fun greet(): String {

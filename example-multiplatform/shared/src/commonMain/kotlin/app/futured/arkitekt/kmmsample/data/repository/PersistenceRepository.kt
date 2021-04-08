@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PersistenceRepository : PersistenceModule {
     fun observeDevices(): Flow<List<Device>> = dbManager.getDevices()
-//
+
     fun observeLaunches(): Flow<List<LaunchUi>> = dbManager.observeLaunches()
 
     suspend fun insertLaunches(list: List<LaunchUi>) = dbManager.insertLaunches(list)

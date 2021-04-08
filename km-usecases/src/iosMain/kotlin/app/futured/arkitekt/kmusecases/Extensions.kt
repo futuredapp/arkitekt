@@ -8,10 +8,9 @@ import kotlin.native.concurrent.ensureNeverFrozen
 import kotlin.native.concurrent.freeze
 
 @SharedImmutable
-actual val mainUiContext: CoroutineContext = Dispatchers.Main
+internal actual val mainUiContext: CoroutineContext = Dispatchers.Main
 
 @SharedImmutable
-actual val workerDispatcher: CoroutineDispatcher = Dispatchers.Default
-
-actual fun Any.ensureNotFrozen(): Unit = ensureNeverFrozen()
-actual fun <T> T.freeze(): T = freeze()
+internal actual val workerDispatcher: CoroutineDispatcher = Dispatchers.Default
+internal actual fun Any.ensureNotFrozen(): Unit = ensureNeverFrozen()
+internal actual fun <T> T.freeze(): T = freeze()

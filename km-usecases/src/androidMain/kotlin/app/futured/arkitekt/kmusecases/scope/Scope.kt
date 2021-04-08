@@ -1,5 +1,8 @@
-package app.futured.arkitekt.kmusecases
+package app.futured.arkitekt.kmusecases.scope
 
+import app.futured.arkitekt.kmusecases.usecase.FlowUseCase
+import app.futured.arkitekt.kmusecases.usecase.UseCase
+import app.futured.arkitekt.kmusecases.workerDispatcher
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -12,10 +15,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-actual interface Scope {
-    actual val coroutineScope: CoroutineScope
+public actual interface Scope {
+    public actual val coroutineScope: CoroutineScope
 
-    fun <Arg, ReturnType> UseCase<Arg, ReturnType>.execute(
+    public fun <Arg, ReturnType> UseCase<Arg, ReturnType>.execute(
         arg: Arg,
         config: UseCaseConfig.Builder<ReturnType>.() -> Unit
     ) {
@@ -24,10 +27,10 @@ actual interface Scope {
             return@run build()
         }
         if (useCaseConfig.disposePrevious) {
-            job?.cancel()
+            job.get()?.cancel()
         }
         useCaseConfig.onStart()
-        job = runJob(arg, this, useCaseConfig.onSuccess, useCaseConfig.onError)
+        job.set(runJob(arg, this, useCaseConfig.onSuccess, useCaseConfig.onError))
     }
 
     private fun <Arg, ReturnType> runJob(
@@ -65,10 +68,10 @@ actual interface Scope {
         }
 
         if (flowUseCaseConfig.disposePrevious) {
-            job?.cancel()
+            job.get()?.cancel()
         }
 
-        job = build(args)
+        job.set(build(args)
             .flowOn(workerDispatcher)
             .onStart { flowUseCaseConfig.onStart() }
             .onEach { flowUseCaseConfig.onNext(it) }
@@ -82,7 +85,7 @@ actual interface Scope {
                 }
             }
             .catch { /* handled in onCompletion */ }
-            .launchIn(coroutineScope)
+            .launchIn(coroutineScope))
     }
 
     /**
