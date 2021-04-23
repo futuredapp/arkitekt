@@ -4,16 +4,19 @@ import app.futured.arkitekt.kmusecases.atomics.AtomicRef
 import app.futured.arkitekt.kmusecases.scope.Scope
 import app.futured.arkitekt.kmusecases.freeze
 import app.futured.arkitekt.kmusecases.workerDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 abstract class UseCase<Arg, ReturnType> {
+
     var job: AtomicRef<Job?> = AtomicRef(null)
-    init {
-        freeze()
-    }
+
+//    init { todo this must be in child, not here
+//        freeze()
+//    }
 
     abstract suspend fun build(arg: Arg): ReturnType
 
@@ -26,7 +29,7 @@ abstract class UseCase<Arg, ReturnType> {
         val useCaseConfig = UseCaseConfig.Builder<ReturnType>().run {
             config(this)
             return@run build()
-        }
+        }.freeze()
         if (useCaseConfig.disposePrevious) {
             job.get()?.cancel()
         }
@@ -48,10 +51,11 @@ abstract class UseCase<Arg, ReturnType> {
                     kotlin.runCatching { it.await() }
                         .fold(onSuccess, onError)
                 }
-            }
+            }.freeze()
     }
 
-    private suspend fun buildOnBg(arg: Arg) = withContext(workerDispatcher) {
+//    private suspend fun buildOnBg(arg: Arg) = withContext(workerDispatcher) {
+    private suspend fun buildOnBg(arg: Arg) = withContext(Dispatchers.Default) {
         this@UseCase.build(arg)
     }
 

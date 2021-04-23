@@ -4,6 +4,7 @@ import com.apollographql.apollo.api.toJson
 import app.futured.arkitekt.kmmsample.data.model.Device
 import app.futured.arkitekt.kmmsample.data.model.LaunchUi
 import app.futured.arkitekt.kmmsample.data.model.QueryData
+import app.futured.arkitekt.kmusecases.freeze
 import com.rudolfhladik.arkitektexample.shared.GetLaunchesQuery
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -17,6 +18,9 @@ import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.toByteString
 
 class ApiManager {
+    init {
+//        freeze()
+    }
     private val httpClient = HttpClient()
 
     private val url = "https://us-central1-device-lab-c44f2.cloudfunctions.net/getDevice"

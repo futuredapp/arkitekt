@@ -10,4 +10,4 @@ internal expect val mainUiContext: CoroutineContext
 @SharedImmutable
 internal expect val workerDispatcher: CoroutineDispatcher
 internal expect fun Any.ensureNotFrozen() : Unit
-internal expect fun <T> T.freeze() : T
+expect fun <T> T.freeze() : T

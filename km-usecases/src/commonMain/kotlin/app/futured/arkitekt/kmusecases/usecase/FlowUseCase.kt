@@ -15,7 +15,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
 abstract class FlowUseCase<Arg, ReturnType> {
+
     var job: AtomicRef<Job?> = AtomicRef(null)
+
+//    init { todo this must be in child, not here
+//        freeze()
+//    }
+
     abstract fun build(arg: Arg): Flow<ReturnType>
 
     // because of iOS, not accessible from Android
@@ -27,7 +33,7 @@ abstract class FlowUseCase<Arg, ReturnType> {
         val flowUseCaseConfig = FlowUseCaseConfig.Builder<ReturnType>().run {
             config(this)
             return@run build()
-        }
+        }.freeze()
 
         if (flowUseCaseConfig.disposePrevious) {
             job.get()?.cancel()
@@ -35,18 +41,20 @@ abstract class FlowUseCase<Arg, ReturnType> {
         job.set(build(args)
             .flowOn(workerDispatcher)
             .onStart { flowUseCaseConfig.onStart() }
-            .onEach { flowUseCaseConfig.onNext(it) }
+            .onEach { flowUseCaseConfig.onNext(it.freeze()) }
             .onCompletion { error ->
                 when {
                     error is CancellationException -> {
                         // ignore this exception
                     }
-                    error != null -> flowUseCaseConfig.onError(error)
+                    error != null -> flowUseCaseConfig.onError(error.freeze())
                     else -> flowUseCaseConfig.onComplete()
                 }
             }
             .catch { /* handled in onCompletion */ }
-            .launchIn(coroutineScope))
+            .launchIn(coroutineScope)
+            .freeze()
+        )
     }
 
     /**

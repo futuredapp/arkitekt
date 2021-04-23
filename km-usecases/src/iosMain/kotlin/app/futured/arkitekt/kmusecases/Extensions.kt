@@ -13,4 +13,4 @@ internal actual val mainUiContext: CoroutineContext = Dispatchers.Main
 @SharedImmutable
 internal actual val workerDispatcher: CoroutineDispatcher = Dispatchers.Default
 internal actual fun Any.ensureNotFrozen(): Unit = ensureNeverFrozen()
-internal actual fun <T> T.freeze(): T = freeze()
+actual fun <T> T.freeze(): T = freeze()
