@@ -21,16 +21,7 @@ class ObserveLaunchesUseCase : FlowUseCase<Unit, ListWrapper<LaunchUi>>(),
         observePersistedLaunches(),
         fetchLaunches()
     )
-        .map {
-            val l = it.map {
-                it.copy(
-                    mission = it.mission.copy(
-                        name = "1-${it.mission.name}"
-                    )
-                )
-            }
-            ListWrapper(l)
-        }
+        .map { ListWrapper(it) }
 
     private fun fetchLaunches(): Flow<List<LaunchUi>> = flow {
         val launches = getLaunches()

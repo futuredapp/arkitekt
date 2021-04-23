@@ -1,6 +1,7 @@
 package app.futured.arkitekt.core.livedata
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import org.junit.Rule
 import org.junit.Test
@@ -62,7 +63,7 @@ class UiDataTest {
 
     @Test
     fun testUiDataNonNull() {
-        val uiData = uiData("1")
+        val uiData: UiData<String> = uiData("1")
         assert(uiData.value != null)
     }
 
@@ -78,5 +79,35 @@ class UiDataTest {
         uiData.value = "2"
 
         assert(observedValues.toString() == "[1, 2]")
+    }
+
+    @Test
+    fun `test map`() {
+        val uiData = uiData("four")
+        val observedValues = mutableListOf<Int>()
+        val mapResult: LiveData<Int> = uiData.map { it.length }
+        mapResult.observeForever {
+            observedValues.add(it)
+        }
+        uiData.value = "sixsix"
+        uiData.value = "fourfour"
+
+        assert(observedValues.toString() == "[4, 6, 8]")
+    }
+
+    @Test
+    fun `test NonnullLiveData map`() {
+        val uiData = NonNullLiveData("four")
+        val observedValues = mutableListOf<Int>()
+
+        val mapResult: LiveData<Int> = uiData
+            .map { it.length }
+            .map { it + it }
+
+        mapResult.observeForever {
+            observedValues.add(it)
+        }
+
+        assert(observedValues.toString() == "[8]")
     }
 }

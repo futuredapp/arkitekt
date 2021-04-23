@@ -30,7 +30,7 @@ class LaunchesViewModel: BaseViewModel, ObservableObject {
 //        self.devices = []
         self.observeDevice()
         self.launches = []
-        self.getLaunches()
+        self.observeLaunches()
     }
 
     func onStop() {
@@ -40,19 +40,19 @@ class LaunchesViewModel: BaseViewModel, ObservableObject {
 //        onDestroy()
     }
 
-//    private func observeLaunches() {
-//        observeLaunchesUc.execute(self, args: nil) { builder in
-//            builder.onNext { wrapper in
-//                guard let list = wrapper?.list else {
-//                    return
-//                }
-//                self.launches = list
-//            }
-//            builder.onError { error in
-//                print(error)
-//            }
-//        }
-//    }
+   private func observeLaunches() {
+       observeLaunchesUc.execute(self, args: nil) { builder in
+           builder.onNext { wrapper in
+               guard let list = wrapper?.list else {
+                   return
+               }
+               self.launches = list
+           }
+           builder.onError { error in
+               print(error)
+           }
+       }
+   }
 
     private func observeDevice() {
         observeDevicesUc.execute(self, args: nil) {
@@ -70,18 +70,17 @@ class LaunchesViewModel: BaseViewModel, ObservableObject {
     }
 
     private func getLaunches() {
-//        getLaunchesUseCase.execute(self, arg: KotlinUnit()) {
-//            $0.onSuccess { wrapper in
-//                guard let list = wrapper?.list else {
-//                    return
-//                }
-//                self.launches = list
-//
-//            }
-//            $0.onError { error in
-//                print(error)
-//            }
-//        }
+       getLaunchesUseCase.execute(self, arg: KotlinUnit()) {
+           $0.onSuccess { wrapper in
+               guard let list = wrapper?.list else {
+                   return
+               }
+               self.launches = list
+           }
+           $0.onError { error in
+               print(error)
+           }
+       }
     }
 
     deinit {

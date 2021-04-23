@@ -18,21 +18,14 @@ import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.toByteString
 
 class ApiManager {
-    init {
-//        freeze()
-    }
+
     private val httpClient = HttpClient()
 
-    private val url = "https://us-central1-device-lab-c44f2.cloudfunctions.net/getDevice"
     private val graphQlurl = "https://apollo-fullstack-tutorial.herokuapp.com/graphql"
 
     private val json = Json(Json) {
         isLenient = true
         ignoreUnknownKeys = true
-    }
-
-    suspend fun getDevice(): Device = httpClient.get<String>(url).let {
-        json.decodeFromString(Device.serializer(), it)
     }
 
     suspend fun getLaunches(): List<GetLaunchesQuery.Launch> {
