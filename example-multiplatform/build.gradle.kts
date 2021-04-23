@@ -2,7 +2,7 @@ buildscript {
     repositories {
         mavenLocal()
         gradlePluginPortal()
-        jcenter()
+//        jcenter()
         google()
         mavenCentral()
     }
@@ -12,11 +12,6 @@ buildscript {
         classpath(kotlin("serialization", version = Dependencies.Kotlin.version))
         classpath("com.apollographql.apollo:apollo-gradle-plugin:${Dependencies.Apollo.version}")
         classpath("com.squareup.sqldelight:gradle-plugin:${Dependencies.SQLDelight.version}")
-//        classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
-//        classpath(Deps.gradlePlugin)
-//        classpath(kotlin("serialization", version = Versions.kotlin))
-//        classpath(Deps.Plugins.apollo)
-//        classpath(Deps.Plugins.sqlDelight)
     }
 }
 

@@ -35,13 +35,6 @@ kotlin {
     }
     ios()
     android()
-//    val sdkName: String? = System.getenv("SDK_NAME")
-//    val isiOSDevice = sdkName.orEmpty().startsWith("iphoneos")
-//    if (isiOSDevice) {
-//        iosArm64("ios")
-//    } else {
-//        iosX64("ios")
-//    }
 
     sourceSets {
         val commonMain by getting {

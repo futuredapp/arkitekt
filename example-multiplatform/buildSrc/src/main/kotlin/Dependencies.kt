@@ -4,7 +4,7 @@ object Dependencies {
     }
 
     object Ktor {
-        const val version = "1.5.1" // try 1.5.0
+        const val version = "1.5.1"
 
         const val ktor = "io.ktor:ktor-client-core:$version"
         const val androidEngine = "io.ktor:ktor-client-android:$version"
