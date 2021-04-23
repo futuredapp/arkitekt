@@ -25,20 +25,34 @@ object Deps {
         const val daggerSupport = "com.google.dagger:dagger-android-support:${Versions.dagger}"
         const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+        const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
+        const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+        const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltJetpack}"
+        const val hiltNavigationFrag = "androidx.hilt:hilt-navigation-fragment:${Versions.hiltJetpack}"
+        const val hiltNavigation = "androidx.hilt:hilt-navigation:${Versions.hiltJetpack}"
+        const val hiltJetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpack}"
     }
 
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
         const val annnotation = "androidx.annotation:annotation:${Versions.androidxAnnotation}"
+        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
         const val material = "com.google.android.material:material:${Versions.material}"
         const val vectorDrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 
         const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
         const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
         const val liveDataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
         const val viewModelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
 
+        const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+        const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+        const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
+        const val core = "androidx.core:core-ktx:${Versions.core}"
         const val fragment = "androidx.fragment:fragment:${Versions.androidxFragment}"
     }
 
