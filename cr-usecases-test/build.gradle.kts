@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":cr-usecases"))
+    api(project(":cr-usecases"))
 
     implementation(Deps.Test.mockk)
 
