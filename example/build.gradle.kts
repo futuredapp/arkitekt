@@ -51,7 +51,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
     implementation(project(":dagger"))
     implementation(project(":rx-usecases"))
     implementation(project(":cr-usecases"))

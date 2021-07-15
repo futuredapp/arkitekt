@@ -29,9 +29,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":dagger"))
-    implementation(project(":cr-usecases"))
+    api(project(":core"))
+    api(project(":dagger"))
+    api(project(":cr-usecases"))
 
     implementation(Deps.Test.mockk)
 
