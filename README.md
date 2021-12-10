@@ -336,6 +336,36 @@ fun onButtonClicked() = launchWithHandler {
 
 `launchWithHandler` launches a new coroutine encapsulated with a try-catch block. By default exception thrown in `launchWithHandler` is rethrown but it is possible to override this behavior with `defaultErrorHandler` or just log these exceptions in `logUnhandledException`.
 
+### Global error logger for handled errors in use-cases
+
+In order to set an application-wide error logger for all handled errors in all use-cases, it is possible to set the following method in the `Application` class:
+
+```kotlin
+UseCaseErrorHandler.globalOnErrorLogger = { error ->
+    CustomLogger.logError(error)
+}
+```
+
+The `globalOnErrorLogger` callback in the `UseCaseErrorHandler` will be called for every error thrown in all use-cases that have defined onError receiver in the execute method.
+
+The following execute method will trigger `globalOnErrorLogger`:
+
+```kotlin
+useCase.execute {
+    ...
+    onError {
+        isLoading = false
+    }
+    ...
+}
+```
+
+The following execute method won't trigger `globalOnErrorLogger` because onError is not defined and execute method will throw an unhandled exception.
+
+```kotlin
+useCase.execute {}
+```
+
 ## Propagating data model changes into UI
 There are two main ways how to reflect data model changes in UI. Through `ViewState` observation
 or one-shot `Events`. 

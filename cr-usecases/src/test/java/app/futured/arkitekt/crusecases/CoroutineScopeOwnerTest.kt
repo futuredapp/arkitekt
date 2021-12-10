@@ -244,4 +244,44 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         Assert.assertEquals(exception, logException)
         Assert.assertEquals(null, handlerException)
     }
+
+    @Test
+    fun `when useCase is executed and onError is called then globalOnErrorLogger is called`() {
+        val errorUseCase = TestFailureUseCase()
+        var logException: Throwable? = null
+        UseCaseErrorHandler.globalOnErrorLogger = { exception ->
+            logException = exception
+        }
+
+        var resultError: Throwable? = null
+        errorUseCase.execute(IllegalStateException()) {
+            onError { error ->
+                resultError = error
+            }
+        }
+        coroutineScope.advanceTimeBy(10000)
+
+        Assert.assertTrue(resultError is IllegalStateException)
+        Assert.assertTrue(logException is IllegalStateException)
+    }
+
+    @Test
+    fun `when flowUseCase is executed and onError is called then globalOnErrorLogger is called`() {
+        val errorUseCase = TestFailureFlowUseCase()
+        var logException: Throwable? = null
+        UseCaseErrorHandler.globalOnErrorLogger = { exception ->
+            logException = exception
+        }
+
+        var resultError: Throwable? = null
+        errorUseCase.execute(IllegalStateException()) {
+            onError { error ->
+                resultError = error
+            }
+        }
+        coroutineScope.advanceTimeBy(10000)
+
+        Assert.assertTrue(resultError is IllegalStateException)
+        Assert.assertTrue(logException is IllegalStateException)
+    }
 }
