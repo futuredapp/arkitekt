@@ -49,6 +49,9 @@ interface CoroutineScopeOwner {
      * pending executions are canceled, this can be changed by the [config].
      * This version gets initial arguments by [args].
      *
+     * In case that an error is thrown during the execution of [UseCase] then [UseCaseErrorHandler.globalOnErrorLogger]
+     * is called with the error as an argument.
+     *
      * @param args Arguments used for initial use case initialization.
      * @param config [UseCaseConfig] used to process results of internal
      * Coroutine and to set configuration options.
@@ -75,6 +78,7 @@ interface CoroutineScopeOwner {
                 } catch (cancellation: CancellationException) {
                     // do nothing - this is normal way of suspend function interruption
                 } catch (error: Throwable) {
+                    UseCaseErrorHandler.globalOnErrorLogger(error)
                     useCaseConfig.onError.invoke(error)
                 }
             }
@@ -94,6 +98,10 @@ interface CoroutineScopeOwner {
      * Synchronously executes use case and saves it's Deferred. By default all previous
      * pending executions are canceled, this can be changed by the [cancelPrevious].
      * This version gets initial arguments by [args].
+     *
+     * [UseCaseErrorHandler.globalOnErrorLogger] is not used in this version of the execute method since it is
+     * recommended to call all execute methods with [Result] return type from [launchWithHandler] method where
+     * [UseCaseErrorHandler.globalOnErrorLogger] is used.
      *
      * @param args Arguments used for initial use case initialization.
      * @return [Result] that encapsulates either a successful result with [Success] or a failed result with [Error]
@@ -194,6 +202,9 @@ interface CoroutineScopeOwner {
      * by [config]. When suspend function in use case finishes, onComplete is called
      * on UI thread. This version is gets initial arguments by [args].
      *
+     * In case that an error is thrown during the execution of [FlowUseCase] then
+     * [UseCaseErrorHandler.globalOnErrorLogger] is called with the error as an argument.
+     *
      * @param args Arguments used for initial use case initialization.
      * @param config [FlowUseCaseConfig] used to process results of internal
      * Flow and to set configuration options.
@@ -220,7 +231,10 @@ interface CoroutineScopeOwner {
                     error is CancellationException -> {
                         // ignore this exception
                     }
-                    error != null -> flowUseCaseConfig.onError(error)
+                    error != null -> {
+                        UseCaseErrorHandler.globalOnErrorLogger(error)
+                        flowUseCaseConfig.onError(error)
+                    }
                     else -> flowUseCaseConfig.onComplete()
                 }
             }
