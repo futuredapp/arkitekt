@@ -1,9 +1,8 @@
 name: Check 5.x
-on: [pull_request] # test trigger
-#on:
-#  push:
-#    branches:
-#      - 5.x
+on:
+  push:
+    branches:
+      - 5.x
 
 jobs:
   master:
@@ -23,21 +22,21 @@ jobs:
       - name: Build
         shell: bash
         run: ./gradlew build
-#      - name: Build & publish snapshot
-#        run: ./gradlew publish --no-daemon --no-parallel --stacktrace
-#        env:
-#          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME }}
-#          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
-#          ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_PRIVATE_KEY }}
-#          ORG_GRADLE_PROJECT_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
-#      - name: Slack Notification
-#        if: failure()
-#        uses: homoluctus/slatify@master
-#        with:
-#          type: "failure"
-#          job_name: '*5.x Check*'
-#          username: GitHub
-#          channel: ${{env.SLACK_CHANNEL}}
-#          url: ${{ secrets.SLACK_WEB_HOOK }}
-#          commit: true
-#          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build & publish snapshot
+        run: ./gradlew publish --no-daemon --no-parallel --stacktrace
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
+          ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
+      - name: Slack Notification
+        if: failure()
+        uses: homoluctus/slatify@master
+        with:
+          type: "failure"
+          job_name: '*5.x Check*'
+          username: GitHub
+          channel: ${{env.SLACK_CHANNEL}}
+          url: ${{ secrets.SLACK_WEB_HOOK }}
+          commit: true
+          token: ${{ secrets.GITHUB_TOKEN }}
