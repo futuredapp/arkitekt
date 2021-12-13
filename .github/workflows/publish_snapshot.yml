@@ -21,8 +21,8 @@ jobs:
         shell: bash
         run: ./gradlew testRelease
       - name: Build
-          shell: bash
-          run: ./gradlew build
+        shell: bash
+        run: ./gradlew build
 #      - name: Build & publish snapshot
 #        run: ./gradlew publish --no-daemon --no-parallel --stacktrace
 #        env:
