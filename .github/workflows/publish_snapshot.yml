@@ -18,7 +18,10 @@ jobs:
           java-version: 1.8
       - name: Run unit tests
         shell: bash
-        run: ./gradlew --continue build testRelease
+        run: ./gradlew testRelease
+      - name: Build
+        shell: bash
+        run: ./gradlew build
       - name: Build & publish snapshot
         run: ./gradlew publish --no-daemon --no-parallel --stacktrace
         env:
