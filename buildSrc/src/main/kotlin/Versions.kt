@@ -1,6 +1,6 @@
 object Versions {
     // android gradle plugin
-    const val gradlePlugin = "4.0.2"
+    const val gradlePlugin = "7.0.4"
 
     // plugins
     const val detekt = "1.14.2"
@@ -10,8 +10,8 @@ object Versions {
     const val dokka = "1.4.20"
 
     // kotlin
-    const val kotlin = "1.4.10"
-    const val coroutines = "1.3.2"
+    const val kotlin = "1.5.32"
+    const val coroutines = "1.5.2"
 
     // core
     const val androidx = "1.2.0"
@@ -24,9 +24,10 @@ object Versions {
     const val vectorDrawable = "1.1.0"
     const val constraintLayout = "2.0.3"
     const val lifeCycle = "2.2.0"
-    const val dagger = "2.32"
-    const val hilt = "2.31.1-alpha"
-    const val hiltJetpack = "1.0.0-alpha03"
+    const val dagger = "2.40.5"
+    const val hilt = "2.40.5"
+    const val hiltViewModel = "1.0.0-alpha03"
+    const val hiltJetpack = "1.0.0"
     const val androidXEspresso = "3.3.0"
     const val navigation = "2.3.3"
 

@@ -14,10 +14,6 @@ repositories {
     jcenter()
 }
 
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
-}
-
 pluginBundle {
     website = "https://github.com/futuredapp/arkitekt"
     vcsUrl = "https://github.com/futuredapp/arkitekt"

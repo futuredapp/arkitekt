@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.MainActivity">
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -18,17 +20,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.detail.DetailActivity"/>
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".ui.form.FormActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"/>
 
         <activity
-            android:name=".ui.login.activity.LoginActivity"/>
+            android:name=".ui.login.activity.LoginActivity"
+            android:exported="false"/>
 
         <activity
-            android:name=".ui.coroutinesresult.CoroutinesResultActivity"/>
+            android:name=".ui.coroutinesresult.CoroutinesResultActivity"
+            android:exported="false"/>
 
     </application>
 
