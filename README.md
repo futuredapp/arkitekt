@@ -502,7 +502,7 @@ class MainViewModelFactory @Inject constructor(
 
 In order to create successful applications, it is highly encouraged to write tests for your application. But testing can be tricky sometimes so here are our best practices and utilities that will help you to achieve this goal with this library. 
 
-See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/)) in `example` module for more detailed sample.
+See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/) in `example` module for more detailed sample.
 
 ### ViewModel testing
 
@@ -510,7 +510,7 @@ See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/fu
 
 `ViewModelTest` that should be used as a base class for view model tests since it contains JUnit rules for dealing with a live data and with RxJava in tests.
 
-See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/test/java/app/futured/arkitekt/sample/ui/)) in `example` module for more detailed sample of view model testing.
+See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/test/java/app/futured/arkitekt/sample/ui/) in `example` module for more detailed sample of view model testing.
 
 ### Events testing
 
@@ -586,7 +586,7 @@ doAfterActivityInjection<SampleActivity> { activity ->
     activity.someInjectedClass = mockk()  
 }	
 ```
-See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/futuredapp/arkitekt/tree/4.x/example/src/sharedTest/java/app/futured/sample/ui)) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
+See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/sharedTest/java/app/futured/arkitekt/sample/ui) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
 
 # License
 Arkitekt is available under the MIT license. See the [LICENSE file](LICENCE) for more information.
