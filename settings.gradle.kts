@@ -10,26 +10,8 @@ include(
     ":rx-usecases",
     ":cr-usecases",
     ":bindingadapters",
-    ":templates",
     ":arkitekt-lint",
     ":core-test",
     ":rx-usecases-test",
     ":cr-usecases-test"
 )
-
-pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-        flatDir {
-            dirs("templates/build/libs")
-        }
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "app.futured.arkitekt.templates") {
-                useModule("app.futured.arkitekt:templates:${requested.version}")
-            }
-        }
-    }
-}

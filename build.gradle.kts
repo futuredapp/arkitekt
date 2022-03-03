@@ -6,9 +6,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        flatDir {
-            dirs("templates/build/libs")
-        }
     }
     dependencies {
         classpath(Deps.gradlePlugin)
@@ -24,8 +21,6 @@ plugins {
     idea
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
-//    uncomment this line for local testing purposes during template module development
-//    id(ProjectSettings.Templates.id) version ProjectSettings.version
 }
 
 tasks {
