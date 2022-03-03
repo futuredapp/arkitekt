@@ -2,7 +2,7 @@
 
 # Arkitekt
 
-[![Bintray](https://api.bintray.com/packages/thefuntastyops/arkitekt/core/images/download.svg?)](https://bintray.com/thefuntastyops/arkitekt)
+[![Download](https://img.shields.io/maven-central/v/app.futured.arkitekt/core)](https://search.maven.org/search?q=app.futured.arkitekt)
 [![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%205.x/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
 
 Arkitekt is a framework based on Android Architecture components, which gives you set of
