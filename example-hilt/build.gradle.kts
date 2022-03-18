@@ -3,19 +3,18 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
-    compileSdkVersion(ProjectSettings.compileSdk)
+    compileSdk = ProjectSettings.compileSdk
 
     defaultConfig {
         applicationId = ProjectSettings.applicationId + ".hilt"
-        minSdkVersion(ProjectSettings.minSdk)
-        targetSdkVersion(ProjectSettings.targetSdk)
+        minSdk = ProjectSettings.minSdk
+        targetSdk = ProjectSettings.targetSdk
         multiDexEnabled = true
     }
 
@@ -24,12 +23,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -38,7 +37,6 @@ dependencies {
     implementation(project(":cr-usecases"))
     implementation(project(":bindingadapters"))
 
-    implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.Kotlin.coroutines)
 
@@ -57,13 +55,11 @@ dependencies {
     implementation(Deps.Rx.rxRelay)
     implementation(Deps.Rx.rxDebug)
 
-    implementation(Deps.AndroidX.lifecycleExtensions)
     implementation(Deps.AndroidX.liveDataExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
     implementation(Deps.DI.hilt)
     kapt(Deps.DI.hiltCompiler)
-    implementation(Deps.DI.hiltViewModel)
     implementation(Deps.DI.hiltNavigationFrag)
     implementation(Deps.DI.hiltNavigation)
     kapt(Deps.DI.hiltJetpackCompiler)
