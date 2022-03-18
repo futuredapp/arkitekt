@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 class FormViewModelTest : ViewModelTest() {
@@ -40,6 +41,7 @@ class FormViewModelTest : ViewModelTest() {
         verify { viewModel.sendEvent(ShowToastEvent("A B")) }
     }
 
+    @Ignore("Unstable test investigate and fix https://github.com/futuredapp/arkitekt/issues/164") // TODO fix this unstable test
     @Test
     fun `when onStart is called then form is observed and most actual value is set to storedContent`() {
         // GIVEN
