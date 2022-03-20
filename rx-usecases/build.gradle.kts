@@ -8,31 +8,33 @@ plugins {
 }
 
 android {
-    compileSdkVersion(ProjectSettings.compileSdk)
+    compileSdk = ProjectSettings.compileSdk
 
     defaultConfig {
-        minSdkVersion(ProjectSettings.minSdk)
-        targetSdkVersion(ProjectSettings.targetSdk)
+        minSdk = ProjectSettings.minSdk
+        targetSdk = ProjectSettings.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
 dependencies {
     api(project(":core"))
 
-    implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
 
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.annnotation)
-    implementation(Deps.AndroidX.lifecycleExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
     implementation(Deps.DI.daggerSupport)

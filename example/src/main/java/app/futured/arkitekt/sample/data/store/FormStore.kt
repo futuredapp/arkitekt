@@ -10,7 +10,7 @@ class FormStore @Inject constructor() {
     val formChannel = ConflatedBroadcastChannel<Pair<String, String>>()
 
     fun saveForm(form: Pair<String, String>) {
-        formChannel.offer(form)
+        formChannel.trySend(form)
     }
 
     fun getFormFlow() = formChannel.asFlow()
