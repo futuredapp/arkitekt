@@ -5,8 +5,7 @@
 [![MavenCentral](https://img.shields.io/maven-central/v/app.futured.arkitekt/core)](https://mvnrepository.com/artifact/app.futured.arkitekt)
 [![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%205.x/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
 
-Arkitekt is a framework based on Android Architecture components, which gives you set of
-base classes to implement concise, testable and solid application. 
+Arkitekt is a set of architectural tools based on Android Architecture Components, which gives you a solid base to implement the concise, testable and solid application.
 
 # Installation
 
@@ -53,7 +52,7 @@ implementation "app.futured.arkitekt:arkitekt:5.X.X-SNAPSHOT"
 
 # Features
 
-Arkitekt framework combines built-in support for Dagger 2 dependency injection, View DataBinding,
+Arkitekt combines built-in support for Dagger 2 dependency injection, View DataBinding,
 ViewModel and RxJava or Coroutines use cases. Architecture described here is used among wide variety
 of projects and it's production ready.
 
@@ -591,7 +590,7 @@ See [these tests]([https://github.com/futuredapp/arkitekt](https://github.com/fu
 
 ## Templates  
 
-Arkitekt framework requires several files to be created with each new Activity or Fragment. To make the process of screen creation smooth, our framework is shipped with a template module. It contains templates for creating "Arkitekt Activity" and "Arkitekt Fragment" via Android Studio GUI.
+Arkitekt requires several files to be created with each new Activity or Fragment. To make the process of screen creation smooth, Arkitekt is shipped with a template module. It contains templates for creating "Arkitekt Activity" and "Arkitekt Fragment" via Android Studio GUI.
 
 To import templates into Android Studio follow these steps:
 
