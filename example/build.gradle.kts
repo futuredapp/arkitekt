@@ -4,17 +4,16 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
 }
 
 android {
-    compileSdkVersion(ProjectSettings.compileSdk)
+    compileSdk = ProjectSettings.compileSdk
 
     defaultConfig {
         applicationId = ProjectSettings.applicationId
-        minSdkVersion(ProjectSettings.minSdk)
-        targetSdkVersion(ProjectSettings.targetSdk)
+        minSdk = ProjectSettings.minSdk
+        targetSdk = ProjectSettings.targetSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
@@ -24,8 +23,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     sourceSets {
@@ -40,7 +39,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     configurations.all {
@@ -56,7 +55,6 @@ dependencies {
     implementation(project(":cr-usecases"))
     implementation(project(":bindingadapters"))
 
-    implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.Kotlin.coroutines)
 
@@ -72,7 +70,6 @@ dependencies {
     implementation(Deps.Rx.rxRelay)
     implementation(Deps.Rx.rxDebug)
 
-    implementation(Deps.AndroidX.lifecycleExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
     implementation(Deps.DI.daggerSupport)

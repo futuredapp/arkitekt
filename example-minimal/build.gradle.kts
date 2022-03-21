@@ -3,17 +3,16 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
 }
 
 android {
-    compileSdkVersion(ProjectSettings.compileSdk)
+    compileSdk = ProjectSettings.compileSdk
 
     defaultConfig {
         applicationId = ProjectSettings.applicationId + ".minimal"
-        minSdkVersion(ProjectSettings.minSdk)
-        targetSdkVersion(ProjectSettings.targetSdk)
+        minSdk = ProjectSettings.minSdk
+        targetSdk = ProjectSettings.targetSdk
     }
 
     dataBinding {
@@ -21,8 +20,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
@@ -31,7 +34,6 @@ dependencies {
     implementation(project(":dagger"))
     implementation(project(":rx-usecases"))
 
-    implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
 
     implementation(Deps.AndroidX.appcompat)
@@ -43,7 +45,6 @@ dependencies {
     implementation(Deps.Rx.rxRelay)
     implementation(Deps.Rx.rxDebug)
 
-    implementation(Deps.AndroidX.lifecycleExtensions)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
     implementation(Deps.DI.daggerSupport)

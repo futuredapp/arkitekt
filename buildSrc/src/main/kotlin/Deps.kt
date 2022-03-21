@@ -23,7 +23,6 @@ object Deps {
         const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
         const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-        const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltJetpack}"
         const val hiltNavigationFrag = "androidx.hilt:hilt-navigation-fragment:${Versions.hiltJetpack}"
         const val hiltNavigation = "androidx.hilt:hilt-navigation:${Versions.hiltJetpack}"
         const val hiltJetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpack}"
@@ -37,7 +36,7 @@ object Deps {
         const val vectorDrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 
-        const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifeCycle}"
+
         const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
         const val liveDataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
         const val viewModelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"

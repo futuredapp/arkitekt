@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(ProjectSettings.compileSdk)
+    compileSdk = ProjectSettings.compileSdk
 
     defaultConfig {
-        minSdkVersion(ProjectSettings.minSdk)
-        targetSdkVersion(ProjectSettings.targetSdk)
+        minSdk = ProjectSettings.minSdk
+        targetSdk = ProjectSettings.targetSdk
     }
 
     dataBinding {
@@ -25,20 +25,23 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
 dependencies {
-    implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.javaX)
 
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.material)
     implementation(Deps.AndroidX.annnotation)
-    implementation(Deps.AndroidX.lifecycleExtensions)
     implementation(Deps.AndroidX.liveDataExtensions)
     implementation(Deps.AndroidX.fragment)
     kapt(Deps.AndroidX.lifecycleCompiler)
