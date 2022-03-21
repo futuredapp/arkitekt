@@ -10,13 +10,6 @@ object ProjectSettings {
      */
     val version = System.getenv("VERSION_NAME") ?: "0.0.1-SNAPSHOT"
 
-    object Templates {
-        const val module = "templates"
-        const val id = "$group.$module"
-        const val name = "copyTemplates"
-        const val implementationClass = "app.futured.arkitekt.templates.Templates"
-    }
-
     object Core {
         const val artifact = "core"
         const val libraryDescription = "Core module of Arkitekt framework"
