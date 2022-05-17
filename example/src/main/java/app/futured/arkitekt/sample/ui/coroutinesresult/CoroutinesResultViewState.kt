@@ -1,14 +1,14 @@
 package app.futured.arkitekt.sample.ui.coroutinesresult
 
+import androidx.lifecycle.MutableLiveData
 import app.futured.arkitekt.core.ViewState
-import app.futured.arkitekt.core.livedata.DefaultValueLiveData
 import javax.inject.Inject
 
 class CoroutinesResultViewState @Inject constructor() : ViewState {
 
-    val contentState = DefaultValueLiveData(State.IDLE)
+    val contentState = MutableLiveData(State.IDLE)
 
-    val contentStateDescription = DefaultValueLiveData("")
+    val contentStateDescription = MutableLiveData("")
 
     enum class State {
         IDLE, LOADING, RESULT, ERROR;
