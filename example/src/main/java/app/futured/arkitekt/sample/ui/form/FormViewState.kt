@@ -1,6 +1,5 @@
 package app.futured.arkitekt.sample.ui.form
 
-import androidx.lifecycle.MutableLiveData
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.livedata.UiData
 import app.futured.arkitekt.core.livedata.combineLiveData

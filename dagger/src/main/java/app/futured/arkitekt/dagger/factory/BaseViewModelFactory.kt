@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
  *     override val viewModelClass = FormViewModel::class
  *  }
  */
-abstract class BaseViewModelFactory<T : BaseViewModel<*>>: ViewModelFactory<T> {
+abstract class BaseViewModelFactory<T : BaseViewModel<*>> : ViewModelFactory<T> {
 
     /**
      * ViewModel provider definition. Provider<VM> is automatically

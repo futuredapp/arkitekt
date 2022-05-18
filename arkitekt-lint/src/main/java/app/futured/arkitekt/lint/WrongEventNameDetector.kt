@@ -56,7 +56,7 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
         val className = declaration.name
 
         val isMvvmLibraryEvent = context.evaluator.getQualifiedName(declaration) == MVVM_EVENT_QUALIFIED_NAME
-        val directlyExtendsMvvmEvent = declaration.superClass?.let {
+        val directlyExtendsMvvmEvent = declaration.javaPsi.superClass?.let {
             context.evaluator.getQualifiedName(it)
         } == MVVM_EVENT_QUALIFIED_NAME
 

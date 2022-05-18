@@ -27,7 +27,8 @@ abstract class BaseSavedStateViewModelFactory <T : BaseViewModel<*>>(
     override fun <T : ViewModel?> create(
         key: String,
         modelClass: Class<T>,
-        handle: SavedStateHandle): T {
+        handle: SavedStateHandle
+    ): T {
         return viewModelProvider.get().apply {
             this.internalSavedStateHandle = handle
         } as? T ?: throw IllegalStateException("Unknown ViewModel class")

@@ -8,5 +8,3 @@ import javax.inject.Inject
 class SecondViewModel @Inject constructor(
     override val viewState: SecondViewState
 ) : BaseCrViewModel<SecondViewState>()
-
-

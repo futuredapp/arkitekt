@@ -66,6 +66,7 @@ fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValue(liveData:
  * capturedObserveLambda.invoke(...)
  *
  */
+@Suppress("FunctionMaxLength")
 fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValueMediator(liveData: () -> DefaultValueMediatorLiveData<VALUE>): (VALUE) -> Unit {
     var invokable: (CapturingSlot<(VALUE) -> Unit>)? = null
     every { liveData().observeWithoutOwner(captureLambda()) } answers {

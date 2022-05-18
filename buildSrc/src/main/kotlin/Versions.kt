@@ -3,7 +3,7 @@ object Versions {
     const val gradlePlugin = "7.2.0"
 
     // plugins
-    const val detekt = "1.19.0"
+    const val detekt = "1.20.0"
     const val ktlint = "10.2.1"
     const val ktlintExtension = "0.39.0"
     const val mavenPublish = "0.14.2"
@@ -17,7 +17,6 @@ object Versions {
     const val androidx = "1.4.1"
     const val androidxAnnotation = "1.3.0"
     const val multidex = "2.0.1"
-    const val core = "2.1.0"
     const val androidxFragment = "1.4.1"
     const val material = "1.6.0"
     const val test = "2.1.0"
@@ -41,8 +40,8 @@ object Versions {
     const val androidTools = "30.1.2"
 
     // test
-    const val mockk = "1.12.3"
-    const val mockitoCore = "4.4.0"
+    const val mockk = "1.12.4"
+    const val mockitoCore = "4.5.1"
     const val androidxTestRunner = "1.4.0"
     const val javaX = "1"
     const val jUnit = "1.1.3"

@@ -1,7 +1,6 @@
 package app.futured.arkitekt.sample.ui.login.fragment
 
 import android.view.View
-import androidx.lifecycle.LifecycleOwner
 import app.futured.arkitekt.rxusecases.BaseRxViewModel
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase
