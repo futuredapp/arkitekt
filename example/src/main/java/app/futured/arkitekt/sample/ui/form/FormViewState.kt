@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.ui.form
 
 import app.futured.arkitekt.core.ViewState
-import app.futured.arkitekt.core.livedata.DefaultValueLiveData
+import app.futured.arkitekt.core.livedata.UiData
 import app.futured.arkitekt.core.livedata.combineLiveData
 import app.futured.arkitekt.core.livedata.uiData
 import javax.inject.Inject
@@ -13,5 +13,5 @@ class FormViewState @Inject constructor() : ViewState {
     val submitEnabled = combineLiveData(this.login, this.password) { login, password ->
         login.isNotEmpty() && password.isNotEmpty()
     }
-    val storedContent = DefaultValueLiveData("")
+    val storedContent = UiData("")
 }

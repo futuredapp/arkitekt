@@ -1,17 +1,17 @@
 package app.futured.arkitekt.sample.data.store
 
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FormStore @Inject constructor() {
-    val formChannel = ConflatedBroadcastChannel<Pair<String, String>>()
+    private val formChannel = MutableStateFlow<Pair<String, String>?>(null)
 
     fun saveForm(form: Pair<String, String>) {
-        formChannel.trySend(form)
+        formChannel.value = form
     }
 
-    fun getFormFlow() = formChannel.asFlow()
+    fun getFormFlow() = formChannel.filterNotNull()
 }

@@ -1,12 +1,10 @@
 package app.futured.arkitekt.core
 
 import androidx.annotation.CallSuper
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import app.futured.arkitekt.core.event.Event
@@ -21,7 +19,7 @@ import kotlin.reflect.KClass
  * no longer used and will be destroyed. Beside that, it handles one-shot [Event]s
  * send from ViewModel to Activity/Fragment.
  */
-abstract class BaseViewModel<VS : ViewState> : ViewModel(), LifecycleObserver {
+abstract class BaseViewModel<VS : ViewState> : ViewModel(), DefaultLifecycleObserver {
     abstract val viewState: VS
 
     private var onStartCalled = false
@@ -29,9 +27,10 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), LifecycleObserver {
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
-    val requireSavedStateHandle: SavedStateHandle get() = internalSavedStateHandle ?: throw NullPointerException(
-        "savedStateHandle not found, please check our documentation for correct savedStateHandle implementation. https://github.com/futuredapp/arkitekt/blob/4.x/README.md "
-    )
+    val requireSavedStateHandle: SavedStateHandle
+        get() = internalSavedStateHandle ?: throw NullPointerException(
+            "savedStateHandle not found, please check our documentation for correct savedStateHandle implementation. https://github.com/futuredapp/arkitekt/blob/4.x/README.md "
+        )
 
     var internalSavedStateHandle: SavedStateHandle? = null
         set(value) {
@@ -40,8 +39,7 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), LifecycleObserver {
             }
         }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    internal fun onLifeCycleStart() {
+    override fun onStart(owner: LifecycleOwner) {
         if (!onStartCalled) {
             onStart()
             onStartCalled = true

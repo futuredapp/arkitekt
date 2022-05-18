@@ -69,7 +69,7 @@ subprojects {
 detekt {
     autoCorrect = false
     version = Versions.detekt
-    input = files(
+    source = files(
         "example/src/main/java",
         "core/src/main/java",
         "core-test/src/main/java",

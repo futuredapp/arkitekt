@@ -46,7 +46,6 @@ object Deps {
         const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
-        const val core = "androidx.core:core-ktx:${Versions.core}"
         const val fragment = "androidx.fragment:fragment:${Versions.androidxFragment}"
     }
 

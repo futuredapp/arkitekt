@@ -43,7 +43,6 @@ dependencies {
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.multidex)
-    implementation(Deps.AndroidX.core)
     implementation(Deps.AndroidX.fragment)
     implementation(Deps.AndroidX.navigationFragment)
     implementation(Deps.AndroidX.navigationUi)
