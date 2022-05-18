@@ -4,14 +4,15 @@ import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 
 class FormViewModelTest : ViewModelTest() {
@@ -26,6 +27,7 @@ class FormViewModelTest : ViewModelTest() {
     fun setUp() {
         viewState = FormViewState()
         viewModel = spyk(FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState), recordPrivateCalls = true)
+        every { viewModel.getWorkerDispatcher() } returns Dispatchers.Main
     }
 
     @Test
@@ -41,7 +43,6 @@ class FormViewModelTest : ViewModelTest() {
         verify { viewModel.sendEvent(ShowToastEvent("A B")) }
     }
 
-    @Ignore("Unstable test investigate and fix https://github.com/futuredapp/arkitekt/issues/164") // TODO fix this unstable test
     @Test
     fun `when onStart is called then form is observed and most actual value is set to storedContent`() {
         // GIVEN
