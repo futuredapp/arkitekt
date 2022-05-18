@@ -4,8 +4,8 @@ import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestRule
@@ -18,9 +18,9 @@ class CoroutineScopeRule : TestRule {
     @ExperimentalCoroutinesApi
     class TestCoroutineScopeOwner : CoroutineScopeOwner {
 
-        val testDispatcher = TestCoroutineDispatcher()
+        val testDispatcher = UnconfinedTestDispatcher()
 
-        override val coroutineScope = TestCoroutineScope(testDispatcher)
+        override val coroutineScope = TestScope(testDispatcher)
 
         override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher
     }
@@ -34,7 +34,6 @@ class CoroutineScopeRule : TestRule {
 
                 base.evaluate()
 
-                scopeOwner.coroutineScope.cleanupTestCoroutines()
                 Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
             }
         }
