@@ -10,7 +10,7 @@ object Versions {
     const val dokka = "1.6.10"
 
     // kotlin
-    const val kotlin = "1.6.20"
+    const val kotlin = "1.6.21"
     const val coroutines = "1.6.1"
 
     // core
