@@ -25,6 +25,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "11"
+        freeCompilerArgs += "-Xcontext-receivers"
     }
 }
 
