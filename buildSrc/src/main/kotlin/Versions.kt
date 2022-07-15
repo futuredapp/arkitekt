@@ -26,7 +26,7 @@ object Versions {
     const val dagger = "2.42"
     const val hilt = "2.42"
     const val hiltJetpack = "1.0.0"
-    const val androidXEspresso = "3.5.0-alpha03"
+    const val androidXEspresso = "3.5.0-alpha07"
     const val navigation = "2.5.0"
 
     // rx
