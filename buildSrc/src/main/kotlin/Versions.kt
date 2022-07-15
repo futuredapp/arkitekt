@@ -7,7 +7,7 @@ object Versions {
     const val ktlint = "10.3.0"
     const val ktlintExtension = "0.39.0"
     const val mavenPublish = "0.21.0"
-    const val dokka = "1.7.0"
+    const val dokka = "1.6.10"
 
     // kotlin
     const val kotlin = "1.7.0"
