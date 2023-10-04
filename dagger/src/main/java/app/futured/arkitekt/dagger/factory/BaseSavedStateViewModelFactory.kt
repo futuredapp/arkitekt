@@ -24,7 +24,7 @@ abstract class BaseSavedStateViewModelFactory <T : BaseViewModel<*>>(
      */
     abstract override val viewModelClass: KClass<T>
 
-    override fun <T : ViewModel?> create(
+    override fun <T : ViewModel> create(
         key: String,
         modelClass: Class<T>,
         handle: SavedStateHandle

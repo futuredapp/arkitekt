@@ -44,6 +44,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
             """
                 ).indented()
             )
+            .allowMissingSdk()
             .issues(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX)
             .run()
             .expectWarningCount(2)
@@ -72,6 +73,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
             """
                 ).indented()
             )
+            .allowMissingSdk()
             .issues(WrongEventNameDetector.ISSUE_MISSPELL)
             .run()
             .expectWarningCount(3)
@@ -96,6 +98,7 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
             """
                 ).indented()
             )
+            .allowMissingSdk()
             .issues(
                 WrongEventNameDetector.ISSUE_MUSSING_SUFFIX,
                 WrongEventNameDetector.ISSUE_MISSPELL

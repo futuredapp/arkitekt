@@ -27,6 +27,7 @@ android {
     dataBinding {
         isEnabled = true
     }
+    namespace = "app.futured.arkitekt"
 }
 
 dependencies {

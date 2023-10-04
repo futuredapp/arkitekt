@@ -26,9 +26,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
-    lintOptions {
-        warning("InvalidPackage")
+    namespace = "app.futured.arkitekt.core.test"
+    lint {
+        warning += setOf("InvalidPackage")
     }
 }
 
