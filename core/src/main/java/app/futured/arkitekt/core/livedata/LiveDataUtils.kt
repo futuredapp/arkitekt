@@ -2,7 +2,7 @@ package app.futured.arkitekt.core.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 
 fun <T1, T2, RESULT> combineLiveData(
     t1: LiveData<T1>,
@@ -24,7 +24,7 @@ fun <T1, T2, RESULT> combineLiveData(
         addSource(t1) { lastT1 = it; update() }
         addSource(t2) { lastT2 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) { callback(it.first, it.second) }
+    return mediatorLiveData.map { callback(it.first, it.second) }
 }
 
 fun <T1, T2, T3, RESULT> combineLiveData(
@@ -52,7 +52,7 @@ fun <T1, T2, T3, RESULT> combineLiveData(
         addSource(t2) { lastT2 = it; update() }
         addSource(t3) { lastT3 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third) }
+    return mediatorLiveData.map { callback(it.first, it.second, it.third) }
 }
 
 @Suppress("LongParameterList", "ComplexCondition")
@@ -88,7 +88,7 @@ fun <T1, T2, T3, T4, RESULT> combineLiveData(
         addSource(t3) { lastT3 = it; update() }
         addSource(t4) { lastT4 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth) }
+    return mediatorLiveData.map { callback(it.first, it.second, it.third, it.fourth) }
 }
 
 @Suppress("LongParameterList", "ComplexCondition")
@@ -127,7 +127,7 @@ fun <T1, T2, T3, T4, T5, RESULT> combineLiveData(
         addSource(t4) { lastT4 = it; update() }
         addSource(t5) { lastT5 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) { callback(it.first, it.second, it.third, it.fourth, it.fifth) }
+    return mediatorLiveData.map { callback(it.first, it.second, it.third, it.fourth, it.fifth) }
 }
 
 @Suppress("LongParameterList", "ComplexCondition")
@@ -172,7 +172,7 @@ fun <T1, T2, T3, T4, T5, T6, RESULT> combineLiveData(
         addSource(t5) { lastT5 = it; update() }
         addSource(t6) { lastT6 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) {
+    return mediatorLiveData.map {
         callback(
             it.first,
             it.second,
@@ -239,7 +239,7 @@ fun <T1, T2, T3, T4, T5, T6, T7, RESULT> combineLiveData(
         addSource(t6) { lastT6 = it; update() }
         addSource(t7) { lastT7 = it; update() }
     }
-    return Transformations.map(mediatorLiveData) {
+    return mediatorLiveData.map {
         callback(
             it.first,
             it.second,

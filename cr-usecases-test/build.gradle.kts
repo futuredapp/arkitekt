@@ -26,9 +26,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
-    lintOptions {
-        warning("InvalidPackage")
+    namespace = "app.futured.arkitekt.crusecases.test"
+    lint {
+        warning += setOf("InvalidPackage")
     }
 }
 

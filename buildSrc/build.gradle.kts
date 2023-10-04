@@ -3,9 +3,9 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    gradlePluginPortal()
 }
 
 dependencies {
-    implementation("com.github.ben-manes:gradle-versions-plugin:0.33.0")
+    implementation("com.github.ben-manes:gradle-versions-plugin:0.48.0")
 }

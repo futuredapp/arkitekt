@@ -27,6 +27,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    namespace = "app.futured.arkitekt.sample"
 }
 
 dependencies {

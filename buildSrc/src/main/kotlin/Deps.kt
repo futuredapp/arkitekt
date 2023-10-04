@@ -29,8 +29,8 @@ object Deps {
     }
 
     object AndroidX {
-        const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
-        const val annnotation = "androidx.annotation:annotation:${Versions.androidxAnnotation}"
+        const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+        const val annnotation = "androidx.annotation:annotation:${Versions.annotation}"
         const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
         const val material = "com.google.android.material:material:${Versions.material}"
         const val vectorDrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
@@ -70,11 +70,11 @@ object Deps {
         const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
         const val androidXTestRunner = "androidx.test:runner:${Versions.androidxTestRunner}"
         const val androidXTestCore = "androidx.test:core:${Versions.androidxTestCore}"
-        const val androidXTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTestCoreKtx}"
+        const val androidXTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTestCore}"
         const val androidXCoreTesting = "androidx.arch.core:core-testing:${Versions.androidxTestCoreTesting}"
         const val androidXEspresso = "androidx.test.espresso:espresso-core:${Versions.androidXEspresso}"
         const val androidXJUnit = "androidx.test.ext:junit:${Versions.androidXJUnit}"
-        const val androidXJUnitKtx = "androidx.test.ext:junit-ktx:${Versions.androidXJUnitKtx}"
+        const val androidXJUnitKtx = "androidx.test.ext:junit-ktx:${Versions.androidXJUnit}"
         const val androidXFragmentTesting = "androidx.fragment:fragment-testing:${Versions.androidXFragmentTesting}"
         const val rxSchedulerRule = "com.github.Plastix.RxSchedulerRule:rx2:${Versions.rxSchedulerRule}"
         const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
