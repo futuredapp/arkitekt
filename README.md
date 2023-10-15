@@ -273,7 +273,7 @@ result of this call.
 ```kotlin
 class LoginUseCase @Inject constructor(
     private val apiManager: ApiManager // Retrofit Service
-) : SinglerUseCase<LoginData, User>() {
+) : SingleUseCase<LoginData, User>() {
 
     override fun prepare(args: LoginData): Single<User> {
         return apiManager.getUser(args)
@@ -455,9 +455,9 @@ perceived on the same domain level as stores. Thanks to use cases we can easily 
 manipulate and combine this kind of data on background threads. 
 
 ```kotlin
-class GetUserFullNameObservabler @Inject constructor(
+class GetUserFullNameObservableUseCase @Inject constructor(
     private val userStore: UserStore
-) : ObservablerUseCase<String>() {
+) : ObservableUseCase<String>() {
 
     override fun prepare(): Observable<String> {
         return userStore.getUser()

@@ -29,6 +29,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "11"
+        freeCompilerArgs += "-Xcontext-receivers"
     }
     namespace = "app.futured.arkitekt.sample.hilt"
 }
