@@ -45,7 +45,6 @@ dependencies {
     implementation(Deps.Rx.rxAndroid)
     implementation(Deps.Rx.rxJava)
     implementation(Deps.Rx.rxRelay)
-    implementation(Deps.Rx.rxDebug)
 
     testImplementation(Deps.Test.mockitoCore)
     testImplementation(Deps.Test.androidXTestRunner)

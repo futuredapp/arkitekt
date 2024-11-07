@@ -54,7 +54,6 @@ object Deps {
         const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
         const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
         const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:${Versions.rxRelay}"
-        const val rxDebug = "com.sumera.rxdebug:rxdebug:${Versions.rxDebug}"
     }
 
     object Lint {

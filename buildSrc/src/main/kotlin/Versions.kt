@@ -34,7 +34,6 @@ object Versions {
     const val rxAndroid = "2.1.1"
     const val rxJava = "2.2.21"
     const val rxRelay = "2.1.1"
-    const val rxDebug = "1.1.3"
 
     // android tools
     const val androidTools = "31.1.2"
