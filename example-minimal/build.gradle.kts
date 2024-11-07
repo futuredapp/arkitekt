@@ -44,7 +44,6 @@ dependencies {
     implementation(Deps.Rx.rxAndroid)
     implementation(Deps.Rx.rxJava)
     implementation(Deps.Rx.rxRelay)
-    implementation(Deps.Rx.rxDebug)
 
     kapt(Deps.AndroidX.lifecycleCompiler)
 
