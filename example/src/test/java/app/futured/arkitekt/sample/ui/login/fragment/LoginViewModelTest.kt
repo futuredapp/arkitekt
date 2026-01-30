@@ -2,16 +2,16 @@ package app.futured.arkitekt.sample.ui.login.fragment
 
 import android.view.View
 import app.futured.arkitekt.core.viewmodel.ViewModelTest
-import app.futured.arkitekt.rxusecases.test.mockExecute
+import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase
 import app.futured.arkitekt.sample.domain.SyncLoginUseCase
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import io.reactivex.Completable
-import io.reactivex.Maybe
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -37,8 +37,8 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called and get state is successful then header is visible`() {
         // GIVEN
-        mockObserveUserFullNameUseCase.mockExecute { Observable.never() }
-        mockGetStateUseCase.mockExecute(true) { Maybe.just(false) }
+        mockObserveUserFullNameUseCase.mockExecute { emptyFlow() }
+        mockGetStateUseCase.mockExecute(true) { flowOf(false) }
 
         // WHEN
         viewModel.onStart()
@@ -50,8 +50,8 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called and get state is not successful then header is not visible`() {
         // GIVEN
-        mockObserveUserFullNameUseCase.mockExecute { Observable.never() }
-        mockGetStateUseCase.mockExecute(true) { Maybe.empty() }
+        mockObserveUserFullNameUseCase.mockExecute { emptyFlow() }
+        mockGetStateUseCase.mockExecute(true) { emptyFlow() }
 
         // WHEN
         viewModel.onStart()
@@ -63,8 +63,8 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when onStart is called then full name is set to last observed value`() {
         // GIVEN
-        mockGetStateUseCase.mockExecute(true) { Maybe.never() }
-        mockObserveUserFullNameUseCase.mockExecute { Observable.just("first", "second") }
+        mockGetStateUseCase.mockExecute(true) { emptyFlow() }
+        mockObserveUserFullNameUseCase.mockExecute { flowOf("first", "second") }
 
         // WHEN
         viewModel.onStart()
@@ -76,22 +76,22 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when login is called then name and surname is send to interactor`() {
         // GIVEN
-        mockGetStateUseCase.mockExecute(true) { Maybe.never() }
+        mockGetStateUseCase.mockExecute(true) { emptyFlow() }
         viewState.name.value = "name"
         viewState.surname.value = "surname"
-        mockLoginCompletabler.mockExecute { Completable.never() }
+        mockLoginCompletabler.mockExecute { }
 
         // WHEN
         viewModel.logIn()
 
         // THEN
-        verify { mockLoginCompletabler.create(SyncLoginUseCase.LoginData("name", "surname")) }
+        coVerify { mockLoginCompletabler.build(SyncLoginUseCase.LoginData("name", "surname")) }
     }
 
     @Test
     fun `when login is called and use case is successful then event is send`() {
         // GIVEN
-        mockLoginCompletabler.mockExecute { Completable.complete() }
+        mockLoginCompletabler.mockExecute { }
 
         // WHEN
         viewModel.logIn()
@@ -103,7 +103,7 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when login is called and use case is not successful then event is send`() {
         // GIVEN
-        mockLoginCompletabler.mockExecute { Completable.error(IllegalStateException()) }
+        mockLoginCompletabler.mockExecute { throw IllegalStateException() }
 
         // WHEN
         viewModel.logIn()

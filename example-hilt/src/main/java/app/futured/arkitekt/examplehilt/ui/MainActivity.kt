@@ -1,15 +1,18 @@
 package app.futured.arkitekt.examplehilt.ui
 
-import androidx.activity.viewModels
-import app.futured.arkitekt.examplehilt.ui.base.BaseActivity
-import app.futured.arkitekt.sample.hilt.R
-import app.futured.arkitekt.sample.hilt.databinding.ActivityMainBinding
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import app.futured.arkitekt.examplehilt.ui.compose.ExampleHiltApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
+class MainActivity : ComponentActivity() {
 
-    override val layoutResId = R.layout.activity_main
-
-    override val viewModel: MainViewModel by viewModels()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ExampleHiltApp()
+        }
+    }
 }

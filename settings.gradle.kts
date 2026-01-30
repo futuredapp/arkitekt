@@ -3,15 +3,15 @@ rootProject.buildFileName = "build.gradle.kts"
 
 include(
     ":core",
+    ":arkitekt-decompose",
+    ":arkitekt-decompose:annotation",
+    ":arkitekt-decompose:processor",
     ":dagger",
     ":example",
     ":example-minimal",
     ":example-hilt",
-    ":rx-usecases",
     ":cr-usecases",
-    ":bindingadapters",
     ":arkitekt-lint",
     ":core-test",
-    ":rx-usecases-test",
     ":cr-usecases-test"
 )

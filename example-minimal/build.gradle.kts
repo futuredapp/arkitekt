@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -15,17 +15,21 @@ android {
         targetSdk = ProjectSettings.targetSdk
     }
 
-    dataBinding {
-        isEnabled = true
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     namespace = "app.futured.arkitekt.sample"
 }
@@ -33,21 +37,21 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":dagger"))
-    implementation(project(":rx-usecases"))
+
+    implementation(platform(Deps.Compose.bom))
 
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
 
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.annnotation)
+    implementation(Deps.Compose.activity)
+    implementation(Deps.Compose.ui)
+    implementation(Deps.Compose.foundation)
+    implementation(Deps.Compose.material3)
+    implementation(Deps.Compose.runtime)
+    implementation(Deps.Compose.runtimeLivedata)
+    implementation(Deps.Compose.navigation)
 
-    implementation(Deps.Rx.rxKotlin)
-    implementation(Deps.Rx.rxAndroid)
-    implementation(Deps.Rx.rxJava)
-    implementation(Deps.Rx.rxRelay)
-
-    kapt(Deps.AndroidX.lifecycleCompiler)
-
-    implementation(Deps.DI.daggerSupport)
-    kapt(Deps.DI.daggerProcessor)
-    kapt(Deps.DI.daggerCompiler)
+    implementation(Deps.DI.dagger)
+    ksp(Deps.DI.daggerCompiler)
 }

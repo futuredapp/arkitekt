@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
     id("com.vanniktech.maven.publish")
 }
 
@@ -12,22 +11,29 @@ android {
 
     defaultConfig {
         minSdk = ProjectSettings.minSdk
-        targetSdk = ProjectSettings.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     namespace = "app.futured.arkitekt.crusecases.test"
+    testOptions {
+        targetSdk = ProjectSettings.targetSdk
+    }
     lint {
+        targetSdk = ProjectSettings.targetSdk
         warning += setOf("InvalidPackage")
     }
 }

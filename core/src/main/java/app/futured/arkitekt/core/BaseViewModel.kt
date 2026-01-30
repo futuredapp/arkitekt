@@ -7,10 +7,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.futured.arkitekt.core.event.Event
 import app.futured.arkitekt.core.event.LiveEventBus
 import app.futured.arkitekt.core.livedata.DefaultValueLiveData
 import app.futured.arkitekt.core.livedata.DefaultValueMediatorLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
 /**
@@ -24,6 +30,10 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), DefaultLifecycleObse
 
     private var onStartCalled = false
     private val liveEventBus = LiveEventBus<VS>()
+    private val eventChannel = Channel<Event<VS>>(Channel.BUFFERED)
+    val events = eventChannel
+        .receiveAsFlow()
+        .flowOn(Dispatchers.Main)
 
     private val observers = mutableMapOf<Observer<Any>, LiveData<Any>>()
 
@@ -57,6 +67,9 @@ abstract class BaseViewModel<VS : ViewState> : ViewModel(), DefaultLifecycleObse
      */
     fun sendEvent(event: Event<VS>) {
         liveEventBus.send(event)
+        viewModelScope.launch {
+            eventChannel.send(event)
+        }
     }
 
     /**

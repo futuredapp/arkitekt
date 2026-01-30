@@ -3,9 +3,8 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -18,17 +17,21 @@ android {
         multiDexEnabled = true
     }
 
-    dataBinding {
-        isEnabled = true
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     namespace = "app.futured.arkitekt.sample.hilt"
 }
@@ -36,7 +39,8 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":cr-usecases"))
-    implementation(project(":bindingadapters"))
+
+    implementation(platform(Deps.Compose.bom))
 
     implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.Kotlin.coroutines)
@@ -45,21 +49,17 @@ dependencies {
     implementation(Deps.AndroidX.annnotation)
     implementation(Deps.AndroidX.multidex)
     implementation(Deps.AndroidX.fragment)
-    implementation(Deps.AndroidX.navigationFragment)
-    implementation(Deps.AndroidX.navigationUi)
-    implementation(Deps.AndroidX.constraintLayout)
-
-    implementation(Deps.Rx.rxKotlin)
-    implementation(Deps.Rx.rxAndroid)
-    implementation(Deps.Rx.rxJava)
-    implementation(Deps.Rx.rxRelay)
 
     implementation(Deps.AndroidX.liveDataExtensions)
-    kapt(Deps.AndroidX.lifecycleCompiler)
-
+    implementation(Deps.Compose.activity)
+    implementation(Deps.Compose.ui)
+    implementation(Deps.Compose.foundation)
+    implementation(Deps.Compose.material3)
+    implementation(Deps.Compose.runtime)
+    implementation(Deps.Compose.runtimeLivedata)
+    implementation(Deps.Compose.navigation)
     implementation(Deps.DI.hilt)
-    kapt(Deps.DI.hiltCompiler)
-    implementation(Deps.DI.hiltNavigationFrag)
-    implementation(Deps.DI.hiltNavigation)
-    kapt(Deps.DI.hiltJetpackCompiler)
+    ksp(Deps.DI.hiltCompiler)
+    implementation(Deps.DI.hiltNavigationCompose)
+    ksp(Deps.DI.hiltJetpackCompiler)
 }

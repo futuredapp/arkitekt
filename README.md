@@ -10,30 +10,16 @@ Arkitekt is a set of architectural tools based on Android Architecture Component
 # Installation
 
 ```groovy
-android {
-    // AGP < 4.0.0
-    dataBinding {
-        enabled = true
-    }
-    
-    // AGP >= 4.0.0
-    buildFeatures {
-        dataBinding = true
-    }
-}
-
 dependencies {
     implementation("app.futured.arkitekt:core:LatestVersion")
-    implementation("app.futured.arkitekt:bindingadapters:LatestVersion")
     implementation("app.futured.arkitekt:dagger:LatestVersion")
     implementation("app.futured.arkitekt:cr-usecases:LatestVersion")
-    implementation("app.futured.arkitekt:rx-usecases:LatestVersion")
+    implementation("app.futured.arkitekt:arkitekt-decompose:LatestVersion")
     
     // Testing
     testImplementation("app.futured.arkitekt:core-test:LatestVersion")
-    testImplementation("app.futured.arkitekt:rx-usecases-test:LatestVersion")
     testImplementation("app.futured.arkitekt:cr-usecases-test:LatestVersion")
-}    
+}
 ```
 
 ## Snapshot installation
@@ -52,8 +38,8 @@ implementation "app.futured.arkitekt:arkitekt:5.X.X-SNAPSHOT"
 
 # Features
 
-Arkitekt combines built-in support for Dagger 2 dependency injection, View DataBinding,
-ViewModel and RxJava or Coroutines use cases. Architecture described here is used among wide variety
+Arkitekt combines built-in support for Dagger 2 dependency injection, ViewModel,
+Coroutines use cases, Compose EventEffects and Decompose. Architecture described here is used among wide variety
 of projects and it's production ready.
 
 ![MVVM architecture](extras/architecture-diagram.png)
@@ -151,28 +137,25 @@ class ApplicationModule {
 
 ##### `BaseActivity.kt`
 
-All of Activities in the project should inherit from this class to make DataBinding work properly.
-Be aware of fact BR class used in this class is generated when there is at least one layout file 
-with correctly defined data variables. Read more [here](#activity_mainxml).
+All of Activities in the project should inherit from this class to make ViewModel injection work properly.
 ```kotlin
-abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState, B : ViewDataBinding> :
-    BaseDaggerBindingActivity<VM, VS, B>() {
+abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState> :
+    BaseDaggerActivity<VM, VS>() {
 
-    override val brViewVariableId = BR.view
-    override val brViewModelVariableId = BR.viewModel
-    override val brViewStateVariableId = BR.viewState
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(layoutResId)
+    }
 }
 ```
 
 ##### `MainActivity.kt`
 
 Example Activity implementation. `viewModelFactory` and `layoutResId` must be overridden in every
-Activity in order to make ViewModel injection and DataBinding work. `ActivityMainBinding` used
-in `BaseActivity` constructor is generated from related `activity_main.xml` layout file. Make sure this file
-exists and have root tag `<layout>` before you try to build your code. `ViewModel` can be
-accessed through derived `viewModel` field.
+Activity in order to make ViewModel injection work. `ViewModel` can be accessed through derived
+`viewModel` field.
 ```kotlin
-class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
+class MainActivity : BaseActivity<MainViewModel, MainViewState>(), MainView {
 
     @Inject override lateinit var viewModelFactory: MainViewModelFactory
 
@@ -206,7 +189,7 @@ interface MainView : BaseView
 ##### `MainViewModel.kt`
 
 Activity/Fragment specific ViewModel implementation. You can choose between extending
-`BaseViewModel` or `BaseRxViewModel` with build-in support for RxJava based use cases.
+`BaseViewModel` or `BaseCrViewModel` with build-in support for coroutine based use cases.
 ```kotlin
 class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
 
@@ -237,34 +220,22 @@ object MainViewState : ViewState {
 
 ##### `activity_main.xml`
 
-Layout file containing proper DataBinding variables initialization. Make sure correct
-types are defined.
+Layout file containing a basic view hierarchy.
 ```xml
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <data>
-        <variable name="view" type="app.futured.arkitekt.sample.ui.main.MainView"/>
-        <variable name="viewModel" type="app.futured.arkitekt.sample.ui.main.MainViewModel"/>
-        <variable name="viewState" type="app.futured.arkitekt.sample.ui.main.MainViewState"/>
-    </data>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-
-    </LinearLayout>
-</layout>
+</LinearLayout>
 ```
 
 ## Use Cases
 
-Modules `cr-usecases` and `rx-usecases` contains set of base classes useful for easy execution of
-background tasks based on Coroutines or RxJava streams respectively. In terms of Coroutines
-two base types are available - `UseCase` (single result use case) and `FlowUseCase` (multi result use case).
-RxJava base use cases match base Rx "primitives": `ObservableUseCase`, `SingleUseCase`, `FlowableUseCase`, `MaybeUseCase`
-and finally `CompletableUseCase`. 
+Module `cr-usecases` contains base classes useful for easy execution of
+background tasks based on Coroutines. Two base types are available - `UseCase` (single result use case)
+and `FlowUseCase` (multi result use case).
 
 Following example describes how to make an API call and how to deal with 
 result of this call. 
@@ -273,9 +244,9 @@ result of this call.
 ```kotlin
 class LoginUseCase @Inject constructor(
     private val apiManager: ApiManager // Retrofit Service
-) : SinglerUseCase<LoginData, User>() {
+) : UseCase<LoginData, User>() {
 
-    override fun prepare(args: LoginData): Single<User> {
+    override suspend fun build(args: LoginData): User {
         return apiManager.getUser(args)
     }
 }
@@ -299,7 +270,7 @@ class LoginViewState : ViewState {
 ```kotlin
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase // Inject UseCase
-) : BaseRxViewModel<LoginViewState>() {
+) : BaseCrViewModel<LoginViewState>() {
     override val viewState = LoginViewState()
 
     fun logIn() = with(viewState) {
@@ -370,29 +341,26 @@ or one-shot `Events`.
 
 ### ViewState observation
 
-You can observe state changes and reflect these changes in UI via DataBinding 
-observation directly in xml layout:
+You can observe state changes and reflect these changes in UI by observing `LiveData`
+from your `viewState` in Activity/Fragment:
 
- ```xml
- <layout xmlns:android="http://schemas.android.com/apk/res/android">
- 
-     <data>
-         <variable name="view" type="app.futured.arkitekt.sample.ui.detail.DetailView"/>
-         <variable name="viewModel" type="app.futured.arkitekt.sample.ui.detail.DetailViewModel"/>
-         <variable name="viewState" type="app.futured.arkitekt.sample.ui.detail.DetailViewState"/>
-     </data>
-     
-     <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="@{viewState.myTextLiveData}"/>
- </layout>
+```kotlin
+viewModel.viewState.myTextLiveData.observe(viewLifecycleOwner) { value ->
+    binding.myTextView.text = value
+}
 ```
 
 ### Events
 Events are one-shot messages sent from `ViewModel` to an Activity/Fragment. They
 are based on `LiveData` bus. Events are guaranteed to be delivered only once even when
 there is screen rotation in progress. Basic event communication might look like this:
+
+If you are using Jetpack Compose, you can collect these events via `EventsEffect`:
+```kotlin
+viewModel.EventsEffect {
+    onEvent<ShowDetailEvent> { /* handle event */ }
+}
+```
 
 ##### `MainEvents.kt`
 ```kotlin

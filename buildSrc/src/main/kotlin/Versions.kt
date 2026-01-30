@@ -1,6 +1,6 @@
 object Versions {
     // android gradle plugin
-    const val gradlePlugin = "8.1.2"
+    const val gradlePlugin = "8.13.0"
 
     // plugins
     const val detekt = "1.20.0"
@@ -11,6 +11,7 @@ object Versions {
 
     // kotlin
     const val kotlin = "1.9.10"
+    const val ksp = "1.9.10-1.0.13"
     const val coroutines = "1.7.3"
 
     // core
@@ -28,12 +29,10 @@ object Versions {
     const val hiltJetpack = "1.0.0"
     const val androidXEspresso = "3.5.1"
     const val navigation = "2.7.3"
-
-    // rx
-    const val rxKotlin = "2.4.0"
-    const val rxAndroid = "2.1.1"
-    const val rxJava = "2.2.21"
-    const val rxRelay = "2.1.1"
+    const val composeBom = "2025.06.01"
+    const val activityCompose = "1.9.3"
+    const val hiltNavigationCompose = "1.1.0"
+    const val composeCompiler = "1.5.3"
 
     // android tools
     const val androidTools = "31.1.2"
@@ -48,8 +47,16 @@ object Versions {
     const val androidxTestCoreTesting = "2.2.0"
     const val androidXJUnit = "1.1.5"
     const val androidXFragmentTesting = "1.6.1"
-    const val rxSchedulerRule = "1.0.2"
     const val assertJ = "3.24.2"
     const val mockitoKotlin = "1.6.0"
     const val robolectric = "4.8.1"
+
+    // decompose
+    const val decompose = "3.3.0"
+    const val essenty = "2.5.0"
+    const val koin = "4.1.0"
+    const val kermit = "2.0.4"
+    const val jetbrainsComposeRuntime = "1.8.2"
+    const val poet = "2.2.0"
+    const val serialization = "1.8.0"
 }

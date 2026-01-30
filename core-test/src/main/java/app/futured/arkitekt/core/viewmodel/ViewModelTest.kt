@@ -2,7 +2,6 @@ package app.futured.arkitekt.core.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.futured.arkitekt.core.test.internal.CoroutineScopeRule
-import io.github.plastix.rxschedulerrule.RxSchedulerRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 
@@ -62,12 +61,6 @@ open class ViewModelTest {
         }
     }
     */
-
-    /**
-     * Swap RxJava schedulers with the ones that are executed immediately.
-     * It allows to work with the RxJava.
-     */
-    @get:Rule var rxJavaRule = RxSchedulerRule()
 
     /**
      * Swap background android executor with the one that executes task synchronously.

@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
     id("com.vanniktech.maven.publish")
 }
 
@@ -12,22 +11,30 @@ android {
 
     defaultConfig {
         minSdk = ProjectSettings.minSdk
-        targetSdk = ProjectSettings.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     namespace = "app.futured.arkitekt.core.test"
+    testOptions {
+        targetSdk = ProjectSettings.targetSdk
+    }
+
     lint {
+        targetSdk = ProjectSettings.targetSdk
         warning += setOf("InvalidPackage")
     }
 }
@@ -39,7 +46,6 @@ dependencies {
 
     implementation(Deps.Test.mockk)
 
-    implementation(Deps.Test.rxSchedulerRule)
     implementation(Deps.Test.androidXCoreTesting)
 
     implementation(Deps.DI.daggerSupport)
@@ -48,11 +54,6 @@ dependencies {
 
     implementation(Deps.AndroidX.liveDataExtensions)
     implementation(Deps.Test.testCoroutines)
-
-    // RxJava
-    implementation(Deps.Rx.rxKotlin)
-    implementation(Deps.Rx.rxAndroid)
-    implementation(Deps.Rx.rxJava)
 
     // Test
     testImplementation(Deps.Test.androidXTestRunner)

@@ -7,3 +7,4 @@
 /buildSrc/build
 /captures
 .externalNativeBuild
+**/build/**

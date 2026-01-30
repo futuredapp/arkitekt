@@ -10,6 +10,8 @@ buildscript {
     dependencies {
         classpath(Deps.gradlePlugin)
         classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
+        classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
+        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}")
         classpath(Deps.DI.hiltPlugin)
         classpath(Deps.AndroidX.safeArgsPlugin)
         classpath(Deps.Plugins.mavenPublish)
@@ -74,11 +76,12 @@ detekt {
         "core/src/main/java",
         "core-test/src/main/java",
         "dagger/src/main/java",
-        "rx-usecases/src/main/java",
-        "rx-usecases-test/src/main/java",
         "cr-usecases/src/main/java",
         "cr-usecases-test/src/main/java",
-        "bindingadapters/src/main/java",
+        "arkitekt-decompose/src/commonMain/kotlin",
+        "arkitekt-decompose/src/androidMain/kotlin",
+        "arkitekt-decompose/annotation/src/commonMain/kotlin",
+        "arkitekt-decompose/processor/src/jvmMain/kotlin",
         "arkitekt-lint/src/main/java"
     )
 //    filters = ".*/resources/.*,.*/build/.*"

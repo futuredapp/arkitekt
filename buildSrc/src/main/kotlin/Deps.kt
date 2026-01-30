@@ -14,9 +14,11 @@ object Deps {
         const val stdlib = "stdlib-jdk7"
         const val reflect = "reflect"
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+        const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     }
 
     object DI {
+        const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
         const val daggerSupport = "com.google.dagger:dagger-android-support:${Versions.dagger}"
         const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
@@ -26,6 +28,7 @@ object Deps {
         const val hiltNavigationFrag = "androidx.hilt:hilt-navigation-fragment:${Versions.hiltJetpack}"
         const val hiltNavigation = "androidx.hilt:hilt-navigation:${Versions.hiltJetpack}"
         const val hiltJetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpack}"
+        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationCompose}"
     }
 
     object AndroidX {
@@ -49,11 +52,41 @@ object Deps {
         const val fragment = "androidx.fragment:fragment:${Versions.androidxFragment}"
     }
 
-    object Rx {
-        const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
-        const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
-        const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
-        const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:${Versions.rxRelay}"
+    object Compose {
+        const val bom = "androidx.compose:compose-bom:${Versions.composeBom}"
+        const val runtime = "androidx.compose.runtime:runtime"
+        const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata"
+        const val ui = "androidx.compose.ui:ui"
+        const val foundation = "androidx.compose.foundation:foundation"
+        const val material3 = "androidx.compose.material3:material3"
+        const val navigation = "androidx.navigation:navigation-compose:${Versions.navigation}"
+        const val activity = "androidx.activity:activity-compose:${Versions.activityCompose}"
+        const val jetbrainsRuntime = "org.jetbrains.compose.runtime:runtime:${Versions.jetbrainsComposeRuntime}"
+    }
+
+    object Decompose {
+        const val core = "com.arkivanov.decompose:decompose:${Versions.decompose}"
+        const val essentyLifecycle = "com.arkivanov.essenty:lifecycle:${Versions.essenty}"
+    }
+
+    object Koin {
+        const val core = "io.insert-koin:koin-core:${Versions.koin}"
+    }
+
+    object Logging {
+        const val kermit = "co.touchlab:kermit:${Versions.kermit}"
+    }
+
+    object Ksp {
+        const val api = "com.google.devtools.ksp:symbol-processing-api:${Versions.ksp}"
+    }
+
+    object Poet {
+        const val interop = "com.squareup:kotlinpoet-ksp:${Versions.poet}"
+    }
+
+    object Serialization {
+        const val core = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}"
     }
 
     object Lint {
@@ -75,7 +108,6 @@ object Deps {
         const val androidXJUnit = "androidx.test.ext:junit:${Versions.androidXJUnit}"
         const val androidXJUnitKtx = "androidx.test.ext:junit-ktx:${Versions.androidXJUnit}"
         const val androidXFragmentTesting = "androidx.fragment:fragment-testing:${Versions.androidXFragmentTesting}"
-        const val rxSchedulerRule = "com.github.Plastix.RxSchedulerRule:rx2:${Versions.rxSchedulerRule}"
         const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
         const val assertJ = "org.assertj:assertj-core:${Versions.assertJ}"
         const val mockitoKotlin = "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"

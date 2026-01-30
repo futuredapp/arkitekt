@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.ui.login.fragment
 
 import android.view.View
-import app.futured.arkitekt.rxusecases.BaseRxViewModel
+import app.futured.arkitekt.crusecases.BaseCrViewModel
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase
 import app.futured.arkitekt.sample.domain.SyncLoginUseCase
@@ -12,11 +12,11 @@ class LoginViewModel @Inject constructor(
     private val observeUserFullNameUseCase: ObserveUserFullNameUseCase,
     private val getStateUseCase: GetStateUseCase,
     override val viewState: LoginViewState
-) : BaseRxViewModel<LoginViewState>() {
+) : BaseCrViewModel<LoginViewState>() {
 
     override fun onStart() {
         getStateUseCase.execute(true) {
-            onSuccess { viewState.showHeader.value = View.VISIBLE }
+            onNext { viewState.showHeader.value = View.VISIBLE }
         }
 
         observeUserFullNameUseCase.execute(Unit) {
@@ -26,7 +26,7 @@ class LoginViewModel @Inject constructor(
 
     fun logIn() = with(viewState) {
         loginCompletabler.execute(SyncLoginUseCase.LoginData(name.value, surname.value)) {
-            onComplete { sendEvent(NotifyActivityEvent("Successfully logged in!")) }
+            onSuccess { sendEvent(NotifyActivityEvent("Successfully logged in!")) }
             onError { sendEvent(NotifyActivityEvent("Login error!")) }
         }
     }
