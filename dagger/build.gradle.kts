@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -22,9 +20,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     testOptions {
         targetSdk = ProjectSettings.targetSdk
     }
@@ -34,10 +29,16 @@ android {
     namespace = "app.futured.arkitekt.dagger"
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
 dependencies {
     api(project(":core"))
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
 
     implementation(Deps.AndroidX.appcompat)
     compileOnly(Deps.AndroidX.material)

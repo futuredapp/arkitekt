@@ -1,8 +1,7 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
 }
@@ -21,19 +20,18 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     namespace = "app.futured.arkitekt.sample.hilt"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }
 
 dependencies {
@@ -42,7 +40,7 @@ dependencies {
 
     implementation(platform(Deps.Compose.bom))
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
     implementation(Deps.Kotlin.coroutines)
 
     implementation(Deps.AndroidX.appcompat)

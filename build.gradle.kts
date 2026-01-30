@@ -5,7 +5,6 @@ import java.net.URI
 buildscript {
     repositories {
         google()
-        jcenter()
     }
     dependencies {
         classpath(Deps.gradlePlugin)
@@ -23,6 +22,7 @@ plugins {
     idea
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
+    id(Deps.Plugins.composeCompiler) version Versions.kotlin apply false
 }
 
 tasks {
@@ -32,7 +32,6 @@ tasks {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url = URI("https://jitpack.io") }
     }

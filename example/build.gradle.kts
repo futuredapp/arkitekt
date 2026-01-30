@@ -1,9 +1,8 @@
 
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
 }
 
@@ -22,10 +21,6 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -42,9 +37,6 @@ android {
         }
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     namespace = "app.futured.arkitekt.sample"
 
     configurations.all {
@@ -54,13 +46,19 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
 dependencies {
     implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
 
     implementation(platform(Deps.Compose.bom))
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
     implementation(Deps.Kotlin.coroutines)
 
     implementation(Deps.AndroidX.appcompat)

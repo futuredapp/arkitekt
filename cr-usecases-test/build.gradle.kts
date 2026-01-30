@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -25,9 +23,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     namespace = "app.futured.arkitekt.crusecases.test"
     testOptions {
         targetSdk = ProjectSettings.targetSdk
@@ -38,12 +33,18 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
 dependencies {
     api(project(":cr-usecases"))
 
     implementation(Deps.Test.mockk)
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
     implementation(Deps.Kotlin.coroutines)
 
     // Test

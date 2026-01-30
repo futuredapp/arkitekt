@@ -6,7 +6,7 @@ dependencies {
 
     compileOnly(Deps.Lint.api)
     compileOnly(Deps.Lint.checks)
-    compileOnly(kotlin(Deps.Kotlin.stdlib, org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
+    compileOnly(kotlin(Deps.Kotlin.stdlib, Versions.kotlin))
 
     testImplementation(Deps.Lint.core)
     testImplementation(Deps.Lint.tests)

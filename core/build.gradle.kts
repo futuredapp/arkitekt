@@ -1,8 +1,7 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("com.vanniktech.maven.publish")
 }
 
@@ -16,10 +15,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
     }
 
     testOptions {
@@ -38,16 +33,19 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     namespace = "app.futured.arkitekt.core"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }
 
 dependencies {
     implementation(platform(Deps.Compose.bom))
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
     implementation(Deps.javaX)
 
     implementation(Deps.AndroidX.appcompat)

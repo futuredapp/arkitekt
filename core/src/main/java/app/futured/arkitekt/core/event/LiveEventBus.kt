@@ -17,7 +17,9 @@ internal class LiveEventBus<T : ViewState> {
     }
 
     fun send(event: Event<T>) {
-        val liveEvent: LiveEvent<*> = eventMap[event::class] ?: initLiveEvent(event::class)
+        @Suppress("UNCHECKED_CAST")
+        val liveEvent: LiveEvent<Event<T>> =
+            eventMap[event::class] as LiveEvent<Event<T>>? ?: initLiveEvent(event::class)
         liveEvent.value = event
     }
 

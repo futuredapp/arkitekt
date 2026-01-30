@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -25,9 +23,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     namespace = "app.futured.arkitekt.core.test"
     testOptions {
         targetSdk = ProjectSettings.targetSdk
@@ -36,6 +31,12 @@ android {
     lint {
         targetSdk = ProjectSettings.targetSdk
         warning += setOf("InvalidPackage")
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
@@ -50,7 +51,7 @@ dependencies {
 
     implementation(Deps.DI.daggerSupport)
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
 
     implementation(Deps.AndroidX.liveDataExtensions)
     implementation(Deps.Test.testCoroutines)

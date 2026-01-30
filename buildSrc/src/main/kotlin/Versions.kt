@@ -10,29 +10,28 @@ object Versions {
     const val dokka = "1.6.10"
 
     // kotlin
-    const val kotlin = "1.9.10"
-    const val ksp = "1.9.10-1.0.13"
-    const val coroutines = "1.7.3"
+    const val kotlin = "2.2.10"
+    const val ksp = "2.2.10-2.0.2"
+    const val coroutines = "1.10.2"
 
     // core
     const val appcompat = "1.6.1"
     const val annotation = "1.7.0"
     const val multidex = "2.0.1"
     const val androidxFragment = "1.6.1"
-    const val material = "1.9.0"
+    const val material = "1.10.0"
     const val test = "2.2.0"
     const val vectorDrawable = "1.1.0"
     const val constraintLayout = "2.1.4"
-    const val lifeCycle = "2.6.2"
-    const val dagger = "2.48.1"
-    const val hilt = "2.48.1"
-    const val hiltJetpack = "1.0.0"
+    const val lifeCycle = "2.8.7"
+    const val dagger = "2.58"
+    const val hilt = "2.58"
+    const val hiltJetpack = "1.2.0"
     const val androidXEspresso = "3.5.1"
     const val navigation = "2.7.3"
-    const val composeBom = "2025.06.01"
-    const val activityCompose = "1.9.3"
-    const val hiltNavigationCompose = "1.1.0"
-    const val composeCompiler = "1.5.3"
+    const val composeBom = "2025.11.01"
+    const val activityCompose = "1.10.1"
+    const val hiltNavigationCompose = "1.2.0"
 
     // android tools
     const val androidTools = "31.1.2"
@@ -54,9 +53,9 @@ object Versions {
     // decompose
     const val decompose = "3.3.0"
     const val essenty = "2.5.0"
-    const val koin = "4.1.0"
+    const val koin = "4.2.0-beta2"
     const val kermit = "2.0.4"
-    const val jetbrainsComposeRuntime = "1.8.2"
+    const val jetbrainsComposeRuntime = "1.11.0-alpha01"
     const val poet = "2.2.0"
-    const val serialization = "1.8.0"
+    const val serialization = "1.9.0"
 }

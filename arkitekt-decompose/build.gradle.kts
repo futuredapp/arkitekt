@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.multiplatform")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.vanniktech.maven.publish")
 }
@@ -9,10 +10,8 @@ kotlin {
     jvmToolchain(17)
 
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
 
@@ -43,7 +42,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api(project(":cr-usecases"))
-                implementation(platform(Deps.Compose.bom))
                 implementation(Deps.Compose.runtime)
             }
         }
@@ -60,11 +58,8 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
-    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
