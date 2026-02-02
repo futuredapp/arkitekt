@@ -73,6 +73,7 @@ detekt {
     source = files(
         "example/src/main/java",
         "core/src/main/java",
+        "compose/src/main/java",
         "core-test/src/main/java",
         "dagger/src/main/java",
         "cr-usecases/src/main/java",

@@ -1,5 +1,6 @@
 package app.futured.arkitekt.sample.ui.compose
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,50 +12,43 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import app.futured.arkitekt.core.EventsEffect
-import app.futured.arkitekt.core.onEvent
+import app.futured.arkitekt.compose.EventsEffect
+import app.futured.arkitekt.compose.onEvent
 import app.futured.arkitekt.sample.tools.ToastCreator
 import app.futured.arkitekt.sample.ui.bottomsheet.CloseEvent
 import app.futured.arkitekt.sample.ui.bottomsheet.ExampleViewModel
-import app.futured.arkitekt.sample.ui.bottomsheet.ExampleViewModelFactory
-import app.futured.arkitekt.sample.ui.coroutinesresult.NavigateBackEvent as CoroutinesNavigateBackEvent
 import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultViewModel
-import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultViewModelFactory
 import app.futured.arkitekt.sample.ui.detail.DetailViewModel
-import app.futured.arkitekt.sample.ui.detail.DetailViewModelFactory
-import app.futured.arkitekt.sample.ui.detail.NavigateBackEvent as DetailNavigateBackEvent
 import app.futured.arkitekt.sample.ui.form.FormViewModel
-import app.futured.arkitekt.sample.ui.form.FormViewModelFactory
-import app.futured.arkitekt.sample.ui.form.NavigateBackEvent as FormNavigateBackEvent
-import app.futured.arkitekt.sample.ui.form.ShowToastEvent as FormShowToastEvent
-import app.futured.arkitekt.sample.ui.login.activity.LoginViewModel as LoginActivityViewModel
-import app.futured.arkitekt.sample.ui.login.activity.LoginViewModelFactory as LoginActivityViewModelFactory
-import app.futured.arkitekt.sample.ui.login.activity.ShowToastEvent as LoginActivityShowToastEvent
-import app.futured.arkitekt.sample.ui.login.fragment.LoginViewModel as LoginFragmentViewModel
-import app.futured.arkitekt.sample.ui.login.fragment.LoginViewModelFactory as LoginFragmentViewModelFactory
-import app.futured.arkitekt.sample.ui.login.fragment.NavigateBackEvent as LoginNavigateBackEvent
-import app.futured.arkitekt.sample.ui.login.fragment.NotifyActivityEvent
+import app.futured.arkitekt.sample.ui.login.ShowToastEvent
 import app.futured.arkitekt.sample.ui.main.MainViewModel
-import app.futured.arkitekt.sample.ui.main.MainViewModelFactory
 import app.futured.arkitekt.sample.ui.main.ShowBottomSheetEvent
 import app.futured.arkitekt.sample.ui.main.ShowDetailEvent
 import app.futured.arkitekt.sample.ui.main.ShowFormEvent
 import app.futured.arkitekt.sample.ui.main.ShowLoadEvent
 import app.futured.arkitekt.sample.ui.main.ShowLoginEvent
+import app.futured.arkitekt.sample.ui.coroutinesresult.NavigateBackEvent as CoroutinesNavigateBackEvent
+import app.futured.arkitekt.sample.ui.detail.NavigateBackEvent as DetailNavigateBackEvent
+import app.futured.arkitekt.sample.ui.form.NavigateBackEvent as FormNavigateBackEvent
+import app.futured.arkitekt.sample.ui.form.ShowToastEvent as FormShowToastEvent
+import app.futured.arkitekt.sample.ui.login.LoginViewModel as LoginFragmentViewModel
+import app.futured.arkitekt.sample.ui.login.NavigateBackEvent as LoginNavigateBackEvent
+
 
 @Composable
 fun MainScreen(
     navController: NavHostController,
-    viewModelFactory: MainViewModelFactory,
+    viewModel: MainViewModel = hiltViewModel(),
 ) {
-    val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
+
 
     viewModel.EventsEffect {
         onEvent<ShowDetailEvent> { navController.navigate("detail") }
@@ -91,14 +85,10 @@ fun MainScreen(
 @Composable
 fun DetailScreen(
     navController: NavHostController,
-    viewModelFactory: DetailViewModelFactory,
+    viewModel: DetailViewModel = hiltViewModel(),
 ) {
-    val viewModel: DetailViewModel = viewModel(factory = viewModelFactory)
     val numberText by viewModel.viewState.stringNumber.observeAsState("")
 
-    LaunchedEffect(viewModel) {
-        viewModel.onStart()
-    }
 
     viewModel.EventsEffect {
         onEvent<DetailNavigateBackEvent> { navController.popBackStack() }
@@ -123,22 +113,17 @@ fun DetailScreen(
 @Composable
 fun FormScreen(
     navController: NavHostController,
-    viewModelFactory: FormViewModelFactory,
-    toastCreator: ToastCreator,
+    viewModel: FormViewModel = hiltViewModel(),
 ) {
-    val viewModel: FormViewModel = viewModel(factory = viewModelFactory)
     val context = LocalContext.current
     val login by viewModel.viewState.login.observeAsState("")
     val password by viewModel.viewState.password.observeAsState("")
     val storedContent by viewModel.viewState.storedContent.observeAsState("")
     val submitEnabled by viewModel.viewState.submitEnabled.observeAsState(false)
 
-    LaunchedEffect(viewModel) {
-        viewModel.onStart()
-    }
 
     viewModel.EventsEffect {
-        onEvent<FormShowToastEvent> { toastCreator.showToast(context, it.message) }
+        onEvent<FormShowToastEvent> { Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show() }
         onEvent<FormNavigateBackEvent> { navController.popBackStack() }
     }
 
@@ -177,29 +162,18 @@ fun FormScreen(
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    activityViewModelFactory: LoginActivityViewModelFactory,
-    viewModelFactory: LoginFragmentViewModelFactory,
-    toastCreator: ToastCreator,
+    viewModel: LoginFragmentViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val activityViewModel: LoginActivityViewModel = viewModel(factory = activityViewModelFactory)
-    val viewModel: LoginFragmentViewModel = viewModel(factory = viewModelFactory)
     val name by viewModel.viewState.name.observeAsState("")
     val surname by viewModel.viewState.surname.observeAsState("")
     val fullName by viewModel.viewState.fullName.observeAsState("")
     val showHeader by viewModel.viewState.showHeader.observeAsState(0)
 
-    LaunchedEffect(viewModel) {
-        viewModel.onStart()
-    }
 
     viewModel.EventsEffect {
-        onEvent<NotifyActivityEvent> { activityViewModel.sendToastEvent(it.message) }
+        onEvent<ShowToastEvent> { Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()}
         onEvent<LoginNavigateBackEvent> { navController.popBackStack() }
-    }
-
-    activityViewModel.EventsEffect {
-        onEvent<LoginActivityShowToastEvent> { toastCreator.showToast(context, it.message) }
     }
 
     Column(
@@ -236,9 +210,8 @@ fun LoginScreen(
 @Composable
 fun CoroutinesResultScreen(
     navController: NavHostController,
-    viewModelFactory: CoroutinesResultViewModelFactory,
+    viewModel: CoroutinesResultViewModel = hiltViewModel(),
 ) {
-    val viewModel: CoroutinesResultViewModel = viewModel(factory = viewModelFactory)
     val contentState by viewModel.viewState.contentState.observeAsState(
         app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultViewState.State.IDLE
     )
@@ -268,9 +241,8 @@ fun CoroutinesResultScreen(
 @Composable
 fun BottomSheetScreen(
     navController: NavHostController,
-    viewModelFactory: ExampleViewModelFactory,
+    viewModel: ExampleViewModel = hiltViewModel(),
 ) {
-    val viewModel: ExampleViewModel = viewModel(factory = viewModelFactory)
 
     viewModel.EventsEffect {
         onEvent<CloseEvent> { navController.popBackStack() }

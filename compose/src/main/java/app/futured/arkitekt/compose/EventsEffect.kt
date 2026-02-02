@@ -1,7 +1,9 @@
-package app.futured.arkitekt.core
+package app.futured.arkitekt.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import app.futured.arkitekt.core.BaseCoreViewModel
+import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 
 /**
@@ -12,7 +14,7 @@ import app.futured.arkitekt.core.event.Event
  * @param observer Event receiver lambda.
  */
 @Composable
-fun <VS : ViewState> BaseViewModel<VS>.EventsEffect(
+fun <VS : ViewState> BaseCoreViewModel<VS>.EventsEffect(
     observer: suspend Event<VS>.() -> Unit,
 ) {
     LaunchedEffect(this) {

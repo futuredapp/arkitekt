@@ -1,7 +1,7 @@
 package app.futured.arkitekt.core.viewmodel
 
 import androidx.lifecycle.LiveData
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.livedata.DefaultValueLiveData
 import app.futured.arkitekt.core.livedata.DefaultValueMediatorLiveData
 import io.mockk.CapturingSlot
@@ -9,7 +9,7 @@ import io.mockk.every
 import io.mockk.invoke
 
 /**
- * Extension function that helps with mocking of [BaseViewModel.observeWithoutOwner]
+ * Extension function that helps with mocking of [BaseLegacyCoreViewModel.observeWithoutOwner]
  *
  * @return Captured lambda that is passed to original method. [invoke] should be called in order to simulate view state change.
  *
@@ -22,7 +22,7 @@ import io.mockk.invoke
  * capturedObserveLambda.invoke(...)
  *
  */
-fun <VALUE> BaseViewModel<*>.mockObserveWithoutOwner(liveData: () -> LiveData<VALUE>): (VALUE) -> Unit {
+fun <VALUE> BaseLegacyCoreViewModel<*>.mockObserveWithoutOwner(liveData: () -> LiveData<VALUE>): (VALUE) -> Unit {
     var invokable: (CapturingSlot<(VALUE) -> Unit>)? = null
     every { liveData().observeWithoutOwner(captureLambda()) } answers {
         invokable = lambda()
@@ -31,7 +31,7 @@ fun <VALUE> BaseViewModel<*>.mockObserveWithoutOwner(liveData: () -> LiveData<VA
 }
 
 /**
- * Extension function that helps with mocking of [BaseViewModel.observeWithoutOwner]
+ * Extension function that helps with mocking of [BaseLegacyCoreViewModel.observeWithoutOwner]
  *
  * @return Captured lambda that is passed to original method. [invoke] should be called in order to simulate view state change.
  *
@@ -44,7 +44,7 @@ fun <VALUE> BaseViewModel<*>.mockObserveWithoutOwner(liveData: () -> LiveData<VA
  * capturedObserveLambda.invoke(...)
  *
  */
-fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValue(liveData: () -> DefaultValueLiveData<VALUE>): (VALUE) -> Unit {
+fun <VALUE : Any> BaseLegacyCoreViewModel<*>.mockObserveWithoutOwnerDefaultValue(liveData: () -> DefaultValueLiveData<VALUE>): (VALUE) -> Unit {
     var invokable: (CapturingSlot<(VALUE) -> Unit>)? = null
     every { liveData().observeWithoutOwner(captureLambda()) } answers {
         invokable = lambda()
@@ -53,7 +53,7 @@ fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValue(liveData:
 }
 
 /**
- * Extension function that helps with mocking of [BaseViewModel.observeWithoutOwner]
+ * Extension function that helps with mocking of [BaseLegacyCoreViewModel.observeWithoutOwner]
  *
  * @return Captured lambda that is passed to original method. [invoke] should be called in order to simulate view state change.
  *
@@ -67,7 +67,7 @@ fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValue(liveData:
  *
  */
 @Suppress("FunctionMaxLength")
-fun <VALUE : Any> BaseViewModel<*>.mockObserveWithoutOwnerDefaultValueMediator(liveData: () -> DefaultValueMediatorLiveData<VALUE>): (VALUE) -> Unit {
+fun <VALUE : Any> BaseLegacyCoreViewModel<*>.mockObserveWithoutOwnerDefaultValueMediator(liveData: () -> DefaultValueMediatorLiveData<VALUE>): (VALUE) -> Unit {
     var invokable: (CapturingSlot<(VALUE) -> Unit>)? = null
     every { liveData().observeWithoutOwner(captureLambda()) } answers {
         invokable = lambda()

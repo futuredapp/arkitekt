@@ -8,7 +8,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.futured.arkitekt.core.testactivity.EmptyEvent
 import app.futured.arkitekt.core.testactivity.TestActivity
-import app.futured.arkitekt.core.testactivity.TestViewModel
+import app.futured.arkitekt.core.testactivity.TestLegacyCoreViewModel
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -18,17 +18,17 @@ import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
-class BaseViewModelTest {
+class  BaseLegacyCoreViewModelTest {
 
     private lateinit var activityScenario: ActivityScenario<TestActivity>
     private lateinit var activity: TestActivity
-    private lateinit var testViewModel: TestViewModel
+    private lateinit var testLegacyCoreViewModel: TestLegacyCoreViewModel
 
     @Before
     fun initActivity() {
         activityScenario = ActivityScenario.launch(TestActivity::class.java).onActivity {
             activity = it
-            testViewModel = ViewModelProvider(it).get(TestViewModel::class.java)
+            testLegacyCoreViewModel = ViewModelProvider(it).get(TestLegacyCoreViewModel::class.java)
         }
     }
 
@@ -40,7 +40,7 @@ class BaseViewModelTest {
     @Test
     fun onStartCalled() {
         activityScenario.onActivity {
-            Assert.assertEquals(1, ViewModelProvider(it).get(TestViewModel::class.java).viewState.onStartCallCount)
+            Assert.assertEquals(1, ViewModelProvider(it).get(TestLegacyCoreViewModel::class.java).viewState.onStartCallCount)
         }
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
     }
@@ -49,7 +49,7 @@ class BaseViewModelTest {
     fun onStartCalledOnceOnly() {
         activityScenario.recreate()
         activityScenario.onActivity {
-            Assert.assertEquals(1, testViewModel.viewState.onStartCallCount)
+            Assert.assertEquals(1, testLegacyCoreViewModel.viewState.onStartCallCount)
         }
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
     }
@@ -57,7 +57,7 @@ class BaseViewModelTest {
     @Test
     fun onClearedCalled() {
         var onClearedCallCount = 0
-        testViewModel.viewState.onClearedCallback = {
+        testLegacyCoreViewModel.viewState.onClearedCallback = {
             onClearedCallCount++
         }
         activityScenario.recreate()
@@ -68,8 +68,8 @@ class BaseViewModelTest {
     @Test
     fun testEventReceived() {
         var eventReceived = false
-        testViewModel.observeEvent((activity as LifecycleOwner), EmptyEvent::class) { eventReceived = true }
-        testViewModel.sentEmptyEvent()
+        testLegacyCoreViewModel.observeEvent((activity as LifecycleOwner), EmptyEvent::class) { eventReceived = true }
+        testLegacyCoreViewModel.sentEmptyEvent()
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
         Assert.assertTrue(eventReceived)
     }
@@ -77,9 +77,9 @@ class BaseViewModelTest {
     @Test
     fun testEventNotReceivedAfterOnDestroy() {
         var eventReceived = false
-        testViewModel.observeEvent((activity as LifecycleOwner), EmptyEvent::class) { eventReceived = true }
+        testLegacyCoreViewModel.observeEvent((activity as LifecycleOwner), EmptyEvent::class) { eventReceived = true }
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
-        testViewModel.sentEmptyEvent()
+        testLegacyCoreViewModel.sentEmptyEvent()
         Assert.assertFalse(eventReceived)
     }
 
@@ -89,17 +89,17 @@ class BaseViewModelTest {
         var defaultLiveDataReceived: Int? = null
         var mediatorLiveDataReceived: Int? = null
 
-        testViewModel.observerTestIntegerLiveData { liveDataReceived = it }
-        testViewModel.observeTestIntegerDefaultLiveData { defaultLiveDataReceived = it }
-        testViewModel.observeTestDefaultMediatorLiveData { mediatorLiveDataReceived = it }
-        testViewModel.viewState.testIntegerLiveData.value = 10
-        testViewModel.viewState.testIntegerLiveData.value = 20
+        testLegacyCoreViewModel.observerTestIntegerLiveData { liveDataReceived = it }
+        testLegacyCoreViewModel.observeTestIntegerDefaultLiveData { defaultLiveDataReceived = it }
+        testLegacyCoreViewModel.observeTestDefaultMediatorLiveData { mediatorLiveDataReceived = it }
+        testLegacyCoreViewModel.viewState.testIntegerLiveData.value = 10
+        testLegacyCoreViewModel.viewState.testIntegerLiveData.value = 20
 
-        testViewModel.viewState.testIntegerDefaultLiveData.value = 10
-        testViewModel.viewState.testIntegerDefaultLiveData.value = 20
+        testLegacyCoreViewModel.viewState.testIntegerDefaultLiveData.value = 10
+        testLegacyCoreViewModel.viewState.testIntegerDefaultLiveData.value = 20
 
-        testViewModel.viewState.testIntegerMediatorLiveData.value = 10
-        testViewModel.viewState.testIntegerMediatorLiveData.value = 20
+        testLegacyCoreViewModel.viewState.testIntegerMediatorLiveData.value = 10
+        testLegacyCoreViewModel.viewState.testIntegerMediatorLiveData.value = 20
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
         Assert.assertEquals(20, liveDataReceived)
         Assert.assertEquals(20, defaultLiveDataReceived)
@@ -112,19 +112,19 @@ class BaseViewModelTest {
         var defaultLiveDataReceived: Int? = null
         var mediatorLiveDataReceived: Int? = null
 
-        testViewModel.observerTestIntegerLiveData { liveDataReceived = it }
-        testViewModel.observeTestIntegerDefaultLiveData { defaultLiveDataReceived = it }
-        testViewModel.observeTestDefaultMediatorLiveData { mediatorLiveDataReceived = it }
+        testLegacyCoreViewModel.observerTestIntegerLiveData { liveDataReceived = it }
+        testLegacyCoreViewModel.observeTestIntegerDefaultLiveData { defaultLiveDataReceived = it }
+        testLegacyCoreViewModel.observeTestDefaultMediatorLiveData { mediatorLiveDataReceived = it }
         activityScenario.moveToState(Lifecycle.State.DESTROYED)
 
-        testViewModel.viewState.testIntegerLiveData.value = 10
-        testViewModel.viewState.testIntegerLiveData.value = 20
+        testLegacyCoreViewModel.viewState.testIntegerLiveData.value = 10
+        testLegacyCoreViewModel.viewState.testIntegerLiveData.value = 20
 
-        testViewModel.viewState.testIntegerDefaultLiveData.value = 10
-        testViewModel.viewState.testIntegerDefaultLiveData.value = 20
+        testLegacyCoreViewModel.viewState.testIntegerDefaultLiveData.value = 10
+        testLegacyCoreViewModel.viewState.testIntegerDefaultLiveData.value = 20
 
-        testViewModel.viewState.testIntegerMediatorLiveData.value = 10
-        testViewModel.viewState.testIntegerMediatorLiveData.value = 20
+        testLegacyCoreViewModel.viewState.testIntegerMediatorLiveData.value = 10
+        testLegacyCoreViewModel.viewState.testIntegerMediatorLiveData.value = 20
         Assert.assertEquals(null, liveDataReceived)
         Assert.assertEquals(1, defaultLiveDataReceived)
         Assert.assertEquals(1, mediatorLiveDataReceived)

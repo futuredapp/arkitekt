@@ -1,7 +1,7 @@
 package app.futured.arkitekt.core.test
 
 import androidx.lifecycle.MutableLiveData
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.livedata.DefaultValueLiveData
 import app.futured.arkitekt.core.livedata.DefaultValueMediatorLiveData
@@ -23,7 +23,7 @@ class BaseViewModelExtensionsMockTest : ViewModelTest() {
         val defaultValueMediatorLiveData = DefaultValueMediatorLiveData(0)
     }
 
-    class TestViewModel(override val viewState: TestViewState) : BaseViewModel<TestViewState>()
+    class TestViewModel(override val viewState: TestViewState) : BaseLegacyCoreViewModel<TestViewState>()
 
     lateinit var viewModel: TestViewModel
 

@@ -1,7 +1,7 @@
 package app.futured.arkitekt.examplehilt.ui.first
 
 import android.util.Log
-import app.futured.arkitekt.crusecases.BaseCrViewModel
+import app.futured.arkitekt.crusecases.BaseLegacyViewModel
 import app.futured.arkitekt.examplehilt.domain.GetRandomNumberUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class FirstViewModel @Inject constructor(
     private val getRandomNumberUseCase: GetRandomNumberUseCase,
     override val viewState: FirstViewState,
-) : BaseCrViewModel<FirstViewState>() {
+) : BaseLegacyViewModel<FirstViewState>() {
 
     override fun onStart() {
         getRandomNumberUseCase.execute {

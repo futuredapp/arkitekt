@@ -1,4 +1,4 @@
-package app.futured.arkitekt.sample.ui.login.fragment
+package app.futured.arkitekt.sample.ui.login
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData

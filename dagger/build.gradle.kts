@@ -44,5 +44,5 @@ dependencies {
     compileOnly(Deps.AndroidX.material)
     implementation(Deps.AndroidX.annnotation)
 
-    implementation(Deps.DI.daggerSupport)
+    implementation(Deps.DI.hilt)
 }

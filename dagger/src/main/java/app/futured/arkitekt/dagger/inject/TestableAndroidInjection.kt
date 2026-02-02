@@ -2,8 +2,6 @@ package app.futured.arkitekt.dagger.inject
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import dagger.android.AndroidInjection
-import dagger.android.support.AndroidSupportInjection
 
 /**
  * AndroidInjection wrapper that allows customizing dependency injection of Activity or Fragment.
@@ -36,7 +34,6 @@ object TestableAndroidInjection {
      * Use] [onActivityInject] to customize behavior of this method in tests.
      */
     fun inject(activity: Activity) {
-        AndroidInjection.inject(activity)
         onActivityInject?.invoke(activity)
         onActivityInject = null // Remove reference to the previous test since this will be executed only once
     }
@@ -47,7 +44,6 @@ object TestableAndroidInjection {
      * Use [onFragmentInject] to customize behavior of this method in tests.
      */
     fun inject(fragment: Fragment) {
-        AndroidSupportInjection.inject(fragment)
         onFragmentInject?.invoke(fragment)
         onFragmentInject = null // Remove reference to the previous test since this will be executed only once
     }

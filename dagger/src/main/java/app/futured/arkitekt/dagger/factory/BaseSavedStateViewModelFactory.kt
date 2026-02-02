@@ -4,11 +4,11 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import javax.inject.Provider
 import kotlin.reflect.KClass
 
-abstract class BaseSavedStateViewModelFactory <T : BaseViewModel<*>>(
+abstract class BaseSavedStateViewModelFactory <T : BaseLegacyCoreViewModel<*>>(
     savedStateRegistryOwner: SavedStateRegistryOwner
 ) : AbstractSavedStateViewModelFactory(savedStateRegistryOwner, null), ViewModelFactory<T> {
 

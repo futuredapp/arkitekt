@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
 }
 
@@ -55,6 +56,7 @@ kotlin {
 dependencies {
     implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
+    implementation(project(":compose"))
 
     implementation(platform(Deps.Compose.bom))
 
@@ -73,9 +75,10 @@ dependencies {
     implementation(Deps.Compose.runtime)
     implementation(Deps.Compose.runtimeLivedata)
     implementation(Deps.Compose.navigation)
+    implementation(Deps.DI.hiltViewModelCompose)
 
-    implementation(Deps.DI.dagger)
-    ksp(Deps.DI.daggerCompiler)
+    implementation(Deps.DI.hilt)
+    ksp(Deps.DI.hiltCompiler)
 
     // Unit tests
     testImplementation(Deps.Test.jUnit)

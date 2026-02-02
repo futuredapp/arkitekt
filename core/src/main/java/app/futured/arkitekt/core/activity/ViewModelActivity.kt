@@ -2,7 +2,7 @@ package app.futured.arkitekt.core.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import kotlin.reflect.KClass
@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 /**
  * Base Activity class with built-in ViewModel support
  */
-abstract class ViewModelActivity<VM : BaseViewModel<VS>, VS : ViewState> : AppCompatActivity() {
+abstract class ViewModelActivity<VM : BaseLegacyCoreViewModel<VS>, VS : ViewState> : AppCompatActivity() {
 
     /**
      * Property which holds reference to layout identifier eg. R.layout.main_activity.

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import kotlin.reflect.KClass
@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 /**
  * Base Fragment class with built-in ViewModel support
  */
-abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragment() {
+abstract class ViewModelFragment<VM : BaseLegacyCoreViewModel<VS>, VS : ViewState> : Fragment() {
 
     /**
      * Property which holds reference to layout identifier eg. R.layout.main_fragment.
@@ -44,7 +44,7 @@ abstract class ViewModelFragment<VM : BaseViewModel<VS>, VS : ViewState> : Fragm
      * Get reference to Activity ViewModel. Make sure correct VM class is
      * specified.
      */
-    inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
+    inline fun <reified AVM : BaseLegacyCoreViewModel<*>> getActivityViewModel(): AVM =
         ViewModelProvider(requireActivity()).get(AVM::class.java)
 
     /**

@@ -6,6 +6,10 @@ import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase
 import app.futured.arkitekt.sample.domain.SyncLoginUseCase
+import app.futured.arkitekt.sample.ui.login.LoginViewModel
+import app.futured.arkitekt.sample.ui.login.LoginViewState
+import app.futured.arkitekt.sample.ui.login.NavigateBackEvent
+import app.futured.arkitekt.sample.ui.login.ShowToastEvent
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.spyk
@@ -97,7 +101,7 @@ class LoginViewModelTest : ViewModelTest() {
         viewModel.logIn()
 
         // THEN
-        verify { viewModel.sendEvent(NotifyActivityEvent("Successfully logged in!")) }
+        verify { viewModel.sendEvent(ShowToastEvent("Successfully logged in!")) }
     }
 
     @Test
@@ -109,7 +113,7 @@ class LoginViewModelTest : ViewModelTest() {
         viewModel.logIn()
 
         // THEN
-        verify { viewModel.sendEvent(NotifyActivityEvent("Login error!")) }
+        verify { viewModel.sendEvent(ShowToastEvent("Login error!")) }
     }
 
     @Test

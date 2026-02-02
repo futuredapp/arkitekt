@@ -1,7 +1,7 @@
 package app.futured.arkitekt.dagger.factory
 
 import androidx.lifecycle.ViewModel
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import javax.inject.Provider
 import kotlin.reflect.KClass
 
@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
  *     override val viewModelClass = FormViewModel::class
  *  }
  */
-abstract class BaseViewModelFactory<T : BaseViewModel<*>> : ViewModelFactory<T> {
+abstract class BaseViewModelFactory<T : BaseLegacyCoreViewModel<*>> : ViewModelFactory<T> {
 
     /**
      * ViewModel provider definition. Provider<VM> is automatically

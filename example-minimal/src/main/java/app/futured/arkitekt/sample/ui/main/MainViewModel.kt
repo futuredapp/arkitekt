@@ -1,6 +1,6 @@
 package app.futured.arkitekt.sample.ui.main
 
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(override val viewState: MainViewState) : BaseViewModel<MainViewState>()
+class MainViewModel @Inject constructor(override val viewState: MainViewState) : BaseLegacyCoreViewModel<MainViewState>()

@@ -1,10 +1,10 @@
 package app.futured.arkitekt.core.event
 
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.ViewState
 
 /**
- * One time event sent from ViewModel to Fragment/Activity via [BaseViewModel.sendEvent].
+ * One time event sent from ViewModel to Fragment/Activity via [BaseLegacyCoreViewModel.sendEvent].
  * Event is tied directly to specific Fragment/Activity via its ViewState. Events are
  * delivered through LiveData-based bus.
  *

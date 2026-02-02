@@ -25,7 +25,7 @@ import kotlin.reflect.KClass
  * no longer used and will be destroyed. Beside that, it handles one-shot [Event]s
  * send from ViewModel to Activity/Fragment.
  */
-abstract class BaseViewModel<VS : ViewState> : ViewModel(), DefaultLifecycleObserver {
+abstract class BaseLegacyCoreViewModel<VS : ViewState> : ViewModel(), DefaultLifecycleObserver {
     abstract val viewState: VS
 
     private var onStartCalled = false

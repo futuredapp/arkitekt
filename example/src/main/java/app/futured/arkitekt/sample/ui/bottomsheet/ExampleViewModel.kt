@@ -1,11 +1,14 @@
 package app.futured.arkitekt.sample.ui.bottomsheet
 
-import app.futured.arkitekt.crusecases.BaseCrViewModel
+import app.futured.arkitekt.crusecases.BaseLegacyViewModel
+import app.futured.arkitekt.crusecases.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@HiltViewModel
 class ExampleViewModel @Inject constructor(
     override val viewState: ExampleViewState
-) : BaseCrViewModel<ExampleViewState>() {
+) : BaseViewModel<ExampleViewState>() {
 
     fun onClose() = sendEvent(CloseEvent)
 }

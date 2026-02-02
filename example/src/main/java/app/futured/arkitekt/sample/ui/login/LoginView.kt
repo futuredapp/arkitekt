@@ -1,4 +1,4 @@
-package app.futured.arkitekt.sample.ui.login.fragment
+package app.futured.arkitekt.sample.ui.login
 
 import app.futured.arkitekt.core.BaseView
 

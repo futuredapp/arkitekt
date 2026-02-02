@@ -12,9 +12,9 @@ class GetStateUseCase @Inject constructor() : FlowUseCase<Boolean, Boolean>() {
         private const val DELAY_MS = 3000L
     }
 
-    override fun build(emitSuccess: Boolean): Flow<Boolean> = flow {
+    override fun build(args: Boolean): Flow<Boolean> = flow {
         delay(DELAY_MS)
-        if (emitSuccess) {
+        if (args) {
             emit(true)
         }
     }

@@ -3,6 +3,7 @@ rootProject.buildFileName = "build.gradle.kts"
 
 include(
     ":core",
+    ":compose",
     ":arkitekt-decompose",
     ":arkitekt-decompose:annotation",
     ":arkitekt-decompose:processor",

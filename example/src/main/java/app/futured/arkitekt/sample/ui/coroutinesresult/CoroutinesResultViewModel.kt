@@ -1,6 +1,7 @@
 package app.futured.arkitekt.sample.ui.coroutinesresult
 
-import app.futured.arkitekt.crusecases.BaseCrViewModel
+import app.futured.arkitekt.crusecases.BaseLegacyViewModel
+import app.futured.arkitekt.crusecases.BaseViewModel
 import app.futured.arkitekt.crusecases.getOrCancel
 import app.futured.arkitekt.crusecases.getOrElse
 import app.futured.arkitekt.crusecases.getOrThrow
@@ -10,16 +11,18 @@ import app.futured.arkitekt.sample.domain.dummy.ConfirmDataSavedSuccessfullyUseC
 import app.futured.arkitekt.sample.domain.dummy.GetDataFromDeviceUseCase
 import app.futured.arkitekt.sample.domain.dummy.SaveDataToFirstServerUseCase
 import app.futured.arkitekt.sample.domain.dummy.SaveDataToSecondServerUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
+@HiltViewModel
 class CoroutinesResultViewModel @Inject constructor(
     private val getDataFromDeviceUseCase: GetDataFromDeviceUseCase,
     private val saveDataToFirstServerUseCase: SaveDataToFirstServerUseCase,
     private val saveDataToSecondServerUseCase: SaveDataToSecondServerUseCase,
     private val confirmDataSavedSuccessfullyUseCase: ConfirmDataSavedSuccessfullyUseCase,
     override val viewState: CoroutinesResultViewState
-) : BaseCrViewModel<CoroutinesResultViewState>() {
+) : BaseViewModel<CoroutinesResultViewState>() {
 
     private companion object {
         const val RESULT_DELAY = 500L

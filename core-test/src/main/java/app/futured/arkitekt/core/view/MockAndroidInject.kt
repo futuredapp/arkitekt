@@ -4,7 +4,6 @@ import android.app.Activity
 import androidx.fragment.app.Fragment
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.dagger.inject.TestableAndroidInjection
-import dagger.android.AndroidInjection
 
 /**
  * Add a callback that is executed right after [AndroidInjection.inject].

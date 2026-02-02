@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 /**
  * Base BottomSheetDialogFragment class with built-in ViewModel support
  */
-abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
+abstract class ViewModelBottomSheetDialogFragment<VM : BaseLegacyCoreViewModel<VS>, VS : ViewState> :
     BottomSheetDialogFragment() {
 
     /**
@@ -45,7 +45,7 @@ abstract class ViewModelBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : V
     /**
      * Get reference to Activity ViewModel. Make sure correct VM class is specified.
      */
-    inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
+    inline fun <reified AVM : BaseLegacyCoreViewModel<*>> getActivityViewModel(): AVM =
         ViewModelProvider(requireActivity()).get(AVM::class.java)
 
     /**

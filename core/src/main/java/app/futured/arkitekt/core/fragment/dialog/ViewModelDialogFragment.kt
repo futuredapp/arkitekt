@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.event.Event
 import kotlin.reflect.KClass
@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 /**
  * Base DialogFragment class with built-in ViewModel support
  */
-abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
+abstract class ViewModelDialogFragment<VM : BaseLegacyCoreViewModel<VS>, VS : ViewState> :
     DialogFragment() {
 
     /**
@@ -43,7 +43,7 @@ abstract class ViewModelDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
     /**
      * Get reference to Activity ViewModel. Make sure correct VM class is specified.
      */
-    inline fun <reified AVM : BaseViewModel<*>> getActivityViewModel(): AVM =
+    inline fun <reified AVM : BaseLegacyCoreViewModel<*>> getActivityViewModel(): AVM =
         ViewModelProvider(requireActivity()).get(AVM::class.java)
 
     /**

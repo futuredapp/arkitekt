@@ -21,17 +21,13 @@ object Deps {
     }
 
     object DI {
-        const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
-        const val daggerSupport = "com.google.dagger:dagger-android-support:${Versions.dagger}"
-        const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
-        const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
         const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
         const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-        const val hiltNavigationFrag = "androidx.hilt:hilt-navigation-fragment:${Versions.hiltJetpack}"
-        const val hiltNavigation = "androidx.hilt:hilt-navigation:${Versions.hiltJetpack}"
+
+        const val hiltViewModelCompose = "androidx.hilt:hilt-lifecycle-viewmodel-compose:${Versions.hiltJetpack}"
         const val hiltJetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpack}"
-        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationCompose}"
+        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Versions.hiltJetpack}"
     }
 
     object AndroidX {
@@ -40,15 +36,8 @@ object Deps {
         const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
         const val material = "com.google.android.material:material:${Versions.material}"
         const val vectorDrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
-        const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-
-
-        const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifeCycle}"
         const val liveDataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
         const val viewModelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
-
-        const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-        const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
         const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
 
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
@@ -102,7 +91,6 @@ object Deps {
     object Test {
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
         const val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
-        const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
         const val androidXTestRunner = "androidx.test:runner:${Versions.androidxTestRunner}"
         const val androidXTestCore = "androidx.test:core:${Versions.androidxTestCore}"
         const val androidXTestCoreKtx = "androidx.test:core-ktx:${Versions.androidxTestCore}"

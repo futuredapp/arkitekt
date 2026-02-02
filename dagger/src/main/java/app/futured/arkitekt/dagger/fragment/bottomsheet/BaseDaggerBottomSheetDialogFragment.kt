@@ -2,13 +2,13 @@ package app.futured.arkitekt.dagger.fragment.bottomsheet
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 import app.futured.arkitekt.core.ViewState
 import app.futured.arkitekt.core.fragment.bottomsheet.ViewModelBottomSheetDialogFragment
 import app.futured.arkitekt.dagger.ViewModelCreator
 import app.futured.arkitekt.dagger.inject.TestableAndroidInjection
 
-abstract class BaseDaggerBottomSheetDialogFragment<VM : BaseViewModel<VS>, VS : ViewState> :
+abstract class BaseDaggerBottomSheetDialogFragment<VM : BaseLegacyCoreViewModel<VS>, VS : ViewState> :
     ViewModelBottomSheetDialogFragment<VM, VS>(), ViewModelCreator<VM> {
 
     override val viewModel: VM by lazy { getVM() }

@@ -6,7 +6,9 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import app.futured.arkitekt.core.error.UseCaseErrorHandler
 import app.futured.arkitekt.sample.injection.DaggerApplicationComponent
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App : Application() {
     val appComponent by lazy {
         DaggerApplicationComponent.builder().application(this).build()

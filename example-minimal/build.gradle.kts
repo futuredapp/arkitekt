@@ -50,6 +50,6 @@ dependencies {
     implementation(Deps.Compose.runtimeLivedata)
     implementation(Deps.Compose.navigation)
 
-    implementation(Deps.DI.dagger)
-    ksp(Deps.DI.daggerCompiler)
+    implementation(Deps.DI.hilt)
+    ksp(Deps.DI.hiltCompiler)
 }

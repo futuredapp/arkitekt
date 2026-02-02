@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 
 class TestActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: TestViewModel
+    private lateinit var viewModel: TestLegacyCoreViewModel
     private val vmFactory = TestViewModelFactory()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, vmFactory).get(TestViewModel::class.java)
+        viewModel = ViewModelProvider(this, vmFactory).get(TestLegacyCoreViewModel::class.java)
         lifecycle.addObserver(viewModel)
     }
 }

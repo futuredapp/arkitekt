@@ -26,12 +26,11 @@ object Versions {
     const val lifeCycle = "2.8.7"
     const val dagger = "2.58"
     const val hilt = "2.58"
-    const val hiltJetpack = "1.2.0"
+    const val hiltJetpack = "1.3.0"
     const val androidXEspresso = "3.5.1"
     const val navigation = "2.7.3"
     const val composeBom = "2025.11.01"
     const val activityCompose = "1.10.1"
-    const val hiltNavigationCompose = "1.2.0"
 
     // android tools
     const val androidTools = "31.1.2"
@@ -41,14 +40,14 @@ object Versions {
     const val mockitoCore = "5.5.0"
     const val androidxTestRunner = "1.5.2"
     const val javaX = "1"
-    const val jUnit = "1.1.3"
+    const val jUnit = "1.3.0"
     const val androidxTestCore = "1.5.0"
     const val androidxTestCoreTesting = "2.2.0"
     const val androidXJUnit = "1.1.5"
     const val androidXFragmentTesting = "1.6.1"
     const val assertJ = "3.24.2"
     const val mockitoKotlin = "1.6.0"
-    const val robolectric = "4.8.1"
+    const val robolectric = "4.16.1"
 
     // decompose
     const val decompose = "3.3.0"

@@ -49,7 +49,7 @@ dependencies {
 
     implementation(Deps.Test.androidXCoreTesting)
 
-    implementation(Deps.DI.daggerSupport)
+    implementation(Deps.DI.hilt)
 
     implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
 

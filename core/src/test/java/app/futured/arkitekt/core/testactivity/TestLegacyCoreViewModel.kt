@@ -1,10 +1,10 @@
 package app.futured.arkitekt.core.testactivity
 
-import app.futured.arkitekt.core.BaseViewModel
+import app.futured.arkitekt.core.BaseLegacyCoreViewModel
 
-open class TestViewModel(
+open class TestLegacyCoreViewModel(
     override val viewState: TestViewState
-) : BaseViewModel<TestViewState>() {
+) : BaseLegacyCoreViewModel<TestViewState>() {
 
     override fun onStart() {
         viewState.onStartCallCount++

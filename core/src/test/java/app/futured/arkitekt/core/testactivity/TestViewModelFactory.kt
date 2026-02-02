@@ -7,6 +7,6 @@ class TestViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TestViewModel(TestViewState()) as T
+        return TestLegacyCoreViewModel(TestViewState()) as T
     }
 }
