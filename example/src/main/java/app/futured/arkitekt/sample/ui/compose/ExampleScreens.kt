@@ -10,7 +10,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -18,11 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import app.futured.arkitekt.compose.EventsEffect
 import app.futured.arkitekt.compose.onEvent
-import app.futured.arkitekt.sample.tools.ToastCreator
 import app.futured.arkitekt.sample.ui.bottomsheet.CloseEvent
 import app.futured.arkitekt.sample.ui.bottomsheet.ExampleViewModel
 import app.futured.arkitekt.sample.ui.coroutinesresult.CoroutinesResultViewModel
@@ -51,11 +48,11 @@ fun MainScreen(
 
 
     viewModel.EventsEffect {
-        onEvent<ShowDetailEvent> { navController.navigate("detail") }
-        onEvent<ShowFormEvent> { navController.navigate("form") }
-        onEvent<ShowLoginEvent> { navController.navigate("login") }
-        onEvent<ShowBottomSheetEvent> { navController.navigate("bottomsheet") }
-        onEvent<ShowLoadEvent> { navController.navigate("coroutines") }
+        onEvent<ShowDetailEvent> { navController.navigate(ExampleRoute.Detail) }
+        onEvent<ShowFormEvent> { navController.navigate(ExampleRoute.Form) }
+        onEvent<ShowLoginEvent> { navController.navigate(ExampleRoute.Login) }
+        onEvent<ShowBottomSheetEvent> { navController.navigate(ExampleRoute.BottomSheet) }
+        onEvent<ShowLoadEvent> { navController.navigate(ExampleRoute.Coroutines) }
     }
 
     Column(
@@ -172,7 +169,7 @@ fun LoginScreen(
 
 
     viewModel.EventsEffect {
-        onEvent<ShowToastEvent> { Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()}
+        onEvent<ShowToastEvent> { Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show() }
         onEvent<LoginNavigateBackEvent> { navController.popBackStack() }
     }
 

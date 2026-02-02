@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.serialization.Serializable
 
 @Composable
 fun ExampleApp() {
@@ -23,34 +24,34 @@ private fun ExampleNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ExampleRoute.Main.route,
+        startDestination = ExampleRoute.Main,
     ) {
-        composable(ExampleRoute.Main.route) {
+        composable<ExampleRoute.Main> {
             MainScreen(
                 navController = navController,
             )
         }
-        composable(ExampleRoute.Detail.route) {
+        composable<ExampleRoute.Detail> {
             DetailScreen(
                 navController = navController
             )
         }
-        composable(ExampleRoute.Form.route) {
+        composable<ExampleRoute.Form> {
             FormScreen(
                 navController = navController,
             )
         }
-        composable(ExampleRoute.Login.route) {
+        composable<ExampleRoute.Login> {
             LoginScreen(
                 navController = navController,
             )
         }
-        composable(ExampleRoute.Coroutines.route) {
+        composable<ExampleRoute.Coroutines> {
             CoroutinesResultScreen(
                 navController = navController,
             )
         }
-        composable(ExampleRoute.BottomSheet.route) {
+        composable<ExampleRoute.BottomSheet> {
             BottomSheetScreen(
                 navController = navController,
             )
@@ -59,11 +60,22 @@ private fun ExampleNavGraph(
 }
 
 
-private sealed class ExampleRoute(val route: String) {
-    data object Main : ExampleRoute("main")
-    data object Detail : ExampleRoute("detail")
-    data object Form : ExampleRoute("form")
-    data object Login : ExampleRoute("login")
-    data object Coroutines : ExampleRoute("coroutines")
-    data object BottomSheet : ExampleRoute("bottomsheet")
+sealed interface ExampleRoute {
+    @Serializable
+    data object Main : ExampleRoute
+
+    @Serializable
+    data object Detail : ExampleRoute
+
+    @Serializable
+    data object Form : ExampleRoute
+
+    @Serializable
+    data object Login : ExampleRoute
+
+    @Serializable
+    data object Coroutines : ExampleRoute
+
+    @Serializable
+    data object BottomSheet : ExampleRoute
 }

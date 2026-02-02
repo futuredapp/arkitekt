@@ -28,7 +28,7 @@ object Versions {
     const val hilt = "2.58"
     const val hiltJetpack = "1.3.0"
     const val androidXEspresso = "3.5.1"
-    const val navigation = "2.7.3"
+    const val navigation = "2.8.7"
     const val composeBom = "2025.11.01"
     const val activityCompose = "1.10.1"
 

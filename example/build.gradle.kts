@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
 }
@@ -75,6 +76,7 @@ dependencies {
     implementation(Deps.Compose.runtime)
     implementation(Deps.Compose.runtimeLivedata)
     implementation(Deps.Compose.navigation)
+    implementation(Deps.Serialization.core)
     implementation(Deps.DI.hiltViewModelCompose)
 
     implementation(Deps.DI.hilt)
