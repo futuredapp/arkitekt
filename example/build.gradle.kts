@@ -55,7 +55,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":dagger"))
     implementation(project(":cr-usecases"))
     implementation(project(":compose"))
 

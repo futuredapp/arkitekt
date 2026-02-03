@@ -42,7 +42,6 @@ kotlin {
 
 dependencies {
     api(project(":core"))
-    api(project(":dagger"))
     api(project(":cr-usecases"))
 
     implementation(Deps.Test.mockk)

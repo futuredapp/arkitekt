@@ -12,8 +12,8 @@ Arkitekt is a set of architectural tools based on Android Architecture Component
 ```groovy
 dependencies {
     implementation("app.futured.arkitekt:core:LatestVersion")
-    implementation("app.futured.arkitekt:dagger:LatestVersion")
     implementation("app.futured.arkitekt:cr-usecases:LatestVersion")
+    implementation("app.futured.arkitekt:compose:LatestVersion")
     implementation("app.futured.arkitekt:arkitekt-decompose:LatestVersion")
     
     // Testing
@@ -38,8 +38,8 @@ implementation "app.futured.arkitekt:arkitekt:5.X.X-SNAPSHOT"
 
 # Features
 
-Arkitekt combines built-in support for Dagger 2 dependency injection, ViewModel,
-Coroutines use cases, Compose EventEffects and Decompose. Architecture described here is used among wide variety
+Arkitekt combines built-in support for Dagger-Hilt dependency injection, ViewModel,
+Coroutines use cases, Jetpack Compose, and Decompose. Architecture described here is used among wide variety
 of projects and it's production ready.
 
 ![MVVM architecture](extras/architecture-diagram.png)
@@ -53,182 +53,95 @@ of projects and it's production ready.
 3. [Propagating data model changes into UI](#propagating-data-model-changes-into-ui)
 4. [Stores (Repositories)](#stores-repositories)
 
-## Getting started - Minimal project file hierarchy
-Minimal working project must contain files as presented in `example-minimal`
-module. File hierarchy might looks like this:
+## Getting Started - Minimal project file hierarchy
+Minimal working project must contain files as presented in `example`
+module. File hierarchy might look like this:
 ```
-example-minimal
+example
 `-- src/main
     |-- java/com/example
-    |   |-- injection  
-    |   |   |-- ActivityBuilderModule.kt
-    |   |   |-- ApplicationComponent.kt
-    |   |   `-- ApplicationModule.kt
     |   |-- ui 
-    |   |   |-- base/BaseActivity.kt
-    |   |   `-- main
-    |   |       |-- MainActivity.kt
-    |   |       |-- MainActivityModule.kt
-    |   |       |-- MainView.kt
-    |   |       |-- MainViewModel.kt
-    |   |       |-- MainViewModelFactory.kt
-    |   |       `-- MainViewState.kt
+    |   |   |-- main
+    |   |   |   `-- MainActivity.kt
+    |   |   `-- home
+    |   |       |-- HomeScreen.kt
+    |   |       |-- HomeViewModel.kt
+    |   |       `-- HomeViewState.kt
     |   `-- App.kt 
-    `-- res/layout/activity_main.xml  
+    `-- res/values/strings.xml  
 ```
 
-Keep in mind this description focuses on architecture `.kt` files. Android related files like an 
-`AndroidManifest.xml` are omitted. Let's describe individual files one by one:
+Let's describe individual files one by one:
 
-##### `ActivityBuilderModule.kt` 
-File contains Dagger module class that takes responsibility of proper injection
-into Activities. This is the place where every Activity and its `ActivityModule` 
-in project must be specified to make correct ViewModel injection work.
- 
+##### `App.kt`
+Application class must be annotated with `@HiltAndroidApp` to trigger Hilt code generation.
+
 ```kotlin
-@Module
-abstract class ActivityBuilderModule {
-
-    @ContributesAndroidInjector(modules = [MainActivityModule::class])
-    abstract fun mainActivity(): MainActivity
-}
+@HiltAndroidApp
+class App : Application()
 ``` 
-
-##### `ApplicationComponent.kt`
-
-ApplicationComponent interface combines your singleton Dagger modules and defines
-how `DaggerApplicationComponent` should be generated.
-```kotlin
-@Singleton
-@Component(
-    modules = [
-        AndroidInjectionModule::class,
-        AndroidSupportInjectionModule::class,
-        ActivityBuilderModule::class,
-        ApplicationModule::class
-    ]
-)
-interface ApplicationComponent : AndroidInjector<App> {
-
-    @Component.Builder
-    interface Builder {
-
-        @BindsInstance
-        fun application(app: App): Builder
-
-        fun build(): ApplicationComponent
-    }
-}
-```
-
-##### `ApplicationModule.kt`
-
-Application module definition. Your singleton scoped objects might
-be specified here and injected wherever needed. Example implementation:
-```kotlin
-@Module
-class ApplicationModule {
-
-    @Singleton
-    @Provides
-    fun moshi(): Moshi = Moshi.Builder().build()
-}
-```
-
-##### `BaseActivity.kt`
-
-All of Activities in the project should inherit from this class to make ViewModel injection work properly.
-```kotlin
-abstract class BaseActivity<VM : BaseViewModel<VS>, VS : ViewState> :
-    BaseDaggerActivity<VM, VS>() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(layoutResId)
-    }
-}
-```
 
 ##### `MainActivity.kt`
 
-Example Activity implementation. `viewModelFactory` and `layoutResId` must be overridden in every
-Activity in order to make ViewModel injection work. `ViewModel` can be accessed through derived
-`viewModel` field.
+Activity must be annotated with `@AndroidEntryPoint`. We use `setContent` to define the UI using Jetpack Compose.
+
 ```kotlin
-class MainActivity : BaseActivity<MainViewModel, MainViewState>(), MainView {
+@AndroidEntryPoint
+class MainActivity : BasicActivity() {
 
-    @Inject override lateinit var viewModelFactory: MainViewModelFactory
-
-    override val layoutResId = R.layout.activity_main
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ArkitektTheme {
+                 // Your navigation or screen
+                 HomeScreen()
+            }
+        }
+    }
 }
 ```
 
-##### `MainActivityModule.kt`
+##### `HomeViewModel.kt`
 
-`MainActivity` scoped module. It becomes useful when you want to provide specific
-activity related configuration e.g.:
-  
+ViewModel annotated with `@HiltViewModel`. You can choose between extending
+`BaseViewModel` or `BaseCrViewModel` (for Coroutines support).
+
 ```kotlin
-@Module
-abstract class MainActivityModule {
+@HiltViewModel
+class HomeViewModel @Inject constructor() : BaseViewModel<HomeViewState>() {
 
-    @Provides
-    fun provideUser(activity: MainActivity): User = 
-            activity.intent.getParcelableExtra("user")
+    override val viewState = HomeViewState()
 }
 ```
 
-##### `MainView.kt`
+##### `HomeViewState.kt`
 
-Interface representing actions executable on your Activity/Fragment. These actions
-might be invoked directly from xml layout thanks to `view` data variable.  
+State representation of a screen. Should contain a set of `LiveData` (or `StateFlow`) fields observed by the UI.
+
 ```kotlin
-interface MainView : BaseView
+data class HomeViewState(
+    val user: DefaultValueLiveData<User> = DefaultValueLiveData(User.EMPTY)
+) : ViewState
 ```
 
-##### `MainViewModel.kt`
+##### `HomeScreen.kt`
 
-Activity/Fragment specific ViewModel implementation. You can choose between extending
-`BaseViewModel` or `BaseCrViewModel` with build-in support for coroutine based use cases.
+Composable function representing the UI. It obtains the ViewModel via Hilt injection.
+
 ```kotlin
-class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
-
-    override val viewState = MainViewState
+@Composable
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val state = viewModel.viewState.user.observeAsState()
+    
+    // UI implementation
+    Text(
+        text = state.value.name,
+        modifier = modifier
+    )
 }
-```
-
-##### `MainViewModelFactory.kt`
-
-Factory responsible for `ViewModel` creation. It is injected in Activity/Fragment. 
-```kotlin
-class MainViewModelFactory @Inject constructor(
-    override val viewModelProvider: Provider<MainViewModel>
-) : BaseViewModelFactory<MainViewModel>() {
-    override val viewModelClass = MainViewModel::class
-}
-```
-
-##### `MainViewState.kt`
-
-State representation of an screen. Should contain set of `LiveData` fields observed
-by Activity/Fragment. State is stored in `ViewModel` thus survives screen rotation. 
-```kotlin
-object MainViewState : ViewState {
-    val user = DefaultValueLiveData<User>(User.EMPTY)
-}
-```
-
-##### `activity_main.xml`
-
-Layout file containing a basic view hierarchy.
-```xml
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
-
-</LinearLayout>
 ```
 
 ## Use Cases
@@ -342,11 +255,14 @@ or one-shot `Events`.
 ### ViewState observation
 
 You can observe state changes and reflect these changes in UI by observing `LiveData`
-from your `viewState` in Activity/Fragment:
+from your `viewState` in your Composable:
 
 ```kotlin
-viewModel.viewState.myTextLiveData.observe(viewLifecycleOwner) { value ->
-    binding.myTextView.text = value
+@Composable
+fun HomeScreen(viewModel: HomeViewModel) {
+    val myText by viewModel.viewState.myTextLiveData.observeAsState()
+    
+    Text(text = myText)
 }
 ```
 
@@ -362,35 +278,21 @@ viewModel.EventsEffect {
 }
 ```
 
-##### `MainEvents.kt`
+##### `HomeEvents.kt`
 ```kotlin
-sealed class MainEvent : Event<MainViewState>()
+sealed class HomeEvent : Event<HomeViewState>()
 
-object ShowDetailEvent : MainEvent()
+object ShowDetailEvent : HomeEvent()
 ```
 
-##### `MainViewModel.kt`
+##### `HomeViewModel.kt`
 ```kotlin
-class MainViewModel @Inject constructor() : BaseViewModel<MainViewState>() {
+class HomeViewModel @Inject constructor() : BaseViewModel<HomeViewState>() {
 
-    override val viewState = MainViewState
+    override val viewState = HomeViewState
 
     fun onDetail() {
         sendEvent(ShowDetailEvent)
-    }
-}
-```
-
-##### `MainActivity.kt`
-```kotlin
-class MainActivity : BaseActivity<MainViewModel, MainViewState, ActivityMainBinding>(), MainView {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        observeEvent(ShowDetailEvent::class) { 
-            startActivity(DetailActivity.getStartIntent(this)) 
-        }
     }
 }
 ```
@@ -404,15 +306,15 @@ from sample app:
 ```kotlin
 @Singleton
 class UserStore @Inject constructor() {
-    private val userRelay = BehaviorRelay.createDefault(User.EMPTY)
+    private val userFlow = MutableStateFlow(User.EMPTY)
 
     fun setUser(user: User) {
-        userRelay.accept(user)
+        userFlow.value = user
         // ... optionally persist user
     }
 
-    fun getUser(): Observable<User> {
-        return userRelay.hide()
+    fun getUser(): Flow<User> {
+        return userFlow.asStateFlow()
     }
 }
 ```
@@ -423,11 +325,11 @@ perceived on the same domain level as stores. Thanks to use cases we can easily 
 manipulate and combine this kind of data on background threads. 
 
 ```kotlin
-class GetUserFullNameObservabler @Inject constructor(
+class GetUserFullNameUseCase @Inject constructor(
     private val userStore: UserStore
-) : ObservablerUseCase<String>() {
+) : FlowUseCase<String>() {
 
-    override fun prepare(): Observable<String> {
+    override fun prepare(): Flow<String> {
         return userStore.getUser()
             .map { "${it.firstName} ${it.lastName}" }
     }
@@ -443,31 +345,32 @@ We strictly respect this injection hierarchy:
 | `UseCase` | `Store` |
 | `Store` | `Dao`, `Persistence`, `ApiService` |
 
+## Navigation
+
+Arkitekt supports two modern navigation approaches:
+
+### Native Android Navigation (Jetpack Compose)
+You can use the standard Jetpack Navigation component with Compose. 
+
+### Decompose (Kotlin Multiplatform)
+For KMP projects or robust state management, `arkitekt-decompose` provides integration with the Decompose library. This allows sharing navigation logic across platforms.
+
 ## SavedStateHandle
 
-Arkitekt also supports `SavedStateHandle` in `ViewModel`. To have access to `SavedStateHandle` instance you have to use `BaseSavedStateViewModelFactory` base class instead of `BaseViewModelFactory` in your ViewModelFactory implementation and provide `SavedStateRepositoryOwner` in your Activity/Fragment module if using Dagger.
-`SavedStateHandle` instance is part of `BaseViewModel` class so you can access it via `savedStateHandle` field. Beware that this field may be null if you don't use `BaseSavedStateViewModelFactory` as base class for your `ViewModelFactory` implementation.
+Arkitekt supports `SavedStateHandle` in `ViewModel` via Hilt standard mechanism. Simply inject `SavedStateHandle` into your `@HiltViewModel`.
 
 ```kotlin
-@Module
-class MainActivityModule {
-
-    @Provides
-    fun savedStateRegistryOwner(activity: MainActivity): SavedStateRegistryOwner = activity
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle
+) : BaseViewModel<HomeViewState>() {
+    // uses savedStateHandle
 }
 ```
 
-```kotlin
-class MainViewModelFactory @Inject constructor(
-    savedStateRegistryOwner: SavedStateRegistryOwner,
-    override val viewModelProvider: Provider<MainViewModel>
-) : BaseSavedStateViewModelFactory<MainViewModel>(savedStateRegistryOwner) {
-    override val viewModelClass = MainViewModel::class
-}
-```
 ## Testing
 
-In order to create successful applications, it is highly encouraged to write tests for your application. But testing can be tricky sometimes so here are our best practices and utilities that will help you to achieve this goal with this library. 
+In order to create successful applications, it is highly encouraged to write tests for your application. 
 
 See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/) in `example` module for more detailed sample.
 
@@ -475,9 +378,7 @@ See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/) 
 
 [core-test](#Download) dependency contains utilities to help you with ViewModel testing.
 
-`ViewModelTest` that should be used as a base class for view model tests since it contains JUnit rules for dealing with a live data and with RxJava in tests.
-
-See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/test/java/app/futured/arkitekt/sample/ui/) in `example` module for more detailed sample of view model testing.
+`ViewModelTest` can be used as a base class for view model tests inside `core-test` module to help with Coroutines testing.
 
 ### Events testing
 
@@ -488,30 +389,10 @@ viewModel = spyk(SampleViewModel(mockViewState, ...), recordPrivateCalls = true)
 ...
 verify { viewModel.sendEvent(ExpectedEvent) }
 ```
-### Mocking of observeWithoutOwner 
-
-When you are using `observeWithoutOwner` extensions then `everyObserveWithoutOwner` will be helpful for mocking of these methods.
-
-So if a method in the view model looks somehow like this:
-```kotlin
-viewState.counter.observeWithoutOwner { value ->
-    viewState.counterText.value = value.toString() 
-}
-```
-then it can be mocked with the following method:
-```kotlin
-val counterLambda = viewModel.everyObserveWithoutOwner { 
-    viewState.counter
-}
-...
-counterLambda.invoke(1) 
-```
-invoke(...) call will invoke a lambda argument passed to the `observeWithoutOwner` method in the tested method.
-
 
 ### Mocking of Use Cases
 
-Add [rx-usecase-test](#Download) or [cr-usecase-test](#Download) dependencies containing utilities to help you with mocking use cases in a view model.
+[cr-usecase-test](#Download) dependency contains utilities to help you with mocking use cases in a view model.
 
 Since all 'execute' methods for [use cases](#use-cases) are implemented as extension functions, we created testing methods that will help you to easily mock them.
 
@@ -525,35 +406,33 @@ fun onLoginClicked(name: String, password: String) {
 ```
 then it can be mocked with the following method:
 ```kotlin
-mockLoginUseCase.mockExecute(args = ...) { Single.just(user) } // For RxJava Use Cases 
-or
 mockLoginUseCase.mockExecute(args = ...) { user } // For Coroutines Use Cases
 ```
 In case that use case is using nullable arguments:
 ```kotlin
-mockLoginUseCase.mockExecuteNullable(args = ...) { Single.just(user) } // For RxJava Use Cases
-or
 mockLoginUseCase.mockExecuteNullable(args = ...) { user } // For Coroutines Use Cases
 ```
 
 ### Activity and Fragment tests
 
-[core-test](#Download) dependency contains utilities to help you with espresso testing.
-
-If you want to test Activities or Fragments then you have few possibilities. You can test them with the mocked implementation of a view model and view state, or you can test them with the real implementation of a view model and view state and with mocked use cases.
-
-Since Fragments and Activities from the dagger module are using AndroidInjection, we created utilities to deal with this.
-
-In your tests, you can use `doAfterActivityInjection` and `doAfterFragmentInjection` to overwrite injected dependencies. These methods are called right after `AndroidInjection` and that allows overwriting of needed dependencies. In the following example, we are replacing the view model with the implementation that is using a view model with mocked dependencies and some random class with mocked implementation.  
+If you want to test Activities or Fragments, you can use `@HiltAndroidTest` or standard Compose testing APIs (`createComposeRule`).
 
 ```kotlin
-doAfterActivityInjection<SampleActivity> { activity ->  
-    val provider = SampleViewModel(mockk(), SampleViewState()).asProvider()  
-    activity.viewModelFactory = SampleViewModelFactory(viewModelProvider)  
-    activity.someInjectedClass = mockk()  
-}	
+@HiltAndroidTest
+class MainActivityTest {
+
+    @get:Rule(order = 0)
+    var hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @Test
+    fun testUI() {
+        composeTestRule.onNodeWithText("Hello").assertIsDisplayed()
+    }
+}
 ```
-See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/sharedTest/java/app/futured/arkitekt/sample/ui) in `example` module for more detailed samples of espresso test that can be executed as local unit tests or connected android tests.
 
 # License
 Arkitekt is available under the MIT license. See the [LICENSE file](LICENCE) for more information.

@@ -1,6 +1,10 @@
 package app.futured.arkitekt.sample.ui.main
 
 import app.futured.arkitekt.core.viewmodel.ViewModelTest
+import app.futured.arkitekt.sample.ui.home.ShowBottomSheetEvent
+import app.futured.arkitekt.sample.ui.home.ShowDetailEvent
+import app.futured.arkitekt.sample.ui.home.ShowFormEvent
+import app.futured.arkitekt.sample.ui.home.ShowLoginEvent
 import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Before
