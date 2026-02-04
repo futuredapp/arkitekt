@@ -3,7 +3,7 @@
 # Arkitekt
 
 [![Download](https://img.shields.io/maven-central/v/app.futured.arkitekt/core)](https://search.maven.org/search?q=app.futured.arkitekt)
-[![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%205.x/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
+[![Build Status](https://github.com/futuredapp/arkitekt/workflows/Check%20PR/badge.svg)](https://github.com/futuredapp/arkitekt/actions)
 
 Arkitekt is a set of architectural tools based on Android Architecture Components, which gives you a solid base to implement the concise, testable and solid application.
 
@@ -30,19 +30,56 @@ Add new maven repo to your top level gradle file.
 maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 ```
 
-Snapshots are grouped based on major version, so for version 5.x use:
+Snapshots are grouped based on major version, so for version 6.x use:
 
 ```groovy
-implementation "app.futured.arkitekt:arkitekt:5.X.X-SNAPSHOT"
+implementation "app.futured.arkitekt:core:6.X.X-SNAPSHOT"
+implementation "app.futured.arkitekt:cr-usecases:6.X.X-SNAPSHOT"
+implementation "app.futured.arkitekt:compose:6.X.X-SNAPSHOT"
+implementation "app.futured.arkitekt:arkitekt-decompose:6.X.X-SNAPSHOT"
 ```
 
 # Features
 
-Arkitekt combines built-in support for Dagger-Hilt dependency injection, ViewModel,
-Coroutines use cases, Jetpack Compose, and Decompose. Architecture described here is used among wide variety
-of projects and it's production ready.
+Arkitekt is a modern Android architecture library focused on Jetpack Compose and Kotlin Coroutines. 
+It combines built-in support for Dagger-Hilt dependency injection, ViewModel, Coroutines use cases, 
+Jetpack Compose, and Decompose. 
+
+**Note:** As of version 6.x, Arkitekt has removed legacy LiveData-based components and Fragment/Activity 
+base classes. The library is now exclusively focused on Jetpack Compose with State/StateFlow for reactive UI.
 
 ![MVVM architecture](extras/architecture-diagram.png)
+
+# Migration Guide (5.x → 6.x)
+
+Version 6.x represents a major refactoring focused on modern Android development with Jetpack Compose. 
+The following legacy components have been removed:
+
+### Removed Classes
+
+**ViewModel Base Classes:**
+- `BaseLegacyCoreViewModel` - Use `BaseCoreViewModel` or `BaseViewModel` instead
+- `BaseLegacyViewModel` (from cr-usecases) - Use `BaseViewModel` instead
+
+**Fragment/Activity Base Classes:**
+- `ViewModelActivity` - Use standard `ComponentActivity` with `@AndroidEntryPoint`
+- `ViewModelFragment` - Use standard Compose navigation
+- `ViewModelBottomSheetDialogFragment` - Use Compose bottom sheets
+- `ViewModelDialogFragment` - Use Compose dialogs
+
+**LiveData Components:**
+- `LiveEvent` and `LiveEventBus` - Use `Event` with `Channel`-based events
+- `DefaultValueLiveData` and `DefaultValueMediatorLiveData` - Use `StateFlow` or Compose `State`
+- `NonNullLiveData` - Use `StateFlow` or Compose `State`
+- `UiData`, `UiDataExtensions`, `UiDataMediator` - Use `StateFlow` or Compose `State`
+- `LiveDataExtensions` and `LiveDataUtils` - Use Kotlin Flow operators
+
+### Migration Path
+
+1. **Replace Fragment/Activity base classes** with standard Android components annotated with `@AndroidEntryPoint`
+2. **Replace LiveData** with `StateFlow` (for ViewModels) or `State` (for Compose)
+3. **Replace LiveEvent** with Channel-based `Event` system (see [Events](#events) section)
+4. **Migrate to Jetpack Compose** for UI layer
 
 # Usage
 
@@ -59,7 +96,7 @@ module. File hierarchy might look like this:
 ```
 example
 `-- src/main
-    |-- java/com/example
+    |-- java/app/futured/arkitekt/sample
     |   |-- ui 
     |   |   |-- main
     |   |   |   `-- MainActivity.kt
@@ -74,26 +111,34 @@ example
 Let's describe individual files one by one:
 
 ##### `App.kt`
-Application class must be annotated with `@HiltAndroidApp` to trigger Hilt code generation.
+Application class must be annotated with `@HiltAndroidApp` to trigger Hilt code generation. Optionally set `UseCaseErrorHandler.globalOnErrorLogger` for application-wide error logging in use cases.
 
 ```kotlin
 @HiltAndroidApp
-class App : Application()
+class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        UseCaseErrorHandler.globalOnErrorLogger = { error ->
+            android.util.Log.d("UseCase error", "$error")
+        }
+    }
+}
 ``` 
 
 ##### `MainActivity.kt`
 
-Activity must be annotated with `@AndroidEntryPoint`. We use `setContent` to define the UI using Jetpack Compose.
+Activity must be annotated with `@AndroidEntryPoint`. We use `setContent` to define the UI using Jetpack Compose. For a single screen, use `HomeScreen()` directly. For multiple screens, use a `NavHost` with your navigation graph (see [example MainActivity](example/src/main/java/app/futured/arkitekt/sample/ui/main/MainActivity.kt)).
 
 ```kotlin
 @AndroidEntryPoint
-class MainActivity : BasicActivity() {
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ArkitektTheme {
-                 // Your navigation or screen
+                 // Your navigation or single screen
                  HomeScreen()
             }
         }
@@ -104,11 +149,11 @@ class MainActivity : BasicActivity() {
 ##### `HomeViewModel.kt`
 
 ViewModel annotated with `@HiltViewModel`. You can choose between extending
-`BaseViewModel` or `BaseCrViewModel` (for Coroutines support).
+`BaseCoreViewModel` or `BaseViewModel` (for Coroutines support).
 
 ```kotlin
 @HiltViewModel
-class HomeViewModel @Inject constructor() : BaseViewModel<HomeViewState>() {
+class HomeViewModel @Inject constructor() : BaseCoreViewModel<HomeViewState>() {
 
     override val viewState = HomeViewState()
 }
@@ -116,12 +161,12 @@ class HomeViewModel @Inject constructor() : BaseViewModel<HomeViewState>() {
 
 ##### `HomeViewState.kt`
 
-State representation of a screen. Should contain a set of `LiveData` (or `StateFlow`) fields observed by the UI.
+State representation of a screen. Should contain a set of `State` (Compose) or `StateFlow` fields observed by the UI.
 
 ```kotlin
-data class HomeViewState(
-    val user: DefaultValueLiveData<User> = DefaultValueLiveData(User.EMPTY)
-) : ViewState
+class HomeViewState @Inject constructor() : ViewState {
+    val user = mutableStateOf(User.EMPTY)
+}
 ```
 
 ##### `HomeScreen.kt`
@@ -134,11 +179,11 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state = viewModel.viewState.user.observeAsState()
+    val user by viewModel.viewState.user
     
-    // UI implementation
+    // UI implementation - User has firstName and lastName
     Text(
-        text = state.value.name,
+        text = "${user.firstName} ${user.lastName}".trim().ifEmpty { "Guest" },
         modifier = modifier
     )
 }
@@ -156,44 +201,44 @@ result of this call.
 ##### LoginUseCase.kt
 ```kotlin
 class LoginUseCase @Inject constructor(
-    private val apiManager: ApiManager // Retrofit Service
-) : UseCase<LoginData, User>() {
+    private val userStore: UserStore
+) : UseCase<LoginData, Unit>() {
 
-    override suspend fun build(args: LoginData): User {
-        return apiManager.getUser(args)
+    override suspend fun build(args: LoginData) {
+        userStore.setUser(User(args.firstName, args.lastName))
     }
 }
 
-data class LoginData(val email: String, val password: String)
+data class LoginData(val firstName: String, val lastName: String)
 ```
 ##### LoginViewState.kt
 ```kotlin
-class LoginViewState : ViewState {
+class LoginViewState @Inject constructor() : ViewState {
     // IN - values provided by UI
-    val email = DefaultValueLiveData("")
-    val password = DefaultValueLiveData("")
+    val name = mutableStateOf("")
+    val surname = mutableStateOf("")
 
     // OUT - Values observed by UI
-    val fullName = MutableLiveData<String>()
-    val isLoading = MutableLiveData<Boolean>()
+    val fullName = mutableStateOf("")
+    val isLoading = mutableStateOf(false)
 }
 ```
 
 ##### LoginViewModel.kt
 ```kotlin
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase // Inject UseCase
-) : BaseCrViewModel<LoginViewState>() {
-    override val viewState = LoginViewState()
+    private val loginUseCase: LoginUseCase, // Inject UseCase
+    override val viewState: LoginViewState
+) : BaseViewModel<LoginViewState>() {
 
     fun logIn() = with(viewState) {
-        loginUseCase.execute(LoginData(email.value, email.password)) {
+        loginUseCase.execute(LoginData(name.value, surname.value)) {
             onStart {
                 isLoading.value = true
             }
             onSuccess {
                 isLoading.value = false
-                fullName.value = user.fullName // handle success & manipulate state
+                fullName.value = "${viewState.name.value} ${viewState.surname.value}"
             }
             onError {
                 isLoading.value = false
@@ -254,21 +299,21 @@ or one-shot `Events`.
 
 ### ViewState observation
 
-You can observe state changes and reflect these changes in UI by observing `LiveData`
+You can observe state changes and reflect these changes in UI by observing `State` (Compose) or `StateFlow`
 from your `viewState` in your Composable:
 
 ```kotlin
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
-    val myText by viewModel.viewState.myTextLiveData.observeAsState()
+    val myText by viewModel.viewState.myTextState
     
     Text(text = myText)
 }
 ```
 
 ### Events
-Events are one-shot messages sent from `ViewModel` to an Activity/Fragment. They
-are based on `LiveData` bus. Events are guaranteed to be delivered only once even when
+Events are one-shot messages sent from `ViewModel` to a Composable. They
+are based on `Channel`. Events are guaranteed to be delivered only once even when
 there is screen rotation in progress. Basic event communication might look like this:
 
 If you are using Jetpack Compose, you can collect these events via `EventsEffect`:
@@ -287,9 +332,9 @@ object ShowDetailEvent : HomeEvent()
 
 ##### `HomeViewModel.kt`
 ```kotlin
-class HomeViewModel @Inject constructor() : BaseViewModel<HomeViewState>() {
-
-    override val viewState = HomeViewState
+class HomeViewModel @Inject constructor(
+    override val viewState: HomeViewState
+) : BaseCoreViewModel<HomeViewState>() {
 
     fun onDetail() {
         sendEvent(ShowDetailEvent)
@@ -303,19 +348,18 @@ pattern tells: Define `Store` (Repository) classes with single entity related bu
 eg. `UserStore`, `OrderStore`, `DeviceStore` etc. Let's see this principle on `UserStore` class
 from sample app:
 
+##### `UserStore.kt`
 ```kotlin
 @Singleton
 class UserStore @Inject constructor() {
-    private val userFlow = MutableStateFlow(User.EMPTY)
+    private val userState = MutableStateFlow(User.EMPTY)
 
     fun setUser(user: User) {
-        userFlow.value = user
+        userState.value = user
         // ... optionally persist user
     }
 
-    fun getUser(): Flow<User> {
-        return userFlow.asStateFlow()
-    }
+    fun getUser(): StateFlow<User> = userState
 }
 ```
 
@@ -325,14 +369,12 @@ perceived on the same domain level as stores. Thanks to use cases we can easily 
 manipulate and combine this kind of data on background threads. 
 
 ```kotlin
-class GetUserFullNameUseCase @Inject constructor(
+class ObserveUserFullNameUseCase @Inject constructor(
     private val userStore: UserStore
-) : FlowUseCase<String>() {
+) : FlowUseCase<Unit, String>() {
 
-    override fun prepare(): Flow<String> {
-        return userStore.getUser()
-            .map { "${it.firstName} ${it.lastName}" }
-    }
+    override fun build(args: Unit): Flow<String> =
+        userStore.getUser().map { "${it.firstName} ${it.lastName}" }
 }
 ```
 
@@ -340,7 +382,7 @@ We strictly respect this injection hierarchy:
 
 | Application Component | Injects |
 | --------- | --------------------- |
-| `Activity/Fragment` | `ViewModel` |
+| `Composable` | `ViewModel` |
 | `ViewModel` | `ViewState`, `UseCase` |
 | `UseCase` | `Store` |
 | `Store` | `Dao`, `Persistence`, `ApiService` |
@@ -372,7 +414,7 @@ class HomeViewModel @Inject constructor(
 
 In order to create successful applications, it is highly encouraged to write tests for your application. 
 
-See [these tests](https://github.com/futuredapp/arkitekt/tree/5.x/example/src/) in `example` module for more detailed sample.
+See [these tests](https://github.com/futuredapp/arkitekt/tree/main/example/src/) in `example` module for more detailed sample.
 
 ### ViewModel testing
 
@@ -413,13 +455,13 @@ In case that use case is using nullable arguments:
 mockLoginUseCase.mockExecuteNullable(args = ...) { user } // For Coroutines Use Cases
 ```
 
-### Activity and Fragment tests
+### Compose tests
 
-If you want to test Activities or Fragments, you can use `@HiltAndroidTest` or standard Compose testing APIs (`createComposeRule`).
+If you want to test your UI, you can use standard Compose testing APIs (`createComposeRule`).
 
 ```kotlin
 @HiltAndroidTest
-class MainActivityTest {
+class HomeScreenTest {
 
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)

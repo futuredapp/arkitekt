@@ -11,7 +11,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -27,10 +26,10 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val name by viewModel.viewState.name.observeAsState("")
-    val surname by viewModel.viewState.surname.observeAsState("")
-    val fullName by viewModel.viewState.fullName.observeAsState("")
-    val showHeader by viewModel.viewState.showHeader.observeAsState(0)
+    val name by viewModel.viewState.name
+    val surname by viewModel.viewState.surname
+    val fullName by viewModel.viewState.fullName
+    val showHeader by viewModel.viewState.showHeader
 
 
     viewModel.EventsEffect {
@@ -44,7 +43,7 @@ fun LoginScreen(
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        if (showHeader == android.view.View.VISIBLE) {
+        if (showHeader) {
             Text("Header is visible")
         }
         OutlinedTextField(

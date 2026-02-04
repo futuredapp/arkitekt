@@ -18,7 +18,7 @@ class LoginViewModel @Inject constructor(
 
     init {
         getStateUseCase.execute(true) {
-            onNext { viewState.showHeader.value = View.VISIBLE }
+            onNext { viewState.showHeader.value = true }
         }
 
         observeUserFullNameUseCase.execute(Unit) {

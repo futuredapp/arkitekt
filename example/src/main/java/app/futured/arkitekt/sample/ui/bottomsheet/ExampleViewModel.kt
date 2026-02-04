@@ -1,6 +1,5 @@
 package app.futured.arkitekt.sample.ui.bottomsheet
 
-import app.futured.arkitekt.crusecases.BaseLegacyViewModel
 import app.futured.arkitekt.crusecases.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

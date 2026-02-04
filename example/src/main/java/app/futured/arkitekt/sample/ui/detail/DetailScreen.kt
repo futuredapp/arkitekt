@@ -22,7 +22,7 @@ fun DetailScreen(
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
-    val numberText by viewModel.viewState.stringNumber.observeAsState("")
+    val numberText by viewModel.viewState.stringNumber
 
 
     viewModel.EventsEffect {

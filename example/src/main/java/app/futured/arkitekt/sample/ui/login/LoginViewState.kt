@@ -1,15 +1,13 @@
 package app.futured.arkitekt.sample.ui.login
 
-import android.view.View
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateOf
 import app.futured.arkitekt.core.ViewState
-import app.futured.arkitekt.core.livedata.UiData
 import javax.inject.Inject
 
 class LoginViewState @Inject constructor() : ViewState {
-    val name = UiData("")
-    val surname = UiData("")
+    val name = mutableStateOf("")
+    val surname = mutableStateOf("")
 
-    val fullName = MutableLiveData<String>()
-    val showHeader = MutableLiveData(View.INVISIBLE)
+    val fullName = mutableStateOf("")
+    val showHeader = mutableStateOf(false)
 }

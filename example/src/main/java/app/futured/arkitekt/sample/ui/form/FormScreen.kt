@@ -27,10 +27,10 @@ fun FormScreen(
     viewModel: FormViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val login by viewModel.viewState.login.observeAsState("")
-    val password by viewModel.viewState.password.observeAsState("")
-    val storedContent by viewModel.viewState.storedContent.observeAsState("")
-    val submitEnabled by viewModel.viewState.submitEnabled.observeAsState(false)
+    val login by viewModel.viewState.login
+    val password by viewModel.viewState.password
+    val storedContent by viewModel.viewState.storedContent
+    val submitEnabled by viewModel.viewState.submitEnabled
 
 
     viewModel.EventsEffect {
