@@ -15,13 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.lifecycle.compose.dropUnlessResumed
 import app.futured.arkitekt.compose.EventsEffect
 import app.futured.arkitekt.compose.onEvent
+import app.futured.arkitekt.sample.ui.compose.BackStackNavigator
+import app.futured.arkitekt.sample.ui.compose.ExampleRoute
 
 @Composable
 fun LoginScreen(
-    navController: NavHostController,
+    navigator: BackStackNavigator<ExampleRoute>,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
@@ -30,11 +32,11 @@ fun LoginScreen(
     val surname by viewModel.viewState.surname
     val fullName by viewModel.viewState.fullName
     val showHeader by viewModel.viewState.showHeader
-
+    val safeOnBack = dropUnlessResumed { navigator.onBack() }
 
     viewModel.EventsEffect {
         onEvent<ShowToastEvent> { Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show() }
-        onEvent<NavigateBackEvent> { navController.popBackStack() }
+        onEvent<NavigateBackEvent> { safeOnBack() }
     }
 
     Column(

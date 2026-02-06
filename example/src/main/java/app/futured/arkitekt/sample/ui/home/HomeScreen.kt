@@ -11,25 +11,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.lifecycle.compose.dropUnlessResumed
 import app.futured.arkitekt.compose.EventsEffect
 import app.futured.arkitekt.compose.onEvent
+import app.futured.arkitekt.sample.ui.compose.BackStackNavigator
 import app.futured.arkitekt.sample.ui.compose.ExampleRoute
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
+    navigator: BackStackNavigator<ExampleRoute>,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-
+    val safeNavigateToDetail = dropUnlessResumed { navigator.onNavigate(ExampleRoute.Detail) }
+    val safeNavigateToForm = dropUnlessResumed { navigator.onNavigate(ExampleRoute.Form("testArg")) }
+    val safeNavigateToLogin = dropUnlessResumed { navigator.onNavigate(ExampleRoute.Login) }
+    val safeNavigateToBottomSheet = dropUnlessResumed { navigator.onNavigate(ExampleRoute.BottomSheet) }
+    val safeNavigateToCoroutines = dropUnlessResumed { navigator.onNavigate(ExampleRoute.Coroutines) }
 
     viewModel.EventsEffect {
-        onEvent<ShowDetailEvent> { navController.navigate(ExampleRoute.Detail) }
-        onEvent<ShowFormEvent> { navController.navigate(ExampleRoute.Form) }
-        onEvent<ShowLoginEvent> { navController.navigate(ExampleRoute.Login) }
-        onEvent<ShowBottomSheetEvent> { navController.navigate(ExampleRoute.BottomSheet) }
-        onEvent<ShowLoadEvent> { navController.navigate(ExampleRoute.Coroutines) }
+        onEvent<ShowDetailEvent> { safeNavigateToDetail() }
+        onEvent<ShowFormEvent> { safeNavigateToForm() }
+        onEvent<ShowLoginEvent> { safeNavigateToLogin() }
+        onEvent<ShowBottomSheetEvent> { safeNavigateToBottomSheet() }
+        onEvent<ShowLoadEvent> { safeNavigateToCoroutines() }
     }
 
     Column(

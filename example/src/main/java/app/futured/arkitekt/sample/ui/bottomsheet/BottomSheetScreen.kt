@@ -11,19 +11,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.lifecycle.compose.dropUnlessResumed
 import app.futured.arkitekt.compose.EventsEffect
 import app.futured.arkitekt.compose.onEvent
+import app.futured.arkitekt.sample.ui.compose.BackStackNavigator
+import app.futured.arkitekt.sample.ui.compose.ExampleRoute
 
 @Composable
 fun BottomSheetScreen(
-    navController: NavHostController,
+    navigator: BackStackNavigator<ExampleRoute>,
     modifier: Modifier = Modifier,
     viewModel: ExampleViewModel = hiltViewModel(),
 ) {
+    val safeOnBack = dropUnlessResumed { navigator.onBack() }
 
     viewModel.EventsEffect {
-        onEvent<CloseEvent> { navController.popBackStack() }
+        onEvent<CloseEvent> { safeOnBack() }
     }
 
     Column(

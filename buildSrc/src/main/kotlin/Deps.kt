@@ -51,7 +51,10 @@ object Deps {
         const val ui = "androidx.compose.ui:ui"
         const val foundation = "androidx.compose.foundation:foundation"
         const val material3 = "androidx.compose.material3:material3"
-        const val navigation = "androidx.navigation:navigation-compose:${Versions.navigation}"
+        const val navigation3Runtime = "androidx.navigation3:navigation3-runtime:${Versions.navigation3}"
+        const val navigation3Ui = "androidx.navigation3:navigation3-ui:${Versions.navigation3}"
+        const val lifecycleViewmodelNavigation3 = "androidx.lifecycle:lifecycle-viewmodel-navigation3:${Versions.lifecycleViewmodelNav3}"
+        const val lifecycleRuntimeCompose = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifeCycle}"
         const val activity = "androidx.activity:activity-compose:${Versions.activityCompose}"
         const val jetbrainsRuntime = "org.jetbrains.compose.runtime:runtime:${Versions.jetbrainsComposeRuntime}"
     }

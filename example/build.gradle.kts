@@ -74,7 +74,10 @@ dependencies {
     implementation(Deps.Compose.material3)
     implementation(Deps.Compose.runtime)
     implementation(Deps.Compose.runtimeLivedata)
-    implementation(Deps.Compose.navigation)
+    implementation(Deps.Compose.navigation3Runtime)
+    implementation(Deps.Compose.navigation3Ui)
+    implementation(Deps.Compose.lifecycleViewmodelNavigation3)
+    implementation(Deps.Compose.lifecycleRuntimeCompose)
     implementation(Deps.Serialization.core)
     implementation(Deps.DI.hiltViewModelCompose)
 

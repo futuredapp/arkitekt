@@ -16,26 +16,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.lifecycle.compose.dropUnlessResumed
 import app.futured.arkitekt.compose.EventsEffect
 import app.futured.arkitekt.compose.onEvent
+import app.futured.arkitekt.sample.ui.compose.BackStackNavigator
+import app.futured.arkitekt.sample.ui.compose.ExampleRoute
 
 @Composable
 fun FormScreen(
-    navController: NavHostController,
+    navigator: BackStackNavigator<ExampleRoute>,
     modifier: Modifier = Modifier,
-    viewModel: FormViewModel = hiltViewModel(),
+    route: ExampleRoute.Form,
+    viewModel: FormViewModel = hiltViewModel<FormViewModel, FormViewModel.Factory> {
+        it.create(route)
+    },
 ) {
     val context = LocalContext.current
     val login by viewModel.viewState.login
     val password by viewModel.viewState.password
     val storedContent by viewModel.viewState.storedContent
     val submitEnabled by viewModel.viewState.submitEnabled
-
+    val safeOnBack = dropUnlessResumed { navigator.onBack() }
 
     viewModel.EventsEffect {
         onEvent<ShowToastEvent> { Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show() }
-        onEvent<NavigateBackEvent> { navController.popBackStack() }
+        onEvent<NavigateBackEvent> { safeOnBack() }
     }
 
     Column(

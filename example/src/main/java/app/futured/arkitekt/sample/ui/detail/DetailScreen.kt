@@ -12,21 +12,23 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.lifecycle.compose.dropUnlessResumed
 import app.futured.arkitekt.compose.EventsEffect
 import app.futured.arkitekt.compose.onEvent
+import app.futured.arkitekt.sample.ui.compose.BackStackNavigator
+import app.futured.arkitekt.sample.ui.compose.ExampleRoute
 
 @Composable
 fun DetailScreen(
-    navController: NavHostController,
+    navigator: BackStackNavigator<ExampleRoute>,
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val numberText by viewModel.viewState.stringNumber
-
+    val safeOnBack = dropUnlessResumed { navigator.onBack() }
 
     viewModel.EventsEffect {
-        onEvent<NavigateBackEvent> { navController.popBackStack() }
+        onEvent<NavigateBackEvent> { safeOnBack() }
     }
 
     Column(

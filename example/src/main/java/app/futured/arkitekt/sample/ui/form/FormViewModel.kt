@@ -3,14 +3,19 @@ package app.futured.arkitekt.sample.ui.form
 import app.futured.arkitekt.crusecases.BaseViewModel
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
+import app.futured.arkitekt.sample.ui.compose.ExampleRoute
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-class FormViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = FormViewModel.Factory::class)
+class FormViewModel @AssistedInject constructor(
     private val saveFormUseCase: SaveFormUseCase,
     private val observeFormUseCase: ObserveFormUseCase,
-    override val viewState: FormViewState
+    override val viewState: FormViewState,
+    @Assisted private val route: ExampleRoute.Form
 ) : BaseViewModel<FormViewState>() {
 
     init {
@@ -27,4 +32,9 @@ class FormViewModel @Inject constructor(
     }
 
     fun onBack() = sendEvent(NavigateBackEvent)
+
+    @AssistedFactory
+    interface Factory{
+        fun create(route: ExampleRoute.Form): FormViewModel
+    }
 }
