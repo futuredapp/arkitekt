@@ -103,6 +103,7 @@ object Deps {
         const val androidXJUnitKtx = "androidx.test.ext:junit-ktx:${Versions.androidXJUnit}"
         const val androidXFragmentTesting = "androidx.fragment:fragment-testing:${Versions.androidXFragmentTesting}"
         const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
+        const val jUnitApi = "junit:junit:4.13.2"
         const val assertJ = "org.assertj:assertj-core:${Versions.assertJ}"
         const val mockitoKotlin = "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"
         const val testCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"

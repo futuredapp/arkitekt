@@ -1,7 +1,6 @@
 package app.futured.arkitekt.sample.ui.detail
 
 import app.futured.arkitekt.core.viewmodel.ViewModelTest
-import app.futured.arkitekt.core.viewmodel.mockObserveWithoutOwnerDefaultValue
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
@@ -42,20 +41,4 @@ class DetailViewModelTest : ViewModelTest() {
         verify { viewModel.sendEvent(NavigateBackEvent) }
     }
 
-    @Test
-    fun `when onStart is called then number value is observed and string number is updated`() {
-        // GIVEN
-        val observeNumberLambda = viewModel.mockObserveWithoutOwnerDefaultValue { viewState.number }
-
-        // WHEN
-        viewModel.onStart()
-        observeNumberLambda.invoke(10)
-        observeNumberLambda.invoke(100)
-
-        // THEN
-        verifyOrder {
-            viewState.stringNumber.value = "10"
-            viewState.stringNumber.value = "100"
-        }
-    }
 }

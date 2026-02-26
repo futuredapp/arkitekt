@@ -1,5 +1,6 @@
 plugins {
     id("kotlin")
+    id("java-library")
 }
 
 dependencies {
@@ -10,7 +11,7 @@ dependencies {
 
     testImplementation(Deps.Lint.core)
     testImplementation(Deps.Lint.tests)
-    testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.jUnitApi)
 }
 
 val jar by tasks.getting(Jar::class) {

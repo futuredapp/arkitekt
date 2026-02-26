@@ -6,6 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -112,6 +113,7 @@ class FlowUseCaseTests {
                 onNext { result = it }
                 onError { result = errorValue }
             }
+            coroutineScope.advanceUntilIdle()
         }
         return result
     }
@@ -123,6 +125,7 @@ class FlowUseCaseTests {
                 onNext { result = it }
                 onError { result = errorValue }
             }
+            coroutineScope.advanceUntilIdle()
         }
         return result
     }
@@ -134,6 +137,7 @@ class FlowUseCaseTests {
                 onNext { result = it }
                 onError { result = errorValue }
             }
+            coroutineScope.advanceUntilIdle()
         }
         return result
     }

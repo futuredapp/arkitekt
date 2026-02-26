@@ -8,7 +8,9 @@ import app.futured.arkitekt.crusecases.testusecases.TestFlowUseCase
 import app.futured.arkitekt.crusecases.testusecases.TestUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -35,13 +37,13 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
             onSuccess { executionCount++ }
             onError { Assert.fail("Exception thrown where shouldn't") }
         }
-        coroutineScope.advanceTimeByCompat(500)
+        coroutineScope.advanceTimeBy(100)
 
         testUseCase.execute(1) {
             onSuccess { executionCount++ }
             onError { Assert.fail("Exception thrown where shouldn't") }
         }
-        coroutineScope.advanceTimeByCompat(1000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertEquals(1, executionCount)
     }
@@ -54,7 +56,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         testFailureUseCase.execute(IllegalStateException()) {
             onError { resultError = it }
         }
-
+        coroutineScope.advanceUntilIdle()
         Assert.assertNotNull(resultError)
     }
 
@@ -74,7 +76,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
             onNext { resultList.add(it) }
             onError { Assert.fail("Exception thrown where shouldn't") }
         }
-        coroutineScope.advanceTimeByCompat(10000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertEquals(testingList, resultList)
     }
@@ -89,7 +91,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
             onError { Assert.fail("Exception thrown where shouldn't") }
             onComplete { completed = true }
         }
-        coroutineScope.advanceTimeByCompat(10000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertEquals(true, completed)
     }
@@ -104,7 +106,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
             onError { resultError = it }
             onComplete { Assert.fail("onComplete called where shouldn't") }
         }
-
+        coroutineScope.advanceUntilIdle()
         Assert.assertNotNull(resultError)
     }
 
@@ -116,7 +118,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         coroutineScope.launch {
             result = testUseCase.execute(1)
         }
-        coroutineScope.advanceTimeByCompat(10000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertEquals(Success(1), result)
     }
@@ -129,7 +131,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         coroutineScope.launch {
             result = testUseCase.execute(IllegalStateException())
         }
-        coroutineScope.advanceTimeByCompat(10000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertTrue(result is Error)
         Assert.assertTrue((result as Error).error is IllegalStateException)
@@ -143,7 +145,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         coroutineScope.launch {
             result = testUseCase.execute(CancellationException())
         }
-        coroutineScope.advanceTimeByCompat(10000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertNull(result)
     }
@@ -160,7 +162,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
         coroutineScope.launch {
             result = testUseCase.execute(1)
         }
-        coroutineScope.advanceTimeByCompat(10000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertEquals(Success(1), result)
     }
@@ -198,7 +200,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
         val exception = IllegalStateException()
         testOwner.launchWithHandler { throw exception }
-        testOwner.coroutineScope.advanceTimeByCompat(10000)
+        testOwner.coroutineScope.advanceUntilIdle()
 
         Assert.assertEquals(exception, logException)
         Assert.assertEquals(exception, handlerException)
@@ -219,7 +221,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
 
         val exception = CancellationException()
         testOwner.launchWithHandler { throw exception }
-        testOwner.coroutineScope.advanceTimeByCompat(10000)
+        testOwner.coroutineScope.advanceUntilIdle()
 
         Assert.assertEquals(null, logException)
         Assert.assertEquals(null, handlerException)
@@ -260,8 +262,7 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
                 resultError = error
             }
         }
-        coroutineScope.advanceTimeByCompat(10000)
-
+        coroutineScope.advanceUntilIdle()
         Assert.assertTrue(resultError is IllegalStateException)
         Assert.assertTrue(logException is IllegalStateException)
     }
@@ -280,13 +281,13 @@ class CoroutineScopeOwnerTest : BaseCoroutineScopeOwnerTest() {
                 resultError = error
             }
         }
-        coroutineScope.advanceTimeByCompat(10000)
+        coroutineScope.advanceUntilIdle()
 
         Assert.assertTrue(resultError is IllegalStateException)
         Assert.assertTrue(logException is IllegalStateException)
     }
 
-    fun TestCoroutineScope.advanceTimeByCompat(delayTimeMillis: Long) {
+    fun TestScope.advanceTimeByCompat(delayTimeMillis: Long) {
         this.testScheduler.apply { advanceTimeBy(delayTimeMillis); runCurrent() }
     }
 }

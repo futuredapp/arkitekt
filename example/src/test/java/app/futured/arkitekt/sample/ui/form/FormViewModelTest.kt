@@ -4,6 +4,7 @@ import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
+import app.futured.arkitekt.sample.ui.compose.ExampleRoute
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
@@ -26,7 +27,10 @@ class FormViewModelTest : ViewModelTest() {
     @Before
     fun setUp() {
         viewState = FormViewState()
-        viewModel = spyk(FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState), recordPrivateCalls = true)
+        viewModel = spyk(FormViewModel(
+            mockSaveFormUseCase, mockObserveFormUseCase, viewState,
+            route = ExampleRoute.Form("form")
+        ), recordPrivateCalls = true)
         every { viewModel.getWorkerDispatcher() } returns Dispatchers.Main
     }
 
@@ -49,7 +53,6 @@ class FormViewModelTest : ViewModelTest() {
         mockObserveFormUseCase.mockExecute(Unit) { flowOf("A" to "B", "B" to "C") }
 
         // WHEN
-        viewModel.onStart()
 
         // THEN
         assertEquals("B C", viewState.storedContent.value)
@@ -61,7 +64,6 @@ class FormViewModelTest : ViewModelTest() {
         mockObserveFormUseCase.mockExecute(Unit) { flow { throw IllegalStateException() } }
 
         // WHEN
-        viewModel.onStart()
 
         // THEN
         verify { viewModel.sendEvent(ShowToastEvent("Error :-(")) }

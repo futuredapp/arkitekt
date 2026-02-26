@@ -16,6 +16,9 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -44,11 +47,10 @@ class LoginViewModelTest : ViewModelTest() {
         mockObserveUserFullNameUseCase.mockExecute { emptyFlow() }
         mockGetStateUseCase.mockExecute(true) { flowOf(false) }
 
-        // WHEN
-        viewModel.onStart()
+        (viewModel.coroutineScope as TestScope).advanceTimeBy(500)
 
         // THEN
-        assertEquals(View.VISIBLE, viewState.showHeader.value)
+        assertEquals(true, viewState.showHeader.value)
     }
 
     @Test
@@ -57,11 +59,8 @@ class LoginViewModelTest : ViewModelTest() {
         mockObserveUserFullNameUseCase.mockExecute { emptyFlow() }
         mockGetStateUseCase.mockExecute(true) { emptyFlow() }
 
-        // WHEN
-        viewModel.onStart()
-
         // THEN
-        assertEquals(View.INVISIBLE, viewState.showHeader.value)
+        assertEquals(false, viewState.showHeader.value)
     }
 
     @Test
@@ -70,8 +69,6 @@ class LoginViewModelTest : ViewModelTest() {
         mockGetStateUseCase.mockExecute(true) { emptyFlow() }
         mockObserveUserFullNameUseCase.mockExecute { flowOf("first", "second") }
 
-        // WHEN
-        viewModel.onStart()
 
         // THEN
         assertEquals("second", viewState.fullName.value)
