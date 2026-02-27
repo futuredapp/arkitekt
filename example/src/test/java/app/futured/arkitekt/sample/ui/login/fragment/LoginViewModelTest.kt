@@ -1,6 +1,5 @@
 package app.futured.arkitekt.sample.ui.login.fragment
 
-import android.view.View
 import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.domain.GetStateUseCase
@@ -11,14 +10,15 @@ import app.futured.arkitekt.sample.ui.login.LoginViewState
 import app.futured.arkitekt.sample.ui.login.NavigateBackEvent
 import app.futured.arkitekt.sample.ui.login.ShowToastEvent
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.advanceTimeBy
-import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -35,10 +35,24 @@ class LoginViewModelTest : ViewModelTest() {
     @Before
     fun setUp() {
         viewState = LoginViewState()
-        viewModel = spyk(
-            LoginViewModel(mockLoginCompletabler, mockObserveUserFullNameUseCase, mockGetStateUseCase, viewState),
-            recordPrivateCalls = true
-        )
+        mockGetStateUseCase.mockExecute { emptyFlow() }
+        mockObserveUserFullNameUseCase.mockExecute { emptyFlow() }
+        viewModel = createViewModel()
+    }
+
+    // spyk wraps the object AFTER init, so getWorkerDispatcher() mock only applies to
+    // post-init calls (e.g. logIn). For init-triggered flows, we use runBlocking { join() }
+    // in individual tests to synchronise with the real IO upstream before asserting.
+    private fun createViewModel() = spyk(
+        LoginViewModel(mockLoginCompletabler, mockObserveUserFullNameUseCase, mockGetStateUseCase, viewState),
+        recordPrivateCalls = true
+    ).also {
+        every { it.getWorkerDispatcher() } returns Dispatchers.Main
+    }
+
+    // Waits for all coroutines launched during ViewModel.init to complete.
+    private fun awaitInit() = runBlocking {
+        viewModel.coroutineScope.coroutineContext[Job]!!.children.toList().forEach { it.join() }
     }
 
     @Test
@@ -46,8 +60,8 @@ class LoginViewModelTest : ViewModelTest() {
         // GIVEN
         mockObserveUserFullNameUseCase.mockExecute { emptyFlow() }
         mockGetStateUseCase.mockExecute(true) { flowOf(false) }
-
-        (viewModel.coroutineScope as TestScope).advanceTimeBy(500)
+        viewModel = createViewModel()
+        awaitInit()
 
         // THEN
         assertEquals(true, viewState.showHeader.value)
@@ -55,20 +69,17 @@ class LoginViewModelTest : ViewModelTest() {
 
     @Test
     fun `when onStart is called and get state is not successful then header is not visible`() {
-        // GIVEN
-        mockObserveUserFullNameUseCase.mockExecute { emptyFlow() }
-        mockGetStateUseCase.mockExecute(true) { emptyFlow() }
-
-        // THEN
+        // setUp defaults run with emptyFlow, showHeader stays false
         assertEquals(false, viewState.showHeader.value)
     }
 
     @Test
     fun `when onStart is called then full name is set to last observed value`() {
         // GIVEN
-        mockGetStateUseCase.mockExecute(true) { emptyFlow() }
+        mockGetStateUseCase.mockExecute { emptyFlow() }
         mockObserveUserFullNameUseCase.mockExecute { flowOf("first", "second") }
-
+        viewModel = createViewModel()
+        awaitInit()
 
         // THEN
         assertEquals("second", viewState.fullName.value)
@@ -77,7 +88,6 @@ class LoginViewModelTest : ViewModelTest() {
     @Test
     fun `when login is called then name and surname is send to interactor`() {
         // GIVEN
-        mockGetStateUseCase.mockExecute(true) { emptyFlow() }
         viewState.name.value = "name"
         viewState.surname.value = "surname"
         mockLoginCompletabler.mockExecute { }
