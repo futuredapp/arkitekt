@@ -13,7 +13,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":arkitekt-decompose:annotation"))
+                implementation(project(":decompose:annotation"))
             }
         }
 

@@ -4,9 +4,9 @@ rootProject.buildFileName = "build.gradle.kts"
 include(
     ":core",
     ":compose",
-    ":arkitekt-decompose",
-    ":arkitekt-decompose:annotation",
-    ":arkitekt-decompose:processor",
+    ":decompose",
+    ":decompose:annotation",
+    ":decompose:processor",
     ":example",
     ":cr-usecases",
     ":arkitekt-lint",

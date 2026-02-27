@@ -77,10 +77,10 @@ detekt {
         "core-test/src/main/java",
         "cr-usecases/src/main/java",
         "cr-usecases-test/src/main/java",
-        "arkitekt-decompose/src/commonMain/kotlin",
-        "arkitekt-decompose/src/androidMain/kotlin",
-        "arkitekt-decompose/annotation/src/commonMain/kotlin",
-        "arkitekt-decompose/processor/src/jvmMain/kotlin",
+        "decompose/src/commonMain/kotlin",
+        "decompose/src/androidMain/kotlin",
+        "decompose/annotation/src/commonMain/kotlin",
+        "decompose/processor/src/jvmMain/kotlin",
         "arkitekt-lint/src/main/java"
     )
 //    filters = ".*/resources/.*,.*/build/.*"

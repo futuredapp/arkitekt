@@ -14,7 +14,7 @@ dependencies {
     implementation("app.futured.arkitekt:core:LatestVersion")
     implementation("app.futured.arkitekt:cr-usecases:LatestVersion")
     implementation("app.futured.arkitekt:compose:LatestVersion")
-    implementation("app.futured.arkitekt:arkitekt-decompose:LatestVersion")
+    implementation("app.futured.arkitekt:decompose:LatestVersion")
     
     // Testing
     testImplementation("app.futured.arkitekt:core-test:LatestVersion")
@@ -36,7 +36,7 @@ Snapshots are grouped based on major version, so for version 6.x use:
 implementation "app.futured.arkitekt:core:6.X.X-SNAPSHOT"
 implementation "app.futured.arkitekt:cr-usecases:6.X.X-SNAPSHOT"
 implementation "app.futured.arkitekt:compose:6.X.X-SNAPSHOT"
-implementation "app.futured.arkitekt:arkitekt-decompose:6.X.X-SNAPSHOT"
+implementation "app.futured.arkitekt:decompose:6.X.X-SNAPSHOT"
 ```
 
 # Features
@@ -395,7 +395,7 @@ Arkitekt supports two modern navigation approaches:
 You can use the standard Jetpack Navigation component with Compose. 
 
 ### Decompose (Kotlin Multiplatform)
-For KMP projects or robust state management, `arkitekt-decompose` provides integration with the Decompose library. This allows sharing navigation logic across platforms.
+For KMP projects or robust state management, `decompose` provides integration with the Decompose library. This allows sharing navigation logic across platforms.
 
 ## SavedStateHandle
 
