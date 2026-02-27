@@ -1,3 +1,6 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.multiplatform")
@@ -10,7 +13,6 @@ kotlin {
     jvmToolchain(17)
 
     androidTarget {
-        publishLibraryVariants("release", "debug")
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
@@ -50,6 +52,13 @@ kotlin {
 }
 
 mavenPublishing {
+    configure(
+        KotlinMultiplatform(
+            javadocJar = JavadocJar.Empty(),
+            sourcesJar = true,
+            androidVariantsToPublish = listOf("debug", "release")
+        )
+    )
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "decompose",
