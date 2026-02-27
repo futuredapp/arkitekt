@@ -13,7 +13,6 @@ buildscript {
         classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}")
         classpath(Deps.DI.hiltPlugin)
         classpath(Deps.AndroidX.safeArgsPlugin)
-        classpath(Deps.Plugins.mavenPublish)
         classpath(Deps.Plugins.dokka)
     }
 }
@@ -23,6 +22,7 @@ plugins {
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
     id(Deps.Plugins.composeCompiler) version Versions.kotlin apply false
+    id(Deps.Plugins.mavenPublish) version Versions.mavenPublish apply false
 }
 
 tasks {

@@ -3,13 +3,14 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.vanniktech.maven.publish")
+    id(Deps.Plugins.mavenPublish)
 }
 
 kotlin {
     jvmToolchain(17)
 
     androidTarget {
+        publishLibraryVariants("release", "debug")
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
@@ -43,6 +44,37 @@ kotlin {
             dependencies {
                 api(project(":cr-usecases"))
                 implementation(Deps.Compose.runtime)
+            }
+        }
+    }
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = ProjectSettings.group,
+        artifactId = "decompose",
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+    )
+    pom {
+        name = "Arkitekt Decompose"
+        description = "KMP Decompose integration for Arkitekt framework"
+        url = "https://github.com/futuredapp/arkitekt"
+        licenses {
+            license {
+                name = "MIT"
+                url = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
+            }
+        }
+        scm {
+            connection = "scm:git:git://github.com/futuredapp/arkitekt.git"
+            developerConnection = "scm:git:ssh://github.com/futuredapp/arkitekt.git"
+            url = "https://github.com/futuredapp/arkitekt"
+        }
+        developers {
+            developer {
+                id = "futured"
+                name = "Futured"
+                url = "https://futured.app"
             }
         }
     }
