@@ -1,40 +1,34 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.multiplatform")
     id(Deps.Plugins.mavenPublish)
 }
 
-android {
-    compileSdk = ProjectSettings.compileSdk
-
-    defaultConfig {
-        minSdk = ProjectSettings.minSdk
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled = true
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    testOptions {
-        targetSdk = ProjectSettings.targetSdk
-    }
-    lint {
-        targetSdk = ProjectSettings.targetSdk
-    }
-    namespace = "app.futured.arkitekt.crusecases"
-}
-
 kotlin {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    jvmToolchain(17)
+
+    jvm()
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Deps.Kotlin.coroutines)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(Deps.Test.testCoroutines)
+                implementation(Deps.Test.jUnitApi)
+                implementation(Deps.Test.assertJ)
+            }
+        }
     }
 }
 
@@ -43,6 +37,13 @@ mavenPublishing {
         groupId = ProjectSettings.group,
         artifactId = "cr-usecases",
         version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+    )
+    configure(
+        KotlinMultiplatform(
+            javadocJar = JavadocJar.Empty(),
+            sourcesJar = true,
+            androidVariantsToPublish = listOf("debug", "release"),
+        )
     )
     pom {
         name = "Arkitekt CR UseCases"
@@ -69,13 +70,14 @@ mavenPublishing {
     }
 }
 
-dependencies {
-    api(project(":core"))
-    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
-    implementation(Deps.AndroidX.viewModelExtensions)
-    implementation(Deps.Kotlin.coroutines)
-
-    testImplementation(Deps.Test.jUnit)
-    testImplementation(Deps.Test.assertJ)
-    testImplementation(Deps.Test.testCoroutines)
+android {
+    namespace = "app.futured.arkitekt.crusecases"
+    compileSdk = ProjectSettings.compileSdk
+    defaultConfig {
+        minSdk = ProjectSettings.minSdk
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }

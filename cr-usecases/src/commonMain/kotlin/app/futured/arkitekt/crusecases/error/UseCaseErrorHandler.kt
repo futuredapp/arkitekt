@@ -1,4 +1,4 @@
-package app.futured.arkitekt.core.error
+package app.futured.arkitekt.crusecases.error
 
 /**
  * This object is used for global handling and logging of errors that are thrown in the use case execution.

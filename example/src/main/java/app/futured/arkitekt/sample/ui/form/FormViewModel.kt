@@ -1,6 +1,6 @@
 package app.futured.arkitekt.sample.ui.form
 
-import app.futured.arkitekt.crusecases.BaseViewModel
+import app.futured.arkitekt.compose.BaseViewModel
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
 import app.futured.arkitekt.sample.ui.compose.ExampleRoute

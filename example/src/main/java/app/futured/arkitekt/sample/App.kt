@@ -4,7 +4,7 @@ import android.content.Context
 import android.app.Application
 import android.util.Log
 import androidx.multidex.MultiDex
-import app.futured.arkitekt.core.error.UseCaseErrorHandler
+import app.futured.arkitekt.crusecases.error.UseCaseErrorHandler
 import app.futured.arkitekt.sample.injection.DaggerApplicationComponent
 import dagger.hilt.android.HiltAndroidApp
 

@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.ui.login
 
 import android.view.View
-import app.futured.arkitekt.crusecases.BaseViewModel
+import app.futured.arkitekt.compose.BaseViewModel
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase
 import app.futured.arkitekt.sample.domain.SyncLoginUseCase

@@ -1,6 +1,6 @@
 package app.futured.arkitekt.crusecases
 
-import app.futured.arkitekt.core.error.UseCaseErrorHandler
+import app.futured.arkitekt.crusecases.error.UseCaseErrorHandler
 import app.futured.arkitekt.crusecases.utils.rootCause
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope

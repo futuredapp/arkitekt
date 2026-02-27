@@ -72,6 +72,9 @@ mavenPublishing {
 
 dependencies {
     api(project(":core"))
+    api(project(":cr-usecases"))
+
+    implementation(Deps.AndroidX.viewModelExtensions)
 
     implementation(platform(Deps.Compose.bom))
     implementation(Deps.Compose.runtime)

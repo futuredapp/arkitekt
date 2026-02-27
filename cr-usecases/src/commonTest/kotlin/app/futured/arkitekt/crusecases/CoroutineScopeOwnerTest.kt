@@ -1,6 +1,6 @@
 package app.futured.arkitekt.crusecases
 
-import app.futured.arkitekt.core.error.UseCaseErrorHandler
+import app.futured.arkitekt.crusecases.error.UseCaseErrorHandler
 import app.futured.arkitekt.crusecases.base.BaseCoroutineScopeOwnerTest
 import app.futured.arkitekt.crusecases.testusecases.TestFailureFlowUseCase
 import app.futured.arkitekt.crusecases.testusecases.TestFailureUseCase

@@ -75,7 +75,7 @@ detekt {
         "core/src/main/java",
         "compose/src/main/java",
         "core-test/src/main/java",
-        "cr-usecases/src/main/java",
+        "cr-usecases/src/commonMain/kotlin",
         "cr-usecases-test/src/main/java",
         "decompose/src/commonMain/kotlin",
         "decompose/src/androidMain/kotlin",

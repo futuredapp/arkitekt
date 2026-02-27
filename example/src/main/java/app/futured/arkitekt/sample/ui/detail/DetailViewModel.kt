@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.ui.detail
 
 import app.futured.arkitekt.core.BaseCoreViewModel
-import app.futured.arkitekt.crusecases.BaseViewModel
+import app.futured.arkitekt.compose.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
