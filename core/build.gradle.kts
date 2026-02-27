@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -43,6 +45,7 @@ kotlin {
 }
 
 mavenPublishing {
+    configure(AndroidSingleVariantLibrary(publishJavadocJar = false))
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "core",

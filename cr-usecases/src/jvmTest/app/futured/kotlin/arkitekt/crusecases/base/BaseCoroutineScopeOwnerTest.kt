@@ -1,4 +1,4 @@
-package app.futured.arkitekt.crusecases.base
+package arkitekt.crusecases.base
 
 import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher

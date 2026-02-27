@@ -1,11 +1,14 @@
-package app.futured.arkitekt.crusecases
+package arkitekt.crusecases
 
+import app.futured.arkitekt.crusecases.Error
+import app.futured.arkitekt.crusecases.Result
+import app.futured.arkitekt.crusecases.Success
 import app.futured.arkitekt.crusecases.error.UseCaseErrorHandler
-import app.futured.arkitekt.crusecases.base.BaseCoroutineScopeOwnerTest
-import app.futured.arkitekt.crusecases.testusecases.TestFailureFlowUseCase
-import app.futured.arkitekt.crusecases.testusecases.TestFailureUseCase
-import app.futured.arkitekt.crusecases.testusecases.TestFlowUseCase
-import app.futured.arkitekt.crusecases.testusecases.TestUseCase
+import arkitekt.crusecases.base.BaseCoroutineScopeOwnerTest
+import arkitekt.crusecases.testusecases.TestFailureFlowUseCase
+import arkitekt.crusecases.testusecases.TestFailureUseCase
+import arkitekt.crusecases.testusecases.TestFlowUseCase
+import arkitekt.crusecases.testusecases.TestUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope

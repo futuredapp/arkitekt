@@ -1,4 +1,4 @@
-package app.futured.arkitekt.crusecases.testusecases
+package arkitekt.crusecases.testusecases
 
 import app.futured.arkitekt.crusecases.UseCase
 import kotlinx.coroutines.delay
