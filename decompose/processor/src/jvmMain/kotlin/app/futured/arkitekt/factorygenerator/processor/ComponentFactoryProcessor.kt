@@ -1,6 +1,6 @@
 package app.futured.arkitekt.factorygenerator.processor
 
-import app.futured.factorygenerator.annotation.GenerateFactory
+import app.futured.arkitekt.annotation.GenerateFactory
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
