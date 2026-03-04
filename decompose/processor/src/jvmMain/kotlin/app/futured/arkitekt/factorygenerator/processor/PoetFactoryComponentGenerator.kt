@@ -36,6 +36,8 @@ import com.squareup.kotlinpoet.ksp.writeTo
 object PoetFactoryComponentGenerator {
 
     private const val INJECTED_PARAM_ANNOTATION = "InjectedParam"
+    private const val APP_COMPONENT_CONTEXT_TYPE_NAME = "AppComponentContext"
+    private const val NAVIGATION_TYPE_NAME = "Navigation"
 
     private object Imports {
         const val KOIN_COMPONENT_PACKAGE = "org.koin.core.component"
@@ -70,7 +72,7 @@ object PoetFactoryComponentGenerator {
             createComponentFunction = createComponentFunction(
                 baseName,
                 factoryComponentPackageName,
-                factoryComponent,
+                factoryComponent
             ),
         )
 
@@ -105,14 +107,24 @@ object PoetFactoryComponentGenerator {
         // All constructor parameters that are annotated with @InjectedParam
         val unInjectedConstructorParams = factoryComponent.primaryConstructor?.parameters
             ?.filter { it.annotations.any { it.shortName.asString() == INJECTED_PARAM_ANNOTATION } }
-            ?: error("No @InjectedParam annotation found in $baseName's constructor")
 
+        val appComponentContextType = unInjectedConstructorParams
+            ?.findTypeByName(APP_COMPONENT_CONTEXT_TYPE_NAME)
+            ?: error("Unable to find $APP_COMPONENT_CONTEXT_TYPE_NAME in $baseName's constructor")
+        val navigationType = unInjectedConstructorParams
+            .findTypeByName(NAVIGATION_TYPE_NAME)
         val argsNamesAndTypes = unInjectedConstructorParams
+            .filter {
+                it.containsTypeName(NAVIGATION_TYPE_NAME).not() && it.containsTypeName(
+                    APP_COMPONENT_CONTEXT_TYPE_NAME
+                ).not()
+            }
             .mapIndexed { index, ksValueParameter ->
                 val paramName = ksValueParameter.name?.asString() ?: "param$index"
                 val typeName = ksValueParameter.type.toTypeName()
-                paramName to typeName
+                paramName to  typeName
             }
+
 
         val returnType = ClassName(
             packageName = factoryComponentPackageName,
@@ -121,19 +133,34 @@ object PoetFactoryComponentGenerator {
 
         val paramNames = argsNamesAndTypes.joinToString { it.first }
 
+        val params = when {
+            argsNamesAndTypes.isNotEmpty() && navigationType != null -> "parameters = { parametersOf(componentContext, navigation, $paramNames) }"
+            argsNamesAndTypes.isNotEmpty() -> "parameters = { parametersOf(componentContext, $paramNames) }"
+            navigationType != null -> "parameters = { parametersOf(componentContext, navigation) }"
+            else -> "parameters = { parametersOf(componentContext) }"
+        }
+
         val createComponentFunSpec = FunSpec.builder("createComponent")
-            .apply {
-                argsNamesAndTypes.forEach { (name, type) ->
-                    addParameter(name = name, type = type)
-                }
+            .addParameter(name = "componentContext", appComponentContextType)
+
+        if (navigationType != null) {
+            createComponentFunSpec.addParameter(name = "navigation", navigationType)
+        }
+
+        if (argsNamesAndTypes.isNotEmpty()) {
+            argsNamesAndTypes.forEach { (name, type) ->
+                createComponentFunSpec.addParameter(
+                    name = name, type
+                )
             }
+        }
 
         return createComponentFunSpec
             .returns(returnType)
             .addStatement(
                 "return get(\n" +
                     "qualifier = null,\n" +
-                    "parameters = { parametersOf($paramNames) },\n" +
+                    "$params,\n" +
                     ")",
             )
             .build()
