@@ -11,11 +11,16 @@ Arkitekt is a set of architectural tools based on Android Architecture Component
 
 ```groovy
 dependencies {
+    // Android / Compose
     implementation("app.futured.arkitekt:core:LatestVersion")
     implementation("app.futured.arkitekt:cr-usecases:LatestVersion")
     implementation("app.futured.arkitekt:compose:LatestVersion")
+
+    // Decompose / KMP (optional)
     implementation("app.futured.arkitekt:decompose:LatestVersion")
-    
+    implementation("app.futured.arkitekt:decompose-annotation:LatestVersion")
+    ksp("app.futured.arkitekt:decompose-processor:LatestVersion")
+
     // Testing
     testImplementation("app.futured.arkitekt:core-test:LatestVersion")
     testImplementation("app.futured.arkitekt:cr-usecases-test:LatestVersion")
@@ -41,12 +46,13 @@ implementation "app.futured.arkitekt:decompose:6.X.X-SNAPSHOT"
 
 # Features
 
-Arkitekt is a modern Android architecture library focused on Jetpack Compose and Kotlin Coroutines. 
-It combines built-in support for Dagger-Hilt dependency injection, ViewModel, Coroutines use cases, 
-Jetpack Compose, and Decompose. 
+Arkitekt is a modern Android & Kotlin Multiplatform architecture library focused on Jetpack Compose and Kotlin Coroutines.
+It combines built-in support for ViewModel, Coroutines use cases, Jetpack Compose, and Decompose (KMP).
+For dependency injection, the Android/Compose path uses Dagger-Hilt, while the Decompose/KMP path uses Koin.
 
-**Note:** As of version 6.x, Arkitekt has removed legacy LiveData-based components and Fragment/Activity 
-base classes. The library is now exclusively focused on Jetpack Compose with State/StateFlow for reactive UI.
+**Note:** As of version 6.x, Arkitekt has removed legacy LiveData-based components, Fragment/Activity
+base classes, RxJava support, DataBinding, and the Dagger module. The library is now exclusively focused
+on Jetpack Compose with State/StateFlow for reactive UI and Kotlin Multiplatform via Decompose.
 
 ![MVVM architecture](extras/architecture-diagram.png)
 
@@ -55,17 +61,29 @@ base classes. The library is now exclusively focused on Jetpack Compose with Sta
 Version 6.x represents a major refactoring focused on modern Android development with Jetpack Compose. 
 The following legacy components have been removed:
 
+### Removed Modules
+
+- **`rx-usecases`** and **`rx-usecases-test`** - RxJava support has been completely removed. Use `cr-usecases` (Coroutines) instead
+- **`dagger`** - Dagger 2 injection module removed. Use Dagger-Hilt (`@HiltViewModel`, `@AndroidEntryPoint`) instead
+- **`bindingadapters`** - DataBinding adapters removed. Use Jetpack Compose instead
+- **`example-minimal`** and **`example-hilt`** - Consolidated into single `example` module
+
 ### Removed Classes
 
 **ViewModel Base Classes:**
-- `BaseLegacyCoreViewModel` - Use `BaseCoreViewModel` or `BaseViewModel` instead
-- `BaseLegacyViewModel` (from cr-usecases) - Use `BaseViewModel` instead
+- `BaseViewModel` (from core) - Use `BaseCoreViewModel` (core) or `BaseViewModel` (compose) instead
+- `BaseCrViewModel` (from cr-usecases) - Use `BaseViewModel` (compose) instead
 
 **Fragment/Activity Base Classes:**
-- `ViewModelActivity` - Use standard `ComponentActivity` with `@AndroidEntryPoint`
-- `ViewModelFragment` - Use standard Compose navigation
-- `ViewModelBottomSheetDialogFragment` - Use Compose bottom sheets
-- `ViewModelDialogFragment` - Use Compose dialogs
+- `ViewModelActivity`, `BindingViewModelActivity` - Use standard `ComponentActivity` with `@AndroidEntryPoint`
+- `ViewModelFragment`, `BindingViewModelFragment` - Use standard Compose navigation
+- `ViewModelBottomSheetDialogFragment`, `BindingViewModelBottomSheetDialogFragment` - Use Compose bottom sheets
+- `ViewModelDialogFragment`, `BindingViewModelDialogFragment` - Use Compose dialogs
+
+**Dagger Classes:**
+- `BaseViewModelFactory`, `BaseSavedStateViewModelFactory` - Use `@HiltViewModel` with `hiltViewModel()`
+- `BaseDaggerActivity`, `BaseDaggerFragment` and their Binding variants - Use `@AndroidEntryPoint`
+- `ViewModelCreator`, `ViewModelFactory` - No longer needed with Hilt
 
 **LiveData Components:**
 - `LiveEvent` and `LiveEventBus` - Use `Event` with `Channel`-based events
@@ -73,6 +91,9 @@ The following legacy components have been removed:
 - `NonNullLiveData` - Use `StateFlow` or Compose `State`
 - `UiData`, `UiDataExtensions`, `UiDataMediator` - Use `StateFlow` or Compose `State`
 - `LiveDataExtensions` and `LiveDataUtils` - Use Kotlin Flow operators
+
+**DataBinding:**
+- All DataBinding support (`ViewDataBinding` base classes, binding adapters) - Use Jetpack Compose
 
 ### Migration Path
 
@@ -392,10 +413,119 @@ We strictly respect this injection hierarchy:
 Arkitekt supports two modern navigation approaches:
 
 ### Native Android Navigation (Jetpack Compose)
-You can use the standard Jetpack Navigation component with Compose. 
+You can use the standard Jetpack Navigation component with Compose. See the `example` module for a working implementation.
 
 ### Decompose (Kotlin Multiplatform)
-For KMP projects or robust state management, `decompose` provides integration with the Decompose library. This allows sharing navigation logic across platforms.
+For KMP projects, `decompose` module provides integration with the [Decompose](https://github.com/arkivanov/Decompose) library using Koin for dependency injection.
+
+#### BaseComponent
+
+`BaseComponent` is the base class for all Decompose components. It provides coroutine scope tied to component lifecycle, state management via `MutableStateFlow`, and `UiEvent` support via `Channel`.
+
+```kotlin
+class HomeComponent(
+    componentContext: ComponentContext,
+    private val navigation: HomeNavigation,
+) : BaseComponent<HomeState, HomeUiEvent>(componentContext, HomeState()) {
+
+    val state: StateFlow<HomeState> = componentState
+
+    fun onDetailClicked() {
+        navigation.toDetail()
+    }
+}
+
+data class HomeState(val title: String = "")
+
+sealed interface HomeUiEvent : UiEvent {
+    data object ShowToast : HomeUiEvent
+}
+```
+
+#### NavigationActions
+
+`NavigationActions` and `NavigationActionsProducer` define navigation contracts for components:
+
+```kotlin
+interface HomeNavigation : NavigationActions {
+    fun toDetail()
+    fun toSettings()
+}
+```
+
+#### @GenerateFactory (KSP)
+
+Annotate components with `@GenerateFactory` to auto-generate Koin-based factory objects.
+Requires `decompose-annotation` and `decompose-processor` dependencies.
+
+```kotlin
+@GenerateFactory
+class HomeComponent(
+    @InjectedParam componentContext: AppComponentContext,
+    @InjectedParam navigation: HomeNavigation,
+    private val someUseCase: SomeUseCase, // injected by Koin
+) : BaseComponent<HomeState, HomeUiEvent>(componentContext, HomeState())
+```
+
+This generates a `HomeComponentFactory` object with a `createComponent(componentContext, navigation)` method that resolves remaining dependencies from Koin.
+
+##### KSP Configuration for KMP
+
+In a Kotlin Multiplatform project, the processor must run in the **common metadata** compilation phase so generated code is available to all targets. Add the following to your module's `build.gradle.kts`:
+
+```kotlin
+plugins {
+    id("com.google.devtools.ksp")
+}
+
+dependencies {
+    add("kspCommonMainMetadata", "app.futured.arkitekt:decompose-processor:LatestVersion")
+}
+
+// Register generated sources in commonMain source set
+kotlin.sourceSets.named("commonMain") {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+}
+
+// Ensure KSP metadata task runs before compilation
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+```
+
+> **Important:** Use `kspCommonMainMetadata` configuration only. Do **not** add the processor to platform-specific configurations (`kspAndroid`, `kspIosArm64`, etc.) as this would cause duplicate generation.
+
+#### ResultFlow
+
+`ResultFlow` enables passing results back between navigation destinations:
+
+```kotlin
+val resultFlow = ResultFlow<String>()
+
+// Pass to child, collect results
+resultFlow.collect { result -> /* handle */ }
+
+// In child component
+resultFlow.sendResult("some result")
+```
+
+#### EventsEffect (Decompose)
+
+On Android, collect `UiEvent`s from a component in Compose:
+
+```kotlin
+EventsEffect(component.events) {
+    onEvent<HomeUiEvent.ShowToast> { /* handle */ }
+}
+```
+
+#### Utility Extensions
+
+- `Flow<T>.collectAsValue(initial, scope)` - converts Flow to Decompose `Value`
+- `Value<T>.asStateFlow()` - converts Decompose `Value` to Kotlin `StateFlow`
+- `StackNavigator.switchTab(config)` - brings configuration to front without recreating if already on stack
 
 ## SavedStateHandle
 
@@ -414,7 +544,7 @@ class HomeViewModel @Inject constructor(
 
 In order to create successful applications, it is highly encouraged to write tests for your application. 
 
-See [these tests](https://github.com/futuredapp/arkitekt/tree/main/example/src/) in `example` module for more detailed sample.
+See [these tests](https://github.com/futuredapp/arkitekt/tree/6.x/example/src/) in `example` module for more detailed sample.
 
 ### ViewModel testing
 
