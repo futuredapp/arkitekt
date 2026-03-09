@@ -78,15 +78,8 @@ dependencies {
     api(project(":core"))
     api(project(":cr-usecases"))
 
-    implementation(Deps.Test.mockk)
-
     implementation(Deps.Test.androidXCoreTesting)
 
-    implementation(Deps.DI.hilt)
-
-    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
-
-    implementation(Deps.AndroidX.liveDataExtensions)
     implementation(Deps.Test.testCoroutines)
 
     // Test

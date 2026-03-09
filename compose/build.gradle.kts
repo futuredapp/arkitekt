@@ -82,6 +82,4 @@ dependencies {
     implementation(platform(Deps.Compose.bom))
     implementation(Deps.Compose.runtime)
 
-    implementation(Deps.AndroidX.appcompat)
-    implementation(Deps.AndroidX.annnotation)
 }

@@ -15,7 +15,7 @@ object Deps {
     object Kotlin {
         const val gradlePlugin = "gradle-plugin"
         const val stdlib = "stdlib-jdk7"
-        const val reflect = "reflect"
+
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     }
@@ -26,22 +26,17 @@ object Deps {
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
 
         const val hiltViewModelCompose = "androidx.hilt:hilt-lifecycle-viewmodel-compose:${Versions.hiltJetpack}"
-        const val hiltJetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpack}"
-        const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Versions.hiltJetpack}"
     }
 
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
-        const val annnotation = "androidx.annotation:annotation:${Versions.annotation}"
+
         const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
         const val material = "com.google.android.material:material:${Versions.material}"
-        const val vectorDrawable = "androidx.vectordrawable:vectordrawable:${Versions.vectorDrawable}"
+
         const val liveDataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"
         const val viewModelExtensions = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycle}"
-        const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
-
         const val archTesting = "androidx.arch.core:core-testing:${Versions.test}"
-        const val fragment = "androidx.fragment:fragment:${Versions.androidxFragment}"
     }
 
     object Compose {
@@ -62,14 +57,6 @@ object Deps {
     object Decompose {
         const val core = "com.arkivanov.decompose:decompose:${Versions.decompose}"
         const val essentyLifecycle = "com.arkivanov.essenty:lifecycle:${Versions.essenty}"
-    }
-
-    object Koin {
-        const val core = "io.insert-koin:koin-core:${Versions.koin}"
-    }
-
-    object Logging {
-        const val kermit = "co.touchlab:kermit:${Versions.kermit}"
     }
 
     object Ksp {
@@ -104,8 +91,6 @@ object Deps {
         const val androidXFragmentTesting = "androidx.fragment:fragment-testing:${Versions.androidXFragmentTesting}"
         const val jUnit = "androidx.test.ext:junit:${Versions.jUnit}"
         const val jUnitApi = "junit:junit:4.13.2"
-        const val assertJ = "org.assertj:assertj-core:${Versions.assertJ}"
-        const val mockitoKotlin = "com.nhaarman:mockito-kotlin-kt1.1:${Versions.mockitoKotlin}"
         const val testCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
         const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     }

@@ -78,7 +78,6 @@ dependencies {
 
     implementation(Deps.Test.mockk)
 
-    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
     implementation(Deps.Kotlin.coroutines)
 
     // Test

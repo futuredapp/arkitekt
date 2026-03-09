@@ -29,7 +29,6 @@ kotlin {
             dependencies {
                 implementation(Deps.Test.testCoroutines)
                 implementation(Deps.Test.jUnitApi)
-                implementation(Deps.Test.assertJ)
             }
         }
     }
