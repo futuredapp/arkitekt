@@ -3,15 +3,15 @@ package app.futured.arkitekt.crusecases.test
 import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 
 @ExperimentalCoroutinesApi
 class TestCoroutineScopeOwner : CoroutineScopeOwner {
 
-    val testDispatcher = TestCoroutineDispatcher()
+    val testDispatcher = StandardTestDispatcher()
 
-    override val coroutineScope = TestCoroutineScope(testDispatcher)
+    override val coroutineScope = TestScope(testDispatcher)
 
     override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher
 }

@@ -1,10 +1,10 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
-    id("com.vanniktech.maven.publish")
+    id("org.jetbrains.kotlin.plugin.compose")
+    id(Deps.Plugins.mavenPublish)
 }
 
 android {
@@ -12,47 +12,80 @@ android {
 
     defaultConfig {
         minSdk = ProjectSettings.minSdk
-        targetSdk = ProjectSettings.targetSdk
     }
 
-    dataBinding {
-        isEnabled = true
+    buildFeatures {
+        compose = true
+        buildConfig = true
     }
 
     testOptions {
+        targetSdk = ProjectSettings.targetSdk
         unitTests.apply {
             isIncludeAndroidResources = true
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    lint {
+        targetSdk = ProjectSettings.targetSdk
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     namespace = "app.futured.arkitekt.core"
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
+mavenPublishing {
+    configure(AndroidSingleVariantLibrary(publishJavadocJar = false))
+    coordinates(
+        groupId = ProjectSettings.group,
+        artifactId = "core",
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+    )
+    pom {
+        name = "Arkitekt Core"
+        description = "Core module of Arkitekt framework"
+        url = "https://github.com/futuredapp/arkitekt"
+        licenses {
+            license {
+                name = "MIT"
+                url = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
+            }
+        }
+        scm {
+            connection = "scm:git:git://github.com/futuredapp/arkitekt.git"
+            developerConnection = "scm:git:ssh://github.com/futuredapp/arkitekt.git"
+            url = "https://github.com/futuredapp/arkitekt"
+        }
+        developers {
+            developer {
+                id = "futured"
+                name = "Futured"
+                url = "https://futured.app"
+            }
+        }
+    }
+}
+
 dependencies {
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+    implementation(platform(Deps.Compose.bom))
+    implementation(Deps.Compose.runtime)
+
     implementation(Deps.javaX)
 
-    implementation(Deps.AndroidX.appcompat)
-    implementation(Deps.AndroidX.material)
-    implementation(Deps.AndroidX.annnotation)
-    implementation(Deps.AndroidX.liveDataExtensions)
-    implementation(Deps.AndroidX.fragment)
-    kapt(Deps.AndroidX.lifecycleCompiler)
-
-    testImplementation(Deps.Test.jUnit)
-    testImplementation(Deps.Test.assertJ)
-    testImplementation(Deps.Test.mockitoKotlin)
-    testImplementation(Deps.AndroidX.archTesting)
-    testImplementation(Deps.Test.robolectric)
-    testImplementation(Deps.Test.androidXTestCore)
+    api(Deps.AndroidX.liveDataExtensions)
+    api(Deps.AndroidX.viewModelExtensions)
+    implementation(Deps.Kotlin.coroutines)
+    implementation(Deps.Kotlin.coroutinesAndroid)
 
     lintPublish(project(":arkitekt-lint"))
 }

@@ -1,21 +1,19 @@
 package app.futured.arkitekt.sample.domain
 
-import app.futured.arkitekt.rxusecases.usecases.CompletableUseCase
+import app.futured.arkitekt.crusecases.UseCase
 import app.futured.arkitekt.sample.data.model.User
 import app.futured.arkitekt.sample.data.store.UserStore
-import io.reactivex.Completable
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class SyncLoginUseCase @Inject constructor(
     private val userStore: UserStore
-) : CompletableUseCase<SyncLoginUseCase.LoginData>() {
+) : UseCase<SyncLoginUseCase.LoginData, Unit>() {
 
     data class LoginData(val firstName: String, val lastName: String)
 
-    override fun prepare(args: LoginData): Completable {
-        return Completable.timer(1, TimeUnit.SECONDS).andThen(
-            Completable.fromCallable { userStore.setUser(User(args.firstName, args.lastName)) }
-        )
+    override suspend fun build(args: LoginData) {
+        delay(1_000)
+        userStore.setUser(User(args.firstName, args.lastName))
     }
 }

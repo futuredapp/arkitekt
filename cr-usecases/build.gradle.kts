@@ -1,41 +1,85 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("com.vanniktech.maven.publish")
+    id("org.jetbrains.kotlin.multiplatform")
+    id(Deps.Plugins.mavenPublish)
+}
+
+kotlin {
+    jvmToolchain(17)
+
+    jvm()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Deps.Kotlin.coroutines)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(Deps.Test.testCoroutines)
+                implementation(Deps.Test.jUnitApi)
+            }
+        }
+    }
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = ProjectSettings.group,
+        artifactId = "cr-usecases",
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+    )
+    configure(
+        KotlinMultiplatform(
+            javadocJar = JavadocJar.Empty(),
+            sourcesJar = true,
+            androidVariantsToPublish = listOf("debug", "release"),
+        )
+    )
+    pom {
+        name = "Arkitekt CR UseCases"
+        description = "Coroutine based use cases for Arkitekt framework"
+        url = "https://github.com/futuredapp/arkitekt"
+        licenses {
+            license {
+                name = "MIT"
+                url = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
+            }
+        }
+        scm {
+            connection = "scm:git:git://github.com/futuredapp/arkitekt.git"
+            developerConnection = "scm:git:ssh://github.com/futuredapp/arkitekt.git"
+            url = "https://github.com/futuredapp/arkitekt"
+        }
+        developers {
+            developer {
+                id = "futured"
+                name = "Futured"
+                url = "https://futured.app"
+            }
+        }
+    }
 }
 
 android {
+    namespace = "app.futured.arkitekt.crusecases"
     compileSdk = ProjectSettings.compileSdk
-
     defaultConfig {
         minSdk = ProjectSettings.minSdk
-        targetSdk = ProjectSettings.targetSdk
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled = true
     }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    namespace = "app.futured.arkitekt.crusecases"
-}
-
-dependencies {
-    api(project(":core"))
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
-    implementation(Deps.AndroidX.viewModelExtensions)
-    implementation(Deps.Kotlin.coroutines)
-
-    testImplementation(Deps.Test.jUnit)
-    testImplementation(Deps.Test.assertJ)
-    testImplementation(Deps.Test.testCoroutines)
 }

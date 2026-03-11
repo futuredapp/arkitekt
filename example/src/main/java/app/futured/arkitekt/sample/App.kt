@@ -1,14 +1,18 @@
 package app.futured.arkitekt.sample
 
 import android.content.Context
+import android.app.Application
 import android.util.Log
 import androidx.multidex.MultiDex
-import app.futured.arkitekt.core.error.UseCaseErrorHandler
+import app.futured.arkitekt.crusecases.error.UseCaseErrorHandler
 import app.futured.arkitekt.sample.injection.DaggerApplicationComponent
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import dagger.hilt.android.HiltAndroidApp
 
-class App : DaggerApplication() {
+@HiltAndroidApp
+class App : Application() {
+    val appComponent by lazy {
+        DaggerApplicationComponent.builder().application(this).build()
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -16,12 +20,6 @@ class App : DaggerApplication() {
         UseCaseErrorHandler.globalOnErrorLogger = { error ->
             Log.d("UseCase error", "$error")
         }
-    }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        val component = DaggerApplicationComponent.builder().application(this).build()
-        component.inject(this)
-        return component
     }
 
     override fun attachBaseContext(base: Context?) {

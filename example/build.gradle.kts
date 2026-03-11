@@ -1,10 +1,11 @@
 
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -18,13 +19,13 @@ android {
         multiDexEnabled = true
     }
 
-    dataBinding {
-        isEnabled = true
+    buildFeatures {
+        compose = true
+        buildConfig = true
     }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -38,9 +39,6 @@ android {
         }
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     namespace = "app.futured.arkitekt.sample"
 
     configurations.all {
@@ -50,40 +48,45 @@ android {
     }
 }
 
-dependencies {
-    implementation(project(":dagger"))
-    implementation(project(":rx-usecases"))
-    implementation(project(":cr-usecases"))
-    implementation(project(":bindingadapters"))
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
+dependencies {
+    implementation(project(":cr-usecases"))
+    implementation(project(":compose"))
+
+    implementation(platform(Deps.Compose.bom))
+
     implementation(Deps.Kotlin.coroutines)
 
     implementation(Deps.AndroidX.appcompat)
     compileOnly(Deps.AndroidX.material)
-    implementation(Deps.AndroidX.annnotation)
-    implementation(Deps.AndroidX.vectorDrawable)
     implementation(Deps.AndroidX.multidex)
+    implementation(Deps.Compose.activity)
+    implementation(Deps.Compose.ui)
+    implementation(Deps.Compose.foundation)
+    implementation(Deps.Compose.material3)
+    implementation(Deps.Compose.runtime)
+    implementation(Deps.Compose.runtimeLivedata)
+    implementation(Deps.Compose.navigation3Runtime)
+    implementation(Deps.Compose.navigation3Ui)
+    implementation(Deps.Compose.lifecycleViewmodelNavigation3)
+    implementation(Deps.Compose.lifecycleRuntimeCompose)
+    implementation(Deps.Serialization.core)
+    implementation(Deps.DI.hiltViewModelCompose)
 
-    implementation(Deps.Rx.rxKotlin)
-    implementation(Deps.Rx.rxAndroid)
-    implementation(Deps.Rx.rxJava)
-    implementation(Deps.Rx.rxRelay)
-
-    kapt(Deps.AndroidX.lifecycleCompiler)
-
-    implementation(Deps.DI.daggerSupport)
-    kapt(Deps.DI.daggerProcessor)
-    kapt(Deps.DI.daggerCompiler)
+    implementation(Deps.DI.hilt)
+    ksp(Deps.DI.hiltCompiler)
 
     // Unit tests
     testImplementation(Deps.Test.jUnit)
-    testImplementation(Deps.Test.rxSchedulerRule)
 
     // Shared tests - local
     testImplementation(Deps.Test.testCoroutines)
     testImplementation(project(":core-test"))
-    testImplementation(project(":rx-usecases-test"))
     testImplementation(project(":cr-usecases-test"))
     testImplementation(Deps.Test.mockk)
     testImplementation(Deps.Test.androidXTestRunner)
@@ -98,7 +101,6 @@ dependencies {
 
     // Shared tests - connected
     androidTestImplementation(project(":core-test"))
-    androidTestImplementation(project(":rx-usecases-test"))
     androidTestImplementation(project(":cr-usecases-test"))
     androidTestImplementation(Deps.Test.mockkAndroid)
     androidTestImplementation(Deps.Test.androidXTestRunner)

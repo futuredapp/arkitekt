@@ -1,16 +1,17 @@
 plugins {
     id("kotlin")
+    id("java-library")
 }
 
 dependencies {
 
     compileOnly(Deps.Lint.api)
     compileOnly(Deps.Lint.checks)
-    compileOnly(kotlin(Deps.Kotlin.stdlib, org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
+    compileOnly(kotlin(Deps.Kotlin.stdlib, Versions.kotlin))
 
     testImplementation(Deps.Lint.core)
     testImplementation(Deps.Lint.tests)
-    testImplementation(Deps.Test.jUnit)
+    testImplementation(Deps.Test.jUnitApi)
 }
 
 val jar by tasks.getting(Jar::class) {

@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
-    id("com.vanniktech.maven.publish")
+    id(Deps.Plugins.mavenPublish)
 }
 
 android {
@@ -12,23 +11,65 @@ android {
 
     defaultConfig {
         minSdk = ProjectSettings.minSdk
-        targetSdk = ProjectSettings.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    buildFeatures {
+        buildConfig = true
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     namespace = "app.futured.arkitekt.crusecases.test"
+    testOptions {
+        targetSdk = ProjectSettings.targetSdk
+    }
     lint {
+        targetSdk = ProjectSettings.targetSdk
         warning += setOf("InvalidPackage")
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
+mavenPublishing {
+    configure(AndroidSingleVariantLibrary(publishJavadocJar = false))
+    coordinates(
+        groupId = ProjectSettings.group,
+        artifactId = "cr-usecases-test",
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+    )
+    pom {
+        name = "Arkitekt CR UseCases Test"
+        description = "Test utilities for Arkitekt cr-usecases module"
+        url = "https://github.com/futuredapp/arkitekt"
+        licenses {
+            license {
+                name = "MIT"
+                url = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
+            }
+        }
+        scm {
+            connection = "scm:git:git://github.com/futuredapp/arkitekt.git"
+            developerConnection = "scm:git:ssh://github.com/futuredapp/arkitekt.git"
+            url = "https://github.com/futuredapp/arkitekt"
+        }
+        developers {
+            developer {
+                id = "futured"
+                name = "Futured"
+                url = "https://futured.app"
+            }
+        }
     }
 }
 
@@ -37,7 +78,6 @@ dependencies {
 
     implementation(Deps.Test.mockk)
 
-    implementation(kotlin(Deps.Kotlin.reflect, KotlinCompilerVersion.VERSION))
     implementation(Deps.Kotlin.coroutines)
 
     // Test

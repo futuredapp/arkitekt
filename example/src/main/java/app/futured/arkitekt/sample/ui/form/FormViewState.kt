@@ -1,17 +1,18 @@
 package app.futured.arkitekt.sample.ui.form
 
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
 import app.futured.arkitekt.core.ViewState
-import app.futured.arkitekt.core.livedata.UiData
-import app.futured.arkitekt.core.livedata.combineLiveData
-import app.futured.arkitekt.core.livedata.uiData
 import javax.inject.Inject
 
 class FormViewState @Inject constructor() : ViewState {
 
-    val login = uiData { "" }
-    val password = uiData { "" }
-    val submitEnabled = combineLiveData(this.login, this.password) { login, password ->
-        login.isNotEmpty() && password.isNotEmpty()
+    val login = mutableStateOf("")
+    val password = mutableStateOf("")
+    val submitEnabled = derivedStateOf {
+        login.value.isNotEmpty() && password.value.isNotEmpty()
     }
-    val storedContent = UiData("")
+    val storedContent = mutableStateOf("")
 }
+
+

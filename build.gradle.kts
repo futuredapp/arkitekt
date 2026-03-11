@@ -5,14 +5,14 @@ import java.net.URI
 buildscript {
     repositories {
         google()
-        jcenter()
     }
     dependencies {
         classpath(Deps.gradlePlugin)
         classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
+        classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
+        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}")
         classpath(Deps.DI.hiltPlugin)
-        classpath(Deps.AndroidX.safeArgsPlugin)
-        classpath(Deps.Plugins.mavenPublish)
+
         classpath(Deps.Plugins.dokka)
     }
 }
@@ -21,6 +21,8 @@ plugins {
     idea
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
+    id(Deps.Plugins.composeCompiler) version Versions.kotlin apply false
+    id(Deps.Plugins.mavenPublish) version Versions.mavenPublish apply false
 }
 
 tasks {
@@ -30,7 +32,6 @@ tasks {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url = URI("https://jitpack.io") }
     }
@@ -72,13 +73,14 @@ detekt {
     source = files(
         "example/src/main/java",
         "core/src/main/java",
+        "compose/src/main/java",
         "core-test/src/main/java",
-        "dagger/src/main/java",
-        "rx-usecases/src/main/java",
-        "rx-usecases-test/src/main/java",
-        "cr-usecases/src/main/java",
+        "cr-usecases/src/commonMain/kotlin",
         "cr-usecases-test/src/main/java",
-        "bindingadapters/src/main/java",
+        "decompose/src/commonMain/kotlin",
+        "decompose/src/androidMain/kotlin",
+        "decompose-annotation/src/commonMain/kotlin",
+        "decompose-processor/src/jvmMain/kotlin",
         "arkitekt-lint/src/main/java"
     )
 //    filters = ".*/resources/.*,.*/build/.*"

@@ -4,6 +4,7 @@ import app.futured.arkitekt.crusecases.UseCase
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -45,7 +46,7 @@ class UseCaseTests {
 
     @After
     fun tearDown() {
-        testCoroutineScopeOwner.coroutineScope.cleanupTestCoroutines()
+       // testCoroutineScopeOwner.coroutineScope.cleanupTestCoroutines()
         Dispatchers.resetMain()
     }
 
@@ -128,6 +129,7 @@ class UseCaseTests {
                 onSuccess { result = it }
                 onError { result = errorValue }
             }
+            coroutineScope.advanceUntilIdle()
         }
         return result
     }
@@ -139,6 +141,7 @@ class UseCaseTests {
                 onSuccess { result = it }
                 onError { result = errorValue }
             }
+            coroutineScope.advanceUntilIdle()
         }
         return result
     }
@@ -150,6 +153,7 @@ class UseCaseTests {
                 onSuccess { result = it }
                 onError { result = errorValue }
             }
+            coroutineScope.advanceUntilIdle()
         }
         return result
     }

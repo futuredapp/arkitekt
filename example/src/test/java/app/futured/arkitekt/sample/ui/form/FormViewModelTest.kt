@@ -4,13 +4,18 @@ import app.futured.arkitekt.core.viewmodel.ViewModelTest
 import app.futured.arkitekt.crusecases.test.mockExecute
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
+import app.futured.arkitekt.sample.ui.compose.ExampleRoute
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -26,8 +31,19 @@ class FormViewModelTest : ViewModelTest() {
     @Before
     fun setUp() {
         viewState = FormViewState()
-        viewModel = spyk(FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState), recordPrivateCalls = true)
-        every { viewModel.getWorkerDispatcher() } returns Dispatchers.Main
+        mockObserveFormUseCase.mockExecute { emptyFlow() }
+        viewModel = createViewModel()
+    }
+
+    private fun createViewModel() = spyk(
+        FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState, route = ExampleRoute.Form("form")),
+        recordPrivateCalls = true
+    ).also {
+        every { it.getWorkerDispatcher() } returns Dispatchers.Main
+    }
+
+    private fun awaitInit() = runBlocking {
+        viewModel.coroutineScope.coroutineContext[Job]!!.children.toList().forEach { it.join() }
     }
 
     @Test
@@ -47,9 +63,8 @@ class FormViewModelTest : ViewModelTest() {
     fun `when onStart is called then form is observed and most actual value is set to storedContent`() {
         // GIVEN
         mockObserveFormUseCase.mockExecute(Unit) { flowOf("A" to "B", "B" to "C") }
-
-        // WHEN
-        viewModel.onStart()
+        viewModel = createViewModel()
+        awaitInit()
 
         // THEN
         assertEquals("B C", viewState.storedContent.value)
@@ -59,11 +74,11 @@ class FormViewModelTest : ViewModelTest() {
     fun `when onStart is called then form is observed and when error occurs then ShowToastEvent is send`() {
         // GIVEN
         mockObserveFormUseCase.mockExecute(Unit) { flow { throw IllegalStateException() } }
-
-        // WHEN
-        viewModel.onStart()
+        viewModel = createViewModel()
+        awaitInit()
 
         // THEN
-        verify { viewModel.sendEvent(ShowToastEvent("Error :-(")) }
+        val receivedEvent = runBlocking { viewModel.events.first() }
+        assertEquals(ShowToastEvent("Error :-("), receivedEvent)
     }
 }

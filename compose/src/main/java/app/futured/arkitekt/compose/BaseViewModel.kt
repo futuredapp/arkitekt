@@ -1,0 +1,11 @@
+package app.futured.arkitekt.compose
+
+import androidx.lifecycle.viewModelScope
+import app.futured.arkitekt.core.BaseCoreViewModel
+import app.futured.arkitekt.core.ViewState
+import app.futured.arkitekt.crusecases.CoroutineScopeOwner
+import kotlinx.coroutines.CoroutineScope
+
+abstract class BaseViewModel<S : ViewState>() : BaseCoreViewModel<S>(), CoroutineScopeOwner {
+    override val coroutineScope: CoroutineScope = viewModelScope
+}

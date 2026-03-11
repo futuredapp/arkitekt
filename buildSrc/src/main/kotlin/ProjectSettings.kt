@@ -1,8 +1,8 @@
 object ProjectSettings {
     const val applicationId = "app.futured.arkitekt.sample"
-    const val compileSdk = 34
-    const val targetSdk = 34
-    const val minSdk = 21
+    const val compileSdk = 36
+    const val targetSdk = 36
+    const val minSdk = 23
     const val group = "app.futured.arkitekt"
 
     /**
@@ -20,16 +20,6 @@ object ProjectSettings {
         const val libraryDescription = "Test utilities for core module"
     }
 
-    object RxUseCases {
-        const val artifact = "rx-usecases"
-        const val libraryDescription = "RxJava based use cases meant to be used with Arkitekt framework"
-    }
-
-    object RxUseCasesTest {
-        const val artifact = "rx-usecases-test"
-        const val libraryDescription = "Test utilities for rx-usecases module"
-    }
-
     object CrUseCases {
         const val artifact = "cr-usecases"
         const val libraryDescription = "Coroutine based use cases meant to be used with Arkitekt framework"
@@ -43,11 +33,6 @@ object ProjectSettings {
     object Dagger {
         const val artifact = "dagger"
         const val libraryDescription = "Dagger ready base classes meant to be used with Arkitekt framework"
-    }
-
-    object BindingAdapters {
-        const val artifact = "bindingadapters"
-        const val libraryDescription = "Collection of handy extensions and binding adapters usable even without rest of Arkitekt framework"
     }
 
     object Publish {

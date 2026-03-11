@@ -1,21 +1,21 @@
 package app.futured.arkitekt.sample.domain
 
-import app.futured.arkitekt.rxusecases.usecases.MaybeUseCase
-import io.reactivex.Maybe
-import java.util.concurrent.TimeUnit
+import app.futured.arkitekt.crusecases.FlowUseCase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetStateUseCase @Inject constructor() : MaybeUseCase<Boolean, Boolean>() {
+class GetStateUseCase @Inject constructor() : FlowUseCase<Boolean, Boolean>() {
 
     companion object {
         private const val DELAY_MS = 3000L
     }
 
-    override fun prepare(emitSuccess: Boolean) = Maybe.create<Boolean> { emitter ->
-        if (emitSuccess) {
-            emitter.onSuccess(true)
-        } else {
-            emitter.onComplete()
+    override fun build(args: Boolean): Flow<Boolean> = flow {
+        delay(DELAY_MS)
+        if (args) {
+            emit(true)
         }
-    }.delay(DELAY_MS, TimeUnit.MILLISECONDS)
+    }
 }
