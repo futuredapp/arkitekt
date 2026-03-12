@@ -1,0 +1,89 @@
+# Project Setup — Android
+
+This guide walks through the minimal project structure for an Android app using Arkitekt with Jetpack Compose and Hilt.
+
+## Project Structure
+
+```
+app/
+└── src/main
+    ├── java/com/example/myapp
+    │   ├── ui
+    │   │   ├── main
+    │   │   │   └── MainActivity.kt
+    │   │   └── home
+    │   │       ├── HomeScreen.kt
+    │   │       ├── HomeViewModel.kt
+    │   │       └── HomeViewState.kt
+    │   └── App.kt
+    └── res/values/strings.xml
+```
+
+## Application Class
+
+Create an `Application` subclass annotated with `@HiltAndroidApp`. You can optionally configure global error logging for use cases here.
+
+```kotlin
+@HiltAndroidApp
+class App : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        UseCaseErrorHandler.globalOnErrorLogger = { error ->
+            Log.d("UseCase", "$error")
+        }
+    }
+}
+```
+
+## Activity
+
+The main activity serves as the Compose entry point. Annotate it with `@AndroidEntryPoint` for Hilt injection.
+
+```kotlin
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyAppTheme {
+                HomeScreen()
+            }
+        }
+    }
+}
+```
+
+## ViewState
+
+ViewState holds the UI state as observable Compose `mutableStateOf` fields. It implements the `ViewState` interface from the `core` module.
+
+```kotlin
+class HomeViewState @Inject constructor() : ViewState {
+    val title = mutableStateOf("")
+}
+```
+
+## ViewModel
+
+The ViewModel extends `BaseCoreViewModel` and exposes the view state. Annotate with `@HiltViewModel` for Hilt injection.
+
+```kotlin
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    override val viewState: HomeViewState,
+) : BaseCoreViewModel<HomeViewState>()
+```
+
+## Screen Composable
+
+The screen composable obtains the ViewModel via `hiltViewModel()` and reads state directly from the view state fields.
+
+```kotlin
+@Composable
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
+    val title by viewModel.viewState.title
+    Text(text = title)
+}
+```
