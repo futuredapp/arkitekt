@@ -100,7 +100,7 @@ copyright: Made with ❤️‍🔥 at Futured
 
 extra:
   arkitekt:
-    version: "5.2.2"
+    version: "6.0.0-SNAPSHOT"
   social:
     - icon: material/web
       name: Web
