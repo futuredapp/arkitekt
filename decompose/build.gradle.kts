@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 
 plugins {
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("org.jetbrains.kotlin.multiplatform")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
@@ -12,10 +12,10 @@ plugins {
 kotlin {
     jvmToolchain(17)
 
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
+    android {
+        namespace = "app.futured.arkitekt.decompose.android"
+        compileSdk = ProjectSettings.compileSdk
+        minSdk = ProjectSettings.minSdk
     }
 
     iosX64()
@@ -89,18 +89,3 @@ mavenPublishing {
     }
 }
 
-android {
-    namespace = "app.futured.arkitekt.decompose.android"
-    compileSdk = ProjectSettings.compileSdk
-    defaultConfig {
-        minSdk = ProjectSettings.minSdk
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}
