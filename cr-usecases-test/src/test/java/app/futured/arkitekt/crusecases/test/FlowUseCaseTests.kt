@@ -1,6 +1,7 @@
 package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.FlowUseCase
+import app.futured.arkitekt.crusecases.execute
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

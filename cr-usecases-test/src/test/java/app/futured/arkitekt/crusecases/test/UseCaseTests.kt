@@ -1,6 +1,7 @@
 package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.UseCase
+import app.futured.arkitekt.crusecases.execute
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

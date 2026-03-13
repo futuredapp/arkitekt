@@ -1,6 +1,7 @@
 package app.futured.arkitekt.sample.ui.coroutinesresult
 
 import app.futured.arkitekt.compose.BaseViewModel
+import app.futured.arkitekt.crusecases.execute
 import app.futured.arkitekt.crusecases.getOrCancel
 import app.futured.arkitekt.crusecases.getOrElse
 import app.futured.arkitekt.crusecases.getOrThrow
