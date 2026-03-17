@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class SyncLoginUseCase @Inject constructor(
     private val userStore: UserStore
-) : UseCase<SyncLoginUseCase.LoginData, Unit>() {
+) : UseCase<SyncLoginUseCase.LoginData, Unit> {
 
     data class LoginData(val firstName: String, val lastName: String)
 

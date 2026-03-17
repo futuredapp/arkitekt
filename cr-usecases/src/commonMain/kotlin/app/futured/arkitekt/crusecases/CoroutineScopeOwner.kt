@@ -6,6 +6,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -20,6 +21,11 @@ interface CoroutineScopeOwner {
      * tasks should be stopped
      */
     val coroutineScope: CoroutineScope
+
+    /**
+     * Map of [Job] objects used to hold and cancel existing run of any [FlowUseCase] instance.
+     */
+    val useCaseJobPool: MutableMap<Any, Job>
 
     /**
      * Provides Dispatcher for background tasks. This may be overridden for testing purposes

@@ -2,10 +2,7 @@ package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import app.futured.arkitekt.crusecases.FlowUseCase
-import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.just
-import io.mockk.mockk
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -18,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
  * mockUseCase.mockExecute(args = ...) { ... }
  */
 fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, returnBlock: () -> Flow<RETURN_VALUE>) {
-    mockJob()
     coEvery { this@mockExecute.build(args) } returns returnBlock()
 }
 
@@ -32,7 +28,6 @@ fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mo
  * mockUseCase.mockExecute { ... }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(returnBlock: () -> Flow<RETURN_VALUE>) {
-    mockJob()
     coEvery { this@mockExecute.build(any()) } returns returnBlock()
 }
 
@@ -46,7 +41,6 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETUR
  * mockUseCase.mockExecute(args = ...) { ... }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS?, returnBlock: () -> Flow<RETURN_VALUE>) {
-    mockJob()
     coEvery { this@mockExecuteNullable.build(args) } returns returnBlock()
 }
 
@@ -61,12 +55,5 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETU
  * mockUseCase.mockExecute { ... }
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(returnBlock: () -> Flow<RETURN_VALUE>) {
-    mockJob()
     coEvery { this@mockExecuteNullable.build(any()) } returns returnBlock()
-}
-
-@PublishedApi
-internal fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockJob() {
-    coEvery { this@mockJob.job = any() } just Runs
-    coEvery { this@mockJob.job } returns mockk(relaxUnitFun = true)
 }

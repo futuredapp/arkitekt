@@ -41,11 +41,11 @@ fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
         return@run build()
     }
     if (useCaseConfig.disposePrevious) {
-        deferred?.cancel()
+        coroutineScopeOwner.useCaseJobPool[this]?.cancel()
     }
 
     useCaseConfig.onStart()
-    deferred = coroutineScopeOwner.coroutineScope
+    coroutineScopeOwner.useCaseJobPool[this] = coroutineScopeOwner.coroutineScope
         .async(context = coroutineScopeOwner.getWorkerDispatcher(), start = CoroutineStart.LAZY) {
             build(args)
         }
@@ -53,7 +53,7 @@ fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
             coroutineScopeOwner.coroutineScope.launch(Dispatchers.Main) {
                 try {
                     useCaseConfig.onSuccess(it.await())
-                } catch (cancellation: CancellationException) {
+                } catch (_: CancellationException) {
                     // do nothing - this is normal way of suspend function interruption
                 } catch (error: Throwable) {
                     UseCaseErrorHandler.globalOnErrorLogger(error)
@@ -89,13 +89,13 @@ suspend fun <T : Any?> UseCase<Unit, T>.execute(cancelPrevious: Boolean = true) 
 context(coroutineScopeOwner: CoroutineScopeOwner)
 suspend fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(args: ARGS, cancelPrevious: Boolean = true): Result<T> {
     if (cancelPrevious) {
-        deferred?.cancel()
+        coroutineScopeOwner.useCaseJobPool[this]?.cancel()
     }
     return try {
         val newDeferred = coroutineScopeOwner.coroutineScope
             .async(coroutineScopeOwner.getWorkerDispatcher(), CoroutineStart.LAZY) {
                 build(args)
-            }.also { deferred = it }
+            }.also { coroutineScopeOwner.useCaseJobPool[this] = it }
         Success(newDeferred.await())
     } catch (exception: CancellationException) {
         throw exception

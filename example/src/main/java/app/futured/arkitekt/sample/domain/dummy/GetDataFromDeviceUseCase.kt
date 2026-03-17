@@ -5,7 +5,7 @@ import app.futured.arkitekt.sample.tools.randomError
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class GetDataFromDeviceUseCase @Inject constructor() : UseCase<Unit, String>() {
+class GetDataFromDeviceUseCase @Inject constructor() : UseCase<Unit, String> {
 
     @Suppress("MagicNumber")
     override suspend fun build(args: Unit): String {

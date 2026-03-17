@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.onEach
 
-class TestFlowUseCase : FlowUseCase<TestFlowUseCase.Data, Int>() {
+class TestFlowUseCase : FlowUseCase<TestFlowUseCase.Data, Int> {
 
     data class Data(
         val listToEmit: List<Int>,

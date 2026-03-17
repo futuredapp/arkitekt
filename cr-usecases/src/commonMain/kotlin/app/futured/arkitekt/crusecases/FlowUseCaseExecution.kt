@@ -42,10 +42,10 @@ fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.execute(
     }
 
     if (flowUseCaseConfig.disposePrevious) {
-        job?.cancel()
+        coroutineScopeOwner.useCaseJobPool[this]?.cancel()
     }
 
-    job = build(args)
+    coroutineScopeOwner.useCaseJobPool[this] = build(args)
         .flowOn(coroutineScopeOwner.getWorkerDispatcher())
         .onStart { flowUseCaseConfig.onStart() }
         .onEach { flowUseCaseConfig.onNext(it) }
@@ -89,10 +89,10 @@ fun <ARGS, T : Any?, M : Any?> FlowUseCase<ARGS, T>.executeMapped(
     }
 
     if (flowUseCaseConfig.disposePrevious) {
-        job?.cancel()
+        coroutineScopeOwner.useCaseJobPool[this]?.cancel()
     }
 
-    job = build(args)
+    coroutineScopeOwner.useCaseJobPool[this] = build(args)
         .flowOn(coroutineScopeOwner.getWorkerDispatcher())
         .onStart { flowUseCaseConfig.onStart() }
         .mapNotNull { flowUseCaseConfig.onMap?.invoke(it) }

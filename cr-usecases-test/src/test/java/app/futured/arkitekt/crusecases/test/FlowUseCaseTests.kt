@@ -14,13 +14,13 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class FlowUseCaseTests {
 
-    class TestUseCase : FlowUseCase<String, String>() {
+    class TestUseCase : FlowUseCase<String, String> {
         override fun build(args: String): Flow<String> {
             throw IllegalStateException("THIS SHOULD NOT BE CALLED")
         }
     }
 
-    class TestUseCaseNullable : FlowUseCase<String?, String>() {
+    class TestUseCaseNullable : FlowUseCase<String?, String> {
         override fun build(args: String?): Flow<String> {
             throw IllegalStateException("THIS SHOULD NOT BE CALLED")
         }
