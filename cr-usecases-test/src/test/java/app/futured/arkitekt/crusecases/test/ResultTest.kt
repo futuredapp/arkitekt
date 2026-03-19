@@ -1,4 +1,4 @@
-package arkitekt.crusecases
+package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.Error
 import app.futured.arkitekt.crusecases.Result
