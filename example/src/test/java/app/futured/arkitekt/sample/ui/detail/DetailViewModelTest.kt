@@ -5,7 +5,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import io.mockk.verifyOrder
 import org.junit.Before
 import org.junit.Test
 
@@ -40,5 +39,4 @@ class DetailViewModelTest : ViewModelTest() {
         // THEN
         verify { viewModel.sendEvent(NavigateBackEvent) }
     }
-
 }
