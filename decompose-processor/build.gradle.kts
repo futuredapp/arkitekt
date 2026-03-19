@@ -11,7 +11,7 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                implementation(project(":decompose:annotation"))
+                implementation(project(":decompose-annotation"))
                 implementation(Deps.Ksp.api)
                 implementation(Deps.Poet.interop)
             }

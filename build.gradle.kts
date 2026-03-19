@@ -12,7 +12,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
         classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}")
         classpath(Deps.DI.hiltPlugin)
-        classpath(Deps.AndroidX.safeArgsPlugin)
+
         classpath(Deps.Plugins.dokka)
     }
 }
@@ -38,6 +38,9 @@ allprojects {
 }
 
 subprojects {
+    group = ProjectSettings.group
+    version = findProperty("VERSION_NAME") as String? ?: ProjectSettings.version
+
     apply(plugin = Deps.Plugins.ktlint)
 
     ktlint {
@@ -79,8 +82,8 @@ detekt {
         "cr-usecases-test/src/main/java",
         "decompose/src/commonMain/kotlin",
         "decompose/src/androidMain/kotlin",
-        "decompose/annotation/src/commonMain/kotlin",
-        "decompose/processor/src/jvmMain/kotlin",
+        "decompose-annotation/src/commonMain/kotlin",
+        "decompose-processor/src/jvmMain/kotlin",
         "arkitekt-lint/src/main/java"
     )
 //    filters = ".*/resources/.*,.*/build/.*"

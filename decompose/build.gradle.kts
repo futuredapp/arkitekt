@@ -27,9 +27,7 @@ kotlin {
             dependencies {
                 implementation(Deps.Decompose.core)
                 implementation(Deps.Decompose.essentyLifecycle)
-                implementation(Deps.Koin.core)
                 implementation(Deps.Kotlin.coroutines)
-                implementation(Deps.Logging.kermit)
                 implementation(Deps.Compose.jetbrainsRuntime)
                 implementation(Deps.Serialization.core)
             }
@@ -44,7 +42,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api(project(":cr-usecases"))
                 implementation(Deps.Compose.runtime)
             }
         }
