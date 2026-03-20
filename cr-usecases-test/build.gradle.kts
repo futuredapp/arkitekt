@@ -2,7 +2,6 @@ import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
     id(Deps.Plugins.mavenPublish)
 }
 
@@ -48,7 +47,7 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "cr-usecases-test",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     pom {
         name = "Arkitekt CR UseCases Test"
@@ -80,7 +79,6 @@ dependencies {
 
     implementation(Deps.Test.mockk)
 
-    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
     implementation(Deps.Kotlin.coroutines)
 
     // Test

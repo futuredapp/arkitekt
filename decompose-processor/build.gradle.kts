@@ -7,20 +7,29 @@ kotlin {
     jvmToolchain(17)
 
     jvm()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation(project(":decompose-annotation"))
+                implementation(Deps.Ksp.api)
+                implementation(Deps.Poet.interop)
+            }
+            kotlin.srcDir("src/main/kotlin")
+            resources.srcDir("src/main/resources")
+        }
+    }
 }
 
 mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
-        artifactId = "decompose-annotation",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+        artifactId = "decompose-processor",
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     pom {
-        name = "Arkitekt Decompose Annotation"
-        description = "Annotations for Arkitekt Decompose module"
+        name = "Arkitekt Decompose Processor"
+        description = "KSP processor for Arkitekt Decompose annotations"
         url = "https://github.com/futuredapp/arkitekt"
         licenses {
             license {

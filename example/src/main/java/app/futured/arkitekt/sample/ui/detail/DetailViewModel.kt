@@ -9,7 +9,6 @@ class DetailViewModel @Inject constructor(
     override val viewState: DetailViewState
 ) : BaseViewModel<DetailViewState>() {
 
-
     fun incrementNumber() {
         viewState.number.value = viewState.number.value + 1
     }

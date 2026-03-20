@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 
 plugins {
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("org.jetbrains.kotlin.multiplatform")
     id(Deps.Plugins.mavenPublish)
 }
@@ -14,10 +14,10 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
+    android {
+        namespace = "app.futured.arkitekt.crusecases"
+        compileSdk = ProjectSettings.compileSdk
+        minSdk = ProjectSettings.minSdk
     }
 
     compilerOptions {
@@ -34,7 +34,6 @@ kotlin {
             dependencies {
                 implementation(Deps.Test.testCoroutines)
                 implementation(Deps.Test.jUnitApi)
-                implementation(Deps.Test.assertJ)
             }
         }
     }
@@ -44,14 +43,14 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "cr-usecases",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     configure(
         KotlinMultiplatform(
             javadocJar = JavadocJar.Empty(),
             sourcesJar = true,
             androidVariantsToPublish = listOf("debug", "release"),
-        )
+        ),
     )
     pom {
         name = "Arkitekt CR UseCases"
@@ -78,14 +77,3 @@ mavenPublishing {
     }
 }
 
-android {
-    namespace = "app.futured.arkitekt.crusecases"
-    compileSdk = ProjectSettings.compileSdk
-    defaultConfig {
-        minSdk = ProjectSettings.minSdk
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}

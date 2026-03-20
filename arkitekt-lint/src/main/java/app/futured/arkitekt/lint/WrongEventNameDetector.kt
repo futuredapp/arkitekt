@@ -12,34 +12,39 @@ import org.jetbrains.uast.UClass
 import java.util.EnumSet
 import java.util.regex.Pattern
 
-class WrongEventNameDetector : Detector(), Detector.UastScanner {
-
+class WrongEventNameDetector :
+    Detector(),
+    Detector.UastScanner {
     companion object {
-        val ISSUE_MUSSING_SUFFIX = Issue.create(
-            id = "MvvmEventNameMissingSuffix",
-            briefDescription = "Wrong event name",
-            explanation = "Event names should end with 'Event' suffix",
-            category = Category.CORRECTNESS,
-            priority = 5,
-            severity = Severity.WARNING,
-            implementation = Implementation(
-                WrongEventNameDetector::class.java,
-                EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES)
+        val ISSUE_MUSSING_SUFFIX =
+            Issue.create(
+                id = "MvvmEventNameMissingSuffix",
+                briefDescription = "Wrong event name",
+                explanation = "Event names should end with 'Event' suffix",
+                category = Category.CORRECTNESS,
+                priority = 5,
+                severity = Severity.WARNING,
+                implementation =
+                    Implementation(
+                        WrongEventNameDetector::class.java,
+                        EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
+                    ),
             )
-        )
 
-        val ISSUE_MISSPELL = Issue.create(
-            id = "MvvmEventNameMisspell",
-            briefDescription = "Misspelled event name",
-            explanation = "Event name looks misspelled",
-            category = Category.CORRECTNESS,
-            priority = 3,
-            severity = Severity.WARNING,
-            implementation = Implementation(
-                WrongEventNameDetector::class.java,
-                EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES)
+        val ISSUE_MISSPELL =
+            Issue.create(
+                id = "MvvmEventNameMisspell",
+                briefDescription = "Misspelled event name",
+                explanation = "Event name looks misspelled",
+                category = Category.CORRECTNESS,
+                priority = 3,
+                severity = Severity.WARNING,
+                implementation =
+                    Implementation(
+                        WrongEventNameDetector::class.java,
+                        EnumSet.of(Scope.JAVA_FILE, Scope.TEST_SOURCES),
+                    ),
             )
-        )
 
         private const val MVVM_EVENT_QUALIFIED_NAME = "app.futured.arkitekt.core.event.Event"
         private val PATTERN_MISSPELL = Pattern.compile("Event[a-z]+")
@@ -50,32 +55,37 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
 
     override fun applicableSuperClasses() = listOf(MVVM_EVENT_QUALIFIED_NAME)
 
-    override fun visitClass(context: JavaContext, declaration: UClass) {
+    override fun visitClass(
+        context: JavaContext,
+        declaration: UClass,
+    ) {
         super.visitClass(context, declaration)
 
         val className = declaration.name
 
         val isMvvmLibraryEvent = context.evaluator.getQualifiedName(declaration) == MVVM_EVENT_QUALIFIED_NAME
-        val directlyExtendsMvvmEvent = declaration.javaPsi.superClass?.let {
-            context.evaluator.getQualifiedName(it)
-        } == MVVM_EVENT_QUALIFIED_NAME
+        val directlyExtendsMvvmEvent =
+            declaration.javaPsi.superClass?.let {
+                context.evaluator.getQualifiedName(it)
+            } == MVVM_EVENT_QUALIFIED_NAME
 
         val isEligibleForDetection = isMvvmLibraryEvent.not() && directlyExtendsMvvmEvent.not()
 
         if (className != null && isEligibleForDetection) {
             when {
                 PATTERN_MISSPELL.matcher(className).find() -> {
-                    val suggestedName = PATTERN_SUFFIX.matcher(className).let {
-                        it.find()
-                        it.group(1)
-                    }
+                    val suggestedName =
+                        PATTERN_SUFFIX.matcher(className).let {
+                            it.find()
+                            it.group(1)
+                        }
 
                     context.report(
                         issue = ISSUE_MISSPELL,
                         scopeClass = declaration,
                         location = context.getNameLocation(declaration),
                         message = "Event name is misspelled. Suggested name: $suggestedName",
-                        quickfixData = createQuickFix(className, suggestedName)
+                        quickfixData = createQuickFix(className, suggestedName),
                     )
                 }
 
@@ -87,14 +97,18 @@ class WrongEventNameDetector : Detector(), Detector.UastScanner {
                         scopeClass = declaration,
                         location = context.getNameLocation(declaration),
                         message = "Event names should end with 'Event' suffix. Suggested name: $suggestedName",
-                        quickfixData = createQuickFix(className, suggestedName)
+                        quickfixData = createQuickFix(className, suggestedName),
                     )
                 }
             }
         }
     }
 
-    private fun createQuickFix(declarationName: String, replacement: String) = LintFix.create()
+    private fun createQuickFix(
+        declarationName: String,
+        replacement: String,
+    ) = LintFix
+        .create()
         .name("Replace with $replacement")
         .replace()
         .text(declarationName)

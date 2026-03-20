@@ -6,22 +6,18 @@ import com.android.tools.lint.detector.api.Issue
 import org.junit.Test
 
 class WrongEventNameDetectorTest : LintDetectorTest() {
+    override fun getDetector(): Detector = WrongEventNameDetector()
 
-    override fun getDetector(): Detector {
-        return WrongEventNameDetector()
-    }
+    override fun getIssues(): MutableList<Issue> = mutableListOf(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
 
-    override fun getIssues(): MutableList<Issue> {
-        return mutableListOf(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
-    }
-
-    private val eventStub = kotlin(
-        """
+    private val eventStub =
+        kotlin(
+            """
         package app.futured.arkitekt.core.event
         
         abstract class Event<T : ViewState>
-        """
-    ).indented()
+        """,
+        ).indented()
 
     @Test
     fun testMissingSuffixWarning() {
@@ -41,10 +37,9 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowFormEvent : MainEvent()
                 
                 object ShowForm : MainEvent()
-            """
-                ).indented()
-            )
-            .allowMissingSdk()
+            """,
+                ).indented(),
+            ).allowMissingSdk()
             .issues(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX)
             .run()
             .expectWarningCount(2)
@@ -70,10 +65,9 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowFormEvents : MainEvent()
                 
                 object ShowEventDataFormEvents : MainEvent()
-            """
-                ).indented()
-            )
-            .allowMissingSdk()
+            """,
+                ).indented(),
+            ).allowMissingSdk()
             .issues(WrongEventNameDetector.ISSUE_MISSPELL)
             .run()
             .expectWarningCount(3)
@@ -95,15 +89,13 @@ class WrongEventNameDetectorTest : LintDetectorTest() {
                 object ShowFormEvent : MainEvent()
                 
                 object SendEventDataEvent : MainEvent()
-            """
-                ).indented()
-            )
-            .allowMissingSdk()
+            """,
+                ).indented(),
+            ).allowMissingSdk()
             .issues(
                 WrongEventNameDetector.ISSUE_MUSSING_SUFFIX,
-                WrongEventNameDetector.ISSUE_MISSPELL
-            )
-            .run()
+                WrongEventNameDetector.ISSUE_MISSPELL,
+            ).run()
             .expectClean()
     }
 }

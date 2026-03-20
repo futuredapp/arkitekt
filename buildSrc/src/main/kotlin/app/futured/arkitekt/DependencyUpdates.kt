@@ -1,6 +1,7 @@
 package app.futured.arkitekt
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.api.artifacts.ComponentSelection
 
 abstract class DependencyUpdates : DependencyUpdatesTask() {
 
@@ -9,12 +10,12 @@ abstract class DependencyUpdates : DependencyUpdatesTask() {
 
         this.resolutionStrategy {
             componentSelection {
-                all {
+                all { selection: ComponentSelection ->
                     val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview", "testing")
                         .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-]*") }
-                        .any { it.matches(candidate.version) }
+                        .any { it.matches(selection.candidate.version) }
                     if (rejected) {
-                        reject("Release candidate")
+                        selection.reject("Release candidate")
                     }
                 }
             }

@@ -53,7 +53,6 @@ fun ExampleApp() {
         BackStackNavigatorImpl(backStack) as BackStackNavigator<ExampleRoute>
     }
 
-
     MaterialTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
             NavDisplay(

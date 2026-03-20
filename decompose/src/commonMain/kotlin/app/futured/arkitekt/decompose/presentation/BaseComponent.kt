@@ -27,7 +27,6 @@ abstract class BaseComponent<VS : Any, E : Any>(
     componentContext: GenericComponentContext<*>,
     private val defaultState: VS,
 ) {
-
     /**
      * An internal state of the component of type [VS].
      */
@@ -39,9 +38,10 @@ abstract class BaseComponent<VS : Any, E : Any>(
      * The coroutine scope tied to the lifecycle of the component.
      * It is cancelled when the component is destroyed.
      */
-    protected val componentCoroutineScope = MainScope().also { scope ->
-        componentContext.lifecycle.doOnDestroy { scope.cancel() }
-    }
+    protected val componentCoroutineScope =
+        MainScope().also { scope ->
+            componentContext.lifecycle.doOnDestroy { scope.cancel() }
+        }
 
     /**
      * Converts a [Flow] of component states to a [StateFlow].
@@ -49,8 +49,7 @@ abstract class BaseComponent<VS : Any, E : Any>(
      * @param started The [SharingStarted] strategy for the [StateFlow].
      * @return A [StateFlow] emitting the values of the [Flow].
      */
-    protected fun Flow<VS>.asStateFlow(started: SharingStarted = SharingStarted.Lazily) =
-        stateIn(componentCoroutineScope, started, defaultState)
+    protected fun Flow<VS>.asStateFlow(started: SharingStarted = SharingStarted.Lazily) = stateIn(componentCoroutineScope, started, defaultState)
 
     // endregion
 
@@ -64,9 +63,10 @@ abstract class BaseComponent<VS : Any, E : Any>(
     /**
      * Flow of UI events.
      */
-    val events: Flow<E> = uiEventChannel
-        .receiveAsFlow()
-        .shareIn(componentCoroutineScope, SharingStarted.Lazily)
+    val events: Flow<E> =
+        uiEventChannel
+            .receiveAsFlow()
+            .shareIn(componentCoroutineScope, SharingStarted.Lazily)
 
     // endregion
 

@@ -9,16 +9,16 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        ApplicationModule::class
-    ]
+        ApplicationModule::class,
+    ],
 )
 interface ApplicationComponent {
     fun inject(app: App)
+
     fun inject(activity: MainActivity)
 
     @Component.Builder
     interface Builder {
-
         @BindsInstance
         fun application(app: App): Builder
 

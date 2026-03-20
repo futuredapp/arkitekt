@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
  * It is your responsibility to cancel [coroutineScope] when all running tasks should be stopped.
  */
 interface CoroutineScopeOwner {
-
     /**
      * [CoroutineScope] scope used to execute coroutine based use cases. It is your responsibility to cancel it when all running
      * tasks should be stopped
@@ -62,7 +61,5 @@ interface CoroutineScopeOwner {
      * This method is called when coroutine launched with [launchWithHandler] throws an exception and
      * this exception isn't [CancellationException]. By default, it rethrows this exception.
      */
-    fun defaultErrorHandler(exception: Throwable) {
-        throw exception
-    }
+    fun defaultErrorHandler(exception: Throwable): Unit = throw exception
 }
