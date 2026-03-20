@@ -14,5 +14,3 @@ class FormViewState @Inject constructor() : ViewState {
     }
     val storedContent = mutableStateOf("")
 }
-
-

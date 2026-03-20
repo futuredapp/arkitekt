@@ -34,7 +34,6 @@ kotlin {
             dependencies {
                 implementation(Deps.Test.testCoroutines)
                 implementation(Deps.Test.jUnitApi)
-                implementation(Deps.Test.assertJ)
             }
         }
     }
@@ -44,14 +43,14 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "cr-usecases",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     configure(
         KotlinMultiplatform(
             javadocJar = JavadocJar.Empty(),
             sourcesJar = true,
             androidVariantsToPublish = listOf("debug", "release"),
-        )
+        ),
     )
     pom {
         name = "Arkitekt CR UseCases"

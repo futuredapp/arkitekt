@@ -61,13 +61,10 @@ dependencies {
 
     implementation(platform(Deps.Compose.bom))
 
-    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
     implementation(Deps.Kotlin.coroutines)
 
     implementation(Deps.AndroidX.appcompat)
     compileOnly(Deps.AndroidX.material)
-    implementation(Deps.AndroidX.annnotation)
-    implementation(Deps.AndroidX.vectorDrawable)
     implementation(Deps.AndroidX.multidex)
     implementation(Deps.Compose.activity)
     implementation(Deps.Compose.ui)

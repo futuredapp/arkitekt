@@ -27,9 +27,7 @@ kotlin {
             dependencies {
                 implementation(Deps.Decompose.core)
                 implementation(Deps.Decompose.essentyLifecycle)
-                implementation(Deps.Koin.core)
                 implementation(Deps.Kotlin.coroutines)
-                implementation(Deps.Logging.kermit)
                 implementation(Deps.Compose.jetbrainsRuntime)
                 implementation(Deps.Serialization.core)
             }
@@ -44,7 +42,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api(project(":cr-usecases"))
                 implementation(Deps.Compose.runtime)
             }
         }
@@ -56,13 +53,13 @@ mavenPublishing {
         KotlinMultiplatform(
             javadocJar = JavadocJar.Empty(),
             sourcesJar = true,
-            androidVariantsToPublish = listOf("debug", "release")
-        )
+            androidVariantsToPublish = listOf("debug", "release"),
+        ),
     )
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "decompose",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     pom {
         name = "Arkitekt Decompose"

@@ -46,7 +46,7 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "core-test",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     pom {
         name = "Arkitekt Core Test"
@@ -77,15 +77,8 @@ dependencies {
     api(project(":core"))
     api(project(":cr-usecases"))
 
-    implementation(Deps.Test.mockk)
-
     implementation(Deps.Test.androidXCoreTesting)
 
-    implementation(Deps.DI.hilt)
-
-    implementation(kotlin(Deps.Kotlin.reflect, Versions.kotlin))
-
-    implementation(Deps.AndroidX.liveDataExtensions)
     implementation(Deps.Test.testCoroutines)
 
     // Test

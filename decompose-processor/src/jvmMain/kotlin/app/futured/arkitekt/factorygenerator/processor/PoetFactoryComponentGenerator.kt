@@ -122,9 +122,8 @@ object PoetFactoryComponentGenerator {
             .mapIndexed { index, ksValueParameter ->
                 val paramName = ksValueParameter.name?.asString() ?: "param$index"
                 val typeName = ksValueParameter.type.toTypeName()
-                paramName to  typeName
+                paramName to typeName
             }
-
 
         val returnType = ClassName(
             packageName = factoryComponentPackageName,

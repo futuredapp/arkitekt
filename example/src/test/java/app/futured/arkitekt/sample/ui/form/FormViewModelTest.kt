@@ -21,7 +21,6 @@ import org.junit.Before
 import org.junit.Test
 
 class FormViewModelTest : ViewModelTest() {
-
     val mockSaveFormUseCase: SaveFormUseCase = mockk()
     val mockObserveFormUseCase: ObserveFormUseCase = mockk()
 
@@ -35,16 +34,21 @@ class FormViewModelTest : ViewModelTest() {
         viewModel = createViewModel()
     }
 
-    private fun createViewModel() = spyk(
-        FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState, route = ExampleRoute.Form("form")),
-        recordPrivateCalls = true
-    ).also {
-        every { it.getWorkerDispatcher() } returns Dispatchers.Main
-    }
+    private fun createViewModel() =
+        spyk(
+            FormViewModel(mockSaveFormUseCase, mockObserveFormUseCase, viewState, route = ExampleRoute.Form("form")),
+            recordPrivateCalls = true,
+        ).also {
+            every { it.getWorkerDispatcher() } returns Dispatchers.Main
+        }
 
-    private fun awaitInit() = runBlocking {
-        viewModel.coroutineScope.coroutineContext[Job]!!.children.toList().forEach { it.join() }
-    }
+    private fun awaitInit() =
+        runBlocking {
+            viewModel.coroutineScope.coroutineContext[Job]!!
+                .children
+                .toList()
+                .forEach { it.join() }
+        }
 
     @Test
     fun `when onSubmit is called then form is saved and ShowToastEvent is send`() {

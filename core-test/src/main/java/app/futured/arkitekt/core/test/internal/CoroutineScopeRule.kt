@@ -14,10 +14,8 @@ import org.junit.runners.model.Statement
 
 @ExperimentalCoroutinesApi
 class CoroutineScopeRule : TestRule {
-
     @ExperimentalCoroutinesApi
     class TestCoroutineScopeOwner : CoroutineScopeOwner {
-
         val testDispatcher = UnconfinedTestDispatcher()
 
         override val coroutineScope = TestScope(testDispatcher)
@@ -25,8 +23,11 @@ class CoroutineScopeRule : TestRule {
         override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher
     }
 
-    override fun apply(base: Statement, description: Description): Statement {
-        return object : Statement() {
+    override fun apply(
+        base: Statement,
+        description: Description,
+    ): Statement =
+        object : Statement() {
             @Throws(Throwable::class)
             override fun evaluate() {
                 val scopeOwner = TestCoroutineScopeOwner()
@@ -37,5 +38,4 @@ class CoroutineScopeRule : TestRule {
                 Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
             }
         }
-    }
 }

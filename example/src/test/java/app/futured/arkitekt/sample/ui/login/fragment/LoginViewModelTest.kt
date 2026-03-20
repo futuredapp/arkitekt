@@ -24,7 +24,6 @@ import org.junit.Before
 import org.junit.Test
 
 class LoginViewModelTest : ViewModelTest() {
-
     val mockLoginCompletabler: SyncLoginUseCase = mockk()
     val mockObserveUserFullNameUseCase: ObserveUserFullNameUseCase = mockk()
     val mockGetStateUseCase: GetStateUseCase = mockk()

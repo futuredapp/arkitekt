@@ -3,9 +3,9 @@ object Versions {
     const val gradlePlugin = "9.1.0"
 
     // plugins
-    const val detekt = "1.20.0"
-    const val ktlint = "10.3.0"
-    const val ktlintExtension = "0.39.0"
+    const val detekt = "1.23.8"
+    const val ktlint = "14.0.1"
+    const val ktlintExtension = "1.8.0" // todo 1.7.0
     const val mavenPublish = "0.34.0"
     const val dokka = "1.6.10"
 
@@ -16,19 +16,17 @@ object Versions {
 
     // core
     const val appcompat = "1.6.1"
-    const val annotation = "1.7.0"
     const val multidex = "2.0.1"
-    const val androidxFragment = "1.6.1"
     const val material = "1.10.0"
     const val test = "2.2.0"
-    const val vectorDrawable = "1.1.0"
-    const val constraintLayout = "2.1.4"
+
     const val lifeCycle = "2.8.7"
+
     const val dagger = "2.59.2"
     const val hilt = "2.59.2"
     const val hiltJetpack = "1.3.0"
     const val androidXEspresso = "3.5.1"
-    const val navigation = "2.8.7"
+
     const val navigation3 = "1.0.0"
     const val lifecycleViewmodelNav3 = "2.10.0"
     const val composeBom = "2026.02.01"
@@ -39,7 +37,7 @@ object Versions {
 
     // test
     const val mockk = "1.13.8"
-    const val mockitoCore = "5.5.0"
+
     const val androidxTestRunner = "1.5.2"
     const val javaX = "1"
     const val jUnit = "1.3.0"
@@ -47,8 +45,6 @@ object Versions {
     const val androidxTestCoreTesting = "2.2.0"
     const val androidXJUnit = "1.1.5"
     const val androidXFragmentTesting = "1.6.1"
-    const val assertJ = "3.24.2"
-    const val mockitoKotlin = "1.6.0"
     const val robolectric = "4.16.1"
 
     // decompose
