@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.Flow
  * Usage:
  * mockUseCase.mockExecute(args = ...) { ... }
  */
-fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(args: ARGS, returnBlock: () -> Flow<RETURN_VALUE>) {
+fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(
+    args: ARGS, returnBlock: () -> Flow<RETURN_VALUE>
+) {
     coEvery { this@mockExecute.build(args) } returns returnBlock()
 }
 
@@ -27,7 +29,9 @@ fun <ARGS, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mo
  * Usage:
  * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(returnBlock: () -> Flow<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(
+    returnBlock: () -> Flow<RETURN_VALUE>
+) {
     coEvery { this@mockExecute.build(any()) } returns returnBlock()
 }
 
@@ -40,7 +44,9 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS, RETUR
  * Usage:
  * mockUseCase.mockExecute(args = ...) { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(args: ARGS?, returnBlock: () -> Flow<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(
+    args: ARGS?, returnBlock: () -> Flow<RETURN_VALUE>
+) {
     coEvery { this@mockExecuteNullable.build(args) } returns returnBlock()
 }
 
@@ -54,6 +60,8 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETU
  * Usage:
  * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(returnBlock: () -> Flow<RETURN_VALUE>) {
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : FlowUseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(
+    returnBlock: () -> Flow<RETURN_VALUE>
+) {
     coEvery { this@mockExecuteNullable.build(any()) } returns returnBlock()
 }

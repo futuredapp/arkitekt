@@ -49,7 +49,8 @@ abstract class BaseComponent<VS : Any, E : Any>(
      * @param started The [SharingStarted] strategy for the [StateFlow].
      * @return A [StateFlow] emitting the values of the [Flow].
      */
-    protected fun Flow<VS>.asStateFlow(started: SharingStarted = SharingStarted.Lazily) = stateIn(componentCoroutineScope, started, defaultState)
+    protected fun Flow<VS>.asStateFlow(started: SharingStarted = SharingStarted.Lazily) =
+        stateIn(componentCoroutineScope, started, defaultState)
 
     // endregion
 

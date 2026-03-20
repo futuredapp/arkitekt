@@ -19,7 +19,7 @@ jobs:
           java-version: '17'
       - name: Run unit tests
         shell: bash
-        run: ./gradlew testRelease
+        run: ./gradlew test
       - name: Build
         shell: bash
         run: ./gradlew build

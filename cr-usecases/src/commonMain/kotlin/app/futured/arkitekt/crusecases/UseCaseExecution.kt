@@ -16,8 +16,7 @@ import kotlinx.coroutines.launch
  * Coroutine and to set configuration options.
  */
 context(coroutineScopeOwner: CoroutineScopeOwner)
-fun <T : Any?> UseCase<Unit, T>.execute(config: UseCaseConfig.Builder<T>.() -> Unit) =
-    execute(Unit, config)
+fun <T : Any?> UseCase<Unit, T>.execute(config: UseCaseConfig.Builder<T>.() -> Unit) = execute(Unit, config)
 
 /**
  * Asynchronously executes use case and saves it's Deferred. By default, all previous
@@ -36,31 +35,32 @@ fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
     args: ARGS,
     config: UseCaseConfig.Builder<T>.() -> Unit,
 ) {
-    val useCaseConfig = UseCaseConfig.Builder<T>().run {
-        config.invoke(this)
-        return@run build()
-    }
+    val useCaseConfig =
+        UseCaseConfig.Builder<T>().run {
+            config.invoke(this)
+            return@run build()
+        }
     if (useCaseConfig.disposePrevious) {
         coroutineScopeOwner.useCaseJobPool[this]?.cancel()
     }
 
     useCaseConfig.onStart()
-    coroutineScopeOwner.useCaseJobPool[this] = coroutineScopeOwner.coroutineScope
-        .async(context = coroutineScopeOwner.getWorkerDispatcher(), start = CoroutineStart.LAZY) {
-            build(args)
-        }
-        .also {
-            coroutineScopeOwner.coroutineScope.launch(Dispatchers.Main) {
-                try {
-                    useCaseConfig.onSuccess(it.await())
-                } catch (_: CancellationException) {
-                    // do nothing - this is normal way of suspend function interruption
-                } catch (error: Throwable) {
-                    UseCaseErrorHandler.globalOnErrorLogger(error)
-                    useCaseConfig.onError(error)
+    coroutineScopeOwner.useCaseJobPool[this] =
+        coroutineScopeOwner.coroutineScope
+            .async(context = coroutineScopeOwner.getWorkerDispatcher(), start = CoroutineStart.LAZY) {
+                build(args)
+            }.also {
+                coroutineScopeOwner.coroutineScope.launch(Dispatchers.Main) {
+                    try {
+                        useCaseConfig.onSuccess(it.await())
+                    } catch (_: CancellationException) {
+                        // do nothing - this is normal way of suspend function interruption
+                    } catch (error: Throwable) {
+                        UseCaseErrorHandler.globalOnErrorLogger(error)
+                        useCaseConfig.onError(error)
+                    }
                 }
             }
-        }
 }
 
 /**
@@ -87,19 +87,23 @@ suspend fun <T : Any?> UseCase<Unit, T>.execute(cancelPrevious: Boolean = true) 
  */
 @Suppress("TooGenericExceptionCaught")
 context(coroutineScopeOwner: CoroutineScopeOwner)
-suspend fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(args: ARGS, cancelPrevious: Boolean = true): Result<T> {
+suspend fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
+    args: ARGS,
+    cancelPrevious: Boolean = true,
+): Result<T> {
     if (cancelPrevious) {
         coroutineScopeOwner.useCaseJobPool[this]?.cancel()
     }
     return try {
-        val newDeferred = coroutineScopeOwner.coroutineScope
-            .async(coroutineScopeOwner.getWorkerDispatcher(), CoroutineStart.LAZY) {
-                build(args)
-            }.also { coroutineScopeOwner.useCaseJobPool[this] = it }
-        Success(newDeferred.await())
+        val newDeferred =
+            coroutineScopeOwner.coroutineScope
+                .async(coroutineScopeOwner.getWorkerDispatcher(), CoroutineStart.LAZY) {
+                    build(args)
+                }.also { coroutineScopeOwner.useCaseJobPool[this] = it }
+        Result.success(newDeferred.await())
     } catch (exception: CancellationException) {
         throw exception
     } catch (exception: Throwable) {
-        Error(exception)
+        Result.failure(exception)
     }
 }

@@ -18,9 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -30,9 +28,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
-import app.futured.arkitekt.crusecases.Error
-import app.futured.arkitekt.crusecases.Result
-import app.futured.arkitekt.crusecases.Success
 
 @ExperimentalCoroutinesApi
 class CoroutineScopeOwnerTest {
@@ -169,7 +164,7 @@ class CoroutineScopeOwnerTest {
             coroutineScope.advanceTimeByCompat(10000)
         }
 
-        assertEquals(Success(1), result)
+        assertEquals(Result.success(1), result)
     }
 
     @Test
@@ -183,8 +178,8 @@ class CoroutineScopeOwnerTest {
             coroutineScope.advanceTimeByCompat(10000)
         }
 
-        assertTrue(result is Error)
-        assertTrue((result as Error).error is IllegalStateException)
+        assertTrue(result?.isFailure == true)
+        assertTrue((result?.exceptionOrNull()) is IllegalStateException)
     }
 
     @Test
@@ -217,7 +212,7 @@ class CoroutineScopeOwnerTest {
             coroutineScope.advanceTimeByCompat(10000)
         }
 
-        assertEquals(Success(1), result)
+        assertEquals(Result.success(1), result)
     }
 
     @Test
@@ -236,8 +231,8 @@ class CoroutineScopeOwnerTest {
             coroutineScope.advanceTimeByCompat(10000)
         }
 
-        assertEquals(Success(1), result1)
-        assertEquals(Success(2), result2)
+        assertEquals(Result.success(1), result1)
+        assertEquals(Result.success(2), result2)
     }
 
     @Test
