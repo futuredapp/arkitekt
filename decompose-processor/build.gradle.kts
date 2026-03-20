@@ -9,7 +9,7 @@ kotlin {
     jvm()
 
     sourceSets {
-        val jvmMain by getting {
+        jvmMain  {
             dependencies {
                 implementation(project(":decompose-annotation"))
                 implementation(Deps.Ksp.api)

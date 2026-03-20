@@ -23,7 +23,7 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
-        val commonMain by getting {
+        commonMain  {
             dependencies {
                 implementation(Deps.Decompose.core)
                 implementation(Deps.Decompose.essentyLifecycle)
@@ -33,14 +33,14 @@ kotlin {
             }
         }
 
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(Deps.Test.testCoroutines)
             }
         }
 
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation(Deps.Compose.runtime)
             }
