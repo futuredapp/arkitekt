@@ -16,7 +16,6 @@ object Versions {
 
     // core
     const val appcompat = "1.6.1"
-    const val multidex = "2.0.1"
     const val material = "1.10.0"
     const val test = "2.2.0"
 
