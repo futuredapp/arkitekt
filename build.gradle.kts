@@ -86,7 +86,7 @@ detekt {
             "decompose-annotation/src/commonMain/kotlin",
             "decompose-processor/src/jvmMain/kotlin",
             "arkitekt-lint/src/main/java",
-        )
+        ),
     )
 //    filters = ".*/resources/.*,.*/build/.*"
     config.setFrom(files("detekt.yml"))
