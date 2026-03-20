@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample
 
-import android.content.Context
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.multidex.MultiDex
 import app.futured.arkitekt.crusecases.error.UseCaseErrorHandler

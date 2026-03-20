@@ -25,7 +25,7 @@ fun CoroutinesResultScreen(
     viewModel: CoroutinesResultViewModel = hiltViewModel(),
 ) {
     val contentState by viewModel.viewState.contentState.observeAsState(
-        CoroutinesResultViewState.State.IDLE
+        CoroutinesResultViewState.State.IDLE,
     )
     val contentDescription by viewModel.viewState.contentStateDescription.observeAsState("")
     val safeOnBack = dropUnlessResumed { navigator.onBack() }

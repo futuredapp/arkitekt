@@ -13,7 +13,6 @@ import androidx.arch.core.executor.TaskExecutor
 @PublishedApi
 @SuppressLint("RestrictedApi")
 internal class InstantTaskExecutor {
-
     /**
      * Wrap invocation of [block] with immediate task execution
      */
@@ -24,19 +23,19 @@ internal class InstantTaskExecutor {
     }
 
     private fun startExecuteTaskImmediately() {
-        ArchTaskExecutor.getInstance().setDelegate(object : TaskExecutor() {
-            override fun executeOnDiskIO(runnable: Runnable) {
-                runnable.run()
-            }
+        ArchTaskExecutor.getInstance().setDelegate(
+            object : TaskExecutor() {
+                override fun executeOnDiskIO(runnable: Runnable) {
+                    runnable.run()
+                }
 
-            override fun postToMainThread(runnable: Runnable) {
-                runnable.run()
-            }
+                override fun postToMainThread(runnable: Runnable) {
+                    runnable.run()
+                }
 
-            override fun isMainThread(): Boolean {
-                return true
-            }
-        })
+                override fun isMainThread(): Boolean = true
+            },
+        )
     }
 
     private fun stopExecuteTaskImmediately() {

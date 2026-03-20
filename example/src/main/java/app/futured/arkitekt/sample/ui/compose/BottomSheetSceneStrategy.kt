@@ -20,7 +20,6 @@ internal class BottomSheetScene<T : Any>(
     private val modalBottomSheetProperties: ModalBottomSheetProperties,
     private val onBack: () -> Unit,
 ) : OverlayScene<T> {
-
     override val entries: List<NavEntry<T>> = listOf(entry)
 
     override val content: @Composable (() -> Unit) = {
@@ -41,7 +40,6 @@ internal class BottomSheetScene<T : Any>(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
-
     override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
         val lastEntry = entries.lastOrNull()
         val bottomSheetProperties = lastEntry?.metadata?.get(BOTTOM_SHEET_KEY) as? ModalBottomSheetProperties
@@ -53,7 +51,7 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
                 overlaidEntries = entries.dropLast(1),
                 entry = lastEntry,
                 modalBottomSheetProperties = properties,
-                onBack = onBack
+                onBack = onBack,
             )
         }
     }
@@ -67,9 +65,7 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
          * [ModalBottomSheet].
          */
         @OptIn(ExperimentalMaterial3Api::class)
-        fun bottomSheet(
-            modalBottomSheetProperties: ModalBottomSheetProperties = ModalBottomSheetProperties()
-        ): Map<String, Any> = mapOf(BOTTOM_SHEET_KEY to modalBottomSheetProperties)
+        fun bottomSheet(modalBottomSheetProperties: ModalBottomSheetProperties = ModalBottomSheetProperties()): Map<String, Any> = mapOf(BOTTOM_SHEET_KEY to modalBottomSheetProperties)
 
         internal const val BOTTOM_SHEET_KEY = "bottomsheet"
     }

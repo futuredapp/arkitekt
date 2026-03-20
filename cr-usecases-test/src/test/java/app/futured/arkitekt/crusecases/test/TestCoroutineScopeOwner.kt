@@ -8,7 +8,6 @@ import kotlinx.coroutines.test.TestScope
 
 @ExperimentalCoroutinesApi
 class TestCoroutineScopeOwner : CoroutineScopeOwner {
-
     val testDispatcher = StandardTestDispatcher()
 
     override val coroutineScope = TestScope(testDispatcher)

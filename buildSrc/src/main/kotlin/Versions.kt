@@ -3,9 +3,9 @@ object Versions {
     const val gradlePlugin = "8.13.0"
 
     // plugins
-    const val detekt = "1.20.0"
-    const val ktlint = "10.3.0"
-    const val ktlintExtension = "0.39.0"
+    const val detekt = "1.23.8"
+    const val ktlint = "14.0.1"
+    const val ktlintExtension = "1.8.0" // todo 1.7.0
     const val mavenPublish = "0.34.0"
     const val dokka = "1.6.10"
 

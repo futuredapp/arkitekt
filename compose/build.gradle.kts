@@ -46,7 +46,7 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "compose",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
+        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     pom {
         name = "Arkitekt Compose"

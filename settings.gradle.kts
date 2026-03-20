@@ -11,5 +11,5 @@ include(
     ":cr-usecases",
     ":arkitekt-lint",
     ":core-test",
-    ":cr-usecases-test"
+    ":cr-usecases-test",
 )

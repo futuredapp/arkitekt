@@ -26,9 +26,10 @@ fun FormScreen(
     navigator: BackStackNavigator<ExampleRoute>,
     modifier: Modifier = Modifier,
     route: ExampleRoute.Form,
-    viewModel: FormViewModel = hiltViewModel<FormViewModel, FormViewModel.Factory> {
-        it.create(route)
-    },
+    viewModel: FormViewModel =
+        hiltViewModel<FormViewModel, FormViewModel.Factory> {
+            it.create(route)
+        },
 ) {
     val context = LocalContext.current
     val login by viewModel.viewState.login
@@ -43,9 +44,10 @@ fun FormScreen(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         OutlinedTextField(
