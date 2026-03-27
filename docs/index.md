@@ -5,6 +5,9 @@ hide:
 
 # Arkitekt
 
+!!! warning
+    These docs are work-in-progress for upcoming Arkitekt release
+
 **A modern Android & Kotlin Multiplatform architecture library built on Jetpack Compose and Kotlin Coroutines.**
 
 Arkitekt gives you a solid, testable foundation for building Android and KMP applications. It provides two architecture paths with the same core principles:
