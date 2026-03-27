@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 6.x
-      - feature/6.x-mkdocs
 
 permissions:
   contents: write
