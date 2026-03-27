@@ -64,3 +64,26 @@ fun HomeScreen(component: HomeComponent) {
     }
 }
 ```
+
+## Value / Flow Conversions
+
+Arkitekt provides utility extensions for bridging Decompose `Value` and Kotlin Coroutines `StateFlow` / `Flow` APIs.
+
+### `Value<T>.asStateFlow()`
+
+Converts a Decompose `Value` to a Kotlin `StateFlow`:
+
+```kotlin
+val state: StateFlow<HomeState> = decomposeValue.asStateFlow()
+```
+
+### `Flow<T>.collectAsValue(initial, coroutineScope)`
+
+Converts a Kotlin `Flow` to a Decompose `Value`:
+
+```kotlin
+val decomposeValue: Value<HomeState> = stateFlow.collectAsValue(
+    initial = HomeState(),
+    coroutineScope = componentCoroutineScope,
+)
+```

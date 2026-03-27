@@ -80,7 +80,7 @@ Because `AppComponent` delegates `AppComponentContext`, all context services —
 
 ## Koin Factory Generation
 
-Use the `@GenerateFactory` annotation to generate Koin factory functions for your components. See the [Factory Generator](../kmp/factory-generator.md) section for details.
+Use the `@GenerateFactory` annotation to generate Koin dependency injection factories for your components. See the [Factory Generator](factory-generator.md) page for full details and KSP configuration.
 
 ## Complete Example
 
@@ -117,3 +117,7 @@ class HomeComponent(
 
 !!! note
     `BaseComponent` does **not** implement `CoroutineScopeOwner` directly. To execute use cases, implement `CoroutineScopeOwner` in your component and set `coroutineScope` to `componentCoroutineScope`.
+
+## Example Application
+
+For a full KMP application using all the recommended patterns described in this documentation, see the [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template) repository.

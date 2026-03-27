@@ -1,6 +1,6 @@
-# Factory Generator
+# Factory Generator (Koin)
 
-The `@GenerateFactory` annotation triggers KSP code generation to create factory objects for Decompose components.
+The `@GenerateFactory` annotation triggers KSP code generation to create [Koin](https://insert-koin.io/) dependency injection factory objects for Decompose components. This eliminates the need to manually wire Koin dependencies when creating components in navigation factories.
 
 ## Usage
 

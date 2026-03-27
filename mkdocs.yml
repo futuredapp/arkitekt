@@ -67,29 +67,21 @@ nav:
           - KMP: getting-started/quick-start-kmp.md
   - Architecture:
       - Overview: architecture/overview.md
-      - Components:
-          - Android (ViewModel): architecture/components-android.md
-          - KMP (BaseComponent): architecture/components-kmp.md
-      - State Management:
-          - Android: architecture/state-android.md
-          - KMP: architecture/state-kmp.md
-      - Events:
-          - Android: architecture/events-android.md
-          - KMP: architecture/events-kmp.md
-      - Navigation:
-          - Android: architecture/navigation-android.md
-          - KMP: architecture/navigation-kmp.md
       - Stores: architecture/stores.md
+      - Android: architecture/android.md
+      - KMP:
+          - Components: architecture/kmp/components.md
+          - State Management: architecture/kmp/state.md
+          - Events: architecture/kmp/events.md
+          - Navigation: architecture/kmp/navigation.md
+          - Navigation - Advanced: architecture/kmp/navigation-advanced.md
+          - Factory Generator: architecture/kmp/factory-generator.md
   - Use Cases:
       - Overview: use-cases/overview.md
       - UseCase: use-cases/usecase.md
       - FlowUseCase: use-cases/flow-usecase.md
       - Result: use-cases/result.md
       - Error Handling: use-cases/error-handling.md
-  - KMP Extras:
-      - Factory Generator: kmp/factory-generator.md
-      - Result Flow: kmp/result-flow.md
-      - Utility Extensions: kmp/utilities.md
   - Testing:
       - ViewModel Testing: testing/viewmodel-testing.md
       - UseCase Mocking: testing/usecase-mocking.md

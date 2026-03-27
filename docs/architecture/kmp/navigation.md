@@ -2,6 +2,8 @@
 
 The KMP path uses the [Decompose](https://arkivanov.github.io/Decompose/) library for navigation. See the [official Decompose navigation docs](https://arkivanov.github.io/Decompose/navigation/overview/) for the full API reference.
 
+For advanced patterns, see [Navigation — Advanced](navigation-advanced.md).
+
 ## NavigationActions
 
 `NavigationActions` is a marker interface for defining navigation contracts:
@@ -150,99 +152,3 @@ class SignedInNavHostComponent(
 
 !!! note "Navigation configs must be serializable"
     All navigation configurations must be `@Serializable` data classes or objects. Decompose uses serialization to preserve the full navigation stack across process death and configuration changes.
-
-## Consolidated Navigation
-
-For nav-hosts with many screens, we recommend consolidating all navigation logic into a dedicated class. This keeps the nav-host component decluttered and navigation logic easy to find.
-
-The pattern works as follows:
-
-1. Each screen component defines its navigation as an interface with **extension functions on itself** (e.g. `fun HomeComponent.navigateToDetail()`). This scopes each navigation call to the component that triggers it and allows duplicate function names like `navigateBack()` across different screens.
-2. The nav-host defines an internal interface that extends all child screen navigation interfaces and holds the `stackNavigator`.
-3. A single implementation class provides all navigation logic.
-
-```kotlin
-// Each screen defines its own navigation interface
-interface HomeScreenNavigation : NavigationActions {
-    fun HomeComponent.navigateToDetail()
-}
-
-interface DetailScreenNavigation : NavigationActions {
-    fun DetailComponent.navigateBack()
-}
-
-// The nav-host's internal interface consolidates them all
-internal interface HomeNavHostNavigation :
-    HomeScreenNavigation,
-    DetailScreenNavigation {
-    val stackNavigator: StackNavigation<HomeDestination>
-}
-
-// Single implementation handles all navigation
-internal class HomeNavHostNavigationImpl : HomeNavHostNavigation {
-    override val stackNavigator = StackNavigation<HomeDestination>()
-
-    override fun HomeComponent.navigateToDetail() =
-        stackNavigator.pushNew(HomeDestination.Detail)
-
-    override fun DetailComponent.navigateBack() =
-        stackNavigator.pop()
-}
-```
-
-The nav-host receives the navigation instance and passes it to child factories. Because the consolidated interface extends every screen's navigation interface, the same instance satisfies all children:
-
-```kotlin
-@GenerateFactory
-internal class HomeNavHostComponent(
-    @InjectedParam componentContext: AppComponentContext,
-    @InjectedParam private val navigation: HomeNavHostNavigation,
-) : AppComponent<Unit, Nothing>(componentContext, Unit) {
-
-    val stack = childStack(
-        source = navigation.stackNavigator,
-        serializer = HomeDestination.serializer(),
-        initialConfiguration = HomeDestination.Home,
-        childFactory = { destination, ctx ->
-            when (destination) {
-                HomeDestination.Home -> HomeComponentFactory.createComponent(ctx, navigation)
-                HomeDestination.Detail -> DetailComponentFactory.createComponent(ctx, navigation)
-            }
-        },
-    ).asStateFlow()
-}
-```
-
-!!! tip
-    This pattern is not enforced by the library — for simple nav-hosts with one or two screens, inline anonymous objects (as shown in the Parent Component section) work fine. The consolidated approach pays off as the number of screens and cross-screen navigation grows.
-
-## Passing Results Between Screens
-
-Use `ResultFlow<T>` to send a value from a child screen back to its parent. The parent creates the flow, passes it in the navigation config, and collects results. The child calls `sendResult()` when it has a value to return.
-
-Because `ResultFlow` is a `Flow`, it must be declared `@Serializable` in the config using `ResultFlowSerializer`. On deserialization it is recreated as an empty flow — the parent always holds the live instance.
-
-```kotlin
-// Navigation config
-@Serializable
-data class PickerConfig(
-    @Serializable(ResultFlowSerializer::class) val result: ResultFlow<String>,
-)
-
-// In the parent nav-host
-private fun openPicker() {
-    val result = ResultFlow<String>()
-    result
-        .onEach { selected -> update(componentState) { copy(selection = selected) } }
-        .launchIn(componentCoroutineScope)
-    stackNavigation.push(PickerConfig(result))
-}
-
-// In the child (picker) component
-fun onItemSelected(item: String) {
-    resultFlow.sendResult(item)   // suspending — call from a coroutine
-    navigation.back()
-}
-```
-
-See [Result Flow](../kmp/result-flow.md) for the full API reference.

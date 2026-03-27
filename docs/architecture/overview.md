@@ -28,3 +28,9 @@ Both paths share:
 - **KMP projects** targeting iOS, Desktop, or Web — use the Decompose path (`decompose` module with Koin).
 
 Both paths depend on the `cr-usecases` module, which is fully KMP-compatible. Business logic written with Use Cases can be shared across all targets regardless of the path you choose.
+
+## Dive In
+
+- [Android Architecture](android.md) — Components, State, Events, Navigation
+- [KMP Architecture](kmp/components.md) — Components, State, Events, Navigation, Factory Generator
+- [Stores](stores.md) — Shared data layer pattern

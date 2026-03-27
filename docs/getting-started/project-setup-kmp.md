@@ -59,7 +59,7 @@ class HomeComponent(
 
 The `@GenerateFactory` annotation triggers KSP to generate a `HomeComponentFactory` class. This factory resolves Koin dependencies (such as `someUseCase`) automatically — you only need to supply `@InjectedParam` arguments manually when creating the component.
 
-For full KSP setup details and advanced configuration, see the [Factory Generator](../kmp/factory-generator.md) page.
+For full KSP setup details and advanced configuration, see the [Factory Generator](../architecture/kmp/factory-generator.md) page.
 
 ## Screen Composable (Android)
 
