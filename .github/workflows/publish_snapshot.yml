@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: ./gradlew build
       - name: Build & publish snapshot
-        run: ./gradlew publish --no-daemon --no-parallel --stacktrace
+        run: ./gradlew publish --no-daemon --no-parallel --stacktrace -PVERSION_NAME=6.X.X-SNAPSHOT
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
