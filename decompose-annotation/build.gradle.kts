@@ -16,7 +16,6 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "decompose-annotation",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
     )
     pom {
         name = "Arkitekt Decompose Annotation"

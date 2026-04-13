@@ -46,7 +46,6 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "cr-usecases-test",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
     )
     pom {
         name = "Arkitekt CR UseCases Test"
