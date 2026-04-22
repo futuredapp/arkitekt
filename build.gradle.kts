@@ -38,6 +38,7 @@ allprojects {
 }
 
 subprojects {
+
     group = ProjectSettings.group
     version = findProperty("VERSION_NAME") as String? ?: ProjectSettings.version
 

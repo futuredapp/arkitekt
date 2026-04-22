@@ -36,31 +36,7 @@ fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
     args: ARGS,
     config: UseCaseConfig.Builder<T>.() -> Unit,
 ) {
-    val useCaseConfig = UseCaseConfig.Builder<T>().run {
-        config.invoke(this)
-        return@run build()
-    }
-    if (useCaseConfig.disposePrevious) {
-        deferred?.cancel()
-    }
-
-    useCaseConfig.onStart()
-    deferred = coroutineScopeOwner.coroutineScope
-        .async(context = coroutineScopeOwner.getWorkerDispatcher(), start = CoroutineStart.LAZY) {
-            build(args)
-        }
-        .also {
-            coroutineScopeOwner.coroutineScope.launch(Dispatchers.Main) {
-                try {
-                    useCaseConfig.onSuccess(it.await())
-                } catch (cancellation: CancellationException) {
-                    // do nothing - this is normal way of suspend function interruption
-                } catch (error: Throwable) {
-                    UseCaseErrorHandler.globalOnErrorLogger(error)
-                    useCaseConfig.onError(error)
-                }
-            }
-        }
+    internalExecute(args, coroutineScopeOwner, config)
 }
 
 /**
@@ -102,4 +78,59 @@ suspend fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(args: ARGS, cancelPrevious
     } catch (exception: Throwable) {
         Error(exception)
     }
+}
+
+@Deprecated(
+    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
+    replaceWith = ReplaceWith("execute(args, config)", imports = ["app.futured.arkitekt.crusecases.execute"])
+)
+fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
+    args: ARGS,
+    coroutineScopeOwner: CoroutineScopeOwner,
+    config: UseCaseConfig.Builder<T>.() -> Unit,
+) {
+    internalExecute(args, coroutineScopeOwner, config)
+}
+
+@Deprecated(
+    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
+    replaceWith = ReplaceWith("execute(args, config)", imports = ["app.futured.arkitekt.crusecases.execute"])
+)
+fun <T : Any?> UseCase<Unit, T>.execute(
+    coroutineScopeOwner: CoroutineScopeOwner,
+    config: UseCaseConfig.Builder<T>.() -> Unit,
+) {
+    internalExecute(Unit, coroutineScopeOwner, config)
+}
+
+private fun <ARGS, T : Any?> UseCase<ARGS, T>.internalExecute(
+    args: ARGS,
+    coroutineScopeOwner: CoroutineScopeOwner,
+    config: UseCaseConfig.Builder<T>.() -> Unit,
+) {
+    val useCaseConfig = UseCaseConfig.Builder<T>().run {
+        config.invoke(this)
+        return@run build()
+    }
+    if (useCaseConfig.disposePrevious) {
+        deferred?.cancel()
+    }
+
+    useCaseConfig.onStart()
+    deferred = coroutineScopeOwner.coroutineScope
+        .async(context = coroutineScopeOwner.getWorkerDispatcher(), start = CoroutineStart.LAZY) {
+            build(args)
+        }
+        .also {
+            coroutineScopeOwner.coroutineScope.launch(Dispatchers.Main) {
+                try {
+                    useCaseConfig.onSuccess(it.await())
+                } catch (cancellation: CancellationException) {
+                    // do nothing - this is normal way of suspend function interruption
+                } catch (error: Throwable) {
+                    UseCaseErrorHandler.globalOnErrorLogger(error)
+                    useCaseConfig.onError(error)
+                }
+            }
+        }
 }
