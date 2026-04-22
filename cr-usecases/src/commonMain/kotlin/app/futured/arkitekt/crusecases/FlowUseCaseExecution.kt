@@ -36,33 +36,7 @@ fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.execute(
     args: ARGS,
     config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
 ) {
-    val flowUseCaseConfig = FlowUseCaseConfig.Builder<T, T>().run {
-        config.invoke(this)
-        return@run build()
-    }
-
-    if (flowUseCaseConfig.disposePrevious) {
-        job?.cancel()
-    }
-
-    job = build(args)
-        .flowOn(coroutineScopeOwner.getWorkerDispatcher())
-        .onStart { flowUseCaseConfig.onStart() }
-        .onEach { flowUseCaseConfig.onNext(it) }
-        .onCompletion { error ->
-            when {
-                error is CancellationException -> {
-                    // ignore this exception
-                }
-                error != null -> {
-                    UseCaseErrorHandler.globalOnErrorLogger(error)
-                    flowUseCaseConfig.onError(error)
-                }
-                else -> flowUseCaseConfig.onComplete()
-            }
-        }
-        .catch { /* handled in onCompletion */ }
-        .launchIn(coroutineScopeOwner.coroutineScope)
+    internalExecute(args, coroutineScopeOwner, config)
 }
 
 /**
@@ -111,4 +85,62 @@ fun <ARGS, T : Any?, M : Any?> FlowUseCase<ARGS, T>.executeMapped(
         }
         .catch { /* handled in onCompletion */ }
         .launchIn(coroutineScopeOwner.coroutineScope)
+}
+
+private fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.internalExecute(
+    args: ARGS,
+    coroutineScopeOwner: CoroutineScopeOwner,
+    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
+) {
+    val flowUseCaseConfig = FlowUseCaseConfig.Builder<T, T>().run {
+        config.invoke(this)
+        return@run build()
+    }
+
+    if (flowUseCaseConfig.disposePrevious) {
+        job?.cancel()
+    }
+
+    job = build(args)
+        .flowOn(coroutineScopeOwner.getWorkerDispatcher())
+        .onStart { flowUseCaseConfig.onStart() }
+        .onEach { flowUseCaseConfig.onNext(it) }
+        .onCompletion { error ->
+            when {
+                error is CancellationException -> {
+                    // ignore this exception
+                }
+                error != null -> {
+                    UseCaseErrorHandler.globalOnErrorLogger(error)
+                    flowUseCaseConfig.onError(error)
+                }
+                else -> flowUseCaseConfig.onComplete()
+            }
+        }
+        .catch { /* handled in onCompletion */ }
+        .launchIn(coroutineScopeOwner.coroutineScope)
+}
+
+
+@Deprecated(
+    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
+    replaceWith = ReplaceWith("execute(args, config)", imports = ["app.futured.arkitekt.crusecases.execute"])
+)
+fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.execute(
+    args: ARGS,
+    coroutineScopeOwner: CoroutineScopeOwner,
+    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
+) {
+    internalExecute(args, coroutineScopeOwner, config)
+}
+
+@Deprecated(
+    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
+    replaceWith = ReplaceWith("execute(config)", imports = ["app.futured.arkitekt.crusecases.execute"])
+)
+fun <T : Any?> FlowUseCase<Unit, T>.execute(
+    coroutineScopeOwner: CoroutineScopeOwner,
+    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
+) {
+    internalExecute(Unit, coroutineScopeOwner, config)
 }
