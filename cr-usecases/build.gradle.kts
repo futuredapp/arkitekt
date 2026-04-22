@@ -43,7 +43,6 @@ mavenPublishing {
     coordinates(
         groupId = ProjectSettings.group,
         artifactId = "cr-usecases",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT",
     )
     configure(
         KotlinMultiplatform(
