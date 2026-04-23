@@ -67,8 +67,9 @@ interface ResultFlow<T> : Flow<T> {
  * @param T The type of results that flow through this ResultFlow
  * @param backingFlow The underlying MutableSharedFlow used for result propagation
  */
-internal class ResultFlowImpl<T>(private val backingFlow: MutableSharedFlow<T> = MutableSharedFlow()) : ResultFlow<T> {
-
+internal class ResultFlowImpl<T>(
+    private val backingFlow: MutableSharedFlow<T> = MutableSharedFlow(),
+) : ResultFlow<T> {
     override suspend fun collect(collector: FlowCollector<T>) = backingFlow.collect(collector)
 
     override suspend fun sendResult(item: T) = backingFlow.emit(item)
@@ -88,8 +89,9 @@ internal class ResultFlowImpl<T>(private val backingFlow: MutableSharedFlow<T> =
  * @param T The type of results that flow through the ResultFlow
  * @param dataSerializer The serializer for the data type T (used for descriptor only)
  */
-internal class ResultFlowSerializer<T>(private val dataSerializer: KSerializer<T>) : KSerializer<ResultFlow<T>> {
-
+internal class ResultFlowSerializer<T>(
+    private val dataSerializer: KSerializer<T>,
+) : KSerializer<ResultFlow<T>> {
     override val descriptor: SerialDescriptor
         get() = dataSerializer.descriptor
 
@@ -99,7 +101,10 @@ internal class ResultFlowSerializer<T>(private val dataSerializer: KSerializer<T
      * @param encoder The encoder to use for serialization
      * @param value The ResultFlow instance to serialize
      */
-    override fun serialize(encoder: Encoder, value: ResultFlow<T>) = Unit
+    override fun serialize(
+        encoder: Encoder,
+        value: ResultFlow<T>,
+    ) = Unit
 
     /**
      * Deserializes a ResultFlow by creating a new empty instance.

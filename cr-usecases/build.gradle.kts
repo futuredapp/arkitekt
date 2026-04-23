@@ -19,6 +19,11 @@ kotlin {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
+
+    compilerOptions {
+        freeCompilerArgs.add("-Xcontext-parameters")
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -44,7 +49,7 @@ mavenPublishing {
             javadocJar = JavadocJar.Empty(),
             sourcesJar = true,
             androidVariantsToPublish = listOf("debug", "release"),
-        )
+        ),
     )
     pom {
         name = "Arkitekt CR UseCases"

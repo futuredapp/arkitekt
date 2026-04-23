@@ -53,8 +53,8 @@ mavenPublishing {
         KotlinMultiplatform(
             javadocJar = JavadocJar.Empty(),
             sourcesJar = true,
-            androidVariantsToPublish = listOf("debug", "release")
-        )
+            androidVariantsToPublish = listOf("debug", "release"),
+        ),
     )
     coordinates(
         groupId = ProjectSettings.group,

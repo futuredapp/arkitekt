@@ -80,5 +80,4 @@ dependencies {
 
     implementation(platform(Deps.Compose.bom))
     implementation(Deps.Compose.runtime)
-
 }

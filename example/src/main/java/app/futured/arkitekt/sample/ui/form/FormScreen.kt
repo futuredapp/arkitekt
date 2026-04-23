@@ -11,7 +11,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -27,9 +26,10 @@ fun FormScreen(
     navigator: BackStackNavigator<ExampleRoute>,
     modifier: Modifier = Modifier,
     route: ExampleRoute.Form,
-    viewModel: FormViewModel = hiltViewModel<FormViewModel, FormViewModel.Factory> {
-        it.create(route)
-    },
+    viewModel: FormViewModel =
+        hiltViewModel<FormViewModel, FormViewModel.Factory> {
+            it.create(route)
+        },
 ) {
     val context = LocalContext.current
     val login by viewModel.viewState.login
@@ -44,9 +44,10 @@ fun FormScreen(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         OutlinedTextField(

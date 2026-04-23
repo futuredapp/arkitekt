@@ -1,6 +1,7 @@
 package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.FlowUseCase
+import app.futured.arkitekt.crusecases.execute
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,6 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class FlowUseCaseTests {
-
     class TestUseCase : FlowUseCase<String, String>() {
         override fun build(args: String): Flow<String> {
             throw IllegalStateException("THIS SHOULD NOT BE CALLED")

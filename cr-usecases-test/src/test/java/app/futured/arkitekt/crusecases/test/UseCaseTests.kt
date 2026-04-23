@@ -1,6 +1,7 @@
 package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.UseCase
+import app.futured.arkitekt.crusecases.execute
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,17 +15,12 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class UseCaseTests {
-
     class TestUseCase : UseCase<String, String>() {
-        override suspend fun build(args: String): String {
-            throw IllegalStateException("THIS SHOULD NOT BE CALLED")
-        }
+        override suspend fun build(args: String): String = throw IllegalStateException("THIS SHOULD NOT BE CALLED")
     }
 
     class TestUseCaseNullable : UseCase<String?, String>() {
-        override suspend fun build(args: String?): String {
-            throw IllegalStateException("THIS SHOULD NOT BE CALLED")
-        }
+        override suspend fun build(args: String?): String = throw IllegalStateException("THIS SHOULD NOT BE CALLED")
     }
 
     private val mockUseCase: TestUseCase = mockk()
@@ -46,7 +42,7 @@ class UseCaseTests {
 
     @After
     fun tearDown() {
-       // testCoroutineScopeOwner.coroutineScope.cleanupTestCoroutines()
+        // testCoroutineScopeOwner.coroutineScope.cleanupTestCoroutines()
         Dispatchers.resetMain()
     }
 

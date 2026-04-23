@@ -35,7 +35,6 @@ import org.junit.Rule
  * }
  */
 open class ViewModelTest {
-
     /*
     class SampleViewModelTest : ViewModelTest() {
 
@@ -60,7 +59,7 @@ open class ViewModelTest {
             ...
         }
     }
-    */
+     */
 
     /**
      * Swap background android executor with the one that executes task synchronously.

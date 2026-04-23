@@ -7,7 +7,6 @@ import org.junit.Before
 import org.junit.Test
 
 class ExampleViewModelTest : ViewModelTest() {
-
     lateinit var viewState: ExampleViewState
     lateinit var viewModel: ExampleViewModel
 
