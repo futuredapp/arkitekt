@@ -21,7 +21,6 @@ object Versions {
 
     const val lifeCycle = "2.8.7"
 
-    const val dagger = "2.59.2"
     const val hilt = "2.59.2"
     const val hiltJetpack = "1.3.0"
     const val androidXEspresso = "3.5.1"
