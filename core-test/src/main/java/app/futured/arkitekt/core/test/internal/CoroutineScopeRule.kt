@@ -4,6 +4,7 @@ import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -19,6 +20,7 @@ class CoroutineScopeRule : TestRule {
         val testDispatcher = UnconfinedTestDispatcher()
 
         override val coroutineScope = TestScope(testDispatcher)
+        override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
 
         override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher
     }

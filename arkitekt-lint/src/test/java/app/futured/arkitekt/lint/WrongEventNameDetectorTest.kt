@@ -8,7 +8,8 @@ import org.junit.Test
 class WrongEventNameDetectorTest : LintDetectorTest() {
     override fun getDetector(): Detector = WrongEventNameDetector()
 
-    override fun getIssues(): MutableList<Issue> = mutableListOf(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
+    override fun getIssues(): MutableList<Issue> =
+        mutableListOf(WrongEventNameDetector.ISSUE_MUSSING_SUFFIX, WrongEventNameDetector.ISSUE_MISSPELL)
 
     private val eventStub =
         kotlin(

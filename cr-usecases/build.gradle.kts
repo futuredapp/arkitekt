@@ -25,12 +25,12 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(Deps.Kotlin.coroutines)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(Deps.Test.testCoroutines)
                 implementation(Deps.Test.jUnitApi)
@@ -75,4 +75,3 @@ mavenPublishing {
         }
     }
 }
-

@@ -17,7 +17,7 @@ jobs:
           java-version: '17'
       - name: Build & run unit tests
         shell: bash
-        run: ./gradlew --continue build testRelease
+        run: ./gradlew --continue build test
       - name: Publish release
         run: ./gradlew publish --no-daemon --no-parallel --stacktrace -PVERSION_NAME=${{github.event.release.name}}
         env:

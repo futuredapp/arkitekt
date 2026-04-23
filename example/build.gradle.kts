@@ -65,7 +65,6 @@ dependencies {
 
     implementation(Deps.AndroidX.appcompat)
     compileOnly(Deps.AndroidX.material)
-    implementation(Deps.AndroidX.multidex)
     implementation(Deps.Compose.activity)
     implementation(Deps.Compose.ui)
     implementation(Deps.Compose.foundation)

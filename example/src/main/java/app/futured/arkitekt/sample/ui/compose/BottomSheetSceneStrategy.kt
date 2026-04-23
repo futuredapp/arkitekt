@@ -9,6 +9,7 @@ import androidx.navigation3.scene.OverlayScene
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
+import app.futured.arkitekt.sample.ui.compose.BottomSheetSceneStrategy.Companion.bottomSheet
 
 /** An [OverlayScene] that renders an [entry] within a [ModalBottomSheet]. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,7 +66,9 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
          * [ModalBottomSheet].
          */
         @OptIn(ExperimentalMaterial3Api::class)
-        fun bottomSheet(modalBottomSheetProperties: ModalBottomSheetProperties = ModalBottomSheetProperties()): Map<String, Any> = mapOf(BOTTOM_SHEET_KEY to modalBottomSheetProperties)
+        fun bottomSheet(
+            modalBottomSheetProperties: ModalBottomSheetProperties = ModalBottomSheetProperties()
+        ): Map<String, Any> = mapOf(BOTTOM_SHEET_KEY to modalBottomSheetProperties)
 
         internal const val BOTTOM_SHEET_KEY = "bottomsheet"
     }

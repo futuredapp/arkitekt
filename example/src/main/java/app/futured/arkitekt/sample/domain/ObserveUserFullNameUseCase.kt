@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ObserveUserFullNameUseCase @Inject constructor(
     private val userStore: UserStore
-) : FlowUseCase<Unit, String>() {
+) : FlowUseCase<Unit, String> {
 
     override fun build(args: Unit): Flow<String> =
         userStore.getUser().map { "${it.firstName} ${it.lastName}" }

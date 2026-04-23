@@ -2,10 +2,7 @@ package app.futured.arkitekt.crusecases.test
 
 import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import app.futured.arkitekt.crusecases.UseCase
-import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.just
-import io.mockk.mockk
 
 /**
  * Mock [CoroutineScopeOwner.execute] method.
@@ -17,10 +14,8 @@ import io.mockk.mockk
  * mockUseCase.mockExecute(args = ...) { ... }
  */
 fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(
-    args: ARGS,
-    returnBlock: () -> RETURN_VALUE,
+    args: ARGS, returnBlock: () -> RETURN_VALUE
 ) {
-    mockDeferred()
     coEvery { this@mockExecute.build(args) } answers { returnBlock() }
 }
 
@@ -33,8 +28,9 @@ fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockEx
  * Usage:
  * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(crossinline returnBlock: () -> RETURN_VALUE) {
-    mockDeferred()
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockExecute(
+    crossinline returnBlock: () -> RETURN_VALUE
+) {
     coEvery { this@mockExecute.build(any()) } answers { returnBlock() }
 }
 
@@ -49,9 +45,8 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VA
  */
 inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(
     args: ARGS?,
-    crossinline returnBlock: () -> RETURN_VALUE,
+    crossinline returnBlock: () -> RETURN_VALUE
 ) {
-    mockDeferred()
     coEvery { this@mockExecuteNullable.build(args) } answers { returnBlock() }
 }
 
@@ -65,13 +60,8 @@ inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_V
  * Usage:
  * mockUseCase.mockExecute { ... }
  */
-inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(crossinline returnBlock: () -> RETURN_VALUE) {
-    mockDeferred()
+inline fun <reified ARGS : Any, RETURN_VALUE, USE_CASE : UseCase<ARGS?, RETURN_VALUE>> USE_CASE.mockExecuteNullable(
+    crossinline returnBlock: () -> RETURN_VALUE
+) {
     coEvery { this@mockExecuteNullable.build(any()) } answers { returnBlock() }
-}
-
-@PublishedApi
-internal fun <ARGS, RETURN_VALUE, USE_CASE : UseCase<ARGS, RETURN_VALUE>> USE_CASE.mockDeferred() {
-    coEvery { this@mockDeferred.deferred = any() } just Runs
-    coEvery { this@mockDeferred.deferred } returns mockk(relaxUnitFun = true)
 }

@@ -13,7 +13,10 @@ import kotlinx.coroutines.launch
  * @param initial Initial value for the [Value] object
  * @param coroutineScope [CoroutineScope] for Flow collection.
  */
-fun <T : Any> Flow<T>.collectAsValue(initial: T, coroutineScope: CoroutineScope): Value<T> =
+fun <T : Any> Flow<T>.collectAsValue(
+    initial: T,
+    coroutineScope: CoroutineScope,
+): Value<T> =
     MutableValue(initial).also { mutable ->
         coroutineScope.launch {
             collect { newValue ->
@@ -25,6 +28,9 @@ fun <T : Any> Flow<T>.collectAsValue(initial: T, coroutineScope: CoroutineScope)
 /**
  * Mutates this [MutableStateFlow] using provided [transform] function.
  */
-fun <T : Any> update(mutableStateFlow: MutableStateFlow<T>, transform: T.() -> T) {
+fun <T : Any> update(
+    mutableStateFlow: MutableStateFlow<T>,
+    transform: T.() -> T,
+) {
     mutableStateFlow.value = transform(mutableStateFlow.value)
 }

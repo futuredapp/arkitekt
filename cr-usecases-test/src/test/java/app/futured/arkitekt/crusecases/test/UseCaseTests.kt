@@ -15,12 +15,17 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class UseCaseTests {
-    class TestUseCase : UseCase<String, String>() {
-        override suspend fun build(args: String): String = throw IllegalStateException("THIS SHOULD NOT BE CALLED")
+
+    class TestUseCase : UseCase<String, String> {
+        override suspend fun build(args: String): String {
+            throw IllegalStateException("THIS SHOULD NOT BE CALLED")
+        }
     }
 
-    class TestUseCaseNullable : UseCase<String?, String>() {
-        override suspend fun build(args: String?): String = throw IllegalStateException("THIS SHOULD NOT BE CALLED")
+    class TestUseCaseNullable : UseCase<String?, String> {
+        override suspend fun build(args: String?): String {
+            throw IllegalStateException("THIS SHOULD NOT BE CALLED")
+        }
     }
 
     private val mockUseCase: TestUseCase = mockk()
@@ -42,7 +47,7 @@ class UseCaseTests {
 
     @After
     fun tearDown() {
-        // testCoroutineScopeOwner.coroutineScope.cleanupTestCoroutines()
+       // testCoroutineScopeOwner.coroutineScope.cleanupTestCoroutines()
         Dispatchers.resetMain()
     }
 

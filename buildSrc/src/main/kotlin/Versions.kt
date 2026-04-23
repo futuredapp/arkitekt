@@ -5,7 +5,7 @@ object Versions {
     // plugins
     const val detekt = "1.23.8"
     const val ktlint = "14.0.1"
-    const val ktlintExtension = "1.8.0" // todo 1.7.0
+    const val ktlintExtension = "1.8.0"
     const val mavenPublish = "0.34.0"
     const val dokka = "1.6.10"
 
@@ -16,7 +16,6 @@ object Versions {
 
     // core
     const val appcompat = "1.6.1"
-    const val multidex = "2.0.1"
     const val material = "1.10.0"
     const val test = "2.2.0"
 
