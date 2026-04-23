@@ -65,12 +65,14 @@ open class ViewModelTest {
      * Swap background android executor with the one that executes task synchronously.
      * It allows to work with the live data.
      */
-    @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     /**
      * Swap coroutine dispatcher with the one that is executed immediately.
      * It allows to work with the coroutines.
      */
     @ExperimentalCoroutinesApi
-    @get:Rule var coroutineScopeRule = CoroutineScopeRule()
+    @get:Rule
+    var coroutineScopeRule = CoroutineScopeRule()
 }
