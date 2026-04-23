@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 
 plugins {
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("org.jetbrains.kotlin.multiplatform")
     id(Deps.Plugins.mavenPublish)
 }
@@ -14,10 +14,10 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
+    android {
+        namespace = "app.futured.arkitekt.crusecases"
+        compileSdk = ProjectSettings.compileSdk
+        minSdk = ProjectSettings.minSdk
     }
 
     compilerOptions {
@@ -76,14 +76,3 @@ mavenPublishing {
     }
 }
 
-android {
-    namespace = "app.futured.arkitekt.crusecases"
-    compileSdk = ProjectSettings.compileSdk
-    defaultConfig {
-        minSdk = ProjectSettings.minSdk
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}

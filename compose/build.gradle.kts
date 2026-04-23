@@ -2,7 +2,6 @@ import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.compose")
     id(Deps.Plugins.mavenPublish)
 }
