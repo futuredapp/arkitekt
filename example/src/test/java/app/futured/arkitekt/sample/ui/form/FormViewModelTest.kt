@@ -44,7 +44,7 @@ class FormViewModelTest : ViewModelTest() {
 
     private fun awaitInit() =
         runBlocking {
-            viewModel.coroutineScope.coroutineContext[Job]!!
+            viewModel.useCaseScope.coroutineContext[Job]!!
                 .children
                 .toList()
                 .forEach { it.join() }

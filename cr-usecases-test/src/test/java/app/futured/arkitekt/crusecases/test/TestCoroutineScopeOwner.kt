@@ -11,7 +11,7 @@ import kotlinx.coroutines.test.TestScope
 class TestCoroutineScopeOwner : CoroutineScopeOwner {
     val testDispatcher = StandardTestDispatcher()
 
-    override val coroutineScope = TestScope(testDispatcher)
+    override val useCaseScope = TestScope(testDispatcher)
     override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
 
     override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher
