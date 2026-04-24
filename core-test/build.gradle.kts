@@ -1,5 +1,3 @@
-import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
-
 plugins {
     id("com.android.library")
     id(Deps.Plugins.mavenPublish)
@@ -19,11 +17,6 @@ android {
         buildConfig = true
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
     namespace = "app.futured.arkitekt.core.test"
     testOptions {
         targetSdk = ProjectSettings.targetSdk
@@ -36,39 +29,19 @@ android {
 }
 
 kotlin {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-    }
+    jvmToolchain(17)
 }
 
 mavenPublishing {
-    configure(AndroidSingleVariantLibrary(publishJavadocJar = false))
-    coordinates(
-        groupId = ProjectSettings.group,
-        artifactId = "core-test",
-    )
+    publishToMavenCentral()
+    signAllPublications()
+    configureBasedOnAppliedPlugins()
+    coordinates(groupId = ProjectSettings.group, artifactId = "core-test")
     pom {
+        arkitektPomBase()
         name = "Arkitekt Core Test"
         description = "Test utilities for Arkitekt core module"
-        url = "https://github.com/futuredapp/arkitekt"
-        licenses {
-            license {
-                name = "MIT"
-                url = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
-            }
-        }
-        scm {
-            connection = "scm:git:git://github.com/futuredapp/arkitekt.git"
-            developerConnection = "scm:git:ssh://github.com/futuredapp/arkitekt.git"
-            url = "https://github.com/futuredapp/arkitekt"
-        }
-        developers {
-            developer {
-                id = "futured"
-                name = "Futured"
-                url = "https://futured.app"
-            }
-        }
+        inceptionYear = "2018"
     }
 }
 

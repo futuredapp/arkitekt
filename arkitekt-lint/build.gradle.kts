@@ -3,6 +3,10 @@ plugins {
     id("java-library")
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
 
     compileOnly(Deps.Lint.api)
