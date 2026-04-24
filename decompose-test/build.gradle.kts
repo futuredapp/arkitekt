@@ -4,8 +4,6 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 plugins {
     id("com.android.kotlin.multiplatform.library")
     id("org.jetbrains.kotlin.multiplatform")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.kotlin.plugin.serialization")
     id(Deps.Plugins.mavenPublish)
 }
 
@@ -13,7 +11,7 @@ kotlin {
     jvmToolchain(17)
 
     android {
-        namespace = "app.futured.arkitekt.decompose.android"
+        namespace = "app.futured.arkitekt.decompose.test"
         compileSdk = ProjectSettings.compileSdk
         minSdk = ProjectSettings.minSdk
     }
@@ -23,26 +21,19 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
-        commonMain  {
+        commonMain {
             dependencies {
-                implementation(Deps.Decompose.core)
-                implementation(Deps.Decompose.essentyLifecycle)
-                implementation(Deps.Kotlin.coroutines)
-                implementation(Deps.Compose.jetbrainsRuntime)
-                implementation(Deps.Serialization.core)
-            }
-        }
-
-        commonTest {
-            dependencies {
-                implementation(project(":decompose-test"))
+                api(project(":decompose"))
+                api(Deps.Decompose.core)
+                api(Deps.Decompose.essentyLifecycle)
+                api(kotlin("test"))
+                api(Deps.Test.testCoroutines)
             }
         }
 
         androidMain {
             dependencies {
-                implementation(project.dependencies.platform(Deps.Compose.bom))
-                implementation(Deps.Compose.runtime)
+                api(kotlin("test-junit"))
             }
         }
     }
@@ -58,11 +49,11 @@ mavenPublishing {
     )
     coordinates(
         groupId = ProjectSettings.group,
-        artifactId = "decompose",
+        artifactId = "decompose-test",
     )
     pom {
-        name = "Arkitekt Decompose"
-        description = "KMP Decompose integration for Arkitekt framework"
+        name = "Arkitekt Decompose Test"
+        description = "Test utilities for Arkitekt Decompose module"
         url = "https://github.com/futuredapp/arkitekt"
         licenses {
             license {

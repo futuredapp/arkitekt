@@ -7,6 +7,7 @@ include(
     ":decompose",
     ":decompose-annotation",
     ":decompose-processor",
+    ":decompose-test",
     ":example",
     ":cr-usecases",
     ":arkitekt-lint",
