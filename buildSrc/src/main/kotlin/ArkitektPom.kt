@@ -3,7 +3,8 @@ import org.gradle.api.publish.maven.MavenPom
 /**
  * Applies the shared Arkitekt POM metadata (url, licenses, scm, developers) to this pom.
  *
- * Callers set per-module values (name, description, inceptionYear) before invoking this.
+ * Per-module values (name, description, inceptionYear) are configured separately and may be
+ * set before or after invoking this function.
  */
 fun MavenPom.arkitektPomBase() {
     url.set("https://github.com/futuredapp/arkitekt")
