@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - '6.x'
-      - 'feature/6.x-build-logic-housekeep'
 
 jobs:
   master:
