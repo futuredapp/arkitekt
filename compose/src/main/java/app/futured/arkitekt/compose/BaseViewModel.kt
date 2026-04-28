@@ -10,6 +10,6 @@ import kotlinx.coroutines.Job
 abstract class BaseViewModel<S : ViewState> :
     BaseCoreViewModel<S>(),
     CoroutineScopeOwner {
-    override val coroutineScope: CoroutineScope = viewModelScope
+    override val useCaseScope: CoroutineScope = viewModelScope
     override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
 }

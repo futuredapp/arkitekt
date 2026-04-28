@@ -19,7 +19,7 @@ class CoroutineScopeRule : TestRule {
     class TestCoroutineScopeOwner : CoroutineScopeOwner {
         val testDispatcher = UnconfinedTestDispatcher()
 
-        override val coroutineScope = TestScope(testDispatcher)
+        override val useCaseScope = TestScope(testDispatcher)
         override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
 
         override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher

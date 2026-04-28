@@ -79,13 +79,13 @@ class CoroutineScopeOwnerTest {
                 onSuccess { executionCount++ }
                 onError { fail("Exception thrown where shouldn't") }
             }
-            coroutineScope.advanceTimeByCompat(500)
+            useCaseScope.advanceTimeByCompat(500)
 
             testUseCase.execute(1) {
                 onSuccess { executionCount++ }
                 onError { fail("Exception thrown where shouldn't") }
             }
-            coroutineScope.advanceTimeByCompat(1000)
+            useCaseScope.advanceTimeByCompat(1000)
         }
 
         assertEquals(1, executionCount)
@@ -99,7 +99,7 @@ class CoroutineScopeOwnerTest {
             TestFailureUseCase().execute(IllegalStateException()) {
                 onError { resultError = it }
             }
-            coroutineScope.advanceTimeByCompat(1000)
+            useCaseScope.advanceTimeByCompat(1000)
         }
 
         assertNotNull(resultError)
@@ -115,7 +115,7 @@ class CoroutineScopeOwnerTest {
                 onNext { resultList.add(it) }
                 onError { fail("Exception thrown where shouldn't") }
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertEquals(testingList, resultList)
@@ -131,7 +131,7 @@ class CoroutineScopeOwnerTest {
                 onError { fail("Exception thrown where shouldn't") }
                 onComplete { completed = true }
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertEquals(true, completed)
@@ -146,7 +146,7 @@ class CoroutineScopeOwnerTest {
                 onError { resultError = it }
                 onComplete { fail("onComplete called where shouldn't") }
             }
-            coroutineScope.advanceTimeByCompat(1000)
+            useCaseScope.advanceTimeByCompat(1000)
         }
 
         assertNotNull(resultError)
@@ -158,10 +158,10 @@ class CoroutineScopeOwnerTest {
         var result: Result<Int>? = null
 
         with(testOwner) {
-            coroutineScope.launch {
+            useCaseScope.launch {
                 result = testUseCase.execute(1)
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertEquals(Result.success(1), result)
@@ -172,10 +172,10 @@ class CoroutineScopeOwnerTest {
         var result: Result<Unit>? = null
 
         with(testOwner) {
-            coroutineScope.launch {
+            useCaseScope.launch {
                 result = TestFailureUseCase().execute(IllegalStateException())
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertTrue(result?.isFailure == true)
@@ -187,10 +187,10 @@ class CoroutineScopeOwnerTest {
         var result: Result<Unit>? = null
 
         with(testOwner) {
-            coroutineScope.launch {
+            useCaseScope.launch {
                 result = TestFailureUseCase().execute(CancellationException())
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertNull(result)
@@ -202,14 +202,14 @@ class CoroutineScopeOwnerTest {
         var result: Result<Int>? = null
 
         with(testOwner) {
-            coroutineScope.launch {
+            useCaseScope.launch {
                 testUseCase.execute(1)
                 fail("Execute should be cancelled")
             }
-            coroutineScope.launch {
+            useCaseScope.launch {
                 result = testUseCase.execute(1)
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertEquals(Result.success(1), result)
@@ -222,13 +222,13 @@ class CoroutineScopeOwnerTest {
         var result2: Result<Int>? = null
 
         with(testOwner) {
-            coroutineScope.launch {
+            useCaseScope.launch {
                 result1 = testUseCase.execute(1, cancelPrevious = false)
             }
-            coroutineScope.launch {
+            useCaseScope.launch {
                 result2 = testUseCase.execute(2, cancelPrevious = false)
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertEquals(Result.success(1), result1)
@@ -242,7 +242,7 @@ class CoroutineScopeOwnerTest {
         val ownerDispatcher = StandardTestDispatcher()
         val ownerScope = TestScope(ownerDispatcher)
         val owner = object : CoroutineScopeOwner {
-            override val coroutineScope: CoroutineScope = ownerScope
+            override val useCaseScope: CoroutineScope = ownerScope
             override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
             override fun getWorkerDispatcher() = ownerDispatcher
             override fun defaultErrorHandler(exception: Throwable) {
@@ -267,7 +267,7 @@ class CoroutineScopeOwnerTest {
         val ownerDispatcher = StandardTestDispatcher()
         val ownerScope = TestScope(ownerDispatcher)
         val owner = object : CoroutineScopeOwner {
-            override val coroutineScope: CoroutineScope = ownerScope
+            override val useCaseScope: CoroutineScope = ownerScope
             override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
             override fun getWorkerDispatcher() = ownerDispatcher
             override fun defaultErrorHandler(exception: Throwable) {
@@ -292,7 +292,7 @@ class CoroutineScopeOwnerTest {
         val ownerDispatcher = StandardTestDispatcher()
         val ownerScope = TestScope(ownerDispatcher)
         val owner = object : CoroutineScopeOwner {
-            override val coroutineScope: CoroutineScope = ownerScope
+            override val useCaseScope: CoroutineScope = ownerScope
             override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
             override fun getWorkerDispatcher() = ownerDispatcher
             override fun defaultErrorHandler(exception: Throwable) {
@@ -320,7 +320,7 @@ class CoroutineScopeOwnerTest {
             TestFailureUseCase().execute(IllegalStateException()) {
                 onError { resultError = it }
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertTrue(resultError is IllegalStateException)
@@ -337,7 +337,7 @@ class CoroutineScopeOwnerTest {
             TestFailureFlowUseCase().execute(IllegalStateException()) {
                 onError { resultError = it }
             }
-            coroutineScope.advanceTimeByCompat(10000)
+            useCaseScope.advanceTimeByCompat(10000)
         }
 
         assertTrue(resultError is IllegalStateException)

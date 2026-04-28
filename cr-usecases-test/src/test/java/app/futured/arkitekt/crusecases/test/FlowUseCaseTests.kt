@@ -114,7 +114,7 @@ class FlowUseCaseTests {
                 onNext { result = it }
                 onError { result = errorValue }
             }
-            coroutineScope.advanceUntilIdle()
+            useCaseScope.advanceUntilIdle()
         }
         return result
     }
@@ -126,7 +126,7 @@ class FlowUseCaseTests {
                 onNext { result = it }
                 onError { result = errorValue }
             }
-            coroutineScope.advanceUntilIdle()
+            useCaseScope.advanceUntilIdle()
         }
         return result
     }
@@ -138,7 +138,7 @@ class FlowUseCaseTests {
                 onNext { result = it }
                 onError { result = errorValue }
             }
-            coroutineScope.advanceUntilIdle()
+            useCaseScope.advanceUntilIdle()
         }
         return result
     }

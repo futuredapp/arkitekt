@@ -130,7 +130,7 @@ class UseCaseTests {
                 onSuccess { result = it }
                 onError { result = errorValue }
             }
-            coroutineScope.advanceUntilIdle()
+            useCaseScope.advanceUntilIdle()
         }
         return result
     }
@@ -142,7 +142,7 @@ class UseCaseTests {
                 onSuccess { result = it }
                 onError { result = errorValue }
             }
-            coroutineScope.advanceUntilIdle()
+            useCaseScope.advanceUntilIdle()
         }
         return result
     }
@@ -154,7 +154,7 @@ class UseCaseTests {
                 onSuccess { result = it }
                 onError { result = errorValue }
             }
-            coroutineScope.advanceUntilIdle()
+            useCaseScope.advanceUntilIdle()
         }
         return result
     }

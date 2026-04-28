@@ -71,7 +71,7 @@ private fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.internalExecute(
                     }
                 }
             }.catch { /* handled in onCompletion */ }
-            .launchIn(coroutineScopeOwner.coroutineScope)
+            .launchIn(coroutineScopeOwner.useCaseScope)
 }
 
 

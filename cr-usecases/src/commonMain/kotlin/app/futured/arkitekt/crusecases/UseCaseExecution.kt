@@ -71,7 +71,7 @@ suspend fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
     }
     return try {
         val newDeferred =
-            coroutineScopeOwner.coroutineScope
+            coroutineScopeOwner.useCaseScope
                 .async(coroutineScopeOwner.getWorkerDispatcher(), CoroutineStart.LAZY) {
                     build(args)
                 }.also { coroutineScopeOwner.useCaseJobPool[this] = it }
@@ -122,11 +122,11 @@ private fun <ARGS, T : Any?> UseCase<ARGS, T>.internalExecute(
 
     useCaseConfig.onStart()
     coroutineScopeOwner.useCaseJobPool[this] =
-        coroutineScopeOwner.coroutineScope
+        coroutineScopeOwner.useCaseScope
             .async(context = coroutineScopeOwner.getWorkerDispatcher(), start = CoroutineStart.LAZY) {
                 build(args)
             }.also {
-                coroutineScopeOwner.coroutineScope.launch(Dispatchers.Main) {
+                coroutineScopeOwner.useCaseScope.launch(Dispatchers.Main) {
                     try {
                         useCaseConfig.onSuccess(it.await())
                     } catch (_: CancellationException) {
