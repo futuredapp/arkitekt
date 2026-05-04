@@ -1,7 +1,6 @@
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.dagger.hilt.android")
@@ -22,10 +21,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -49,8 +44,9 @@ android {
 }
 
 kotlin {
+    jvmToolchain(17)
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.add("-Xcontext-parameters")
     }
 }
 
@@ -64,7 +60,6 @@ dependencies {
 
     implementation(Deps.AndroidX.appcompat)
     compileOnly(Deps.AndroidX.material)
-    implementation(Deps.AndroidX.multidex)
     implementation(Deps.Compose.activity)
     implementation(Deps.Compose.ui)
     implementation(Deps.Compose.foundation)

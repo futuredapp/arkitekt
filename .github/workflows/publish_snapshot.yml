@@ -1,12 +1,12 @@
-name: Check 5.x
+name: Publish snapshot
 on:
   push:
     branches:
-      - 6.x
+      - '6.x'
 
 jobs:
   master:
-    name: 6.x check
+    name: Run checks and publish snapshot
     runs-on: [ ubuntu-latest ]
     env:
       SLACK_CHANNEL: android
@@ -19,25 +19,14 @@ jobs:
           java-version: '17'
       - name: Run unit tests
         shell: bash
-        run: ./gradlew testRelease
+        run: ./gradlew test
       - name: Build
         shell: bash
         run: ./gradlew build
       - name: Build & publish snapshot
-        run: ./gradlew publish --no-daemon --no-parallel --stacktrace
+        run: ./gradlew publish --no-daemon --no-parallel --stacktrace -PVERSION_NAME=6.X.X-SNAPSHOT
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
           ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
-      - name: Slack Notification
-        if: failure()
-        uses: homoluctus/slatify@master
-        with:
-          type: "failure"
-          job_name: '*6.x Check*'
-          username: GitHub
-          channel: ${{env.SLACK_CHANNEL}}
-          url: ${{ secrets.SLACK_WEB_HOOK }}
-          commit: true
-          token: ${{ secrets.GITHUB_TOKEN }}

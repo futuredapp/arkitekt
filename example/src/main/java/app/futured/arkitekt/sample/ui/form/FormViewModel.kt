@@ -1,6 +1,7 @@
 package app.futured.arkitekt.sample.ui.form
 
 import app.futured.arkitekt.compose.BaseViewModel
+import app.futured.arkitekt.crusecases.execute
 import app.futured.arkitekt.sample.domain.ObserveFormUseCase
 import app.futured.arkitekt.sample.domain.SaveFormUseCase
 import app.futured.arkitekt.sample.ui.compose.ExampleRoute
@@ -8,7 +9,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = FormViewModel.Factory::class)
 class FormViewModel @AssistedInject constructor(
@@ -19,7 +19,8 @@ class FormViewModel @AssistedInject constructor(
 ) : BaseViewModel<FormViewState>() {
 
     init {
-        observeFormUseCase.execute {
+        // example of usage without context parameter enabled
+        observeFormUseCase.execute(this) {
             onNext { viewState.storedContent.value = "${it.first} ${it.second}" }
             onError { sendEvent(ShowToastEvent("Error :-(")) }
         }
@@ -34,7 +35,7 @@ class FormViewModel @AssistedInject constructor(
     fun onBack() = sendEvent(NavigateBackEvent)
 
     @AssistedFactory
-    interface Factory{
+    interface Factory {
         fun create(route: ExampleRoute.Form): FormViewModel
     }
 }

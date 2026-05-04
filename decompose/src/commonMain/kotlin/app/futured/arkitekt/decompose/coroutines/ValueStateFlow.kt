@@ -1,6 +1,7 @@
 package app.futured.arkitekt.decompose.coroutines
 
 import com.arkivanov.decompose.value.Value
+import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,8 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
  * @param T The type of the value.
  * @property decomposeValue The Decompose Value to be wrapped.
  */
-internal class ValueStateFlow<out T : Any>(private val decomposeValue: Value<T>) : StateFlow<T> {
-
+@OptIn(ExperimentalForInheritanceCoroutinesApi::class)
+internal class ValueStateFlow<out T : Any>(
+    private val decomposeValue: Value<T>,
+) : StateFlow<T> {
     override val value: T
         get() = decomposeValue.value
 

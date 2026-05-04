@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SaveFormUseCase @Inject constructor(
     private val formStore: FormStore
-) : UseCase<SaveFormUseCase.Data, Pair<String, String>>() {
+) : UseCase<SaveFormUseCase.Data, Pair<String, String>> {
 
     data class Data(val form: Pair<String, String>)
 

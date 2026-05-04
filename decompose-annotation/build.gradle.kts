@@ -13,32 +13,14 @@ kotlin {
 }
 
 mavenPublishing {
-    coordinates(
-        groupId = ProjectSettings.group,
-        artifactId = "decompose-annotation",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
-    )
+    publishToMavenCentral()
+    signAllPublications()
+    configureBasedOnAppliedPlugins()
+    coordinates(groupId = ProjectSettings.group, artifactId = "decompose-annotation")
     pom {
+        arkitektPomBase()
         name = "Arkitekt Decompose Annotation"
         description = "Annotations for Arkitekt Decompose module"
-        url = "https://github.com/futuredapp/arkitekt"
-        licenses {
-            license {
-                name = "MIT"
-                url = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
-            }
-        }
-        scm {
-            connection = "scm:git:git://github.com/futuredapp/arkitekt.git"
-            developerConnection = "scm:git:ssh://github.com/futuredapp/arkitekt.git"
-            url = "https://github.com/futuredapp/arkitekt"
-        }
-        developers {
-            developer {
-                id = "futured"
-                name = "Futured"
-                url = "https://futured.app"
-            }
-        }
+        inceptionYear = "2026"
     }
 }

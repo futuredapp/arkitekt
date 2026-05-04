@@ -31,7 +31,6 @@ object Deps {
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
 
-        const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
         const val material = "com.google.android.material:material:${Versions.material}"
 
         const val liveDataExtensions = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifeCycle}"

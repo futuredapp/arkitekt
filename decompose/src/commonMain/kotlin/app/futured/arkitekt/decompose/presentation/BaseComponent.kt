@@ -2,6 +2,7 @@ package app.futured.arkitekt.decompose.presentation
 
 import com.arkivanov.decompose.GenericComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
@@ -10,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -22,26 +22,27 @@ import kotlinx.coroutines.launch
  * @param E The type of the UI events.
  * @param componentContext The context of the component.
  * @param defaultState The default Component state.
+ * @param lifecycleScope The coroutine scope tied to the lifecycle of the component.
+ * It will be automatically canceled when component's lifecycle is destroyed.
+ * You can inject your own scope for use in tests.
  */
 abstract class BaseComponent<VS : Any, E : Any>(
     componentContext: GenericComponentContext<*>,
     private val defaultState: VS,
+    open val lifecycleScope: CoroutineScope = MainScope(),
 ) {
+
+    init {
+        componentContext.lifecycle.doOnDestroy {
+            eventChannel.close()
+            lifecycleScope.cancel()
+        }
+    }
 
     /**
      * An internal state of the component of type [VS].
      */
     protected val componentState: MutableStateFlow<VS> = MutableStateFlow(defaultState)
-
-    // region Lifecycle
-
-    /**
-     * The coroutine scope tied to the lifecycle of the component.
-     * It is cancelled when the component is destroyed.
-     */
-    protected val componentCoroutineScope = MainScope().also { scope ->
-        componentContext.lifecycle.doOnDestroy { scope.cancel() }
-    }
 
     /**
      * Converts a [Flow] of component states to a [StateFlow].
@@ -50,23 +51,28 @@ abstract class BaseComponent<VS : Any, E : Any>(
      * @return A [StateFlow] emitting the values of the [Flow].
      */
     protected fun Flow<VS>.asStateFlow(started: SharingStarted = SharingStarted.Lazily) =
-        stateIn(componentCoroutineScope, started, defaultState)
-
-    // endregion
+        stateIn(lifecycleScope, started, defaultState)
 
     // region UI events
 
     /**
-     * Channel for sending UI events.
+     * Backing channel for UI events.
+     *
+     * Uses [Channel.BUFFERED] (capacity 64 by default) so producers don't
+     * have to suspend under normal circumstances, while still retaining
+     * events for a collector that hasn't subscribed yet.
      */
-    private val uiEventChannel = Channel<E>(Channel.BUFFERED)
+    private val eventChannel = Channel<E>(Channel.BUFFERED)
 
     /**
-     * Flow of UI events.
+     * Stream of one-shot UI events.
+     *
+     * Intended to be collected by a **single** observer (typically the
+     * current screen). Each emitted event is received exactly once — on
+     * re-subscription after a configuration change, any buffered events
+     * are delivered to the new collector.
      */
-    val events: Flow<E> = uiEventChannel
-        .receiveAsFlow()
-        .shareIn(componentCoroutineScope, SharingStarted.Lazily)
+    val events: Flow<E> = eventChannel.receiveAsFlow()
 
     // endregion
 
@@ -78,8 +84,8 @@ abstract class BaseComponent<VS : Any, E : Any>(
      * @param event The event to send.
      */
     protected fun sendUiEvent(event: E) {
-        componentCoroutineScope.launch {
-            uiEventChannel.send(event)
+        lifecycleScope.launch {
+            eventChannel.send(event)
         }
     }
 

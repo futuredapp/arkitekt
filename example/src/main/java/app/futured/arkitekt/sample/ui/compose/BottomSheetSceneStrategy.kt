@@ -9,6 +9,7 @@ import androidx.navigation3.scene.OverlayScene
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
+import app.futured.arkitekt.sample.ui.compose.BottomSheetSceneStrategy.Companion.bottomSheet
 
 /** An [OverlayScene] that renders an [entry] within a [ModalBottomSheet]. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,7 +21,6 @@ internal class BottomSheetScene<T : Any>(
     private val modalBottomSheetProperties: ModalBottomSheetProperties,
     private val onBack: () -> Unit,
 ) : OverlayScene<T> {
-
     override val entries: List<NavEntry<T>> = listOf(entry)
 
     override val content: @Composable (() -> Unit) = {
@@ -41,7 +41,6 @@ internal class BottomSheetScene<T : Any>(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
-
     override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
         val lastEntry = entries.lastOrNull()
         val bottomSheetProperties = lastEntry?.metadata?.get(BOTTOM_SHEET_KEY) as? ModalBottomSheetProperties
@@ -53,7 +52,7 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
                 overlaidEntries = entries.dropLast(1),
                 entry = lastEntry,
                 modalBottomSheetProperties = properties,
-                onBack = onBack
+                onBack = onBack,
             )
         }
     }

@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class ObserveFormUseCase @Inject constructor(
     private val formStore: FormStore
-) : FlowUseCase<Unit, Pair<String, String>>() {
+) : FlowUseCase<Unit, Pair<String, String>> {
     override fun build(args: Unit): Flow<Pair<String, String>> = formStore.getFormFlow()
 }

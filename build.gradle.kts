@@ -38,6 +38,10 @@ allprojects {
 }
 
 subprojects {
+
+    group = ProjectSettings.group
+    version = findProperty("VERSION_NAME") as String? ?: ProjectSettings.version
+
     apply(plugin = Deps.Plugins.ktlint)
 
     ktlint {
@@ -51,17 +55,15 @@ subprojects {
         }
     }
 
-    plugins.whenPluginAdded {
-        if (this is SigningPlugin) {
-            extensions.findByType<SigningExtension>()?.apply {
-                val hasKey = project.hasProperty("SIGNING_PRIVATE_KEY")
-                val hasPassword = project.hasProperty("SIGNING_PASSWORD")
-                if (hasKey && hasPassword) {
-                    useInMemoryPgpKeys(
-                        project.properties["SIGNING_PRIVATE_KEY"].toString(),
-                        project.properties["SIGNING_PASSWORD"].toString()
-                    )
-                }
+    plugins.withId("signing") {
+        extensions.findByType<SigningExtension>()?.apply {
+            val hasKey = project.hasProperty("SIGNING_PRIVATE_KEY")
+            val hasPassword = project.hasProperty("SIGNING_PASSWORD")
+            if (hasKey && hasPassword) {
+                useInMemoryPgpKeys(
+                    project.properties["SIGNING_PRIVATE_KEY"].toString(),
+                    project.properties["SIGNING_PASSWORD"].toString(),
+                )
             }
         }
     }
@@ -70,19 +72,16 @@ subprojects {
 detekt {
     autoCorrect = false
     version = Versions.detekt
-    source = files(
-        "example/src/main/java",
-        "core/src/main/java",
-        "compose/src/main/java",
-        "core-test/src/main/java",
-        "cr-usecases/src/commonMain/kotlin",
-        "cr-usecases-test/src/main/java",
-        "decompose/src/commonMain/kotlin",
-        "decompose/src/androidMain/kotlin",
-        "decompose-annotation/src/commonMain/kotlin",
-        "decompose-processor/src/jvmMain/kotlin",
-        "arkitekt-lint/src/main/java"
+    source.setFrom(
+        subprojects.flatMap { sub ->
+            listOf(
+                "src/main/java",
+                "src/commonMain/kotlin",
+                "src/androidMain/kotlin",
+                "src/jvmMain/kotlin",
+                "src/iosMain/kotlin",
+            ).map { sub.projectDir.resolve(it) }.filter { it.exists() }
+        },
     )
-//    filters = ".*/resources/.*,.*/build/.*"
-    config = files("detekt.yml")
+    config.setFrom(files("detekt.yml"))
 }

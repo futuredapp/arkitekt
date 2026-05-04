@@ -24,7 +24,6 @@ import org.junit.Before
 import org.junit.Test
 
 class LoginViewModelTest : ViewModelTest() {
-
     val mockLoginCompletabler: SyncLoginUseCase = mockk()
     val mockObserveUserFullNameUseCase: ObserveUserFullNameUseCase = mockk()
     val mockGetStateUseCase: GetStateUseCase = mockk()
@@ -52,7 +51,7 @@ class LoginViewModelTest : ViewModelTest() {
 
     // Waits for all coroutines launched during ViewModel.init to complete.
     private fun awaitInit() = runBlocking {
-        viewModel.coroutineScope.coroutineContext[Job]!!.children.toList().forEach { it.join() }
+        viewModel.useCaseScope.coroutineContext[Job]!!.children.toList().forEach { it.join() }
     }
 
     @Test

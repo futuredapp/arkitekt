@@ -19,8 +19,7 @@ class ComponentFactoryProcessor(
         return emptyList()
     }
 
-    private fun generateComponent(component: KSClassDeclaration) =
-        PoetFactoryComponentGenerator.generateFactory(component, codeGenerator)
+    private fun generateComponent(component: KSClassDeclaration) = PoetFactoryComponentGenerator.generateFactory(component, codeGenerator)
 
     private fun Resolver.findAnnotationsForClass(kClass: KClass<*>): Sequence<KSClassDeclaration> =
         this.getSymbolsWithAnnotation(kClass.qualifiedName.toString())

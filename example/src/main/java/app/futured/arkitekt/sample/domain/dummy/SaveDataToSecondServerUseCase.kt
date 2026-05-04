@@ -5,7 +5,7 @@ import app.futured.arkitekt.sample.tools.randomError
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class SaveDataToSecondServerUseCase @Inject constructor() : UseCase<String, String>() {
+class SaveDataToSecondServerUseCase @Inject constructor() : UseCase<String, String> {
 
     @Suppress("MagicNumber")
     override suspend fun build(args: String): String {

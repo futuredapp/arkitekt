@@ -1,16 +1,13 @@
 package app.futured.arkitekt.sample.ui.coroutinesresult
 
 import app.futured.arkitekt.compose.BaseViewModel
-import app.futured.arkitekt.crusecases.getOrCancel
-import app.futured.arkitekt.crusecases.getOrElse
-import app.futured.arkitekt.crusecases.getOrThrow
-import app.futured.arkitekt.crusecases.map
-import app.futured.arkitekt.crusecases.recover
+import app.futured.arkitekt.crusecases.execute
 import app.futured.arkitekt.sample.domain.dummy.ConfirmDataSavedSuccessfullyUseCase
 import app.futured.arkitekt.sample.domain.dummy.GetDataFromDeviceUseCase
 import app.futured.arkitekt.sample.domain.dummy.SaveDataToFirstServerUseCase
 import app.futured.arkitekt.sample.domain.dummy.SaveDataToSecondServerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -35,24 +32,32 @@ class CoroutinesResultViewModel @Inject constructor(
         setLoadingState(step = "1")
 
         // If the use case fails then `showError` is called and the coroutine is canceled with CancellationException
-        val firstSave: String = saveDataToFirstServerUseCase.execute(deviceData).getOrCancel { showError(step = "2") }
+        val firstSave: String = saveDataToFirstServerUseCase.execute(deviceData)
+            .getOrElse { error ->
+                showError(step = "2")
+                throw CancellationException(message = "Cancellation caused by $error", cause = error)
+            }
+
         setLoadingState(step = "2")
 
         // If the use case fails then result of `recover` is returned
-        val secondSave = saveDataToSecondServerUseCase.execute(deviceData).map { "OK" }.recover { "Ignored error" }.getOrThrow()
+        val secondSave = saveDataToSecondServerUseCase.execute(deviceData)
+            .map { "OK" }
+            .recover { "Ignored error" }
+            .getOrThrow()
+
         setLoadingState(step = "3")
 
-        // The use case returns either (result, null) or (null, Throwable)
-        val (result, _) = confirmDataSavedSuccessfullyUseCase.execute(firstSave to secondSave)
+//         The use case returns either (result, null) or (null, Throwable)
+        val result = confirmDataSavedSuccessfullyUseCase.execute(firstSave to secondSave)
 
         setLoadingState(step = "4")
         delay(RESULT_DELAY)
 
-        if (result != null) {
-            showResult(result)
-        } else {
-            showError("4")
-        }
+        result.fold(
+            onSuccess = { showResult(it) },
+            onFailure = { showError("4") }
+        )
     }
 
     fun onBack() = sendEvent(NavigateBackEvent)

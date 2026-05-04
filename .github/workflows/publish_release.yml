@@ -17,7 +17,7 @@ jobs:
           java-version: '17'
       - name: Build & run unit tests
         shell: bash
-        run: ./gradlew --continue build testRelease
+        run: ./gradlew --continue build test
       - name: Publish release
         run: ./gradlew publish --no-daemon --no-parallel --stacktrace -PVERSION_NAME=${{github.event.release.name}}
         env:
@@ -25,5 +25,3 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
           ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
-      - name: Publish plugins
-        run: ./gradlew publishPlugins -Pgradle.publish.key=${{secrets.GRADLE_PUBLISH_KEY}} -Pgradle.publish.secret=${{secrets.GRADLE_PUBLISH_SECRET}}

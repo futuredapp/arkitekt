@@ -9,7 +9,7 @@ kotlin {
     jvm()
 
     sourceSets {
-        val jvmMain by getting {
+        jvmMain  {
             dependencies {
                 implementation(project(":decompose-annotation"))
                 implementation(Deps.Ksp.api)
@@ -22,32 +22,14 @@ kotlin {
 }
 
 mavenPublishing {
-    coordinates(
-        groupId = ProjectSettings.group,
-        artifactId = "decompose-processor",
-        version = project.findProperty("VERSION_NAME") as String? ?: "6.X.X-SNAPSHOT"
-    )
+    publishToMavenCentral()
+    signAllPublications()
+    configureBasedOnAppliedPlugins()
+    coordinates(groupId = ProjectSettings.group, artifactId = "decompose-processor")
     pom {
+        arkitektPomBase()
         name = "Arkitekt Decompose Processor"
         description = "KSP processor for Arkitekt Decompose annotations"
-        url = "https://github.com/futuredapp/arkitekt"
-        licenses {
-            license {
-                name = "MIT"
-                url = "https://github.com/futuredapp/arkitekt/blob/master/LICENCE"
-            }
-        }
-        scm {
-            connection = "scm:git:git://github.com/futuredapp/arkitekt.git"
-            developerConnection = "scm:git:ssh://github.com/futuredapp/arkitekt.git"
-            url = "https://github.com/futuredapp/arkitekt"
-        }
-        developers {
-            developer {
-                id = "futured"
-                name = "Futured"
-                url = "https://futured.app"
-            }
-        }
+        inceptionYear = "2026"
     }
 }

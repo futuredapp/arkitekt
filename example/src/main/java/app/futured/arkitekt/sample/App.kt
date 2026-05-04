@@ -1,9 +1,7 @@
 package app.futured.arkitekt.sample
 
-import android.content.Context
 import android.app.Application
 import android.util.Log
-import androidx.multidex.MultiDex
 import app.futured.arkitekt.crusecases.error.UseCaseErrorHandler
 import app.futured.arkitekt.sample.injection.DaggerApplicationComponent
 import dagger.hilt.android.HiltAndroidApp
@@ -20,10 +18,5 @@ class App : Application() {
         UseCaseErrorHandler.globalOnErrorLogger = { error ->
             Log.d("UseCase error", "$error")
         }
-    }
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
     }
 }

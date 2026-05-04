@@ -1,7 +1,7 @@
 package app.futured.arkitekt.sample.ui.login
 
-import android.view.View
 import app.futured.arkitekt.compose.BaseViewModel
+import app.futured.arkitekt.crusecases.execute
 import app.futured.arkitekt.sample.domain.GetStateUseCase
 import app.futured.arkitekt.sample.domain.ObserveUserFullNameUseCase
 import app.futured.arkitekt.sample.domain.SyncLoginUseCase
@@ -27,7 +27,11 @@ class LoginViewModel @Inject constructor(
     }
 
     fun logIn() = with(viewState) {
-        loginCompletabler.execute(SyncLoginUseCase.LoginData(name.value, surname.value)) {
+        // example of usage without context parameter enabled
+        loginCompletabler.execute(
+            args = SyncLoginUseCase.LoginData(name.value, surname.value),
+            coroutineScopeOwner = this@LoginViewModel
+        ) {
             onSuccess { sendEvent(ShowToastEvent("Successfully logged in!")) }
             onError { sendEvent(ShowToastEvent("Login error!")) }
         }

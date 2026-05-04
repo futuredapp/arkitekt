@@ -4,6 +4,7 @@ import app.futured.arkitekt.crusecases.CoroutineScopeOwner
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -14,19 +15,21 @@ import org.junit.runners.model.Statement
 
 @ExperimentalCoroutinesApi
 class CoroutineScopeRule : TestRule {
-
     @ExperimentalCoroutinesApi
     class TestCoroutineScopeOwner : CoroutineScopeOwner {
-
         val testDispatcher = UnconfinedTestDispatcher()
 
-        override val coroutineScope = TestScope(testDispatcher)
+        override val useCaseScope = TestScope(testDispatcher)
+        override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
 
         override fun getWorkerDispatcher(): CoroutineDispatcher = testDispatcher
     }
 
-    override fun apply(base: Statement, description: Description): Statement {
-        return object : Statement() {
+    override fun apply(
+        base: Statement,
+        description: Description,
+    ): Statement =
+        object : Statement() {
             @Throws(Throwable::class)
             override fun evaluate() {
                 val scopeOwner = TestCoroutineScopeOwner()
@@ -37,5 +40,4 @@ class CoroutineScopeRule : TestRule {
                 Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
             }
         }
-    }
 }
