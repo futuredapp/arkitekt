@@ -19,6 +19,18 @@ app/
     └── res/values/strings.xml
 ```
 
+## Build Configuration
+
+Enable the context parameters compiler flag in your app module so you can call `execute(...)` on use cases:
+
+```kotlin
+android {
+    kotlinOptions {
+        freeCompilerArgs += "-Xcontext-parameters"
+    }
+}
+```
+
 ## Application Class
 
 Create an `Application` subclass annotated with `@HiltAndroidApp`. You can optionally configure global error logging for use cases here.

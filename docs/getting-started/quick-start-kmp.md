@@ -39,7 +39,7 @@ sealed interface LoginUiEvent : UiEvent {
 
 The component extends `BaseComponent<LoginState, LoginUiEvent>` and is annotated with `@GenerateFactory` for automatic factory generation.
 
-To execute use cases, the component implements `CoroutineScopeOwner` and provides `componentCoroutineScope` as the coroutine scope.
+To execute use cases, the component implements `CoroutineScopeOwner` and provides `lifecycleScope` as `useCaseScope`.
 
 ```kotlin
 @GenerateFactory
@@ -50,7 +50,8 @@ class LoginComponent(
 ) : BaseComponent<LoginState, LoginUiEvent>(componentContext, LoginState()),
     CoroutineScopeOwner {
 
-    override val coroutineScope = componentCoroutineScope
+    override val useCaseScope = lifecycleScope
+    override val useCaseJobPool = mutableMapOf<Any, Job>()
 
     val state: StateFlow<LoginState> = componentState
 
@@ -140,4 +141,9 @@ val loginModule = module {
 }
 ```
 
-The `@GenerateFactory` annotation generates a `LoginComponentFactory` that resolves all non-`@InjectedParam` constructor parameters from Koin. You only supply `componentContext` and `navigation` manually when creating the component.
+The `@GenerateFactory` annotation generates a `LoginComponentFactory` that resolves all non-`@InjectedParam` constructor parameters from Koin. You only supply `componentContext` and `navigation` manually when creating the component. See [Factory Generator](../architecture/kmp/factory-generator.md) for details.
+
+---
+
+!!! tip "See it in a full project"
+    The [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template) is a complete working app (Android + iOS) built with these same patterns — BaseComponent, Koin, Decompose navigation, and KSP factory generation.

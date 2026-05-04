@@ -13,7 +13,7 @@ Both paths share:
 - **Stores** (repositories) for data access and caching
 - **Events** for one-shot UI communication
 
-## Injection Hierarchy
+## Architecture Layers
 
 | Layer | Android / Compose | KMP / Decompose |
 |-------|-------------------|-----------------|
@@ -25,9 +25,12 @@ Both paths share:
 ## When to Choose Which Path
 
 - **Android-only projects** — use the Android path (`core` + `compose` modules with Hilt).
-- **KMP projects** targeting iOS, Desktop, or Web — use the Decompose path (`decompose` module with Koin).
+- **KMP projects** targeting Android and iOS — use the Decompose path (`decompose` module with Koin).
 
-Both paths depend on the `cr-usecases` module, which is fully KMP-compatible. Business logic written with Use Cases can be shared across all targets regardless of the path you choose.
+!!! note
+    The KMP / Decompose path supports **Android and iOS** targets. Desktop and Web targets are not supported.
+
+Both paths depend on the `cr-usecases` module, which is fully KMP-compatible. `UseCase` and `FlowUseCase` are interfaces — business logic is shared across all targets regardless of the path you choose. Execution is driven through `CoroutineScopeOwner` via Kotlin context parameter extensions.
 
 ## Dive In
 

@@ -28,7 +28,7 @@ Stores are injected into **Use Cases**, not into ViewModels or Components direct
 ```kotlin
 class ObserveUserFullNameUseCase @Inject constructor(
     private val userStore: UserStore,
-) : FlowUseCase<Unit, String>() {
+) : FlowUseCase<Unit, String> {
     override fun build(args: Unit): Flow<String> =
         userStore.getUser().map { "${it.firstName} ${it.lastName}" }
 }

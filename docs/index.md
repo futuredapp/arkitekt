@@ -5,15 +5,12 @@ hide:
 
 # Arkitekt
 
-!!! warning
-    These docs are work-in-progress for upcoming Arkitekt release
-
 **A modern Android & Kotlin Multiplatform architecture library built on Jetpack Compose and Kotlin Coroutines.**
 
 Arkitekt gives you a solid, testable foundation for building Android and KMP applications. It provides two architecture paths with the same core principles:
 
 - **Android / Compose** — ViewModel + Hilt + Jetpack Compose
-- **Decompose / KMP** — BaseComponent + Koin + Kotlin Multiplatform
+- **[Decompose](https://github.com/arkivanov/Decompose) / KMP** — BaseComponent + Koin + Kotlin Multiplatform
 
 ---
 
@@ -23,8 +20,8 @@ Arkitekt gives you a solid, testable foundation for building Android and KMP app
 - **Coroutine Use Cases** for clean, testable business logic (`UseCase` and `FlowUseCase`)
 - **Kotlin Multiplatform** support via Decompose with Koin dependency injection
 - **KSP Factory Generator** for Decompose components (`@GenerateFactory`)
-- **Result type** for safe, composable error handling in coroutine chains
-- **Testing utilities** for mocking use cases and testing ViewModels
+- **`kotlin.Result` integration** with `getOrCancel` for safe coroutine error handling
+- **Testing utilities** for mocking use cases, testing ViewModels, and testing Decompose components
 
 ---
 
@@ -61,4 +58,18 @@ Set up a Jetpack Compose project with ViewModel, ViewState, and Hilt.
 Set up a Kotlin Multiplatform project with BaseComponent, Koin, and Decompose.
 
 [Project Setup](getting-started/project-setup-kmp.md){ .md-button } [Quick Start](getting-started/quick-start-kmp.md){ .md-button }
+
+---
+
+## Sample Projects
+
+See Arkitekt in action in working applications that follow the same architectural patterns described in this documentation.
+
+### Android / Compose
+
+The [`example`](https://github.com/futuredapp/arkitekt/tree/5.x/example) module in this repository contains a minimal Android sample. For a full real-world project setup, see the [Android Project Template](https://github.com/futuredapp/android-project-template-compose).
+
+### Decompose / KMP
+
+A full Kotlin Multiplatform project (Android + iOS) using BaseComponent, Koin, Decompose navigation, and KSP factory generation — [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template).
 

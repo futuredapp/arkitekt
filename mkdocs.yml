@@ -80,19 +80,19 @@ nav:
       - Overview: use-cases/overview.md
       - UseCase: use-cases/usecase.md
       - FlowUseCase: use-cases/flow-usecase.md
-      - Result: use-cases/result.md
       - Error Handling: use-cases/error-handling.md
   - Testing:
       - ViewModel Testing: testing/viewmodel-testing.md
       - UseCase Mocking: testing/usecase-mocking.md
+      - Component Testing: testing/component-testing.md
   - Lint: lint.md
-  - Migration: migration.md
+  - Migration: migration/android.md
 
 copyright: Made with ❤️‍🔥 at Futured
 
 extra:
   arkitekt:
-    version: "6.0.0-SNAPSHOT"
+    version: "6.0.0"
   social:
     - icon: material/web
       name: Web

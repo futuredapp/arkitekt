@@ -17,26 +17,56 @@ class HomeComponent(
 
 ## Generated Output
 
-The annotation processor generates a factory object with a `createComponent()` method:
+The annotation processor generates an `internal object` factory that implements `KoinComponent`:
 
 ```kotlin
-object HomeComponentFactory {
+internal object HomeComponentFactory : KoinComponent {
     fun createComponent(
         componentContext: AppComponentContext,
         navigation: HomeNavigation,
-    ): HomeComponent {
-        val koin = GlobalContext.get()
-        return HomeComponent(
-            componentContext = componentContext,
-            navigation = navigation,
-            someUseCase = koin.get(),
+    ): HomeComponent = get(
+        qualifier = null,
+        parameters = { parametersOf(componentContext, navigation) },
+    )
+}
+```
+
+- Parameters marked with `@InjectedParam` become `createComponent()` parameters and are forwarded to Koin via `parametersOf`
+- The component itself is resolved from Koin — it must be registered in your Koin module (typically as a `factory`)
+- All non-`@InjectedParam` constructor dependencies (e.g. `SomeUseCase`) are resolved by Koin from the DI graph
+
+```kotlin
+// Koin module
+val homeModule = module {
+    factory { params ->
+        HomeComponent(
+            componentContext = params.get(),
+            navigation = params.get(),
+            someUseCase = get(),
         )
     }
 }
 ```
 
-- Parameters marked with `@InjectedParam` become factory method parameters
-- All other parameters are resolved via `koin.get()`
+## Calling the Factory
+
+Use the generated factory inside a nav-host's `childStack` child factory:
+
+```kotlin
+val stack = childStack(
+    source = navigation.stackNavigator,
+    serializer = AppDestination.serializer(),
+    initialConfiguration = AppDestination.Home,
+    childFactory = { destination, ctx ->
+        when (destination) {
+            AppDestination.Home -> HomeComponentFactory.createComponent(ctx, navigation)
+            AppDestination.Detail -> DetailComponentFactory.createComponent(ctx, navigation)
+        }
+    },
+).asStateFlow()
+```
+
+`ctx` is the child `AppComponentContext` provided by Decompose; `navigation` is the nav-host's navigation instance passed through as an `@InjectedParam`.
 
 ## KSP Configuration for KMP
 

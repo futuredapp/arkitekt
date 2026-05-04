@@ -15,13 +15,13 @@ data class HomeState(
 
 `BaseComponent` provides `componentState: MutableStateFlow<VS>` to hold the component's state.
 
-Update state by replacing the value directly:
+Update state using the built-in `MutableStateFlow.update` extension:
 
 ```kotlin
-componentState.value = componentState.value.copy(title = "new")
+componentState.update { copy(title = "new") }
 ```
 
-Or use the `update` helper from `app.futured.arkitekt.decompose.ext`:
+Or use the equivalent Arkitekt helper from `app.futured.arkitekt.decompose.ext`:
 
 ```kotlin
 update(componentState) { copy(title = "new") }
@@ -29,32 +29,30 @@ update(componentState) { copy(title = "new") }
 
 ## Exposing State
 
-Expose state to the UI as a read-only `StateFlow`:
+Define an interface that exposes only what the UI needs, then implement it in your component:
 
 ```kotlin
+interface HomeScreen {
+    val state: StateFlow<HomeState>
+}
+
 class HomeComponent(
     componentContext: AppComponentContext,
-) : BaseComponent<HomeState, HomeUiEvent>(componentContext, HomeState()) {
+) : HomeScreen, BaseComponent<HomeState, HomeUiEvent>(componentContext, HomeState()) {
 
-    val state: StateFlow<HomeState> = componentState
+    override val state: StateFlow<HomeState> = componentState
 }
 ```
 
-## asStateFlow Helper
-
-`BaseComponent` provides an `asStateFlow()` extension on `Flow<VS>` that converts a `Flow` to a `StateFlow` within the component's coroutine scope. This is useful when you want to derive state from another flow:
-
-```kotlin
-val derivedState: StateFlow<DerivedState> = someFlow
-    .map { DerivedState(it) }
-    .asStateFlow(SharingStarted.WhileSubscribed(5_000))
-```
+This keeps the UI decoupled from the concrete component class, which makes Compose previews and tests straightforward — just provide a fake `HomeScreen` implementation.
 
 ## Observing State in Compose
 
+Pass the interface type to your composable, not the concrete component:
+
 ```kotlin
 @Composable
-fun HomeScreen(component: HomeComponent) {
+fun HomeScreen(component: HomeScreen) {
     val state by component.state.collectAsState()
 
     if (state.isLoading) {
@@ -84,6 +82,6 @@ Converts a Kotlin `Flow` to a Decompose `Value`:
 ```kotlin
 val decomposeValue: Value<HomeState> = stateFlow.collectAsValue(
     initial = HomeState(),
-    coroutineScope = componentCoroutineScope,
+    coroutineScope = lifecycleScope,
 )
 ```

@@ -2,6 +2,12 @@
 
 The `core-test` module provides a `ViewModelTest` base class that sets up the testing environment for Arkitekt ViewModels.
 
+## Dependency
+
+```kotlin
+testImplementation("app.futured.arkitekt:core-test:{{ arkitekt.version }}")
+```
+
 ## Setup
 
 `ViewModelTest` configures:

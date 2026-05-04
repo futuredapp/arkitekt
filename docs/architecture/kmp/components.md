@@ -10,14 +10,35 @@ Constructor parameters:
 
 - `componentContext: GenericComponentContext<*>` — Decompose component context
 - `defaultState: VS` — initial state value
+- `lifecycleScope: CoroutineScope` — scope tied to the component lifecycle (defaults to `MainScope()`; inject your own scope in tests)
 
 Key members:
 
 - `componentState: MutableStateFlow<VS>` — protected mutable state
-- `componentCoroutineScope` — a `MainScope()` tied to the component lifecycle (cancelled on destroy)
-- `events: Flow<E>` — flow of one-shot UI events backed by a `Channel`
+- `lifecycleScope: CoroutineScope` — public, open; cancelled automatically when the component is destroyed
+- `events: Flow<E>` — single-subscriber flow of one-shot UI events backed by a buffered `Channel`
 - `sendUiEvent(event: E)` — protected function to emit an event
 - `fun Flow<VS>.asStateFlow(started): StateFlow<VS>` — protected helper to convert a `Flow` to a `StateFlow` within the component scope
+
+### Events semantics
+
+`events` is backed by a `Channel.BUFFERED` (capacity 64). Events emitted before a collector subscribes are buffered and delivered when the collector starts. Because it is a channel-based flow, **each event is delivered exactly once to a single collector**. If multiple collectors subscribe, only one receives each event. On configuration change (collector cancelled and restarted), any undelivered buffered events are drained to the new collector.
+
+### Lifecycle
+
+The component lifecycle is driven by Decompose's `LifecycleOwner`. The recommended place to start work is inside a `doOnStart` / `doOnCreate` block:
+
+```kotlin
+init {
+    lifecycle.doOnStart {
+        observeUserUseCase.execute(Unit) {
+            onNext { update(componentState) { copy(userName = it.name) } }
+        }
+    }
+}
+```
+
+When the lifecycle is **destroyed**, `lifecycleScope` is cancelled and the `events` channel is closed — any subsequent `sendUiEvent` calls are no-ops.
 
 ## ArkitektComponentContext
 
@@ -46,7 +67,7 @@ class DefaultAppComponentContext(componentContext: ComponentContext) :
 
 ### Creating the Root Component
 
-On Android, Arkitekt is designed to be used with Decompose's [`retainedComponent`](https://arkivanov.github.io/Decompose/component/instance-retaining/#retained-components) to create the root component. This retains the entire component tree across configuration changes (similar to AndroidX `ViewModel`), while still preserving state across process death:
+On Android, Arkitekt is designed to be used with Decompose's [`retainedComponent`](https://arkivanov.github.io/Decompose/component/instance-retaining/#retained-components) to create the root component. This retains the entire component tree across configuration changes, similar to AndroidX `ViewModel`:
 
 ```kotlin
 // Android Activity — onCreate
@@ -74,9 +95,7 @@ abstract class AppComponent<VS : Any, E : Any>(
 
 Because `AppComponent` delegates `AppComponentContext`, all context services — `lifecycle`, `stateKeeper`, `instanceKeeper`, `backHandler` — are directly accessible on every component without going through `componentContext`. This is the recommended approach for both screen components and nav-host components.
 
-## Supporting Types
-
-- **`UiEvent`** — marker interface for one-shot events.
+This pattern also makes it easy to integrate with use cases: implement `CoroutineScopeOwner` directly on `AppComponent` to make use case execution available in every component by default — see [Use Cases](../../use-cases/overview.md).
 
 ## Koin Factory Generation
 
@@ -93,7 +112,8 @@ class HomeComponent(
 ) : AppComponent<HomeState, HomeUiEvent>(componentContext, HomeState()),
     CoroutineScopeOwner {
 
-    override val coroutineScope = componentCoroutineScope
+    override val useCaseScope = lifecycleScope
+    override val useCaseJobPool = mutableMapOf<Any, Job>()
 
     val state: StateFlow<HomeState> = componentState
 
@@ -116,7 +136,7 @@ class HomeComponent(
     `lifecycle.doOnStart` is the recommended place to trigger work that should run each time the component becomes active. The `lifecycle` property is available implicitly because `AppComponent` delegates `AppComponentContext`. This also makes components easy to unit test — you can control the lifecycle externally and verify behavior at each stage.
 
 !!! note
-    `BaseComponent` does **not** implement `CoroutineScopeOwner` directly. To execute use cases, implement `CoroutineScopeOwner` in your component and set `coroutineScope` to `componentCoroutineScope`.
+    `BaseComponent` does **not** implement `CoroutineScopeOwner` directly. To execute use cases, implement `CoroutineScopeOwner` in your component and set `useCaseScope = lifecycleScope`.
 
 ## Example Application
 

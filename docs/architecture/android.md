@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(
 
 `CoroutineScopeOwner` (from `cr-usecases`) is implemented by `BaseViewModel` and provides:
 
-- `coroutineScope` — the scope for executing use cases, backed by `viewModelScope`
+- `useCaseScope` — the scope for executing use cases, backed by `viewModelScope`
 - `getWorkerDispatcher()` — returns `Dispatchers.IO` by default; override for testing
 - `launchWithHandler {}` — launches a coroutine with try-catch that calls `defaultErrorHandler` and logs to `UseCaseErrorHandler.globalOnErrorLogger`
 - `defaultErrorHandler(exception)` — by default rethrows the exception; override to customize error handling

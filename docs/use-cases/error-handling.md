@@ -19,6 +19,8 @@ UseCaseErrorHandler.globalOnErrorLogger = { error ->
 | Async `execute` | `onError` defined | Yes (error is logged AND passed to `onError`) |
 | Async `execute` | `onError` not defined | No (exception is thrown/unhandled) |
 | `launchWithHandler` | Non-`CancellationException` | Yes |
+| `launchWithHandler` | `CancellationException` with non-cancellation root cause (e.g. via `getOrCancel`) | Yes |
+| `launchWithHandler` | Pure `CancellationException` | No |
 
 ## `launchWithHandler`
 
@@ -34,27 +36,39 @@ fun onButtonClicked() = launchWithHandler {
 Error handling behavior:
 
 - **Non-`CancellationException`:** calls `globalOnErrorLogger`, then calls `defaultErrorHandler`
-- **`CancellationException`:** calls `globalOnErrorLogger` only if the root cause is NOT a `CancellationException` (e.g., when using `getOrCancel`)
+- **`CancellationException` caused by `getOrCancel`:** calls `globalOnErrorLogger` with the original exception
+- **Pure `CancellationException`:** silently ignored
 
 ## `defaultErrorHandler`
 
-Override `defaultErrorHandler` in your ViewModel or Component to customize error handling:
+`defaultErrorHandler` is called by `launchWithHandler` after `globalOnErrorLogger` for non-cancellation exceptions. By default, it rethrows the exception.
+
+Override it in your ViewModel or Component to handle errors without rethrowing:
 
 ```kotlin
 override fun defaultErrorHandler(exception: Throwable) {
-    // custom handling instead of rethrowing
-    viewState.error.value = exception.message
+    viewState.error = exception.message
 }
 ```
 
-This is called by `launchWithHandler` after `globalOnErrorLogger` for non-cancellation exceptions.
+## `getOrCancel`
 
-## `Throwable.rootCause`
-
-Extension property that traverses the `cause` chain to find the deepest (root) cause of an exception:
+`getOrCancel` is an extension on `kotlin.Result<VALUE>` (from `cr-usecases`). It is the recommended way to abort a coroutine cleanly when a sequential use case call fails:
 
 ```kotlin
-val root = exception.rootCause
+fun onButtonClicked() = launchWithHandler {
+    val user = loginUseCase
+        .execute(LoginData(name, password))
+        .getOrCancel { error -> showError(error.message) } // side-effect before cancel
+
+    // only reached on success
+    navigateToHome(user)
+}
 ```
 
-This is used internally by `launchWithHandler` to determine whether a `CancellationException` was caused by an actual cancellation or by `getOrCancel`.
+On success, `getOrCancel` returns the value. On failure, it:
+
+1. Calls the optional `doBeforeThrow` lambda (skipped if the exception is already a `CancellationException`)
+2. Throws a `CancellationException` whose `cause` is the original exception
+
+The thrown `CancellationException` bubbles up through `launchWithHandler`, which logs the original cause via `globalOnErrorLogger` and then lets the coroutine cancel cleanly — `defaultErrorHandler` is **not** called.

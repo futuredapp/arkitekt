@@ -85,7 +85,7 @@ private fun openPicker() {
     val result = ResultFlow<String>()
     result
         .onEach { selected -> update(componentState) { copy(selection = selected) } }
-        .launchIn(componentCoroutineScope)
+        .launchIn(lifecycleScope)
     stackNavigation.push(PickerConfig(result))
 }
 
@@ -123,7 +123,7 @@ data class PickerConfig(
 
 ### Collecting Results in a NavHost
 
-Create the flow in the parent nav-host, start collecting immediately using `componentCoroutineScope`, then push the config:
+Create the flow in the parent nav-host, start collecting immediately using `lifecycleScope`, then push the config:
 
 ```kotlin
 

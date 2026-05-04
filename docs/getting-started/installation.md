@@ -2,6 +2,44 @@
 
 All Arkitekt artifacts are published to **Maven Central** under the group ID `app.futured.arkitekt`.
 
+## Requirements
+
+| Tool | Minimum version |
+|------|----------------|
+| Android Gradle Plugin | 9.1 |
+| Gradle | 9.4 |
+| Kotlin | 2.3 |
+| JDK | 17 |
+| `minSdk` | 23 |
+
+Arkitekt requires **AndroidX** — Jetifier is not supported.
+
+### Context Parameters Compiler Flag
+
+The `execute` extension functions on `UseCase` and `FlowUseCase` use Kotlin context parameters. Add the following compiler option to any module that calls `execute(...)`:
+
+=== "Android (build.gradle.kts)"
+
+    ```kotlin
+    android {
+        kotlinOptions {
+            freeCompilerArgs += "-Xcontext-parameters"
+        }
+    }
+    ```
+
+=== "KMP (build.gradle.kts)"
+
+    ```kotlin
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.add("-Xcontext-parameters")
+        }
+    }
+    ```
+
+Projects that cannot enable this flag can use the deprecated explicit-owner overloads — see [UseCase](../use-cases/usecase.md) for details.
+
 ## Dependencies
 
 Add the modules you need to your `build.gradle.kts`:
@@ -31,21 +69,27 @@ dependencies {
 
     // UseCase mocking utilities
     testImplementation("app.futured.arkitekt:cr-usecases-test:{{ arkitekt.version }}")
+
+    // Decompose component testing utilities (KMP)
+    testImplementation("app.futured.arkitekt:decompose-test:{{ arkitekt.version }}")
 }
 ```
 
 ## Module Selection
 
-| Module | Android-only | KMP |
+KMP modules support **Android and iOS** targets.
+
+| Module | Android | iOS |
 |---|:---:|:---:|
-| `core` | Yes | — |
-| `compose` | Yes | — |
-| `cr-usecases` | Yes | Yes |
-| `decompose` | — | Yes |
-| `decompose-annotation` | — | Yes |
-| `decompose-processor` | — | Yes |
-| `core-test` | Yes | — |
-| `cr-usecases-test` | Yes | Yes |
+| `core` | ✓ | — |
+| `compose` | ✓ | — |
+| `cr-usecases` | ✓ | ✓ |
+| `decompose` | ✓ | ✓ |
+| `decompose-annotation` | ✓ | ✓ |
+| `decompose-processor` | ✓ | ✓ |
+| `core-test` | ✓ | — |
+| `cr-usecases-test` | ✓ | ✓ |
+| `decompose-test` | ✓ | ✓ |
 
 For **Android-only** projects, use `core`, `compose`, and `cr-usecases`.
 
