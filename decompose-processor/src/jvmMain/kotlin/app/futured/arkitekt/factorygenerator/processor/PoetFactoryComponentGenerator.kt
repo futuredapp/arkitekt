@@ -76,7 +76,10 @@ object PoetFactoryComponentGenerator {
 
         val fileSpec = createFileSpec(factoryClassName, componentTypeSpec)
 
-        fileSpec.writeTo(codeGenerator, aggregating = true)
+        // aggregating = false: each factory depends only on its own source class, not all files.
+        // originatingKSFiles defaults to FileSpec.originatingKSFiles, resolved automatically from
+        // the KS symbols added via toTypeName() calls in the contained declarations.
+        fileSpec.writeTo(codeGenerator, aggregating = false)
     }
 
     private fun createComponentTypeSpec(
