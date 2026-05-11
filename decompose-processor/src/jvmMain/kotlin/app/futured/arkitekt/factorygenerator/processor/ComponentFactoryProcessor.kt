@@ -11,7 +11,15 @@ import kotlin.reflect.KClass
 class ComponentFactoryProcessor(
     private val codeGenerator: CodeGenerator,
 ) : SymbolProcessor {
+
+    var invoked: Boolean = false
+
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        if (invoked) {
+            return emptyList()
+        }
+        invoked = true
+
         val components: Sequence<KSClassDeclaration> = resolver.findAnnotationsForClass(GenerateFactory::class)
         components.forEach { generateComponent(it) }
         return emptyList()
