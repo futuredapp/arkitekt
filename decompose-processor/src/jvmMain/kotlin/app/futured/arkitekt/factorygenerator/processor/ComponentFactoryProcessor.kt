@@ -11,19 +11,9 @@ import kotlin.reflect.KClass
 class ComponentFactoryProcessor(
     private val codeGenerator: CodeGenerator,
 ) : SymbolProcessor {
-    // KSP may invoke process() in multiple rounds (e.g. when another aggregating processor like
-    // Koin's compiler generates files that trigger a new round). Guard against re-running so we
-    // don't attempt to create files that already exist from round 1.
-    private var invoked = false
-
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        if (invoked) return emptyList()
-        invoked = true
-
         val components: Sequence<KSClassDeclaration> = resolver.findAnnotationsForClass(GenerateFactory::class)
-
         components.forEach { generateComponent(it) }
-
         return emptyList()
     }
 

@@ -2,6 +2,7 @@ package app.futured.arkitekt.factorygenerator.processor
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSValueParameter
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -9,6 +10,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.ksp.addOriginatingKSFile
 import com.squareup.kotlinpoet.ksp.toTypeName
 import com.squareup.kotlinpoet.ksp.writeTo
 
@@ -64,9 +66,13 @@ object PoetFactoryComponentGenerator {
             simpleNames = listOf("KoinComponent"),
         )
 
+        val originatingFile = factoryComponent.containingFile
+            ?: error("Unable to get containing file for ${factoryComponent.qualifiedName?.asString()}")
+
         val componentTypeSpec = createComponentTypeSpec(
             factoryClassName = factoryClassName,
             koinComponentClass = koinComponentClass,
+            originatingFile = originatingFile,
             createComponentFunction = createComponentFunction(
                 baseName,
                 factoryComponentPackageName,
@@ -76,17 +82,18 @@ object PoetFactoryComponentGenerator {
 
         val fileSpec = createFileSpec(factoryClassName, componentTypeSpec)
 
-        // aggregating = false: each factory depends only on its own source class, not all files.
-        // originatingKSFiles defaults to FileSpec.originatingKSFiles, resolved automatically from
-        // the KS symbols added via toTypeName() calls in the contained declarations.
+        // Each factory depends only on the annotated component that owns it.
+        // This lets KSP keep outputs for unchanged components during incremental builds.
         fileSpec.writeTo(codeGenerator, aggregating = false)
     }
 
     private fun createComponentTypeSpec(
         factoryClassName: ClassName,
         koinComponentClass: ClassName,
+        originatingFile: KSFile,
         createComponentFunction: FunSpec,
     ) = TypeSpec.objectBuilder(factoryClassName)
+        .addOriginatingKSFile(originatingFile)
         .addModifiers(KModifier.INTERNAL)
         .addSuperinterface(superinterface = koinComponentClass)
         .addFunction(createComponentFunction)
