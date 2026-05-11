@@ -16,7 +16,9 @@ import kotlinx.coroutines.launch
  * Coroutine and to set configuration options.
  */
 context(coroutineScopeOwner: CoroutineScopeOwner)
-fun <T : Any?> UseCase<Unit, T>.execute(config: UseCaseConfig.Builder<T>.() -> Unit) = execute(Unit, config)
+fun <T : Any?> UseCase<Unit, T>.execute(
+    config: UseCaseConfig.Builder<T>.() -> Unit,
+): Unit = execute(Unit, config)
 
 /**
  * Asynchronously executes use case and saves it's Deferred. By default, all previous
