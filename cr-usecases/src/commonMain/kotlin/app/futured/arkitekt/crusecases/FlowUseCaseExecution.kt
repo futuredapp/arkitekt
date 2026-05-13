@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.onStart
 
 context(coroutineScopeOwner: CoroutineScopeOwner)
 fun <T : Any?> FlowUseCase<Unit, T>.execute(
-    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit
-) = execute(Unit, config)
+    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
+): Unit = execute(Unit, config)
 
 /**
  * Asynchronously executes use case and consumes data from flow on UI thread.
