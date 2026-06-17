@@ -19,8 +19,7 @@ class FormViewModel @AssistedInject constructor(
 ) : BaseViewModel<FormViewState>() {
 
     init {
-        // example of usage without context parameter enabled
-        observeFormUseCase.execute(this) {
+        observeFormUseCase.execute {
             onNext { viewState.storedContent.value = "${it.first} ${it.second}" }
             onError { sendEvent(ShowToastEvent("Error :-(")) }
         }

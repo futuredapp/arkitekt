@@ -85,29 +85,6 @@ suspend fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
     }
 }
 
-@Deprecated(
-    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
-    replaceWith = ReplaceWith("execute(args, config)", imports = ["app.futured.arkitekt.crusecases.execute"])
-)
-fun <ARGS, T : Any?> UseCase<ARGS, T>.execute(
-    args: ARGS,
-    coroutineScopeOwner: CoroutineScopeOwner,
-    config: UseCaseConfig.Builder<T>.() -> Unit,
-) {
-    internalExecute(args, coroutineScopeOwner, config)
-}
-
-@Deprecated(
-    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
-    replaceWith = ReplaceWith("execute(args, config)", imports = ["app.futured.arkitekt.crusecases.execute"])
-)
-fun <T : Any?> UseCase<Unit, T>.execute(
-    coroutineScopeOwner: CoroutineScopeOwner,
-    config: UseCaseConfig.Builder<T>.() -> Unit,
-) {
-    internalExecute(Unit, coroutineScopeOwner, config)
-}
-
 private fun <ARGS, T : Any?> UseCase<ARGS, T>.internalExecute(
     args: ARGS,
     coroutineScopeOwner: CoroutineScopeOwner,
