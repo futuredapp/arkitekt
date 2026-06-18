@@ -24,6 +24,7 @@ object Deps {
         const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
         const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+        const val kotlinMetadata = "org.jetbrains.kotlin:kotlin-metadata-jvm:${Versions.kotlin}"
 
         const val hiltViewModelCompose = "androidx.hilt:hilt-lifecycle-viewmodel-compose:${Versions.hiltJetpack}"
     }

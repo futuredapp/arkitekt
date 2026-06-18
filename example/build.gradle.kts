@@ -45,9 +45,6 @@ android {
 
 kotlin {
     jvmToolchain(17)
-    compilerOptions {
-        freeCompilerArgs.add("-Xcontext-parameters")
-    }
 }
 
 dependencies {
@@ -75,6 +72,10 @@ dependencies {
 
     implementation(Deps.DI.hilt)
     ksp(Deps.DI.hiltCompiler)
+    // Overrides the older kotlin-metadata-jvm bundled by hilt-compiler so the KSP/Hilt
+    // processor can parse Kotlin 2.4.0 metadata (highest version on the processor classpath
+    // wins). Mirrors android/nowinandroid's fix for google/dagger#5001.
+    ksp(Deps.DI.kotlinMetadata)
 
     // Unit tests
     testImplementation(Deps.Test.jUnit)
