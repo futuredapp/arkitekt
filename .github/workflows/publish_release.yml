@@ -9,9 +9,9 @@ jobs:
     name: Release build
     runs-on: [ ubuntu-latest ]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v7
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -25,3 +25,32 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
           ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
+
+  update-docs-version:
+    name: Update docs version
+    needs: release
+    runs-on: [ ubuntu-latest ]
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - name: Update mkdocs version
+        env:
+          VERSION: ${{ github.event.release.name }}
+        run: |
+          sed -i -E "s/^(  arkitekt_version: ).*/\1\"${VERSION}\"/" mkdocs.yml
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          base: ${{ github.event.repository.default_branch }}
+          branch: docs/update-version-${{ github.event.release.name }}
+          add-paths: mkdocs.yml
+          commit-message: "docs: update Arkitekt version to ${{ github.event.release.name }}"
+          title: "docs: update Arkitekt version to ${{ github.event.release.name }}"
+          body: |
+            Automated update of `extra.arkitekt_version` in `mkdocs.yml` to
+            `${{ github.event.release.name }}` following the published release.
+          delete-branch: true

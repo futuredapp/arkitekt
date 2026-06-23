@@ -8,7 +8,7 @@ The `cr-usecases-test` module provides mock extensions for use cases. Since `exe
 ## Dependency
 
 ```kotlin
-testImplementation("app.futured.arkitekt:cr-usecases-test:{{ arkitekt.version }}")
+testImplementation("app.futured.arkitekt:cr-usecases-test:{{ arkitekt_version }}")
 ```
 
 ## UseCase Mocking

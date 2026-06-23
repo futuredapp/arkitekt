@@ -81,7 +81,7 @@ plugins {
 }
 
 dependencies {
-    add("kspCommonMainMetadata", "app.futured.arkitekt:decompose-processor:{{ arkitekt.version }}")
+    add("kspCommonMainMetadata", "app.futured.arkitekt:decompose-processor:{{ arkitekt_version }}")
 }
 
 kotlin.sourceSets.named("commonMain") {

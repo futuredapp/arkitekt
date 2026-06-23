@@ -6,7 +6,7 @@ The `decompose-test` module provides infrastructure for unit-testing Decompose c
 
 ```kotlin
 // commonMain test source set (or platform-specific test source set)
-testImplementation("app.futured.arkitekt:decompose-test:{{ arkitekt.version }}")
+testImplementation("app.futured.arkitekt:decompose-test:{{ arkitekt_version }}")
 ```
 
 For KMP modules, add it to the test source set in your `build.gradle.kts`:
@@ -16,7 +16,7 @@ kotlin {
     sourceSets {
         commonTest {
             dependencies {
-                implementation("app.futured.arkitekt:decompose-test:{{ arkitekt.version }}")
+                implementation("app.futured.arkitekt:decompose-test:{{ arkitekt_version }}")
             }
         }
     }
