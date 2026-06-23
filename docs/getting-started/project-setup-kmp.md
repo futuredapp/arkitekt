@@ -19,18 +19,6 @@ androidApp/
         └── HomeScreen.kt
 ```
 
-## Build Configuration
-
-Enable the context parameters compiler flag so you can call `execute(...)` on use cases:
-
-```kotlin
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xcontext-parameters")
-    }
-}
-```
-
 ## State
 
 State is a simple data class defined in common code. It represents the UI state for a given component.

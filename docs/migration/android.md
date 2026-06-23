@@ -10,24 +10,24 @@ Upgrade your project to meet the minimum requirements:
 |------|-----------------|
 | Android Gradle Plugin | 9.1 |
 | Gradle | 9.4 |
-| Kotlin | 2.3 |
+| Kotlin | 2.4 |
 | JDK | 17 |
 | `compileSdk` / `targetSdk` | 36 |
 | `minSdk` | 23 |
 
 Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.enableJetifier`) from `gradle.properties` — Arkitekt is AndroidX-only.
 
-### Enable Context Parameters
+!!! note "Hilt + Kotlin 2.4"
 
-Add the compiler flag to every module that calls `UseCase.execute(...)` or `FlowUseCase.execute(...)`:
+    Hilt currently bundles an older `kotlin-metadata-jvm` that may fail to parse Kotlin 2.4 metadata ([google/dagger#5001](https://github.com/google/dagger/issues/5001)). If you hit a metadata parsing error during the KSP/Hilt build, add the matching version as a KSP dependency so the highest version on the processor classpath wins:
 
-```kotlin
-android {
-    kotlinOptions {
-        freeCompilerArgs += "-Xcontext-parameters"
+    ```kotlin
+    dependencies {
+        ksp("org.jetbrains.kotlin:kotlin-metadata-jvm:2.4.0")
     }
-}
-```
+    ```
+
+    This is a temporary workaround until Hilt updates its bundled version.
 
 ## Removed Modules
 
@@ -127,14 +127,10 @@ class ObserveUserNamesUseCase : FlowUseCase<Unit, String> {
 
 ### execute uses context parameters
 
-The `execute` extensions are now declared with Kotlin context parameters. If your project enables `-Xcontext-parameters`, the call sites remain syntactically the same. Without the flag, use the deprecated explicit-owner overload:
+The `execute` extensions are now declared with Kotlin context parameters. Context parameters are stable as of Kotlin 2.4, so no compiler flag is needed — call `execute(...)` directly from inside any `CoroutineScopeOwner` (e.g. a ViewModel or Component) and the receiver is resolved automatically. The call sites remain syntactically the same as before:
 
 ```kotlin
-// With -Xcontext-parameters (recommended — same syntax as before from inside a CoroutineScopeOwner)
 loginUseCase.execute(args) { onSuccess { /* ... */ } }
-
-// Without flag (deprecated overload)
-loginUseCase.execute(args, coroutineScopeOwner = this) { onSuccess { /* ... */ } }
 ```
 
 ## CoroutineScopeOwner Changes
@@ -184,9 +180,9 @@ Arkitekt's custom `Result<VALUE>` sealed class has been removed. The sync-execut
 
 ## Migration Path
 
-1. **Upgrade toolchain** to AGP 9.1, Gradle 9.4, Kotlin 2.3, JDK 17
+1. **Upgrade toolchain** to AGP 9.1, Gradle 9.4, Kotlin 2.4, JDK 17
 2. **Remove multidex and Jetifier** from `gradle.properties`
-3. **Add `-Xcontext-parameters`** compiler flag to affected modules
+3. **Add `ksp("org.jetbrains.kotlin:kotlin-metadata-jvm:2.4.0")`** if you hit Hilt metadata parsing errors ([google/dagger#5001](https://github.com/google/dagger/issues/5001))
 4. **Replace Fragment/Activity base classes** with `ComponentActivity` + `@AndroidEntryPoint`
 5. **Replace LiveData** with `StateFlow` or Compose `State`
 6. **Replace `LiveEvent`** with Channel-based `Event` system

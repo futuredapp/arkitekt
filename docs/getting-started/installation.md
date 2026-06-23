@@ -8,37 +8,11 @@ All Arkitekt artifacts are published to **Maven Central** under the group ID `ap
 |------|----------------|
 | Android Gradle Plugin | 9.1 |
 | Gradle | 9.4 |
-| Kotlin | 2.3 |
+| Kotlin | 2.4 |
 | JDK | 17 |
 | `minSdk` | 23 |
 
 Arkitekt requires **AndroidX** — Jetifier is not supported.
-
-### Context Parameters Compiler Flag
-
-The `execute` extension functions on `UseCase` and `FlowUseCase` use Kotlin context parameters. Add the following compiler option to any module that calls `execute(...)`:
-
-=== "Android (build.gradle.kts)"
-
-    ```kotlin
-    android {
-        kotlinOptions {
-            freeCompilerArgs += "-Xcontext-parameters"
-        }
-    }
-    ```
-
-=== "KMP (build.gradle.kts)"
-
-    ```kotlin
-    kotlin {
-        compilerOptions {
-            freeCompilerArgs.add("-Xcontext-parameters")
-        }
-    }
-    ```
-
-Projects that cannot enable this flag can use the deprecated explicit-owner overloads — see [UseCase](../use-cases/usecase.md) for details.
 
 ## Dependencies
 

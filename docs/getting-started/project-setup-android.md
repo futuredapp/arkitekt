@@ -21,15 +21,17 @@ app/
 
 ## Build Configuration
 
-Enable the context parameters compiler flag in your app module so you can call `execute(...)` on use cases:
+!!! note "Hilt + Kotlin 2.4"
 
-```kotlin
-android {
-    kotlinOptions {
-        freeCompilerArgs += "-Xcontext-parameters"
+    Hilt currently bundles an older `kotlin-metadata-jvm` that may fail to parse Kotlin 2.4 metadata ([google/dagger#5001](https://github.com/google/dagger/issues/5001)). If you hit a metadata parsing error during the KSP/Hilt build, add the matching version as a KSP dependency so the highest version on the processor classpath wins:
+
+    ```kotlin
+    dependencies {
+        ksp("org.jetbrains.kotlin:kotlin-metadata-jvm:2.4.0")
     }
-}
-```
+    ```
+
+    This is a temporary workaround until Hilt updates its bundled version.
 
 ## Application Class
 

@@ -17,7 +17,7 @@ class ObserveFormUseCase @Inject constructor(
 
 ## Execution
 
-Execute with callback handlers to react to each emitted value. Requires the `-Xcontext-parameters` compiler flag and a `CoroutineScopeOwner` in scope:
+Execute with callback handlers to react to each emitted value. Requires a `CoroutineScopeOwner` in scope:
 
 ```kotlin
 observeUserUseCase.execute(Unit) {

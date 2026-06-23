@@ -28,7 +28,7 @@ class GetCurrentUserUseCase @Inject constructor(
 
 ## Async Execution (Callbacks)
 
-Execute with callback handlers for fire-and-forget style control flow. Requires the `-Xcontext-parameters` compiler flag and a `CoroutineScopeOwner` in scope (e.g. inside a ViewModel or Component):
+Execute with callback handlers for fire-and-forget style control flow. Requires a `CoroutineScopeOwner` in scope (e.g. inside a ViewModel or Component):
 
 ```kotlin
 loginUseCase.execute(LoginData(name, password)) {
@@ -88,18 +88,3 @@ val data = loadUseCase.execute()
 ```
 
 `launchWithHandler` will route the cancellation through `UseCaseErrorHandler.globalOnErrorLogger` if the root cause is not itself a `CancellationException`.
-
-## Fallback: Explicit Owner Overload
-
-Projects that cannot enable `-Xcontext-parameters` can use the deprecated explicit-owner overload:
-
-```kotlin
-loginUseCase.execute(
-    args = LoginData(name, password),
-    coroutineScopeOwner = this,
-) {
-    onSuccess { /* ... */ }
-}
-```
-
-This overload is marked `@Deprecated` and the IDE will suggest migrating to the context parameter form.
