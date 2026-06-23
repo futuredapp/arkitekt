@@ -1,0 +1,176 @@
+@font-face {
+  font-family: 'Roobert';
+  src: url('../assets/fonts/Roobert-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roobert';
+  src: url('../assets/fonts/Roobert-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roobert';
+  src: url('../assets/fonts/Roobert-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --md-text-font: "Roobert"
+}
+
+[data-md-color-scheme="default"] {
+  --ftrd-background: #FFFFFF;
+  --ftrd-background-variant: #0000001A;
+  --ftrd-background-variant2: #0000000D;
+  --ftrd-foreground: #222222;
+  --ftrd-foreground-variant: #00000099;
+  --ftrd-foreground-variant2: #00000066;
+  --ftrd-foreground-variant3: #22222299;
+  --ftrd-border: #E7E8E9;
+  --ftrd-brand: #FF5F00;
+
+  --md-primary-fg-color: var(--ftrd-brand);
+  --md-primary-bg-color: var(--ftrd-foreground);
+
+  --md-default-fg-color: var(--ftrd-foreground);
+  --md-default-bg-color: var(--ftrd-background);
+
+  --md-accent-fg-color: var(--ftrd-brand);
+  --md-typeset-a-color: var(--ftrd-brand) !important;
+}
+
+[data-md-color-scheme="slate"] {
+  --ftrd-background: #1B1B1B;
+  --ftrd-background-variant: #FFFFFF1A;
+  --ftrd-background-variant2: #FFFFFF0D;
+  --ftrd-foreground: #E7E8E9;
+  --ftrd-foreground-variant: #C2C5C8;
+  --ftrd-foreground-variant2: #C2C5C8;
+  --ftrd-foreground-variant3: #C2C5C8;
+  --ftrd-border: #292929;
+  --ftrd-brand: #FF5F00;
+
+  --md-primary-fg-color: var(--ftrd-brand);
+  --md-primary-bg-color: var(--ftrd-foreground);
+
+  --md-default-fg-color: var(--ftrd-foreground);
+  --md-default-bg-color: var(--ftrd-background);
+
+  --md-accent-fg-color: var(--ftrd-brand);
+  
+  --md-code-bg-color: var(--ftrd-background-variant);
+  --md-typeset-a-color: var(--ftrd-brand) !important;
+}
+
+/* Header background */
+.md-header {
+  background-color: var(--ftrd-background);
+}
+
+/* Header title margin */
+.md-header__title {
+  margin-left: 0.2rem !important;
+}
+
+/* Nav title background in drawer */
+.md-nav--primary .md-nav__title[for=__drawer] {
+  background-color: var(--ftrd-background);
+}
+
+/* Search widget - icon */
+.md-search__icon[for=__search] {
+  color: var(--ftrd-foreground-variant);
+}
+
+/* Search widget - background */
+.md-search__form {
+  background-color: var(--ftrd-background-variant);
+}
+
+/* Search widget - hover */
+.md-search__form:hover {
+  background-color: var(--ftrd-background-variant2);
+}
+
+/* Search widget - input placeholder color */
+.md-search__input::placeholder {
+  color: var(--ftrd-foreground-variant);
+}
+
+/* Palette button colors */
+.md-header__button[for="__palette_0"],
+.md-header__button[for="__palette_1"],
+.md-header__button[for="__palette_2"] {
+  color: var(--ftrd-foreground-variant);
+}
+
+/* Tab background */
+.md-tabs {
+  background-color: var(--ftrd-background);
+  border-bottom: 1px solid var(--ftrd-border);
+}
+
+/* Tab item color */
+.md-tabs__item {
+  color: var(--ftrd-foreground) !important;
+}
+
+/* Tab item opacity, gets rid of transition animation, did not find a way to do transition to brand color */
+.md-tabs__link {
+  opacity: 1;
+}
+
+/* Tab item color -- selected */
+.md-tabs__item--active {
+  color: var(--ftrd-brand) !important;
+}
+
+/* Navigation - scrollbar color */
+.md-sidebar__scrollwrap:hover {
+  scrollbar-color: var(--ftrd-foreground-variant) #0000;
+}
+
+/* Navigation - section color */
+.md-nav__item--section>.md-nav__link[for] {
+  color: var(--ftrd-foreground-variant);
+}
+
+/* Typography - Page title */
+.md-typeset h1 {
+  color: var(--ftrd-foreground) !important;
+}
+
+/* Footer - background*/
+.md-footer-meta {
+  background-color: var(--ftrd-background);
+  border-top: 1px solid var(--ftrd-border);
+}
+
+/* Footer - Made with ❤️‍🔥 at Futured */
+.md-copyright__highlight {
+  color: var(--ftrd-foreground);
+}
+
+/* Footer - Made with mkdocs */
+.md-copyright {
+  color: var(--ftrd-foreground-variant3);
+}
+
+/* Footer - Made with mkdocs - link */
+.md-copyright a {
+  color: var(--ftrd-foreground-variant3) !important;
+  text-decoration: underline;
+}
+
+/* Footer - social icons */
+.md-social a {
+  color: var(--ftrd-foreground) !important;
+}

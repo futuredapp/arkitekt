@@ -1,0 +1,121 @@
+#$schema: https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: Arkitekt
+site_url: https://arkitekt.futured.app
+repo_url: https://github.com/futuredapp/arkitekt
+repo_name: futuredapp/arkitekt
+
+theme:
+  name: material
+  language: en
+
+  custom_dir: docs/overrides
+
+  logo: assets/images/readme_logo.svg
+  favicon: assets/images/readme_logo.svg
+  icon:
+    repo: fontawesome/brands/github
+
+  font:
+    code: JetBrains Mono
+
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to auto mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.expand
+    - content.code.copy
+
+plugins:
+  - search
+  - macros
+  - glightbox:
+      background: light-dark(white, black)
+      shadow: false
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Project Setup:
+          - Android: getting-started/project-setup-android.md
+          - KMP: getting-started/project-setup-kmp.md
+      - Quick Start:
+          - Android: getting-started/quick-start-android.md
+          - KMP: getting-started/quick-start-kmp.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Stores: architecture/stores.md
+      - Android: architecture/android.md
+      - KMP:
+          - Components: architecture/kmp/components.md
+          - State Management: architecture/kmp/state.md
+          - Events: architecture/kmp/events.md
+          - Navigation: architecture/kmp/navigation.md
+          - Navigation - Advanced: architecture/kmp/navigation-advanced.md
+          - Factory Generator: architecture/kmp/factory-generator.md
+  - Use Cases:
+      - Overview: use-cases/overview.md
+      - UseCase: use-cases/usecase.md
+      - FlowUseCase: use-cases/flow-usecase.md
+      - Error Handling: use-cases/error-handling.md
+  - Testing:
+      - ViewModel Testing: testing/viewmodel-testing.md
+      - UseCase Mocking: testing/usecase-mocking.md
+      - Component Testing: testing/component-testing.md
+  - Lint: lint.md
+  - Migration: migration/android.md
+
+copyright: Made with ❤️‍🔥 at Futured
+
+extra:
+  arkitekt:
+    version: "6.0.0"
+  social:
+    - icon: material/web
+      name: Web
+      link: https://www.futured.app
+    - icon: fontawesome/brands/github
+      name: GitHub
+      link: https://github.com/futuredapp/arkitekt
+    - icon: fontawesome/brands/linkedin
+      name: LinkedIn
+      link: https://www.linkedin.com/company/futuredapps
+    - icon: fontawesome/brands/instagram
+      name: Instagram
+      link: https://www.instagram.com/futuredapps
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.blocks.caption

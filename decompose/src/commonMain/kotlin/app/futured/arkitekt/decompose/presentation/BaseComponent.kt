@@ -8,10 +8,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 /**
@@ -43,15 +40,6 @@ abstract class BaseComponent<VS : Any, E : Any>(
      * An internal state of the component of type [VS].
      */
     protected val componentState: MutableStateFlow<VS> = MutableStateFlow(defaultState)
-
-    /**
-     * Converts a [Flow] of component states to a [StateFlow].
-     *
-     * @param started The [SharingStarted] strategy for the [StateFlow].
-     * @return A [StateFlow] emitting the values of the [Flow].
-     */
-    protected fun Flow<VS>.asStateFlow(started: SharingStarted = SharingStarted.Lazily) =
-        stateIn(lifecycleScope, started, defaultState)
 
     // region UI events
 
