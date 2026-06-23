@@ -30,14 +30,14 @@ Arkitekt gives you a solid, testable foundation for building Android and KMP app
 ```kotlin
 dependencies {
     // Android / Compose
-    implementation("app.futured.arkitekt:core:{{ arkitekt.version }}")
-    implementation("app.futured.arkitekt:cr-usecases:{{ arkitekt.version }}")
-    implementation("app.futured.arkitekt:compose:{{ arkitekt.version }}")
+    implementation("app.futured.arkitekt:core:{{ arkitekt_version }}")
+    implementation("app.futured.arkitekt:cr-usecases:{{ arkitekt_version }}")
+    implementation("app.futured.arkitekt:compose:{{ arkitekt_version }}")
 
     // Decompose / KMP (optional)
-    implementation("app.futured.arkitekt:decompose:{{ arkitekt.version }}")
-    implementation("app.futured.arkitekt:decompose-annotation:{{ arkitekt.version }}")
-    ksp("app.futured.arkitekt:decompose-processor:{{ arkitekt.version }}")
+    implementation("app.futured.arkitekt:decompose:{{ arkitekt_version }}")
+    implementation("app.futured.arkitekt:decompose-annotation:{{ arkitekt_version }}")
+    ksp("app.futured.arkitekt:decompose-processor:{{ arkitekt_version }}")
 }
 ```
 

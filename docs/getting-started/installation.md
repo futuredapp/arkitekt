@@ -21,31 +21,31 @@ Add the modules you need to your `build.gradle.kts`:
 ```kotlin
 dependencies {
     // Core ViewModel and ViewState classes (Android)
-    implementation("app.futured.arkitekt:core:{{ arkitekt.version }}")
+    implementation("app.futured.arkitekt:core:{{ arkitekt_version }}")
 
     // Jetpack Compose integration (Android)
-    implementation("app.futured.arkitekt:compose:{{ arkitekt.version }}")
+    implementation("app.futured.arkitekt:compose:{{ arkitekt_version }}")
 
     // Coroutine use cases (KMP)
-    implementation("app.futured.arkitekt:cr-usecases:{{ arkitekt.version }}")
+    implementation("app.futured.arkitekt:cr-usecases:{{ arkitekt_version }}")
 
     // Decompose integration (KMP)
-    implementation("app.futured.arkitekt:decompose:{{ arkitekt.version }}")
+    implementation("app.futured.arkitekt:decompose:{{ arkitekt_version }}")
 
     // KSP annotation for Decompose factory generation (KMP)
-    implementation("app.futured.arkitekt:decompose-annotation:{{ arkitekt.version }}")
+    implementation("app.futured.arkitekt:decompose-annotation:{{ arkitekt_version }}")
 
     // KSP processor for Decompose factory generation (KMP)
-    ksp("app.futured.arkitekt:decompose-processor:{{ arkitekt.version }}")
+    ksp("app.futured.arkitekt:decompose-processor:{{ arkitekt_version }}")
 
     // ViewModel testing utilities
-    testImplementation("app.futured.arkitekt:core-test:{{ arkitekt.version }}")
+    testImplementation("app.futured.arkitekt:core-test:{{ arkitekt_version }}")
 
     // UseCase mocking utilities
-    testImplementation("app.futured.arkitekt:cr-usecases-test:{{ arkitekt.version }}")
+    testImplementation("app.futured.arkitekt:cr-usecases-test:{{ arkitekt_version }}")
 
     // Decompose component testing utilities (KMP)
-    testImplementation("app.futured.arkitekt:decompose-test:{{ arkitekt.version }}")
+    testImplementation("app.futured.arkitekt:decompose-test:{{ arkitekt_version }}")
 }
 ```
 

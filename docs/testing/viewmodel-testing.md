@@ -5,7 +5,7 @@ The `core-test` module provides a `ViewModelTest` base class that sets up the te
 ## Dependency
 
 ```kotlin
-testImplementation("app.futured.arkitekt:core-test:{{ arkitekt.version }}")
+testImplementation("app.futured.arkitekt:core-test:{{ arkitekt_version }}")
 ```
 
 ## Setup
