@@ -91,7 +91,7 @@ nav:
 copyright: Made with ❤️‍🔥 at Futured
 
 extra:
-  arkitekt_version: "6.0.0"
+  arkitekt_version: "6.0.0-beta05"
   social:
     - icon: material/web
       name: Web
