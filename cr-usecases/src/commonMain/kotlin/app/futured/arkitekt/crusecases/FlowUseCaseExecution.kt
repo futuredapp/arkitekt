@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.onStart
 
 context(coroutineScopeOwner: CoroutineScopeOwner)
 fun <T : Any?> FlowUseCase<Unit, T>.execute(
-    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit
-) = execute(Unit, config)
+    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
+): Unit = execute(Unit, config)
 
 /**
  * Asynchronously executes use case and consumes data from flow on UI thread.
@@ -72,28 +72,4 @@ private fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.internalExecute(
                 }
             }.catch { /* handled in onCompletion */ }
             .launchIn(coroutineScopeOwner.useCaseScope)
-}
-
-
-@Deprecated(
-    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
-    replaceWith = ReplaceWith("execute(args, config)", imports = ["app.futured.arkitekt.crusecases.execute"])
-)
-fun <ARGS, T : Any?> FlowUseCase<ARGS, T>.execute(
-    args: ARGS,
-    coroutineScopeOwner: CoroutineScopeOwner,
-    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
-) {
-    internalExecute(args, coroutineScopeOwner, config)
-}
-
-@Deprecated(
-    message = "Use the version with CoroutineScopeOwner as context parameter instead. Enable context parameters by adding '-Xcontext-receivers' compiler flag.",
-    replaceWith = ReplaceWith("execute(config)", imports = ["app.futured.arkitekt.crusecases.execute"])
-)
-fun <T : Any?> FlowUseCase<Unit, T>.execute(
-    coroutineScopeOwner: CoroutineScopeOwner,
-    config: FlowUseCaseConfig.Builder<T, T>.() -> Unit,
-) {
-    internalExecute(Unit, coroutineScopeOwner, config)
 }

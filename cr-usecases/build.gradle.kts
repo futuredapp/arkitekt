@@ -17,10 +17,6 @@ kotlin {
         minSdk = ProjectSettings.minSdk
     }
 
-    compilerOptions {
-        freeCompilerArgs.add("-Xcontext-parameters")
-    }
-
     sourceSets {
         commonMain {
             dependencies {

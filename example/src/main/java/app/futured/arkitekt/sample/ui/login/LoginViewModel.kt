@@ -27,10 +27,8 @@ class LoginViewModel @Inject constructor(
     }
 
     fun logIn() = with(viewState) {
-        // example of usage without context parameter enabled
         loginCompletabler.execute(
             args = SyncLoginUseCase.LoginData(name.value, surname.value),
-            coroutineScopeOwner = this@LoginViewModel
         ) {
             onSuccess { sendEvent(ShowToastEvent("Successfully logged in!")) }
             onError { sendEvent(ShowToastEvent("Login error!")) }
