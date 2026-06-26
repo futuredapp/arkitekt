@@ -26,7 +26,7 @@ class GetCurrentUserUseCase @Inject constructor(
 }
 ```
 
-## Async Execution (Callbacks)
+## Async execution (callbacks)
 
 Execute with callback handlers for fire-and-forget style control flow. Requires a `CoroutineScopeOwner` in scope (e.g. inside a ViewModel or Component):
 
@@ -53,14 +53,14 @@ refreshUseCase.execute {
 }
 ```
 
-### Callback Options
+### Callback options
 
-- **`onStart`** — called before the coroutine starts
-- **`onSuccess(T)`** — called on successful completion with the result
-- **`onError(Throwable)`** — called on error; also triggers `UseCaseErrorHandler.globalOnErrorLogger` (see [Error Handling](error-handling.md))
-- **`disposePrevious`** — whether to cancel any previous execution before starting a new one (default `true`)
+- **`onStart`**: called before the coroutine starts
+- **`onSuccess(T)`**: called on successful completion with the result
+- **`onError(Throwable)`**: called on error; also triggers `UseCaseErrorHandler.globalOnErrorLogger` (see [Error Handling](error-handling.md))
+- **`disposePrevious`**: whether to cancel any previous execution before starting a new one (default `true`)
 
-## Sync Execution (kotlin.Result)
+## Sync execution (kotlin.Result)
 
 Execute and get a `kotlin.Result<T>` back for sequential coroutine chains. This form is meant to be called from inside `launchWithHandler`:
 
@@ -73,7 +73,7 @@ fun onButtonClicked() = launchWithHandler {
 }
 ```
 
-- Returns `kotlin.Result<T>` — a success wrapping the value or a failure wrapping the exception
+- Returns `kotlin.Result<T>`: a success wrapping the value or a failure wrapping the exception
 - Accepts an optional `cancelPrevious: Boolean` parameter (default `true`)
 - `CancellationException` is rethrown directly; other exceptions are wrapped in `Result.failure`
 - Use `getOrCancel { }`, `getOrThrow()`, `getOrDefault(...)`, `getOrNull()`, or `getOrElse { }` to unwrap

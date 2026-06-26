@@ -1,4 +1,4 @@
-# Architecture — Android
+# Android architecture
 
 ## Components
 
@@ -8,9 +8,9 @@ Arkitekt provides two ViewModel base classes for the Android / Compose path.
 
 `BaseCoreViewModel<VS : ViewState>` from the **core** module is an abstract `ViewModel` that gives you:
 
-- `viewState: VS` — the screen's view state instance
-- `events: Flow<Event<VS>>` — a channel-backed flow of one-shot events
-- `sendEvent(event)` — sends an event to the UI
+- `viewState: VS`: the screen's view state instance
+- `events: Flow<Event<VS>>`: a channel-backed flow of one-shot events
+- `sendEvent(event)`: sends an event to the UI
 
 Use this when you do **not** need to execute use cases.
 
@@ -44,10 +44,10 @@ class HomeViewModel @Inject constructor(
 
 `CoroutineScopeOwner` (from `cr-usecases`) is implemented by `BaseViewModel` and provides:
 
-- `useCaseScope` — the scope for executing use cases, backed by `viewModelScope`
-- `getWorkerDispatcher()` — returns `Dispatchers.IO` by default; override for testing
-- `launchWithHandler {}` — launches a coroutine with try-catch that calls `defaultErrorHandler` and logs to `UseCaseErrorHandler.globalOnErrorLogger`
-- `defaultErrorHandler(exception)` — by default rethrows the exception; override to customize error handling
+- `useCaseScope`: the scope for executing use cases, backed by `viewModelScope`
+- `getWorkerDispatcher()`: returns `Dispatchers.IO` by default; override for testing
+- `launchWithHandler {}`: launches a coroutine with try-catch that calls `defaultErrorHandler` and logs to `UseCaseErrorHandler.globalOnErrorLogger`
+- `defaultErrorHandler(exception)`: by default rethrows the exception; override to customize error handling
 
 ### Obtaining the ViewModel in Compose
 
@@ -61,7 +61,7 @@ fun HomeScreen(
 }
 ```
 
-## State Management
+## State management
 
 ### ViewState
 
@@ -100,7 +100,7 @@ class FormViewState @Inject constructor() : ViewState {
 }
 ```
 
-### Observing State in Compose
+### Observing state in Compose
 
 Use Compose state delegation to observe ViewState fields:
 
@@ -118,7 +118,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 }
 ```
 
-### StateFlow Alternative
+### StateFlow alternative
 
 If you prefer `StateFlow` over Compose `mutableStateOf`, you can expose a `StateFlow` from the ViewModel and collect it in the Composable with `collectAsState()`:
 
@@ -135,7 +135,7 @@ val title by viewModel.viewState.title.collectAsState()
 
 Events are one-shot messages sent from a ViewModel to a Composable. They are backed by a `Channel`, which guarantees single delivery even during screen rotation.
 
-### Defining Events
+### Defining events
 
 Define events as a sealed class extending `Event<VS>`:
 
@@ -146,7 +146,7 @@ sealed class HomeEvent : Event<HomeViewState>() {
 }
 ```
 
-### Sending Events
+### Sending events
 
 Send an event from the ViewModel:
 
@@ -154,7 +154,7 @@ Send an event from the ViewModel:
 sendEvent(ShowDetailEvent)
 ```
 
-### Collecting Events in Compose
+### Collecting events in Compose
 
 Use `EventsEffect` to collect events in a Composable:
 
@@ -170,7 +170,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
 `EventsEffect` is an extension function on `BaseCoreViewModel` from the **compose** module. It launches a coroutine that collects events for the lifetime of the Composable.
 
-`onEvent<E>` is a type-safe filter — it checks whether the received event is of type `E` and executes the lambda only when it matches.
+`onEvent<E>` is a type-safe filter: it checks whether the received event is of type `E` and executes the lambda only when it matches.
 
 ## Navigation
 

@@ -1,4 +1,4 @@
-# ViewModel Testing
+# ViewModel testing
 
 The `core-test` module provides a `ViewModelTest` base class that sets up the testing environment for Arkitekt ViewModels.
 
@@ -12,10 +12,10 @@ testImplementation("app.futured.arkitekt:core-test:{{ arkitekt_version }}")
 
 `ViewModelTest` configures:
 
-- **`InstantTaskExecutorRule`** — makes LiveData operations synchronous
-- **`CoroutineScopeRule`** — sets the `Main` dispatcher to `UnconfinedTestDispatcher` for immediate coroutine execution
+- **`InstantTaskExecutorRule`**: makes LiveData operations synchronous
+- **`CoroutineScopeRule`**: sets the `Main` dispatcher to `UnconfinedTestDispatcher` for immediate coroutine execution
 
-## Basic Test
+## Basic test
 
 ```kotlin
 class DetailViewModelTest : ViewModelTest() {
@@ -37,7 +37,7 @@ class DetailViewModelTest : ViewModelTest() {
 }
 ```
 
-## Testing Events
+## Testing events
 
 Use MockK's `spyk` to verify that events are sent:
 
@@ -48,7 +48,7 @@ viewModel.onDetail()
 verify { viewModel.sendEvent(ShowDetailEvent) }
 ```
 
-## Overriding the Worker Dispatcher
+## Overriding the worker dispatcher
 
 By default, use cases run on `Dispatchers.IO`. In tests, override `getWorkerDispatcher()` to run everything on the Main (test) dispatcher:
 

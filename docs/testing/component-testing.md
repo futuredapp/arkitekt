@@ -1,4 +1,4 @@
-# Component Testing
+# Component testing
 
 The `decompose-test` module provides infrastructure for unit-testing Decompose components in Kotlin Multiplatform projects.
 
@@ -31,7 +31,7 @@ kotlin {
 |--------|------|-------------|
 | `testScope` | `TestScope` | Shared coroutine scope for the test body and `runComponentTest` |
 | `testDispatcher` | `TestDispatcher` | Installed as `Dispatchers.Main` during each test |
-| `lifecycleRegistry` | `LifecycleRegistry` | Drives the component lifecycle — call `lifecycleRegistry.create()` to start it |
+| `lifecycleRegistry` | `LifecycleRegistry` | Drives the component lifecycle; call `lifecycleRegistry.create()` to start it |
 | `componentContext` | `DefaultComponentContext` | Pass this to the component under test |
 | `setup()` | `@BeforeTest` | Installs `testDispatcher` as `Dispatchers.Main` |
 | `cleanup()` | `@AfterTest` | Destroys the lifecycle (if alive) and resets `Dispatchers.Main` |
@@ -59,7 +59,7 @@ class LoginComponentTest : ComponentTest by ComponentTestPreparation() {
 }
 ```
 
-`ComponentTestPreparation` is `open` — subclass it to add project-specific fixtures or helpers shared across multiple test classes.
+`ComponentTestPreparation` is `open`, so you can subclass it to add project-specific fixtures or helpers shared across multiple test classes.
 
 ## runComponentTest
 
@@ -74,7 +74,7 @@ fun runComponentTest(
 
 It delegates to `testScope.runTest(timeout, testBody)`. Use it as the test body launcher instead of `runTest` directly so the scope and dispatcher match the component under test.
 
-## Driving the Lifecycle
+## Driving the lifecycle
 
 The component lifecycle is advanced by calling Essenty lifecycle extensions on `lifecycleRegistry`:
 
@@ -89,7 +89,7 @@ lifecycleRegistry.destroy()  // → DESTROYED (cancels lifecycleScope, closes ev
 !!! note
     `cleanup()` automatically destroys the lifecycle after each test if it hasn't been destroyed yet.
 
-## Testing State
+## Testing state
 
 Assert on `componentState` (exposed as a `StateFlow`) to verify state changes:
 
@@ -106,7 +106,7 @@ fun `initial state`() = runComponentTest {
 !!! tip
     [Turbine](https://github.com/cashapp/turbine) provides a nicer API for testing `Flow` and `StateFlow` emissions, including `componentState` updates.
 
-## Testing Events
+## Testing events
 
 Collect events inside `backgroundScope` to capture one-shot events:
 
@@ -128,7 +128,7 @@ fun `error event is emitted on failure`() = runComponentTest {
 }
 ```
 
-## Testing Lifecycle Teardown
+## Testing lifecycle teardown
 
 Verify that the component cleans up correctly on destroy:
 

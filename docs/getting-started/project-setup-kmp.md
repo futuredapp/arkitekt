@@ -1,8 +1,8 @@
-# Project Setup — KMP
+# Project setup (KMP)
 
 This guide walks through the minimal project structure for a Kotlin Multiplatform project using Arkitekt with Decompose for component-based architecture and Koin for dependency injection.
 
-## Project Structure
+## Project structure
 
 ```
 shared/
@@ -57,11 +57,11 @@ class HomeComponent(
 }
 ```
 
-The `@GenerateFactory` annotation triggers KSP to generate a `HomeComponentFactory` class. This factory resolves Koin dependencies (such as `someUseCase`) automatically — you only need to supply `@InjectedParam` arguments manually when creating the component.
+The `@GenerateFactory` annotation triggers KSP to generate a `HomeComponentFactory` class. This factory resolves Koin dependencies (such as `someUseCase`) automatically, so you only need to supply `@InjectedParam` arguments manually when creating the component.
 
 For full KSP setup details and advanced configuration, see the [Factory Generator](../architecture/kmp/factory-generator.md) page.
 
-## Screen Composable (Android)
+## Screen composable (Android)
 
 On the Android target, the screen composable receives the component directly and collects its state as a Compose state.
 

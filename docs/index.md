@@ -5,27 +5,27 @@ hide:
 
 # Arkitekt
 
-**A modern Android & Kotlin Multiplatform architecture library built on Jetpack Compose and Kotlin Coroutines.**
+An Android and Kotlin Multiplatform architecture library built on Jetpack Compose and Kotlin Coroutines.
 
-Arkitekt gives you a solid, testable foundation for building Android and KMP applications. It provides two architecture paths with the same core principles:
+Arkitekt is a testable foundation for Android and KMP apps. It offers two architecture paths that share the same core principles:
 
-- **Android / Compose** — ViewModel + Hilt + Jetpack Compose
-- **[Decompose](https://github.com/arkivanov/Decompose) / KMP** — BaseComponent + Koin + Kotlin Multiplatform
-
----
-
-## Key Features
-
-- **Compose-ready ViewModels** with built-in state management and one-shot events
-- **Coroutine Use Cases** for clean, testable business logic (`UseCase` and `FlowUseCase`)
-- **Kotlin Multiplatform** support via Decompose with Koin dependency injection
-- **KSP Factory Generator** for Decompose components (`@GenerateFactory`)
-- **`kotlin.Result` integration** with `getOrCancel` for safe coroutine error handling
-- **Testing utilities** for mocking use cases, testing ViewModels, and testing Decompose components
+- **Android / Compose**: ViewModel + Hilt + Jetpack Compose
+- **[Decompose](https://github.com/arkivanov/Decompose) / KMP**: BaseComponent + Koin + Kotlin Multiplatform
 
 ---
 
-## Quick Installation
+## Key features
+
+- Compose-ready ViewModels with built-in state management and one-shot events
+- Coroutine use cases for testable business logic (`UseCase` and `FlowUseCase`)
+- Kotlin Multiplatform support via Decompose with Koin dependency injection
+- A KSP factory generator for Decompose components (`@GenerateFactory`)
+- `kotlin.Result` integration with `getOrCancel` for safe coroutine error handling
+- Testing utilities for mocking use cases, testing ViewModels, and testing Decompose components
+
+---
+
+## Quick installation
 
 ```kotlin
 dependencies {
@@ -45,7 +45,7 @@ See [Installation](getting-started/installation.md) for full details and snapsho
 
 ---
 
-## Get Started
+## Get started
 
 ### Android / Compose
 
@@ -61,15 +61,15 @@ Set up a Kotlin Multiplatform project with BaseComponent, Koin, and Decompose.
 
 ---
 
-## Sample Projects
+## Sample projects
 
-See Arkitekt in action in working applications that follow the same architectural patterns described in this documentation.
+The sample projects below use the same patterns as this documentation.
 
 ### Android / Compose
 
-The [`example`](https://github.com/futuredapp/arkitekt/tree/5.x/example) module in this repository contains a minimal Android sample. For a full real-world project setup, see the [Android Project Template](https://github.com/futuredapp/android-project-template-compose).
+The [`example`](https://github.com/futuredapp/arkitekt/tree/5.x/example) module in this repository contains a minimal Android sample. For a complete project setup, see the [Android Project Template](https://github.com/futuredapp/android-project-template-compose).
 
 ### Decompose / KMP
 
-A full Kotlin Multiplatform project (Android + iOS) using BaseComponent, Koin, Decompose navigation, and KSP factory generation — [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template).
+The [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template) is a full Kotlin Multiplatform project (Android + iOS) using BaseComponent, Koin, Decompose navigation, and KSP factory generation.
 

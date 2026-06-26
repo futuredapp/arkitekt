@@ -1,8 +1,8 @@
-# Migration Guide — Android (5.x to 6.x)
+# Android migration guide (5.x to 6.x)
 
 Version 6.x is a major release focused on modern Android development with Jetpack Compose and Kotlin Coroutines.
 
-## Toolchain Requirements
+## Toolchain requirements
 
 Upgrade your project to meet the minimum requirements:
 
@@ -15,7 +15,7 @@ Upgrade your project to meet the minimum requirements:
 | `compileSdk` / `targetSdk` | 36 |
 | `minSdk` | 23 |
 
-Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.enableJetifier`) from `gradle.properties` — Arkitekt is AndroidX-only.
+Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.enableJetifier`) from `gradle.properties`. Arkitekt is AndroidX only.
 
 !!! note "Hilt + Kotlin 2.4"
 
@@ -29,7 +29,7 @@ Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.
 
     This is a temporary workaround until Hilt updates its bundled version.
 
-## Removed Modules
+## Removed modules
 
 | Module | Replacement |
 |---|---|
@@ -38,16 +38,16 @@ Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.
 | `bindingadapters` | Jetpack Compose |
 | `example-minimal`, `example-hilt` | Consolidated `example` module |
 
-## Removed Classes
+## Removed classes
 
-### ViewModel Base Classes
+### ViewModel base classes
 
 | Removed | Replacement |
 |---|---|
 | `BaseViewModel` (from core) | `BaseCoreViewModel` (core) or `BaseViewModel` (compose) |
 | `BaseCrViewModel` (from cr-usecases) | `BaseViewModel` (compose) |
 
-### Fragment / Activity Base Classes
+### Fragment / Activity base classes
 
 | Removed | Replacement |
 |---|---|
@@ -56,7 +56,7 @@ Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.
 | `ViewModelBottomSheetDialogFragment`, `BindingViewModelBottomSheetDialogFragment` | Compose bottom sheets |
 | `ViewModelDialogFragment`, `BindingViewModelDialogFragment` | Compose dialogs |
 
-### Dagger Classes
+### Dagger classes
 
 | Removed | Replacement |
 |---|---|
@@ -64,7 +64,7 @@ Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.
 | `BaseDaggerActivity`, `BaseDaggerFragment` and Binding variants | `@AndroidEntryPoint` |
 | `ViewModelCreator`, `ViewModelFactory` | No longer needed with Hilt |
 
-### LiveData Components
+### LiveData components
 
 | Removed | Replacement |
 |---|---|
@@ -78,7 +78,7 @@ Remove multidex (not needed with `minSdk` ≥ 21) and remove Jetifier (`android.
 
 All DataBinding support has been removed. Use Jetpack Compose instead.
 
-## UseCase API Changes
+## UseCase API changes
 
 ### UseCase is now an interface
 
@@ -92,7 +92,7 @@ class LoginUseCase : UseCase<LoginData, User>() { ... }
 class LoginUseCase : UseCase<LoginData, User> { ... }
 ```
 
-The `deferred` property that tracked cancellation has been removed — cancellation is now managed internally via `CoroutineScopeOwner.useCaseJobPool`.
+The `deferred` property that tracked cancellation has been removed. Cancellation is now managed internally via `CoroutineScopeOwner.useCaseJobPool`.
 
 ### FlowUseCase is now an interface
 
@@ -127,13 +127,13 @@ class ObserveUserNamesUseCase : FlowUseCase<Unit, String> {
 
 ### execute uses context parameters
 
-The `execute` extensions are now declared with Kotlin context parameters. Context parameters are stable as of Kotlin 2.4, so no compiler flag is needed — call `execute(...)` directly from inside any `CoroutineScopeOwner` (e.g. a ViewModel or Component) and the receiver is resolved automatically. The call sites remain syntactically the same as before:
+The `execute` extensions are now declared with Kotlin context parameters. Context parameters are stable as of Kotlin 2.4, so no compiler flag is needed. Call `execute(...)` directly from inside any `CoroutineScopeOwner` (e.g. a ViewModel or Component) and the receiver is resolved automatically. The call sites remain syntactically the same as before:
 
 ```kotlin
 loginUseCase.execute(args) { onSuccess { /* ... */ } }
 ```
 
-## CoroutineScopeOwner Changes
+## CoroutineScopeOwner changes
 
 ### coroutineScope renamed to useCaseScope
 
@@ -155,9 +155,9 @@ Custom `CoroutineScopeOwner` implementations must also provide `useCaseJobPool`:
 override val useCaseJobPool: MutableMap<Any, Job> = mutableMapOf()
 ```
 
-`BaseViewModel` and `BaseCoreViewModel` from Arkitekt already provide both — only custom implementations need to be updated.
+`BaseViewModel` and `BaseCoreViewModel` from Arkitekt already provide both, so only custom implementations need to be updated.
 
-## Result Type Migration
+## Result type migration
 
 Arkitekt's custom `Result<VALUE>` sealed class has been removed. The sync-execute variant now returns `kotlin.Result<T>`.
 
@@ -178,7 +178,7 @@ Arkitekt's custom `Result<VALUE>` sealed class has been removed. The sync-execut
 
 `kotlin.Result` does not support destructuring declarations. Replace any `val (value, error) = result` calls with explicit `getOrNull()` / `exceptionOrNull()` calls.
 
-## Migration Path
+## Migration path
 
 1. **Upgrade toolchain** to AGP 9.1, Gradle 9.4, Kotlin 2.4, JDK 17
 2. **Remove multidex and Jetifier** from `gradle.properties`
@@ -190,6 +190,6 @@ Arkitekt's custom `Result<VALUE>` sealed class has been removed. The sync-execut
 8. **Replace old `BaseViewModel`** with `BaseCoreViewModel` or `BaseViewModel`
 9. **Replace Dagger 2** with Dagger-Hilt
 10. **Update UseCase/FlowUseCase** from abstract class to interface (remove `()` from supertype)
-11. **Remove `executeMapped` calls** — apply mapping in `build()` instead
+11. **Remove `executeMapped` calls** and apply mapping in `build()` instead
 12. **Rename `coroutineScope` → `useCaseScope`** in custom `CoroutineScopeOwner` implementations; add `useCaseJobPool`
 13. **Replace custom `Result` usage** with `kotlin.Result` extensions

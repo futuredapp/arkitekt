@@ -1,4 +1,4 @@
-# Components — KMP
+# Components (KMP)
 
 The `decompose` module provides the building blocks for KMP presentation logic, built on top of the [Decompose](https://arkivanov.github.io/Decompose/) library.
 
@@ -8,17 +8,17 @@ The `decompose` module provides the building blocks for KMP presentation logic, 
 
 Constructor parameters:
 
-- `componentContext: GenericComponentContext<*>` — Decompose component context
-- `defaultState: VS` — initial state value
-- `lifecycleScope: CoroutineScope` — scope tied to the component lifecycle (defaults to `MainScope()`; inject your own scope in tests)
+- `componentContext: GenericComponentContext<*>` is the Decompose component context
+- `defaultState: VS` is the initial state value
+- `lifecycleScope: CoroutineScope` is the scope tied to the component lifecycle (defaults to `MainScope()`; inject your own scope in tests)
 
 Key members:
 
-- `componentState: MutableStateFlow<VS>` — protected mutable state
-- `lifecycleScope: CoroutineScope` — public, open; cancelled automatically when the component is destroyed
-- `events: Flow<E>` — single-subscriber flow of one-shot UI events backed by a buffered `Channel`
-- `sendUiEvent(event: E)` — protected function to emit an event
-- `fun Flow<VS>.asStateFlow(started): StateFlow<VS>` — protected helper to convert a `Flow` to a `StateFlow` within the component scope
+- `componentState: MutableStateFlow<VS>` is the protected mutable state
+- `lifecycleScope: CoroutineScope` is public and open; it is cancelled automatically when the component is destroyed
+- `events: Flow<E>` is a single-subscriber flow of one-shot UI events backed by a buffered `Channel`
+- `sendUiEvent(event: E)` is a protected function to emit an event
+- `fun Flow<VS>.asStateFlow(started): StateFlow<VS>` is a protected helper to convert a `Flow` to a `StateFlow` within the component scope
 
 ### Events semantics
 
@@ -38,7 +38,7 @@ init {
 }
 ```
 
-When the lifecycle is **destroyed**, `lifecycleScope` is cancelled and the `events` channel is closed — any subsequent `sendUiEvent` calls are no-ops.
+When the lifecycle is **destroyed**, `lifecycleScope` is cancelled and the `events` channel is closed. Any subsequent `sendUiEvent` calls are no-ops.
 
 ## ArkitektComponentContext
 
@@ -47,7 +47,7 @@ When the lifecycle is **destroyed**, `lifecycleScope` is cancelled and the `even
 The recommended pattern is to define an `AppComponentContext` interface in your project that self-references the type parameter, and a `DefaultAppComponentContext` implementation that delegates to a standard Decompose `ComponentContext`:
 
 ```kotlin
-// commonMain — define once per project
+// commonMain: define once per project
 interface AppComponentContext : ArkitektComponentContext<AppComponentContext>
 
 class DefaultAppComponentContext(componentContext: ComponentContext) :
@@ -65,12 +65,12 @@ class DefaultAppComponentContext(componentContext: ComponentContext) :
 }
 ```
 
-### Creating the Root Component
+### Creating the root component
 
 On Android, Arkitekt is designed to be used with Decompose's [`retainedComponent`](https://arkivanov.github.io/Decompose/component/instance-retaining/#retained-components) to create the root component. This retains the entire component tree across configuration changes, similar to AndroidX `ViewModel`:
 
 ```kotlin
-// Android Activity — onCreate
+// Android Activity, onCreate
 val rootComponent = retainedComponent { componentContext ->
     RootNavHostComponent(DefaultAppComponentContext(componentContext))
 }
@@ -79,7 +79,7 @@ val rootComponent = retainedComponent { componentContext ->
 !!! note
     `retainedComponent` is an Android-specific extension on `ComponentActivity`. It should be called once in `onCreate`. On iOS, create a `DefaultComponentContext` with the application lifecycle and pass it directly.
 
-Child components always receive their `AppComponentContext` from the parent — they never construct it themselves. Decompose creates a scoped child context automatically when you call `childStack`, `childSlot`, or similar APIs.
+Child components always receive their `AppComponentContext` from the parent; they never construct it themselves. Decompose creates a scoped child context automatically when you call `childStack`, `childSlot`, or similar APIs.
 
 ## AppComponent
 
@@ -93,15 +93,15 @@ abstract class AppComponent<VS : Any, E : Any>(
     AppComponentContext by componentContext
 ```
 
-Because `AppComponent` delegates `AppComponentContext`, all context services — `lifecycle`, `stateKeeper`, `instanceKeeper`, `backHandler` — are directly accessible on every component without going through `componentContext`. This is the recommended approach for both screen components and nav-host components.
+Because `AppComponent` delegates `AppComponentContext`, all context services (`lifecycle`, `stateKeeper`, `instanceKeeper`, `backHandler`) are directly accessible on every component without going through `componentContext`. This is the recommended approach for both screen components and nav-host components.
 
-This pattern also makes it easy to integrate with use cases: implement `CoroutineScopeOwner` directly on `AppComponent` to make use case execution available in every component by default — see [Use Cases](../../use-cases/overview.md).
+This pattern also makes it easy to integrate with use cases: implement `CoroutineScopeOwner` directly on `AppComponent` to make use case execution available in every component by default. See [Use Cases](../../use-cases/overview.md).
 
-## Koin Factory Generation
+## Koin factory generation
 
 Use the `@GenerateFactory` annotation to generate Koin dependency injection factories for your components. See the [Factory Generator](factory-generator.md) page for full details and KSP configuration.
 
-## Complete Example
+## Complete example
 
 ```kotlin
 @GenerateFactory
@@ -133,11 +133,11 @@ class HomeComponent(
 ```
 
 !!! note
-    `lifecycle.doOnStart` is the recommended place to trigger work that should run each time the component becomes active. The `lifecycle` property is available implicitly because `AppComponent` delegates `AppComponentContext`. This also makes components easy to unit test — you can control the lifecycle externally and verify behavior at each stage.
+    `lifecycle.doOnStart` is the recommended place to trigger work that should run each time the component becomes active. The `lifecycle` property is available implicitly because `AppComponent` delegates `AppComponentContext`. This also makes components easy to unit test: you can control the lifecycle externally and verify behavior at each stage.
 
 !!! note
     `BaseComponent` does **not** implement `CoroutineScopeOwner` directly. To execute use cases, implement `CoroutineScopeOwner` in your component and set `useCaseScope = lifecycleScope`.
 
-## Example Application
+## Example application
 
-For a full KMP application using all the recommended patterns described in this documentation, see the [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template) repository.
+For a full KMP application that uses the patterns described in this documentation, see the [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template) repository.
