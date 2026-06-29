@@ -69,80 +69,79 @@ internal class HomeNavHostComponent(
 
 ## Passing results between screens
 
-Use `ResultFlow<T>` to send a value from a child screen back to its parent. The parent creates the flow, passes it in the navigation config, and collects results. The child calls `sendResult()` when it has a value to return.
+Use `ResultFlow<T>` to send a value from a child screen back to its parent. Results are routed by a
+stable string key: the parent collects results for a key, the child sends a result for the same key,
+and the navigation config carries only that key, never a live object.
 
-Because `ResultFlow` is a `Flow`, it must be declared `@Serializable` in the config using `ResultFlowSerializer`. On deserialization it is recreated as an empty flow, and the parent always holds the live instance.
+Results survive configuration changes and process death. Each value is persisted into saved state
+until it is collected once, so a result the child produced before the OS killed the process still
+reaches the parent after it is recreated. This needs a one-time integration step: wiring the result
+registry into your `AppComponentContext`, described in
+[Components → Durable navigation results](components.md#durable-navigation-results).
+
+!!! note
+    Results must be `@Serializable`, one-shot, and small. They ride in the Android saved-state
+    `Bundle` (~1 MB limit), so use them for ids and selections, not large payloads.
+
+Declare keys as constants with `ResultKey<T>` so the type travels with the key and every key stays in
+one place:
 
 ```kotlin
-// Navigation config
-@Serializable
-data class PickerConfig(
-    @Serializable(ResultFlowSerializer::class) val result: ResultFlow<String>,
-)
-
-// In the parent nav-host
-private fun openPicker() {
-    val result = ResultFlow<String>()
-    result
-        .onEach { selected -> update(componentState) { copy(selection = selected) } }
-        .launchIn(lifecycleScope)
-    stackNavigation.push(PickerConfig(result))
+object HomeResultKeys {
+    val Picker = ResultKey<String>("home.picker")
 }
 
-// In the child (picker) component
-fun onItemSelected(item: String) {
-    resultFlow.sendResult(item)   // suspending; call from a coroutine
+// Navigation config: carries only the key
+@Serializable
+data class PickerConfig(val resultKey: String)
+
+// In the parent nav-host
+private val pickerResult = resultFlow(HomeResultKeys.Picker)
+
+init {
+    lifecycle.doOnCreate {
+        pickerResult
+            .onEach { selected -> update(componentState) { copy(selection = selected) } }
+            .launchIn(lifecycleScope)
+    }
+}
+
+private fun openPicker() = stackNavigation.push(PickerConfig(HomeResultKeys.Picker.name))
+
+// In the child (picker) component, which received resultKey from its config
+fun onItemSelected(item: String) = launchWithHandler {
+    resultFlow<String>(resultKey).sendResult(item) // suspending; call from a coroutine
     navigation.back()
 }
 ```
 
+### Key uniqueness
+
+Keys are application-wide, so each parent must use a unique key; namespace them per destination
+(`"home.picker"`, not `"picker"`). Reusing the same child component across two navigation branches is
+safe: the child only echoes back whatever `resultKey` its config was given. If two parents use the
+same key while both are on the stack, collecting the second throws an `IllegalStateException` right
+away instead of silently crossing results between branches. Only one collector per key can be active
+at a time. For multiple concurrent instances of the same screen, generate a per-instance key and store
+it in the config (for example `"home.picker.$itemId"`).
+
 ## ResultFlow API reference
 
-`ResultFlow<T>` extends `Flow<T>` and adds the ability to send values back from a child destination to a parent.
+`ResultFlow<T>` extends `Flow<T>` and adds `suspend fun sendResult(item: T)` to send a value back from
+a child destination to a parent. Obtain a durable instance from a component with the `resultFlow`
+extension on the component context.
 
-- Backed by `MutableSharedFlow` internally
-- Serializable: recreated as an empty flow during deserialization, which makes it safe to use in navigation configurations
-- Provides `suspend fun sendResult(item: T)` for emitting results
-
-### Creating a ResultFlow
+### Obtaining a ResultFlow
 
 ```kotlin
-val resultFlow = ResultFlow<String>()
+// Recommended: from a typed key constant
+val pickerResult = resultFlow(HomeResultKeys.Picker)
+
+// Or inline, inferring the serializer from the type
+val pickerResult = resultFlow<String>("home.picker")
 ```
 
-### Serialization in navigation configs
-
-Navigation configurations must be `@Serializable`. Use `ResultFlowSerializer` to annotate `ResultFlow` properties inside a config. It serializes as a no-op and recreates an empty flow on deserialization. The parent always holds the live instance, so the child never needs to reconstruct the flow.
-
-```kotlin
-@Serializable
-data class PickerConfig(
-    @Serializable(ResultFlowSerializer::class) val result: ResultFlow<String>,
-)
-```
-
-### Collecting results in a NavHost
-
-Create the flow in the parent nav-host, start collecting immediately using `lifecycleScope`, then push the config:
-
-```kotlin
-
-private val pickerResults = ResultFlow<String>()
-
-private fun openPicker() {
-    val result = ResultFlow<String>()
-    stackNavigation.push(PickerConfig(pickerResults))
-}
-
-init {
-    lifecycle.doOnCreate {
-        collectResults()
-    }
-}
-
-private fun collectResults() = launchWithHandler {
-    pickerResults.collectLatest { result ->
-        // Process the result
-    }
-}
-```
+Sent values live in the application-wide `NavigationResultRegistry` (exposed on
+`ArkitektComponentContext`), which persists undelivered results into the root component's
+`StateKeeper`. Collect in `init { lifecycle.doOnCreate { ... } }`: every time the parent is recreated
+it re-attaches its collector and replays any result that arrived while it was gone.

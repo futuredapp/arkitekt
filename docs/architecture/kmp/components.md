@@ -81,6 +81,39 @@ val rootComponent = retainedComponent { componentContext ->
 
 Child components always receive their `AppComponentContext` from the parent; they never construct it themselves. Decompose creates a scoped child context automatically when you call `childStack`, `childSlot`, or similar APIs.
 
+### Durable navigation results
+
+To pass results between destinations that survive configuration changes and process death (see [Advanced navigation → Passing results between screens](navigation-advanced.md#passing-results-between-screens)), expose a `NavigationResultRegistry` on your context. By default `ArkitektComponentContext.navigationResultRegistry` throws, so this is opt-in.
+
+Construct a single registry at the root over the root component's `StateKeeper` (the one restored after process death), and return that same instance from every child context the factory creates:
+
+```kotlin
+class DefaultAppComponentContext private constructor(
+    componentContext: ComponentContext,
+    override val navigationResultRegistry: NavigationResultRegistry,
+) : AppComponentContext,
+    LifecycleOwner by componentContext,
+    StateKeeperOwner by componentContext,
+    InstanceKeeperOwner by componentContext,
+    BackHandlerOwner by componentContext {
+
+    // Root entry point: create the registry once over the root StateKeeper.
+    constructor(componentContext: ComponentContext) : this(
+        componentContext = componentContext,
+        navigationResultRegistry = NavigationResultRegistry(componentContext.stateKeeper),
+    )
+
+    override val componentContextFactory: ComponentContextFactory<AppComponentContext> =
+        ComponentContextFactory { lifecycle, stateKeeper, instanceKeeper, backHandler ->
+            val ctx = componentContext.componentContextFactory(lifecycle, stateKeeper, instanceKeeper, backHandler)
+            // Share the SAME registry instance down the tree.
+            DefaultAppComponentContext(ctx, navigationResultRegistry)
+        }
+}
+```
+
+Because the registry rides on the root `StateKeeper`, undelivered results are saved on process death and replayed when the parent re-attaches its collector. The `NavigationResultRegistry(stateKeeper)` factory returns the framework-provided implementation.
+
 ## AppComponent
 
 It is recommended to define an application-level base class that extends `BaseComponent` and delegates `AppComponentContext`:

@@ -57,6 +57,7 @@ object Deps {
     object Decompose {
         const val core = "com.arkivanov.decompose:decompose:${Versions.decompose}"
         const val essentyLifecycle = "com.arkivanov.essenty:lifecycle:${Versions.essenty}"
+        const val essentyStateKeeper = "com.arkivanov.essenty:state-keeper:${Versions.essenty}"
     }
 
     object Ksp {
@@ -69,6 +70,7 @@ object Deps {
 
     object Serialization {
         const val core = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}"
+        const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}"
     }
 
     object Lint {
