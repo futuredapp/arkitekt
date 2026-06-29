@@ -7,7 +7,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.serializer
 
 /**
@@ -23,21 +29,52 @@ import kotlinx.serialization.serializer
  * }
  * ```
  *
+ * Because [ResultKey] is itself [kotlinx.serialization.Serializable], the typed key can travel inside
+ * a navigation config: the parent pushes the key, the child receives a fully-typed [ResultKey] and
+ * obtains its [ResultFlow] without restating the type. Only [name] is serialized; the [serializer] is
+ * recovered from the config field's compile-time type argument (see [ResultKeySerializer]).
+ *
+ * Two keys are equal when their [name]s are equal — equality intentionally ignores [serializer], both
+ * because routing is by name and because a key reconstructed after process death is a different
+ * instance. This keeps navigation configs that embed a [ResultKey] comparable by value, as Decompose
+ * requires.
+ *
  * @param T the type of the result, which must be [kotlinx.serialization.Serializable].
  * @property name the stable string key. It must be **stable across process death** (so a recreated
  * parent re-attaches to the same result slot) and **unique across concurrently-active destinations**
  * (the registry is application-wide).
  * @property serializer the [KSerializer] used to persist and restore the result.
  */
+@Serializable(with = ResultKeySerializer::class)
 class ResultKey<T : Any>(
     val name: String,
     val serializer: KSerializer<T>,
-)
+) {
+    override fun equals(other: Any?): Boolean = this === other || (other is ResultKey<*> && name == other.name)
+    override fun hashCode(): Int = name.hashCode()
+    override fun toString(): String = "ResultKey($name)"
+}
 
 /**
  * Creates a [ResultKey] inferring the [KSerializer] from the reified type [T].
  */
 inline fun <reified T : Any> ResultKey(name: String): ResultKey<T> = ResultKey(name, serializer())
+
+/**
+ * Serializer for [ResultKey]. Persists only the [ResultKey.name]; the result [KSerializer] is supplied
+ * by the enclosing config's generated serializer (the compile-time type argument) and threaded back
+ * into the reconstructed key, so it never has to be serialized.
+ */
+class ResultKeySerializer<T : Any>(
+    private val dataSerializer: KSerializer<T>,
+) : KSerializer<ResultKey<T>> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("app.futured.arkitekt.decompose.navigation.ResultKey", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: ResultKey<T>) = encoder.encodeString(value.name)
+
+    override fun deserialize(decoder: Decoder): ResultKey<T> = ResultKey(decoder.decodeString(), dataSerializer)
+}
 
 /**
  * A durable, application-wide store for one-shot navigation results.

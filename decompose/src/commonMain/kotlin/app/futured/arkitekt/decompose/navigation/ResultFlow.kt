@@ -9,7 +9,6 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.serializer
 
 /**
  * A bidirectional Flow that enables navigation components to send results back to their callers.
@@ -36,11 +35,11 @@ import kotlinx.serialization.serializer
  *     }
  * }
  *
- * private fun openPicker() = stackNavigation.push(PickerConfig(HomeResultKeys.Picker.name))
+ * private fun openPicker() = stackNavigation.push(PickerConfig(HomeResultKeys.Picker))
  *
- * // In the child (picker) component
+ * // In the child (picker) component, which received the typed key in its config
  * fun onItemSelected(item: String) = launchWithHandler {
- *     resultFlow<String>(resultKey).sendResult(item)
+ *     resultFlow(resultKey).sendResult(item)
  *     navigation.back()
  * }
  * ```
@@ -77,13 +76,6 @@ fun <T> ResultFlow(): ResultFlow<T> = InMemoryResultFlow()
  */
 fun <T : Any> ArkitektComponentContext<*>.resultFlow(key: ResultKey<T>): ResultFlow<T> =
     DurableResultFlow(navigationResultRegistry, key.name, key.serializer)
-
-/**
- * Returns a durable [ResultFlow] for the given string [key], inferring the serializer from the
- * reified type [T]. Prefer the [ResultKey] overload for keys you declare as constants.
- */
-inline fun <reified T : Any> ArkitektComponentContext<*>.resultFlow(key: String): ResultFlow<T> =
-    resultFlow(ResultKey(key, serializer()))
 
 /**
  * Internal in-memory implementation of [ResultFlow] backed by a [MutableSharedFlow].

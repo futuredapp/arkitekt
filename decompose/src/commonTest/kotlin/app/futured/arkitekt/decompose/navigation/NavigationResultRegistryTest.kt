@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
@@ -94,6 +95,37 @@ class NavigationResultRegistryTest {
         registry.send("k", "ok", String.serializer())
         assertEquals("ok", registry.results("k", String.serializer()).first())
     }
+
+    @Test
+    fun `typed key round-trips inside a navigation config`() {
+        val config = PickerConfig(ResultKey("home.picker"))
+
+        val restored = Json.decodeFromString(
+            PickerConfig.serializer(),
+            Json.encodeToString(PickerConfig.serializer(), config),
+        )
+
+        assertEquals("home.picker", restored.resultKey.name)
+        // The serializer is recovered from the config's compile-time type argument, so the restored
+        // key can still (de)serialize values without the caller restating the type.
+        assertEquals("v", restored.resultKey.serializer.let { ser -> Json.decodeFromString(ser, "\"v\"") })
+    }
+
+    @Test
+    fun `config embedding a typed key stays comparable by value across a round-trip`() {
+        val config = PickerConfig(ResultKey("home.picker"))
+
+        val restored = Json.decodeFromString(
+            PickerConfig.serializer(),
+            Json.encodeToString(PickerConfig.serializer(), config),
+        )
+
+        // Decompose compares configurations by value; name-based ResultKey equality must preserve that.
+        assertEquals(config, restored)
+    }
+
+    @Serializable
+    private data class PickerConfig(val resultKey: ResultKey<String>)
 
     private companion object {
         private const val TIMEOUT_MS = 100L
