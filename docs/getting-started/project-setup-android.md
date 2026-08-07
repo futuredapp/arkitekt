@@ -1,8 +1,8 @@
-# Project Setup — Android
+# Project setup (Android)
 
 This guide walks through the minimal project structure for an Android app using Arkitekt with Jetpack Compose and Hilt.
 
-## Project Structure
+## Project structure
 
 ```
 app/
@@ -19,7 +19,7 @@ app/
     └── res/values/strings.xml
 ```
 
-## Build Configuration
+## Build configuration
 
 !!! note "Hilt + Kotlin 2.4"
 
@@ -33,7 +33,7 @@ app/
 
     This is a temporary workaround until Hilt updates its bundled version.
 
-## Application Class
+## Application class
 
 Create an `Application` subclass annotated with `@HiltAndroidApp`. You can optionally configure global error logging for use cases here.
 
@@ -51,7 +51,7 @@ class App : Application() {
 
 ## Activity
 
-The main activity serves as the Compose entry point. Annotate it with `@AndroidEntryPoint` for Hilt injection.
+The main activity is the Compose entry point. Annotate it with `@AndroidEntryPoint` for Hilt injection.
 
 ```kotlin
 @AndroidEntryPoint
@@ -88,7 +88,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseCoreViewModel<HomeViewState>()
 ```
 
-## Screen Composable
+## Screen composable
 
 The screen composable obtains the ViewModel via `hiltViewModel()` and reads state directly from the view state fields.
 

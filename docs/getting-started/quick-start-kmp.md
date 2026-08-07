@@ -1,8 +1,8 @@
-# Quick Start — KMP
+# Quick start (KMP)
 
-This walkthrough builds a simple login feature end-to-end using Arkitekt with Decompose and Koin in a Kotlin Multiplatform project.
+This walkthrough builds a simple login feature end to end using Arkitekt with Decompose and Koin in a Kotlin Multiplatform project.
 
-## Define the State
+## Define the state
 
 State is a plain data class in common code.
 
@@ -15,7 +15,7 @@ data class LoginState(
 )
 ```
 
-## Define Navigation Actions
+## Define navigation actions
 
 Navigation actions are declared as an interface extending `NavigationActions`. The parent component provides the implementation.
 
@@ -25,7 +25,7 @@ interface LoginNavigation : NavigationActions {
 }
 ```
 
-## Define UI Events
+## Define UI events
 
 One-shot events are modeled as a sealed interface extending `UiEvent`.
 
@@ -35,7 +35,7 @@ sealed interface LoginUiEvent : UiEvent {
 }
 ```
 
-## Build the Component
+## Build the component
 
 The component extends `BaseComponent<LoginState, LoginUiEvent>` and is annotated with `@GenerateFactory` for automatic factory generation.
 
@@ -90,7 +90,7 @@ class LoginComponent(
 }
 ```
 
-## Compose the Screen (Android)
+## Compose the screen (Android)
 
 On the Android target, the screen composable receives the component, collects its state, and uses `EventsEffect` from the `decompose` module to handle one-shot events.
 
@@ -131,7 +131,7 @@ fun LoginScreen(component: LoginComponent) {
 }
 ```
 
-## Koin Module Setup
+## Koin module setup
 
 Register the use case in a Koin module so the generated `LoginComponentFactory` can resolve it automatically.
 
@@ -146,4 +146,4 @@ The `@GenerateFactory` annotation generates a `LoginComponentFactory` that resol
 ---
 
 !!! tip "See it in a full project"
-    The [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template) is a complete working app (Android + iOS) built with these same patterns — BaseComponent, Koin, Decompose navigation, and KSP factory generation.
+    The [KMP Futured Template](https://github.com/futuredapp/kmp-futured-template) is a complete working app (Android + iOS) built with these same patterns: BaseComponent, Koin, Decompose navigation, and KSP factory generation.

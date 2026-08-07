@@ -1,4 +1,4 @@
-# Factory Generator (Koin)
+# Factory generator (Koin)
 
 The `@GenerateFactory` annotation triggers KSP code generation to create [Koin](https://insert-koin.io/) dependency injection factory objects for Decompose components. This eliminates the need to manually wire Koin dependencies when creating components in navigation factories.
 
@@ -15,7 +15,7 @@ class HomeComponent(
 ) : BaseComponent<HomeState, HomeUiEvent>(componentContext, HomeState())
 ```
 
-## Generated Output
+## Generated output
 
 The annotation processor generates an `internal object` factory that implements `KoinComponent`:
 
@@ -32,7 +32,7 @@ internal object HomeComponentFactory : KoinComponent {
 ```
 
 - Parameters marked with `@InjectedParam` become `createComponent()` parameters and are forwarded to Koin via `parametersOf`
-- The component itself is resolved from Koin — it must be registered in your Koin module (typically as a `factory`)
+- The component itself is resolved from Koin, so it must be registered in your Koin module (typically as a `factory`)
 - All non-`@InjectedParam` constructor dependencies (e.g. `SomeUseCase`) are resolved by Koin from the DI graph
 
 ```kotlin
@@ -48,7 +48,7 @@ val homeModule = module {
 }
 ```
 
-## Calling the Factory
+## Calling the factory
 
 Use the generated factory inside a nav-host's `childStack` child factory:
 
@@ -68,7 +68,7 @@ val stack = childStack(
 
 `ctx` is the child `AppComponentContext` provided by Decompose; `navigation` is the nav-host's navigation instance passed through as an `@InjectedParam`.
 
-## KSP Configuration for KMP
+## KSP configuration for KMP
 
 !!! warning "Important"
     Use `kspCommonMainMetadata` only. Do **not** add the processor to platform-specific configurations (`kspAndroid`, `kspIosArm64`, etc.) as this would cause duplicate generation.

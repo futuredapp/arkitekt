@@ -1,10 +1,10 @@
-# Stores (Repositories)
+# Stores (repositories)
 
 Stores follow the repository pattern. Each store handles a single entity's data logic.
 
 Examples: `UserStore`, `OrderStore`, `DeviceStore`.
 
-## Defining a Store
+## Defining a store
 
 ```kotlin
 @Singleton
@@ -19,11 +19,11 @@ class UserStore @Inject constructor() {
 }
 ```
 
-## Data Layer Role
+## Data layer role
 
-Stores are injected into **Use Cases**, not into ViewModels or Components directly. Besides custom stores, Room `Dao`s and Retrofit/Ktor API interfaces serve the same role in the data layer.
+Stores are injected into use cases, not into ViewModels or Components directly. Besides custom stores, Room `Dao`s and Retrofit/Ktor API interfaces serve the same role in the data layer.
 
-## Wrapping Store Access with a Use Case
+## Wrapping store access with a use case
 
 ```kotlin
 class ObserveUserFullNameUseCase @Inject constructor(

@@ -6,33 +6,41 @@ There are two types of publications:
 - Snapshot
 - Release
 
-Following environment variables must be specified on CI machine to publish artifacts correctly:
+Both publications are GPG signed, so the following environment variables must be specified on the CI
+machine for either publication to succeed:
 
-- `ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername=maven central nexus username`
-- `ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword=maven central nexus password`
+- `ORG_GRADLE_PROJECT_mavenCentralUsername=maven central username`
+- `ORG_GRADLE_PROJECT_mavenCentralPassword=maven central password`
+- `ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY=GPG signing key`
+- `ORG_GRADLE_PROJECT_SIGNING_PASSWORD=GPG password`
+
+On CI these are wired from the `MAVEN_CENTRAL_REPOSITORY_USERNAME`, `MAVEN_CENTRAL_REPOSITORY_PASSWORD`,
+`GPG_SIGNING_PRIVATE_KEY` and `GPG_SIGNING_PASSWORD` secrets.
 
 ### Snapshot
 
-Snapshots are published automatically when a PR is merged into one of main branches (`5.x`, `6.x`
-etc.)
-Snapshots version names are aggregated by major version, for example `5.X.X-SNAPSHOT`. CI run
+Snapshots are published automatically when a commit lands on the current main branch (`6.x`).
+Snapshot version names are aggregated by major version and passed on the command line, for example
+`6.X.X-SNAPSHOT`. CI run
 specification: [.github/workflows/publish_snapshot.yml](.github/workflows/publish_snapshot.yml).
 
 ### Release
 
-Release is GPG signed publication of library. Release can be created by defining the new release
-within GitHub UI. Make sure you name release correctly and use a correct main branch. For example,
-version `5.4.1` must originate from branch `5.x`.
+A release is created by publishing a new release within the GitHub UI. The release version is taken
+from the **release name** (`github.event.release.name`) and passed to Gradle as
+`-PVERSION_NAME=<release name>`, so make sure you name the release correctly (for example `6.0.0`)
+and target the matching main branch — for example version `6.0.0` must originate from branch `6.x`.
 
-Make sure you update property `VERSION_NAME` in [gradle.properties](gradle.properties) and target
-branch in CI
-pipeline ([.github/workflows/publish_snapshot.yml](.github/workflows/publish_snapshot.yml))
-definition within new major version release.
+The version is not stored in [gradle.properties](gradle.properties). When `VERSION_NAME` is not
+supplied, the build falls back to the default in
+[buildSrc/src/main/kotlin/ProjectSettings.kt](buildSrc/src/main/kotlin/ProjectSettings.kt).
 
-Following additional environment variables must be defined on CI machine to sign artifact properly:
+When starting a new major version, update the branch triggers in the snapshot and pages CI pipelines
+([.github/workflows/publish_snapshot.yml](.github/workflows/publish_snapshot.yml),
+[.github/workflows/publish_pages.yml](.github/workflows/publish_pages.yml)) and the snapshot version
+name within [.github/workflows/publish_snapshot.yml](.github/workflows/publish_snapshot.yml).
 
-- `ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY=GPG signing key`
-- `ORG_GRADLE_PROJECT_SIGNING_PASSWORD=GPG password`
+After a release is published, the `update-docs-version` job automatically opens a pull request that
+bumps `extra.arkitekt_version` in [mkdocs.yml](mkdocs.yml) to the released version.
 
-CI run specification: [.github/workflows/publish_release.yml](.github/workflows/publish_release.yml)
-.
+CI run specification: [.github/workflows/publish_release.yml](.github/workflows/publish_release.yml).

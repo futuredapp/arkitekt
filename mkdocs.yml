@@ -74,7 +74,7 @@ nav:
           - State Management: architecture/kmp/state.md
           - Events: architecture/kmp/events.md
           - Navigation: architecture/kmp/navigation.md
-          - Navigation - Advanced: architecture/kmp/navigation-advanced.md
+          - Advanced navigation: architecture/kmp/navigation-advanced.md
           - Factory Generator: architecture/kmp/factory-generator.md
   - Use Cases:
       - Overview: use-cases/overview.md

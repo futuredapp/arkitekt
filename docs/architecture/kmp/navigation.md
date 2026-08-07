@@ -1,8 +1,8 @@
-# Navigation — KMP
+# Navigation (KMP)
 
 The KMP path uses the [Decompose](https://arkivanov.github.io/Decompose/) library for navigation. See the [official Decompose navigation docs](https://arkivanov.github.io/Decompose/navigation/overview/) for the full API reference.
 
-For advanced patterns, see [Navigation — Advanced](navigation-advanced.md).
+For advanced patterns, see [Advanced navigation](navigation-advanced.md).
 
 ## NavigationActions
 
@@ -34,7 +34,7 @@ class HomeComponent(
 }
 ```
 
-## Parent Component
+## Parent component
 
 Navigation is typically implemented in the parent component that manages the child stack. The parent creates a `StackNavigation`, defines configurations, and implements the `NavigationActions` interface for each child:
 
@@ -66,7 +66,7 @@ class RootComponent(
 
 ## switchTab
 
-`switchTab` is an extension on `StackNavigator<C>` designed for bottom navigation. It works like `bringToFront` but does **not** recreate the configuration if its class is already on the stack — it brings the existing instance to the front, preserving its state.
+`switchTab` is an extension on `StackNavigator<C>` designed for bottom navigation. It works like `bringToFront` but does **not** recreate the configuration if its class is already on the stack. It brings the existing instance to the front and preserves its state.
 
 ```kotlin
 // In a nav-host managing bottom navigation tabs
@@ -79,18 +79,18 @@ fun onTabSelected(tab: Tab) {
 }
 ```
 
-## NavHost Pattern
+## NavHost pattern
 
-For apps with multiple sections (tabs, auth states), use a hierarchy of nav-host components. Each nav-host can own any combination of `StackNavigation` and `SlotNavigation` instances — for example a stack for the main flow and one or more slots for dialogs or bottom sheets. It implements the `NavigationActions` interfaces for the children it creates.
+For apps with multiple sections (tabs, auth states), use a hierarchy of nav-host components. Each nav-host can own any combination of `StackNavigation` and `SlotNavigation` instances, for example a stack for the main flow and one or more slots for dialogs or bottom sheets. It implements the `NavigationActions` interfaces for the children it creates.
 
-Screen components define a `NavigationActions` interface but never implement it — the parent nav-host provides the implementation as an anonymous object in `createChild`. This keeps screen components fully decoupled from the navigation structure above them.
+Screen components define a `NavigationActions` interface but never implement it. The parent nav-host provides the implementation as an anonymous object in `createChild`. This keeps screen components fully decoupled from the navigation structure above them.
 
 A typical 3-level hierarchy looks like this:
 
 ```
-RootNavHostComponent       — SlotNavigation: Login ↔ SignedIn
-  SignedInNavHostComponent — StackNavigation: Home tab / Profile tab
-    HomeNavHostComponent   — StackNavigation: First → Second → Third
+RootNavHostComponent       - SlotNavigation: Login ↔ SignedIn
+  SignedInNavHostComponent - StackNavigation: Home tab / Profile tab
+    HomeNavHostComponent   - StackNavigation: First → Second → Third
 ```
 
 ```kotlin

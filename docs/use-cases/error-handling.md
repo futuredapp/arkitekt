@@ -1,8 +1,8 @@
-# Error Handling
+# Error handling
 
 Arkitekt provides several layers of error handling for use cases and coroutine execution.
 
-## Global Error Logger
+## Global error logger
 
 `UseCaseErrorHandler.globalOnErrorLogger` is a global callback for logging errors. Set it in your `Application.onCreate`:
 
@@ -71,4 +71,4 @@ On success, `getOrCancel` returns the value. On failure, it:
 1. Calls the optional `doBeforeThrow` lambda (skipped if the exception is already a `CancellationException`)
 2. Throws a `CancellationException` whose `cause` is the original exception
 
-The thrown `CancellationException` bubbles up through `launchWithHandler`, which logs the original cause via `globalOnErrorLogger` and then lets the coroutine cancel cleanly — `defaultErrorHandler` is **not** called.
+The thrown `CancellationException` bubbles up through `launchWithHandler`, which logs the original cause via `globalOnErrorLogger` and then lets the coroutine cancel cleanly. `defaultErrorHandler` is **not** called.

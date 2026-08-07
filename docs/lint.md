@@ -1,4 +1,4 @@
-# Lint Rules
+# Lint rules
 
 Arkitekt includes custom lint checks in the `arkitekt-lint` module to enforce naming conventions for event classes.
 
@@ -34,4 +34,4 @@ class ShowDetailEvent : Event<ViewState>()
 
 ## Scope
 
-These lint rules apply to all classes extending `Event<T>` from the Arkitekt `core` module. The lint checks are automatically included when you depend on the `core` module -- no additional configuration is needed.
+These lint rules apply to all classes extending `Event<T>` from the Arkitekt `core` module. The lint checks are included automatically when you depend on the `core` module, so no extra configuration is needed.

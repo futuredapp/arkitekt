@@ -1,8 +1,8 @@
-# Events — KMP
+# Events (KMP)
 
 Events are one-shot messages sent from a Component to the UI layer.
 
-## Defining Events
+## Defining events
 
 Define events as a sealed interface extending `UiEvent`:
 
@@ -13,7 +13,7 @@ sealed interface HomeUiEvent : UiEvent {
 }
 ```
 
-## Sending Events
+## Sending events
 
 Send an event from the Component:
 
@@ -21,7 +21,7 @@ Send an event from the Component:
 sendUiEvent(HomeUiEvent.ShowToast)
 ```
 
-## Collecting Events in Compose
+## Collecting events in Compose
 
 Use `EventsEffect` from the **decompose** module:
 

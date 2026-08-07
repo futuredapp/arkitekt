@@ -1,6 +1,6 @@
-# Quick Start — Android
+# Quick start (Android)
 
-This walkthrough builds a simple login screen end-to-end using Arkitekt with Jetpack Compose and Hilt.
+This walkthrough builds a simple login screen end to end using Arkitekt with Jetpack Compose and Hilt.
 
 ## Define the ViewState
 
@@ -15,7 +15,7 @@ class LoginViewState @Inject constructor() : ViewState {
 }
 ```
 
-## Create a Use Case
+## Create a use case
 
 Use cases extend `UseCase<Args, Result>` from the `cr-usecases` module. They encapsulate a single unit of business logic.
 
@@ -63,7 +63,7 @@ class LoginViewModel @Inject constructor(
 }
 ```
 
-## Compose the Screen
+## Compose the screen
 
 The screen composable obtains the ViewModel via `hiltViewModel()`, observes state, and calls ViewModel functions on user interaction.
 
@@ -114,4 +114,4 @@ Use `EventsEffect` to handle one-shot events dispatched by the ViewModel via `se
 ---
 
 !!! tip "See it in a full project"
-    This repo's [`example`](https://github.com/futuredapp/arkitekt/tree/5.x/example) module shows these patterns in a minimal Android app. For a complete real-world project setup, see the [Android Project Template](https://github.com/futuredapp/android-project-template-compose).
+    This repo's [`example`](https://github.com/futuredapp/arkitekt/tree/5.x/example) module shows these patterns in a minimal Android app. For a complete project setup, see the [Android Project Template](https://github.com/futuredapp/android-project-template-compose).

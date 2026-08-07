@@ -1,9 +1,9 @@
-# UseCase Mocking
+# UseCase mocking
 
 !!! note "Android only"
     The utilities described on this page are provided by the `cr-usecases-test` module and are available on **Android only**. For KMP projects, see [KMP alternatives](#kmp-alternatives) below.
 
-The `cr-usecases-test` module provides mock extensions for use cases. Since `execute` is a context parameter extension (not a regular method on the use case), standard MockK mocking won't work — the helpers work by mocking `build()` directly instead. Use the provided utilities.
+The `cr-usecases-test` module provides mock extensions for use cases. Since `execute` is a context parameter extension (not a regular method on the use case), standard MockK mocking won't work. The helpers work by mocking `build()` directly instead, so use the provided utilities.
 
 ## Dependency
 
@@ -11,7 +11,7 @@ The `cr-usecases-test` module provides mock extensions for use cases. Since `exe
 testImplementation("app.futured.arkitekt:cr-usecases-test:{{ arkitekt_version }}")
 ```
 
-## UseCase Mocking
+## UseCase mocking
 
 ```kotlin
 val mockLoginUseCase: LoginUseCase = mockk()
@@ -27,7 +27,7 @@ mockLoginUseCase.mockExecuteNullable(args = null) { user }
 mockLoginUseCase.mockExecuteNullable { user }
 ```
 
-## FlowUseCase Mocking
+## FlowUseCase mocking
 
 ```kotlin
 val mockObserveUseCase: ObserveUserUseCase = mockk()
@@ -39,7 +39,7 @@ mockObserveUseCase.mockExecute(args = Unit) { flowOf("John Doe") }
 mockObserveUseCase.mockExecute { flowOf("John Doe") }
 ```
 
-## Full Test Example
+## Full test example
 
 ```kotlin
 class FormViewModelTest : ViewModelTest() {
@@ -66,9 +66,9 @@ class FormViewModelTest : ViewModelTest() {
 
 This pattern ensures all use cases execute synchronously on the test dispatcher and return predictable results.
 
-## KMP Alternatives
+## KMP alternatives
 
-On KMP, use cases are plain interfaces, so the preferred approach is writing **fakes** — simple in-test implementations that return controlled results without any mocking framework.
+On KMP, use cases are plain interfaces, so the preferred approach is writing **fakes**: simple in-test implementations that return controlled results without any mocking framework.
 
 ```kotlin
 class FakeLoginUseCase : LoginUseCase {

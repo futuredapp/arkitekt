@@ -12,7 +12,7 @@ All Arkitekt artifacts are published to **Maven Central** under the group ID `ap
 | JDK | 17 |
 | `minSdk` | 23 |
 
-Arkitekt requires **AndroidX** — Jetifier is not supported.
+Arkitekt requires **AndroidX**. Jetifier is not supported.
 
 ## Dependencies
 
@@ -49,19 +49,19 @@ dependencies {
 }
 ```
 
-## Module Selection
+## Module selection
 
 KMP modules support **Android and iOS** targets.
 
 | Module | Android | iOS |
 |---|:---:|:---:|
-| `core` | ✓ | — |
-| `compose` | ✓ | — |
+| `core` | ✓ | ✗ |
+| `compose` | ✓ | ✗ |
 | `cr-usecases` | ✓ | ✓ |
 | `decompose` | ✓ | ✓ |
 | `decompose-annotation` | ✓ | ✓ |
 | `decompose-processor` | ✓ | ✓ |
-| `core-test` | ✓ | — |
+| `core-test` | ✓ | ✗ |
 | `cr-usecases-test` | ✓ | ✓ |
 | `decompose-test` | ✓ | ✓ |
 
@@ -69,7 +69,7 @@ For **Android-only** projects, use `core`, `compose`, and `cr-usecases`.
 
 For **KMP** projects, use `cr-usecases`, `decompose`, `decompose-annotation`, and `decompose-processor`.
 
-## Snapshot Versions
+## Snapshot versions
 
 Snapshot builds are published to the Sonatype snapshots repository. To use them, add the snapshot repository to your `settings.gradle.kts` or `build.gradle.kts`:
 

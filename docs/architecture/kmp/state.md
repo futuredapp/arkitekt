@@ -1,8 +1,8 @@
-# State Management — KMP
+# State management (KMP)
 
-## State as a Data Class
+## State as a data class
 
-In the KMP / Decompose path, state is a plain data class — no marker interface required.
+In the KMP / Decompose path, state is a plain data class. No marker interface is required.
 
 ```kotlin
 data class HomeState(
@@ -11,7 +11,7 @@ data class HomeState(
 )
 ```
 
-## Holding and Updating State
+## Holding and updating state
 
 `BaseComponent` provides `componentState: MutableStateFlow<VS>` to hold the component's state.
 
@@ -27,7 +27,7 @@ Or use the equivalent Arkitekt helper from `app.futured.arkitekt.decompose.ext`:
 update(componentState) { copy(title = "new") }
 ```
 
-## Exposing State
+## Exposing state
 
 Define an interface that exposes only what the UI needs, then implement it in your component:
 
@@ -44,9 +44,9 @@ class HomeComponent(
 }
 ```
 
-This keeps the UI decoupled from the concrete component class, which makes Compose previews and tests straightforward — just provide a fake `HomeScreen` implementation.
+This keeps the UI decoupled from the concrete component class, which makes Compose previews and tests straightforward: just provide a fake `HomeScreen` implementation.
 
-## Observing State in Compose
+## Observing state in Compose
 
 Pass the interface type to your composable, not the concrete component:
 
@@ -63,7 +63,7 @@ fun HomeScreen(component: HomeScreen) {
 }
 ```
 
-## Value / Flow Conversions
+## Value / Flow conversions
 
 Arkitekt provides utility extensions for bridging Decompose `Value` and Kotlin Coroutines `StateFlow` / `Flow` APIs.
 

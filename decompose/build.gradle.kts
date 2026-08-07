@@ -24,6 +24,7 @@ kotlin {
             dependencies {
                 implementation(Deps.Decompose.core)
                 implementation(Deps.Decompose.essentyLifecycle)
+                implementation(Deps.Decompose.essentyStateKeeper)
                 implementation(Deps.Kotlin.coroutines)
                 implementation(Deps.Compose.jetbrainsRuntime)
                 implementation(Deps.Serialization.core)
@@ -33,6 +34,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(project(":decompose-test"))
+                implementation(Deps.Serialization.json)
             }
         }
 
