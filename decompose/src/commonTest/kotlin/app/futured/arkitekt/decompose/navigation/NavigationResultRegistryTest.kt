@@ -97,6 +97,31 @@ class NavigationResultRegistryTest {
     }
 
     @Test
+    fun `a replacement collector attached during a same-key handover takes over`() = runTest {
+        val registry = DefaultNavigationResultRegistry(StateKeeperDispatcher())
+        val outgoing = backgroundScope.launch {
+            registry.results("k", String.serializer()).collect { }
+        }
+        runCurrent() // outgoing collector active
+
+        // A destination recreated in place attaches its successor's collector on the same main-loop
+        // tick on which the outgoing collector is cancelled; the cancellation's `finally` has not
+        // been dispatched yet, so the key must be released synchronously by the cancellation itself.
+        val received = mutableListOf<String>()
+        val successor = backgroundScope.launch {
+            registry.results("k", String.serializer()).collect { received.add(it) }
+        }
+        outgoing.cancel()
+        runCurrent()
+
+        registry.send("k", "handover", String.serializer())
+        runCurrent()
+
+        assertEquals(listOf("handover"), received)
+        successor.cancel()
+    }
+
+    @Test
     fun `typed key round-trips inside a navigation config`() {
         val config = PickerConfig(ResultKey("home.picker"))
 
