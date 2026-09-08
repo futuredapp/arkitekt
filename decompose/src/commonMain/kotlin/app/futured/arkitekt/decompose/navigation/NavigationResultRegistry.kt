@@ -2,7 +2,10 @@ package app.futured.arkitekt.decompose.navigation
 
 import com.arkivanov.essenty.statekeeper.SerializableContainer
 import com.arkivanov.essenty.statekeeper.StateKeeper
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
@@ -138,8 +141,8 @@ internal class DefaultNavigationResultRegistry(stateKeeper: StateKeeper) : Navig
      */
     private val liveFlows = mutableMapOf<String, MutableSharedFlow<Any>>()
 
-    /** Keys with a currently-active collector, used to fail fast on key collisions. */
-    private val activeCollectors = mutableSetOf<String>()
+    /** The job of each key's active collector, used to fail fast on genuine key collisions. */
+    private val activeCollectors = mutableMapOf<String, Job>()
 
     init {
         stateKeeper.register(STATE_KEY, mapSerializer) { pending.toMap() }
@@ -152,10 +155,18 @@ internal class DefaultNavigationResultRegistry(stateKeeper: StateKeeper) : Navig
     }
 
     override fun <T : Any> results(key: String, serializer: KSerializer<T>): Flow<T> = flow {
-        check(activeCollectors.add(key)) {
+        val collector = currentCoroutineContext().job
+        // A dying collector releases its key in the `finally` below, which is dispatched a tick after
+        // its scope was cancelled — but a destination recreated in place (e.g. `bringToFront` with a
+        // reseeded configuration) attaches its successor's collector on that very tick. A holder that
+        // is no longer active is therefore taken over rather than collided with; only a live holder
+        // is a genuine key clash.
+        val holder = activeCollectors[key]
+        check(holder == null || !holder.isActive) {
             "Result key '$key' already has an active collector — result keys must be unique " +
                 "across concurrently-active destinations"
         }
+        activeCollectors[key] = collector
         try {
             // 1. Replay a pending value (this process or restored after death) exactly once.
             pending.remove(key)?.consume(serializer)?.let { emit(it) }
@@ -167,7 +178,10 @@ internal class DefaultNavigationResultRegistry(stateKeeper: StateKeeper) : Navig
                 emit(value as T)
             }
         } finally {
-            activeCollectors.remove(key)
+            // The successor of a handover may already own the key; release it only when it is ours.
+            if (activeCollectors[key] === collector) {
+                activeCollectors.remove(key)
+            }
         }
     }
 
